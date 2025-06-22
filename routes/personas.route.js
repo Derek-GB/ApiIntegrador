@@ -6,6 +6,7 @@ const router=Router();
 const {
   getMethod,
   postMethod,
+  putMethod,
   getAllMethod,
   deleteMethod}=require('../controllers/personas');
 
@@ -14,6 +15,9 @@ router.get('/',   getMethod);
 
 //Registrar o insertar
 router.post('/',  postMethod);
+
+//Registrar o insertar
+router.put('/',  putMethod);
 
 //Eliminar
 router.delete('/', deleteMethod);

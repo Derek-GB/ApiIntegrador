@@ -1,5 +1,6 @@
 const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos');
+const { put } = require('../routes/productos.route');
 
 
 const getAllMethod = (req = request, res = response) => {
@@ -123,6 +124,84 @@ const postMethod = (req = request, res = response) => {
   );
 };
 
+// Actualizar persona por ID
+const putMethod = (req = request, res = response) => {
+  const {
+    id,
+    idFamilia,
+    nombreCompleto,
+    tipoIdentificacion,
+    numIdentificacion,
+    nacionalidad,
+    parentesco,
+    fechaNacimiento,
+    genero,
+    sexo,
+    telefono,
+    idCondicionesEspeciales,
+    idCondicionesPoblacionales,
+    idFirma,
+    contactoEmergencia,
+    observaciones,
+  } = req.body;
+
+  if (
+    !id ||
+    !idFamilia ||
+    !nombreCompleto ||
+    !tipoIdentificacion ||
+    !numIdentificacion ||
+    !nacionalidad ||
+    !parentesco ||
+    !fechaNacimiento ||
+    !genero ||
+    !sexo ||
+    !telefono ||
+    idCondicionesEspeciales == null ||
+    idCondicionesPoblacionales == null ||
+    idFirma == null ||
+    !contactoEmergencia ||
+    !observaciones
+  ) {
+    return res.status(400).json({ success: false, message: 'Faltan datos requeridos o el ID' });
+  }
+
+  pool.query(
+    'CALL pa_UpdatePersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      id,
+      idFamilia,
+      nombreCompleto,
+      tipoIdentificacion,
+      numIdentificacion,
+      nacionalidad,
+      parentesco,
+      fechaNacimiento,
+      genero,
+      sexo,
+      telefono,
+      idCondicionesEspeciales,
+      idCondicionesPoblacionales,
+      idFirma,
+      contactoEmergencia,
+      observaciones,
+    ],
+    (error, results) => {
+      if (error) {
+        console.error('Error en putPersona:', error);
+        return res.status(500).json({ success: false, error: 'Error al actualizar persona' });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Persona actualizada correctamente',
+      });
+    }
+  );
+};
+
+
+
 // Eliminar persona por ID
 const deleteMethod = (req = request, res = response) => {
   const { id } = req.params;
@@ -140,6 +219,7 @@ const deleteMethod = (req = request, res = response) => {
 module.exports = {
   getAllMethod,
   getMethod,
+  putMethod,
   postMethod,
   deleteMethod,
 };

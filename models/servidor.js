@@ -6,14 +6,15 @@ class servidor{
     constructor(){
      this.app=express();
      this.port=process.env.PORT;
-     this.usersPath='/api/productos';
+     this.rutas=require('../src/consts/rutas');
      this.middlewares();
      this.routes();
     }
     //Metodo que contiene las rutas
-routes(){
-//Creamos la primera peticion 
-this.app.use(this.usersPath,require('../routes/productos.route'));
+routes() {
+  this.rutas.forEach(({ path, route }) => {
+    this.app.use(path, route);
+  });
 }
 //Funciones que tiene el express y que me permite usarlas reutilizando codigo
 middlewares(){

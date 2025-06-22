@@ -2,12 +2,12 @@ const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
 
 const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllProducto', (error, results) => {
+    pool.query('CALL pa_SelectAllFamilia', (error, results) => {
         if (error) {
             console.error('Error en getAllMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener productos'
+                error: 'Error al obtener familias'
             });
         }
 
@@ -20,19 +20,19 @@ const getAllMethod = (req = request, res = response) => {
 
 const getMethod = (req = request, res = response) => {
     const { id } = req.body;
-    pool.query('CALL pa_SelectProducto(?)', [id], (error, results) => {
+    pool.query('CALL pa_SelectFamilia(?)', [id], (error, results) => {
         if (error) {
             console.error('Error en getMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener productos'
+                error: 'Error al obtener familias'
             });
         }
 
         if (results[0].length === 0) {
             return res.status(404).json({
                 success: false,
-                message: 'Producto no encontrado'
+                message: 'Familia no encontrada'
             });
         }
 
@@ -45,32 +45,33 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const { codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza } = req.body;
 
-    if (!codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!codigoFamilia || cantidadPersonas == null || idAlbergue == null || idUbicacion == null || idAmenaza == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza '
         });
     }
 
-    pool.query('CALL pa_InsertProducto(?, ?, ?, ?)', [codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_InsertFamilia(?, ?, ?, ?, ?)', [codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza], (error, results) => {
         if (error) {
-            console.error('Error al insertar producto:', error);
+            console.error('Error al insertar familia:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al insertar producto'
+                error: 'Error al insertar familia'
             });
         }
 
         res.status(201).json({
             success: true,
-            message: 'Producto insertado correctamente',
+            message: 'Familia insertada correctamente',
             data: {
-                codigoProducto,
-                nombre,
-                descripcion,
-                cantidad
+                codigoFamilia,
+                cantidadPersonas,
+                idAlbergue,
+                idUbicacion,
+                idAmenaza
             }
         });
     });
@@ -78,32 +79,33 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const {codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza} = req.body;
 
-    if (!id || !codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!id || !codigoFamilia || cantidadPersonas == null || idAlbergue == null || idUbicacion == null || idAmenaza == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza '
         });
     }
 
-    pool.query('CALL pa_UpdateProducto(?, ?, ?, ?, ?)', [id, codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_UpdateFamilia(?, ?, ?, ?, ?, ?)', [id, codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza ], (error, results) => {
         if (error) {
-            console.error('Error al actualizar producto:', error);
+            console.error('Error al actualizar familia:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al actualizar producto'
+                error: 'Error al actualizar familia'
             });
         }
 
         res.status(200).json({
             success: true,
-            message: 'Producto actualizado correctamente',
+            message: 'Familia actualizada correctamente',
             data: {
-                codigoProducto,
-                nombre,
-                descripcion,
-                cantidad
+                codigoFamilia,
+                cantidadPersonas,
+                idAlbergue,
+                idUbicacion,
+                idAmenaza
             }
         });
     });
@@ -116,22 +118,22 @@ const deleteMethod = (req = request, res = response) => {
     if (!id) {
         return res.status(400).json({
             success: false,
-            message: 'ID de producto no proporcionado en el body'
+            message: 'ID de familia no proporcionado en el body'
         });
     }
 
-    pool.query('CALL pa_DeleteProducto(?)', [id], (error, results) => {
+    pool.query('CALL pa_DeleteFamilia(?)', [id], (error, results) => {
         if (error) {
-            console.error('Error al eliminar producto:', error);
+            console.error('Error al eliminar familia:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al eliminar producto'
+                error: 'Error al eliminar familia'
             });
         }
 
         res.json({
             success: true,
-            message: `Producto con ID ${id} eliminado correctamente`
+            message: `Familia con ID ${id} eliminada correctamente`
         });
     });
 };

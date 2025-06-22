@@ -1,0 +1,16 @@
+module.exports = [
+  { path: '/api/productos', route: require('../../routes/productos.route') },
+  { path: '/api/familias', route: require('../../routes/familias.route') },
+  { path: '/api/albergues', route: require('../../routes/albergues.route') },
+  { path: '/api/municipalidad', route: require('../../routes/municipalidad.route') },
+  { path: '/api/capacidadAlbergues', route: require('../../routes/capacidadAlbergues.route') },
+  { path: '/api/ubicaciones', route: require('../../routes/ubicaciones.route') },
+  { path: '/api/condicionesEspeciales', route: require('../../routes/condicionesEspeciales.route') },
+  //{ path: '/api/referencias', route: require('../../routes/referencias.route') },
+  { path: '/api/personas', route: require('../../routes/personas.route') },
+  { path: '/api/condicionesSalud', route: require('../../routes/condicionesSalud.route') },
+  { path: '/api/recursosAsignados', route: require('../../routes/recursosAsignados.route') },
+  { path: '/api/caracteristicasPoblacionales', route: require('../../routes/caracteristicasPoblacionales.route') },
+  { path: '/api/firmasDigitales', route: require('../../routes/firmasDigitales.route') },
+  { path: '/api/infraestructuraAlbergues', route: require('../../routes/infraestructuraAlbergues.route') },
+];

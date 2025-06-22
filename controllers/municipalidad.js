@@ -2,12 +2,12 @@ const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
 
 const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllProducto', (error, results) => {
+    pool.query('CALL pa_SelectAllMunicipalidad', (error, results) => {
         if (error) {
             console.error('Error en getAllMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener productos'
+                error: 'Error al obtener municipalidad'
             });
         }
 
@@ -20,19 +20,19 @@ const getAllMethod = (req = request, res = response) => {
 
 const getMethod = (req = request, res = response) => {
     const { id } = req.body;
-    pool.query('CALL pa_SelectProducto(?)', [id], (error, results) => {
+    pool.query('CALL pa_SelectMunicipalidad(?)', [id], (error, results) => {
         if (error) {
             console.error('Error en getMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener productos'
+                error: 'Error al obtener municipalidad'
             });
         }
 
         if (results[0].length === 0) {
             return res.status(404).json({
                 success: false,
-                message: 'Producto no encontrado'
+                message: 'Municipalidad no encontrada'
             });
         }
 
@@ -45,32 +45,32 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const { nombre, idUbicacion, telefono, correo } = req.body;
 
-    if (!codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!nombre == null || idUbicacion == null || telefono == null || correo == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: nombre, idUbicacion, telefono, correo '
         });
     }
 
-    pool.query('CALL pa_InsertProducto(?, ?, ?, ?)', [codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?)', [nombre, idUbicacion, telefono, correo], (error, results) => {
         if (error) {
-            console.error('Error al insertar producto:', error);
+            console.error('Error al insertar municipalidad:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al insertar producto'
+                error: 'Error al insertar municipalidad'
             });
         }
 
         res.status(201).json({
             success: true,
-            message: 'Producto insertado correctamente',
+            message: 'Municipalidad insertada correctamente',
             data: {
-                codigoProducto,
                 nombre,
-                descripcion,
-                cantidad
+                idUbicacion,
+                telefono,
+                correo
             }
         });
     });
@@ -78,32 +78,32 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const {nombre, idUbicacion, telefono, correo } = req.body;
 
-    if (!id || !codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!id || !nombre || idUbicacion == null || telefono == null || correo == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: nombre, idUbicacion, telefono, correo '
         });
     }
 
-    pool.query('CALL pa_UpdateProducto(?, ?, ?, ?, ?)', [id, codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_UpdateMunicipalidad(?, ?, ?, ?, ?)', [id, nombre, idUbicacion, telefono, correo], (error, results) => {
         if (error) {
-            console.error('Error al actualizar producto:', error);
+            console.error('Error al actualizar municipalidad:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al actualizar producto'
+                error: 'Error al actualizar municipalidad'
             });
         }
 
         res.status(200).json({
             success: true,
-            message: 'Producto actualizado correctamente',
+            message: 'Municipalidad actualizada correctamente',
             data: {
-                codigoProducto,
                 nombre,
-                descripcion,
-                cantidad
+                idUbicacion,
+                telefono,
+                correo
             }
         });
     });
@@ -116,22 +116,22 @@ const deleteMethod = (req = request, res = response) => {
     if (!id) {
         return res.status(400).json({
             success: false,
-            message: 'ID de producto no proporcionado en el body'
+            message: 'ID de municipalidad no proporcionado en el body'
         });
     }
 
-    pool.query('CALL pa_DeleteProducto(?)', [id], (error, results) => {
+    pool.query('CALL pa_DeleteMunicipalidad(?)', [id], (error, results) => {
         if (error) {
-            console.error('Error al eliminar producto:', error);
+            console.error('Error al eliminar municipalidad:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al eliminar producto'
+                error: 'Error al eliminar municipalidad'
             });
         }
 
         res.json({
             success: true,
-            message: `Producto con ID ${id} eliminado correctamente`
+            message: `Municipalidad con ID ${id} eliminada correctamente`
         });
     });
 };

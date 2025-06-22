@@ -1,13 +1,13 @@
 const {Router}=require('express');
 
-const routerUsuarios=Router();
+const router=Router();
 
 
 const {
   getMethod,
   postMethod,
-  putMethod,
-  deleteMethod}=require('../controllers/usuarios');
+  getAllMethod,
+  deleteMethod}=require('../controllers/personas');
 
 //Devolver datos desde mi API
 router.get('/',   getMethod);
@@ -19,8 +19,7 @@ router.post('/',  postMethod);
 router.delete('/', deleteMethod);
 
 //Actualizar
-router.put('/:id',   putMethod);
+router.get('/all',   getAllMethod);
 
 
-module.exports=routerUsuarios;
-
+module.exports=router;

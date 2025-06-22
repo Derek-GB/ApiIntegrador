@@ -8,7 +8,7 @@ const {
   postMethod,
   putMethod,
   deleteMethod,
-  }=require('../controllers/productos');
+  }=require('../controllers/albergues');
 
 //Devolver un solo producto por ID
 router.get('/', getMethod);   

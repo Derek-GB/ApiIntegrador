@@ -2,12 +2,12 @@ const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
 
 const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllCaracteristicasPoblacionales', (error, results) => {
+    pool.query('CALL pa_SelectAllAmenaza', (error, results) => {
         if (error) {
             console.error('Error en getAllMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener caracteristicas poblacionales'
+                error: 'Error al obtener amenazas'
             });
         }
 
@@ -20,19 +20,19 @@ const getAllMethod = (req = request, res = response) => {
 
 const getMethod = (req = request, res = response) => {
     const { id } = req.body;
-    pool.query('CALL pa_SelectCaracteristicasPoblacionales(?)', [id], (error, results) => {
+    pool.query('CALL pa_SelectAmenaza(?)', [id], (error, results) => {
         if (error) {
             console.error('Error en getMethod:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al obtener caracteristicas poblacionales'
+                error: 'Error al obtener amenaza'
             });
         }
 
         if (results[0].length === 0) {
             return res.status(404).json({
                 success: false,
-                message: 'Caracteristicas poblacionales no encontrada'
+                message: 'Amenaza no encontrada'
             });
         }
 
@@ -45,30 +45,31 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { migrante, indigena } = req.body;
+    const { familiaEvento, evento, peligro } = req.body;
 
-    if (migrante == null || indigena == null) {
+    if (!familiaEvento || evento == null || peligro == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: migrante, indigena'
+            message: 'Faltan datos: familiaEvento, evento, peligro '
         });
     }
 
-    pool.query('CALL pa_InsertCaracteristicasPoblacionales(?, ?)', [migrante, indigena], (error, results) => {
+    pool.query('CALL pa_InsertAmenaza(?, ?, ?)', [familiaEvento, evento, peligro], (error, results) => {
         if (error) {
-            console.error('Error al insertar caracteristicas poblacionales:', error);
+            console.error('Error al insertar amenaza:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al insertar caracteristicas poblacionales'
+                error: 'Error al insertar amenaza'
             });
         }
 
         res.status(201).json({
             success: true,
-            message: 'Caracteristicas poblacionales insertada correctamente',
+            message: 'Amenaza insertada correctamente',
             data: {
-                migrante,
-                indigena
+                familiaEvento,
+                evento,
+                peligro
             }
         });
     });
@@ -76,30 +77,31 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {migrante, indigena } = req.body;
+    const {familiaEvento, evento, peligro} = req.body;
 
-    if (!id || !migrante || indigena == null) {
+    if (!id || !familiaEvento || evento == null || peligro == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: migrante, indigena '
+            message: 'Faltan datos: familiaEvento, evento, peligro '
         });
     }
 
-    pool.query('CALL pa_UpdateCaracteristicasPoblacionales(?, ?, ?)', [id, migrante, indigena], (error, results) => {
+    pool.query('CALL pa_UpdateAmenaza(?, ?, ?, ?)', [id, familiaEvento, evento, peligro ], (error, results) => {
         if (error) {
-            console.error('Error al actualizar caracteristicas poblacionales:', error);
+            console.error('Error al actualizar amenaza:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al actualizar caracteristicas poblacionales'
+                error: 'Error al actualizar amenaza'
             });
         }
 
         res.status(200).json({
             success: true,
-            message: 'Caracteristicas poblacionales actualizada correctamente',
+            message: 'Amenaza actualizada correctamente',
             data: {
-                migrante,
-                indigena
+                familiaEvento,
+                evento,
+                peligro
             }
         });
     });
@@ -112,22 +114,22 @@ const deleteMethod = (req = request, res = response) => {
     if (!id) {
         return res.status(400).json({
             success: false,
-            message: 'ID de ubicacion no proporcionado en el body'
+            message: 'ID de amenaza no proporcionado en el body'
         });
     }
 
-    pool.query('CALL pa_DeleteCaracteristicasPoblacionales(?)', [id], (error, results) => {
+    pool.query('CALL pa_DeleteAmenaza(?)', [id], (error, results) => {
         if (error) {
-            console.error('Error al eliminar caracteristica poblacionales:', error);
+            console.error('Error al eliminar amenaza:', error);
             return res.status(500).json({
                 success: false,
-                error: 'Error al eliminar caracteristicas poblacionales'
+                error: 'Error al eliminar amenaza'
             });
         }
 
         res.json({
             success: true,
-            message: `Caracteristicas poblacionales con ID ${id} eliminada correctamente`
+            message: `Amenaza con ID ${id} eliminada correctamente`
         });
     });
 };

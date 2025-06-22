@@ -13,4 +13,5 @@ module.exports = [
   { path: '/api/caracteristicasPoblacionales', route: require('../../routes/caracteristicasPoblacionales.route') },
   { path: '/api/firmasDigitales', route: require('../../routes/firmasDigitales.route') },
   { path: '/api/infraestructuraAlbergues', route: require('../../routes/infraestructuraAlbergues.route') },
+  { path: '/api/amenazas', route: require('../../routes/amenazas.route') },
 ];

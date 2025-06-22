@@ -10,17 +10,17 @@ const getAllMethod = (req = request, res = response) => {
                 error: 'Error al obtener los albergues'
             });
         }
-        const Data = results[0].map(albergue => ({
-            id: albergue.id_VARCHAR,
-            nombre: albergue.nombre_VARCHAR,
-            region: albergue.region_VARCHAR,
-            coordenadaX: albergue.coordenadaX_DECIMAL,
-            coordenadaY: albergue.coordenadaY_DECIMAL,
-            estado: albergue.estado_VARCHAR
-        }));
+        // const Data = results[0].map(albergue => ({
+        //     id: albergue.id_VARCHAR,
+        //     nombre: albergue.nombre_VARCHAR,
+        //     region: albergue.region_VARCHAR,
+        //     coordenadaX: albergue.coordenadaX_DECIMAL,
+        //     coordenadaY: albergue.coordenadaY_DECIMAL,
+        //     estado: albergue.estado_VARCHAR
+        // }));
         res.json({
             success: true,
-            data: Data
+            data: results[0]
         });
     });
 };

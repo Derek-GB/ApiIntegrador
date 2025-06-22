@@ -1,5 +1,5 @@
 const { request, response } = require('express');
-const pool = require('../MySQL/basedatos');
+const { pool } = require('../MySQL/basedatos');
 
 
 const getAllMethod = (req = request, res = response) => {
@@ -28,7 +28,10 @@ const getAllMethod = (req = request, res = response) => {
       observaciones: persona.observaciones_VARCHAR
     }));
 
-    res.json({ success: true, data });
+    res.json({
+            success: true,
+            data: results[0]
+        });
   });
 };
 
@@ -69,6 +72,26 @@ const postMethod = (req = request, res = response) => {
     contactoEmergencia,
     observaciones,
   } = req.body;
+
+  if (
+    !idFamilia ||
+    !nombreCompleto ||
+    !tipoIdentificacion ||
+    !numIdentificacion ||
+    !nacionalidad ||
+    !parentesco ||
+    !fechaNacimiento ||
+    !genero ||
+    !sexo ||
+    !telefono ||
+    idCondicionesEspeciales == null ||
+    idCondicionesPoblacionales == null ||
+    idFirma == null ||
+    !contactoEmergencia ||
+    !observaciones
+  ) {
+    return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
+  }
 
   pool.query(
     'CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',

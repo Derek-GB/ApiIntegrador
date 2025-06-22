@@ -11,7 +11,7 @@ const {
   }=require('../controllers/caracteristicasPoblacionales');
 
 //Devolver un solo producto por ID
-router.get('/', getMethod);   
+router.get('/id:', getMethod);   
     
 //Devuelve todos los productos
 router.get('/all', getAllMethod);             
@@ -20,7 +20,7 @@ router.get('/all', getAllMethod);
 router.post('/', postMethod);
 
 // //Eliminar
-router.delete('/', deleteMethod);
+router.delete('/id:', deleteMethod);
 
 // //Actualizar
 router.put('/',   putMethod);

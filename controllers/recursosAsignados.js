@@ -125,7 +125,7 @@ const putMethod = (req = request, res = response) => {
     });
 };
 
-
+//Hay que revisar esto
 const deleteMethod = (req = request, res = response) => {
     const { idProducto, idPersona } = req.body; 
     if (!idProducto || !idPersona) {

@@ -142,7 +142,7 @@ const putMethod = (req = request, res = response) => {
 
 // Eliminar registro
 const deleteMethod = (req = request, res = response) => {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
         return res.status(400).json({

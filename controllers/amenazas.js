@@ -120,7 +120,7 @@ const putMethod = (req = request, res = response) => {
 
 const deleteMethod = (req = request, res = response) => {
     // Llama al procedimiento almacenado para eliminar una amenaza por ID
-    const { id } = req.body; 
+    const { id } = req.params; 
 
     if (!id) {
         return res.status(400).json({

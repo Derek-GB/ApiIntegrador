@@ -26,7 +26,7 @@ const getAllMethod = (req = request, res = response) => {
 
 const getMethod = (req = request, res = response) => {
     // Llama al procedimiento almacenado para obtener una amenaza específica por ID
-    const { id } = req.body;
+    const { id } = req.params;
     // Verifica si se proporcionó el ID
     pool.query('CALL pa_SelectAmenaza(?)', [id], (error, results) => {
         if (error) {

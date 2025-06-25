@@ -19,7 +19,7 @@ const getAllMethod = (req = request, res = response) => {
 };
 
 const getMethod = (req = request, res = response) => {
-    const { id } = req.body;
+    const { id } = req.params;
     pool.query('CALL pa_SelectCaracteristicasPoblacionales(?)', [id], (error, results) => {
         if (error) {
             console.error('Error en getMethod:', error);

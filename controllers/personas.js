@@ -38,7 +38,7 @@ const getAllMethod = (req = request, res = response) => {
 
 // Obtener una persona por ID
 const getMethod = (req = request, res = response) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   pool.query('CALL pa_SelectPersona(?)', [id], (error, results) => {
     if (error) {

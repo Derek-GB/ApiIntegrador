@@ -15,7 +15,7 @@ const getAllMethod = (req = request, res = response) => {
 
 // Obtener un registro por ID
 const getMethod = (req = request, res = response) => {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
         return res.status(400).json({ success: false, message: 'ID requerido' });

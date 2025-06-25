@@ -19,7 +19,7 @@ const getAllMethod = (req = request, res = response) => {
 };
 
 const getMethod = (req = request, res = response) => {
-    const { id } = req.body;
+    const { id } = req.params;
     if (!id) {         
         return res.status(400).json({             
             success: false,             

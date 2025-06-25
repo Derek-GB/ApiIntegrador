@@ -11,7 +11,7 @@ const {
   deleteMethod}=require('../controllers/personas');
 
 //Devolver datos desde mi API
-router.get('/id:',   getMethod);
+router.get('/:id',   getMethod);
 
 //Registrar o insertar
 router.post('/',  postMethod);
@@ -20,7 +20,7 @@ router.post('/',  postMethod);
 router.put('/',  putMethod);
 
 //Eliminar
-router.delete('/id:', deleteMethod);
+router.delete('/:id', deleteMethod);
 
 //Actualizar
 router.get('/all',   getAllMethod);

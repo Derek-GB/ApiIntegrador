@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id } = req.body;
+    const { discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tieneCondicionSalud, condicionSaludId, idPersona } = req.body;
 
-    if (!discapacidad == null || tipoDiscapacidad == null || subtipoDiscapacidad == null || tiene_condicion_salud == null || condicion_salud_id == null) {
+    if (!discapacidad == null || tipoDiscapacidad == null || subtipoDiscapacidad == null || tieneCondicionSalud == null || condicionSaludId == null || !idPersona) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id '
         });
     }
 
-    pool.query('CALL pa_InsertCondicionesEspeciales(?, ?, ?, ?, ?)', [discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id], (error, results) => {
+    pool.query('CALL pa_InsertCondicionesEspeciales(?, ?, ?, ?, ?, ?)', [discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tieneCondicionSalud, condicionSaludId, idPersona], (error, results) => {
         if (error) {
             console.error('Error al insertar condiciones especiales:', error);
             return res.status(500).json({
@@ -70,8 +70,9 @@ const postMethod = (req = request, res = response) => {
                 discapacidad,
                 tipoDiscapacidad,
                 subtipoDiscapacidad,
-                tiene_condicion_salud,
-                condicion_salud_id
+                tieneCondicionSalud,
+                condicionSaludId,
+                idPersona
             }
         });
     });
@@ -79,16 +80,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id } = req.body;
+    const {discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tieneCondicionSalud, condicionSaludId, idPersona } = req.body;
 
-    if (!id || !discapacidad || tipoDiscapacidad == null || subtipoDiscapacidad == null || tiene_condicion_salud == null || condicion_salud_id == null) {
+    if (!id || !discapacidad || tipoDiscapacidad == null || subtipoDiscapacidad == null || tieneCondicionSalud == null || condicionSaludId == null || !idPersona) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id '
         });
     }
 
-    pool.query('CALL pa_UpdateCondicionesEspeciales(?, ?, ?, ?, ?, ?)', [id, discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tiene_condicion_salud, condicion_salud_id ], (error, results) => {
+    pool.query('CALL pa_UpdateCondicionesEspeciales(?, ?, ?, ?, ?, ?, ?)', [id, discapacidad, tipoDiscapacidad, subtipoDiscapacidad, tieneCondicionSalud, condicionSaludId, idPersona ], (error, results) => {
         if (error) {
             console.error('Error al actualizar condiciones especiales:', error);
             return res.status(500).json({
@@ -104,8 +105,9 @@ const putMethod = (req = request, res = response) => {
                 discapacidad,
                 tipoDiscapacidad,
                 subtipoDiscapacidad,
-                tiene_condicion_salud,
-                condicion_salud_id
+                tieneCondicionSalud,
+                condicionSaludId,
+                idPersona
             }
         });
     });

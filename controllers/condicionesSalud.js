@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { descripcion } = req.body;
+    const { descripcion, idCondicionesEspeciales } = req.body;
 
-    if (!descripcion == null) {
+    if (!descripcion == null || !idCondicionesEspeciales == null) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: descripcion '
         });
     }
 
-    pool.query('CALL pa_InsertCondicionesSalud(?)', [descripcion], (error, results) => {
+    pool.query('CALL pa_InsertCondicionesSalud(?,?)', [descripcion, idCondicionesEspeciales], (error, results) => {
         if (error) {
             console.error('Error al insertar condiciones de salud:', error);
             return res.status(500).json({
@@ -67,7 +67,8 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Condiciones de salud insertada correctamente',
             data: {
-               descripcion
+               descripcion,
+               idCondicionesEspeciales
             }
         });
     });
@@ -75,16 +76,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {descripcion } = req.body;
+    const {descripcion, idCondicionesEspeciales } = req.body;
 
-    if (!id || !descripcion == null) {
+    if (!id || !descripcion == null || !idCondicionesEspeciales == null) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: descripcion '
         });
     }
 
-    pool.query('CALL pa_UpdateCondicionesSalud(?, ?)', [id, descripcion], (error, results) => {
+    pool.query('CALL pa_UpdateCondicionesSalud(?, ?, ?)', [id, descripcion, idCondicionesEspeciales], (error, results) => {
         if (error) {
             console.error('Error al actualizar condiciones de salud:', error);
             return res.status(500).json({
@@ -97,7 +98,8 @@ const putMethod = (req = request, res = response) => {
             success: true,
             message: 'Condiciones de salud actualizada correctamente',
             data: {
-                descripcion
+                descripcion,
+                idCondicionesEspeciales
             }
         });
     });

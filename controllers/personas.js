@@ -58,7 +58,9 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
   const {
     idFamilia,
-    nombreCompleto,
+    nombre,
+    primerApellido,
+    segundoApellido,
     tipoIdentificacion,
     numIdentificacion,
     nacionalidad,
@@ -72,11 +74,17 @@ const postMethod = (req = request, res = response) => {
     idFirma,
     contactoEmergencia,
     observaciones,
+    idUsuarioCreacion,
+    fechaCreacion,
+    idUsuarioModificacion,
+    fechaMofificacion,
   } = req.body;
 
   if (
     !idFamilia ||
-    !nombreCompleto ||
+    !nombre ||
+    !primerApellido ||
+    !segundoApellido ||
     !tipoIdentificacion ||
     !numIdentificacion ||
     !nacionalidad ||
@@ -88,17 +96,22 @@ const postMethod = (req = request, res = response) => {
     idCondicionesEspeciales == null ||
     idCondicionesPoblacionales == null ||
     idFirma == null ||
-    !contactoEmergencia ||
-    !observaciones
+    !observaciones ||
+    !idUsuarioCreacion ||
+    !fechaCreacion ||
+    !idUsuarioModificacion ||
+    !fechaMofificacion
   ) {
     return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
   }
 
   pool.query(
-    'CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    'CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     [
       idFamilia,
-      nombreCompleto,
+      nombre,
+      primerApellido,
+      segundoApellido,
       tipoIdentificacion,
       numIdentificacion,
       nacionalidad,
@@ -112,6 +125,10 @@ const postMethod = (req = request, res = response) => {
       idFirma,
       contactoEmergencia,
       observaciones,
+      idUsuarioCreacion,
+    fechaCreacion,
+    idUsuarioModificacion,
+    fechaMofificacion,
     ],
     (error, results) => {
       if (error) {
@@ -127,51 +144,10 @@ const postMethod = (req = request, res = response) => {
 // Actualizar persona por ID
 const putMethod = (req = request, res = response) => {
   const {
-    id,
-    idFamilia,
-    nombreCompleto,
-    tipoIdentificacion,
-    numIdentificacion,
-    nacionalidad,
-    parentesco,
-    fechaNacimiento,
-    genero,
-    sexo,
-    telefono,
-    idCondicionesEspeciales,
-    idCondicionesPoblacionales,
-    idFirma,
-    contactoEmergencia,
-    observaciones,
-  } = req.body;
-
-  if (
-    !id ||
-    !idFamilia ||
-    !nombreCompleto ||
-    !tipoIdentificacion ||
-    !numIdentificacion ||
-    !nacionalidad ||
-    !parentesco ||
-    !fechaNacimiento ||
-    !genero ||
-    !sexo ||
-    !telefono ||
-    idCondicionesEspeciales == null ||
-    idCondicionesPoblacionales == null ||
-    idFirma == null ||
-    !contactoEmergencia ||
-    !observaciones
-  ) {
-    return res.status(400).json({ success: false, message: 'Faltan datos requeridos o el ID' });
-  }
-
-  pool.query(
-    'CALL pa_UpdatePersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    [
-      id,
-      idFamilia,
-      nombreCompleto,
+   idFamilia,
+      nombre,
+      primerApellido,
+      segundoApellido,
       tipoIdentificacion,
       numIdentificacion,
       nacionalidad,
@@ -185,6 +161,63 @@ const putMethod = (req = request, res = response) => {
       idFirma,
       contactoEmergencia,
       observaciones,
+      idUsuarioCreacion,
+    fechaCreacion,
+    idUsuarioModificacion,
+    fechaMofificacion,
+  } = req.body;
+
+  if (
+    !id ||
+    !idFamilia ||
+    !nombre ||
+    !primerApellido||
+    !segundoApellido ||
+    !tipoIdentificacion ||
+    !numIdentificacion ||
+    !nacionalidad ||
+    !parentesco ||
+    !fechaNacimiento ||
+    !genero ||
+    !sexo ||
+    !telefono ||
+    idCondicionesEspeciales == null ||
+    idCondicionesPoblacionales == null ||
+    idFirma == null ||
+    !contactoEmergencia ||
+    !observaciones ||
+    !idUsuarioCreacion ||
+    !fechaCreacion ||
+    !idUsuarioModificacion ||
+    !fechaMofificacion
+  ) {
+    return res.status(400).json({ success: false, message: 'Faltan datos requeridos o el ID' });
+  }
+
+  pool.query(
+    'CALL pa_UpdatePersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      idFamilia,
+      nombre,
+      primerApellido,
+      segundoApellido,
+      tipoIdentificacion,
+      numIdentificacion,
+      nacionalidad,
+      parentesco,
+      fechaNacimiento,
+      genero,
+      sexo,
+      telefono,
+      idCondicionesEspeciales,
+      idCondicionesPoblacionales,
+      idFirma,
+      contactoEmergencia,
+      observaciones,
+      idUsuarioCreacion,
+    fechaCreacion,
+    idUsuarioModificacion,
+    fechaMofificacion,
     ],
     (error, results) => {
       if (error) {

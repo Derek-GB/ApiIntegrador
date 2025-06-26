@@ -51,8 +51,8 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { firma } = req.body;
-    if (!firma) {
+    const { firma, idPersona } = req.body;
+    if (!firma || idPersona == null) {
         return res.status(400).json({
             success: false,
             message: 'Falta dato requerido: firma'
@@ -64,7 +64,7 @@ const postMethod = (req = request, res = response) => {
             message: 'La firma no puede estar vacia'
         });
     }
-    pool.query('CALL pa_InsertFirmaDigital(?)', [firma], (error, results) => {
+    pool.query('CALL pa_InsertFirmaDigital(?, ?)', [firma, idPersona], (error, results) => {
         if (error) {
             console.error('Error al insertar firma digital:', error);
             if (error.code === 'ER_DATA_TOO_LONG') {
@@ -84,7 +84,8 @@ const postMethod = (req = request, res = response) => {
             message: 'Firma digital insertada correctamente',
             data: {
                 insertId,
-                firma 
+                firma ,
+                idPersona
             }
         });
     });
@@ -93,13 +94,13 @@ const postMethod = (req = request, res = response) => {
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
     const {firma} = req.body;
-    if (!id || !firma) {
+    if (!id || !firma || idPersona == null) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: ID y Firma'
         });
     }
-    pool.query('CALL pa_UpdateFirmaDigital(?, ?)', [id, firma], (error, results) => {
+    pool.query('CALL pa_UpdateFirmaDigital(?, ?, ?)', [id, firma, idPersona], (error, results) => {
         if (error) {
             console.error('Error al actualizar producto:', error);
             return res.status(500).json({
@@ -113,7 +114,8 @@ const putMethod = (req = request, res = response) => {
             message: 'Firma actualizada correctamente',
             data: {
                 id,
-                firma
+                firma,
+                idPersona
             }
         });
     });

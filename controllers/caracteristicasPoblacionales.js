@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { migrante, indigena } = req.body;
+    const { migrante, indigena, idPersona } = req.body;
 
-    if (migrante == null || indigena == null) {
+    if (migrante == null || indigena == null || !idPersona) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: migrante, indigena'
         });
     }
 
-    pool.query('CALL pa_InsertCaracteristicasPoblacionales(?, ?)', [migrante, indigena], (error, results) => {
+    pool.query('CALL pa_InsertCaracteristicasPoblacionales(?, ?, ?)', [migrante, indigena, idPersona], (error, results) => {
         if (error) {
             console.error('Error al insertar caracteristicas poblacionales:', error);
             return res.status(500).json({
@@ -68,7 +68,8 @@ const postMethod = (req = request, res = response) => {
             message: 'Caracteristicas poblacionales insertada correctamente',
             data: {
                 migrante,
-                indigena
+                indigena,
+                idPersona
             }
         });
     });
@@ -76,16 +77,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {migrante, indigena } = req.body;
+    const {migrante, indigena, idPersona } = req.body;
 
-    if (!id || !migrante || indigena == null) {
+    if (!id || !migrante || indigena == null || !idPersona) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: migrante, indigena '
         });
     }
 
-    pool.query('CALL pa_UpdateCaracteristicasPoblacionales(?, ?, ?)', [id, migrante, indigena], (error, results) => {
+    pool.query('CALL pa_UpdateCaracteristicasPoblacionales(?, ?, ?, ?)', [id, migrante, indigena, idPersona], (error, results) => {
         if (error) {
             console.error('Error al actualizar caracteristicas poblacionales:', error);
             return res.status(500).json({
@@ -99,7 +100,8 @@ const putMethod = (req = request, res = response) => {
             message: 'Caracteristicas poblacionales actualizada correctamente',
             data: {
                 migrante,
-                indigena
+                indigena,
+                idPersona
             }
         });
     });

@@ -93,7 +93,7 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {firma} = req.body;
+    const {firma, idPersona} = req.body;
     if (!id || !firma || idPersona == null) {
         return res.status(400).json({
             success: false,

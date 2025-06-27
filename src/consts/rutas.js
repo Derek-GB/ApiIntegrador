@@ -14,4 +14,6 @@ module.exports = [
   { path: '/api/firmasDigitales', route: require('../../routes/firmasDigitales.route') },
   { path: '/api/infraestructuraAlbergues', route: require('../../routes/infraestructuraAlbergues.route') },
   { path: '/api/amenazas', route: require('../../routes/amenazas.route') },
+  { path: '/api/usuarios', route: require('../../routes/usuarios.route') },
+
 ];

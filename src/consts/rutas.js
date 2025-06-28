@@ -6,7 +6,7 @@ module.exports = [
   { path: '/api/capacidadAlbergues', route: require('../../routes/capacidadAlbergues.route') },
   { path: '/api/ubicaciones', route: require('../../routes/ubicaciones.route') },
   { path: '/api/condicionesEspeciales', route: require('../../routes/condicionesEspeciales.route') },
-  //{ path: '/api/referencias', route: require('../../routes/referencias.route') },
+  { path: '/api/referencias', route: require('../../routes/referencias.route') },
   { path: '/api/personas', route: require('../../routes/personas.route') },
   { path: '/api/condicionesSalud', route: require('../../routes/condicionesSalud.route') },
   { path: '/api/recursosAsignados', route: require('../../routes/recursosAsignados.route') },
@@ -14,6 +14,11 @@ module.exports = [
   { path: '/api/firmasDigitales', route: require('../../routes/firmasDigitales.route') },
   { path: '/api/infraestructuraAlbergues', route: require('../../routes/infraestructuraAlbergues.route') },
   { path: '/api/amenazas', route: require('../../routes/amenazas.route') },
+  { path: '/api/categoriaConsumibles', route: require('../../routes/categoriaConsumibles.route') },
   { path: '/api/usuarios', route: require('../../routes/usuarios.route') },
+  { path: '/api/consumibles', route: require('../../routes/consumibles.route') },
+  { path: '/api/detallePedidoConsumibles', route: require('../../routes/detallePedidoConsumibles.route') },
+  { path: '/api/pedidoConsumibles', route: require('../../routes/pedidoConsumibles.route') },
+  { path: '/api/unidadMedidas', route: require('../../routes/unidadMedidas.route') },
 
 ];

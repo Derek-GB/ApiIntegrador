@@ -117,21 +117,20 @@ const postMethod = (req = request, res = response) => {
     });
   }
 
-  especificacion = especificacion || null;
-  detalle_condicion = detalle_condicion || null;
-  administrador = administrador || null;
-  telefono = telefono || null;
-  seccion = seccion || null;
-  requerimientos_tecnicos = requerimientos_tecnicos || null;
-  costo_requerimientos_tecnicos = costo_requerimientos_tecnicos || null;
-  color = color || null;
-  idPedidoAbarrote = idPedidoAbarrote || null;
-  idUsuarioCreacion = idUsuarioCreacion || null;
-  idUsuarioModificacion = idUsuarioCreacion || null;
+  especificacion = especificacion ?? null;
+  detalle_condicion = detalle_condicion ?? null;
+  administrador = administrador ?? null;
+  telefono = telefono ?? null;
+  seccion = seccion ?? null;
+  requerimientos_tecnicos = requerimientos_tecnicos ?? null;
+  costo_requerimientos_tecnicos = costo_requerimientos_tecnicos ?? null;
+  color = color ?? null;
+  idPedidoAbarrote = idPedidoAbarrote ?? null;
+  idUsuarioCreacion = idUsuarioCreacion ?? null;
+  idUsuarioModificacion = idUsuarioCreacion ?? null;
 
   pool.query(
-    
-      "CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);" +
+    "CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
     [
       idAlbergue,
       nombre,

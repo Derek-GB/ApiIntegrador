@@ -54,16 +54,16 @@ const getMethod = (req = request, res = response) => {
 
 const postMethod = (req = request, res = response) => {
     // Llama al procedimiento almacenado para insertar una nueva amenaza
-    const { familiaEvento, evento, peligro } = req.body;
+    const { familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion } = req.body;
 
-    if (!familiaEvento || evento == null || peligro == null) {
+    if (!familiaEvento || !evento == null ) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: familiaEvento, evento, peligro '
+            message: 'Faltan datos: familiaEvento, evento '
         });
     }
 
-    pool.query('CALL pa_InsertAmenaza(?, ?, ?)', [familiaEvento, evento, peligro], (error, results) => {
+    pool.query('CALL pa_InsertAmenaza(?, ?, ?, ?, ?)', [familiaEvento, evento, peligro, idFamilia, ], (error, results) => {
         if (error) {
             console.error('Error al insertar amenaza:', error);
             return res.status(500).json({

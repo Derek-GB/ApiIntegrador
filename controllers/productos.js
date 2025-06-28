@@ -54,7 +54,11 @@ const postMethod = (req = request, res = response) => {
         });
     }
 
-    pool.query('CALL pa_InsertProducto(?, ?, ?, ?, ?, ?)', [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
+    pool.query(
+        'SET @id = 0; ' +
+        'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?, @id);' +
+        'SELECT @id AS id;',
+        [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
         if (error) {
             console.error('Error al insertar producto:', error);
             return res.status(500).json({
@@ -67,6 +71,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto insertado correctamente',
             data: {
+                p_id: results[2][0].id,
                 codigoProducto,
                 nombre,
                 descripcion,

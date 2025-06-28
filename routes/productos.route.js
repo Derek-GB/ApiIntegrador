@@ -82,7 +82,7 @@ router.get('/all', getAllMethod);
  *               descripcion:
  *                 type: string
  *               cantidad:
- *                 type: int
+ *                 type: integer
  *               categoria:
  *                 type: string
  *               unidadMedida:

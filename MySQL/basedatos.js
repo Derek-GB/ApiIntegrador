@@ -5,7 +5,8 @@ const pool = createPool ({
     user: 'root',
     password: 'seWZxRulWWycWTkgYGrzsXfaGtzItvwT',
     port: 54185,
-    database: 'railway'
+    database: 'railway',
+    multipleStatements: true
 })
 
 module.exports=pool;

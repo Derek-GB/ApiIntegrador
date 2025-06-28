@@ -8,6 +8,8 @@ const {
   putMethod,
   deleteMethod,
   getForIdMethod,
+  getForNombreMethod,
+  getForDistritoMethod,
 } = require('../controllers/albergues');
 
 /**
@@ -80,11 +82,11 @@ router.get('/all', getAllMethod);
  *               region:
  *                 type: string
  *               coordenadaX:
- *                 type: number
+ *                 type: float
  *               coordenadaY:
- *                 type: number
+ *                 type: float
  *               idUbicacion:
- *                 type: number
+ *                 type: integer
  *               tipo_establecimiento:
  *                 type: string
  *               tipo_albergue:
@@ -193,9 +195,9 @@ router.delete('/id/:id', deleteMethod);
 router.get('/consulta/id/:id', getForIdMethod);
 
 
-// router.get('/consulta/nombre/:nombre', getForNombreMethod);
+router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
 
-// router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+router.get('/consulta/distrito/:distrito', getForDistritoMethod);
 
 module.exports = router;

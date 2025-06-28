@@ -82,9 +82,9 @@ router.get('/all', getAllMethod);
  *               region:
  *                 type: string
  *               coordenadaX:
- *                 type: float
+ *                 type: integer
  *               coordenadaY:
- *                 type: float
+ *                 type: integer
  *               idUbicacion:
  *                 type: integer
  *               tipo_establecimiento:
@@ -108,7 +108,7 @@ router.get('/all', getAllMethod);
  *               requerimientos_tecnicos:
  *                 type: string
  *               costo_requerimientos_tecnicos:
- *                 type: number
+ *                 type: integer
  *               idInfraestructura:
  *                 type: integer
  *               idMunicipalidad:

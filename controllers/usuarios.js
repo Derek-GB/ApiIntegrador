@@ -54,7 +54,7 @@ const postMethod = (req = request, res = response) => {
         });
     }
 
-    pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?,)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
+    pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
         if (error) {
             console.error('Error al insertar usuario:', error);
             return res.status(500).json({

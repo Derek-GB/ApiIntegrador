@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario } = req.body;
+    const { idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion } = req.body;
 
-    if (idFamilia == null || !tipoAyuda || !descripcion || !fechaEntrega || !responsable || idUsuarioCreacion == null || fechaCreacionUsuario == null || idUsuarioModificacion == null || fechaModificacionUsuario == null) {
+    if (idFamilia == null || !tipoAyuda || !descripcion || !fechaEntrega || !responsable || idUsuarioCreacion == null || idUsuarioModificacion == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario'
+            message: 'Faltan datos: idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion'
         });
     }
 
-    pool.query('CALL pa_InsertReferencia(?, ?, ?, ?, ?, ?, ?, ?, ?)', [idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario], (error, results) => {
+    pool.query('CALL pa_InsertReferencia(?, ?, ?, ?, ?, ?, ?)', [idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion], (error, results) => {
         if (error) {
             console.error('Error al insertar categoria:', error);
             return res.status(500).json({
@@ -68,7 +68,7 @@ const postMethod = (req = request, res = response) => {
             message: 'Referencia insertado correctamente',
             data: {
                 id: results[0][0].p_id, // Assuming the stored procedure returns the inserted
-                idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario
+                idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion
             }
         });
     });
@@ -76,16 +76,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario } = req.body;
+    const {idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion } = req.body;
 
-    if (!id || idFamilia == null || !tipoAyuda || !descripcion || !fechaEntrega || !responsable || idUsuarioCreacion == null || fechaCreacionUsuario == null || idUsuarioModificacion == null || fechaModificacionUsuario == null) {
+    if (!id || idFamilia == null || !tipoAyuda || !descripcion || !fechaEntrega || !responsable || idUsuarioCreacion == null || idUsuarioModificacion == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: id, idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario'
+            message: 'Faltan datos: id, idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion'
         });
     }
 
-    pool.query('CALL pa_UpdateReferencia(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario], (error, results) => {
+    pool.query('CALL pa_UpdateReferencia(?, ?, ?, ?, ?, ?, ?, ?)', [idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion], (error, results) => {
         if (error) {
             console.error('Error al actualizar categoria:', error);
             return res.status(500).json({
@@ -98,7 +98,7 @@ const putMethod = (req = request, res = response) => {
             success: true,
             message: 'Referencia actualizado correctamente',
             data: {
-                idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, fechaCreacionUsuario, idUsuarioModificacion, fechaModificacionUsuario
+                idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion, idUsuarioModificacion
             }
         });
     });

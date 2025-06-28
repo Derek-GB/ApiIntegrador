@@ -10,18 +10,169 @@ const {
   deleteMethod,
   }=require('../controllers/recursosAsignados');
 
+
+  /**
+ * @swagger
+ * /api/recursos-asignados/{id}:
+ *   get:
+ *     tags:
+ *       - Recursos Asignados
+ *     summary: Obtener recurso asignado por ID de producto y persona
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Parámetro no utilizado directamente (revisar uso)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idProducto
+ *               - idPersona
+ *             properties:
+ *               idProducto:
+ *                 type: integer
+ *               idPersona:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Recurso asignado obtenido correctamente
+ *       400:
+ *         description: Faltan idProducto o idPersona
+ *       404:
+ *         description: Recurso asignado no encontrado
+ *       500:
+ *         description: Error al obtener recurso asignado
+ */
 //Devolver un solo producto por ID
 router.get('/id/:id', getMethod);   
     
+/**
+ * @swagger
+ * /api/recursos-asignados:
+ *   get:
+ *     tags:
+ *       - Recursos Asignados
+ *     summary: Obtener todos los recursos asignados
+ *     responses:
+ *       200:
+ *         description: Lista de recursos asignados obtenida correctamente
+ *       500:
+ *         description: Error al obtener los recursos asignados
+ */
 //Devuelve todos los productos
 router.get('/all', getAllMethod);             
 
+/**
+ * @swagger
+ * /api/recursos-asignados:
+ *   post:
+ *     tags:
+ *       - Recursos Asignados
+ *     summary: Crear un nuevo recurso asignado
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idProducto
+ *               - idPersona
+ *               - cantidadAsignada
+ *             properties:
+ *               idProducto:
+ *                 type: integer
+ *               idPersona:
+ *                 type: integer
+ *               cantidadAsignada:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Recurso asignado creado correctamente
+ *       400:
+ *         description: Datos faltantes o referencias inexistentes
+ *       409:
+ *         description: Ya existe una asignación para esa combinación
+ *       500:
+ *         description: Error al insertar recurso asignado
+ */
 // Registrar o insertar
 router.post('/', postMethod);
 
+/**
+ * @swagger
+ * /api/recursos-asignados:
+ *   delete:
+ *     tags:
+ *       - Recursos Asignados
+ *     summary: Eliminar un recurso asignado por ID de producto y persona
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idProducto
+ *               - idPersona
+ *             properties:
+ *               idProducto:
+ *                 type: integer
+ *               idPersona:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Recurso asignado eliminado correctamente
+ *       400:
+ *         description: Faltan idProducto o idPersona
+ *       404:
+ *         description: No se encontró recurso para eliminar
+ *       500:
+ *         description: Error al eliminar recurso asignado
+ */
 // //Eliminar
 router.delete('/id/:id', deleteMethod);
 
+/**
+ * @swagger
+ * /api/recursos-asignados:
+ *   put:
+ *     tags:
+ *       - Recursos Asignados
+ *     summary: Actualizar un recurso asignado existente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idProducto
+ *               - idPersona
+ *               - cantidadAsignada
+ *             properties:
+ *               idProducto:
+ *                 type: integer
+ *               idPersona:
+ *                 type: integer
+ *               cantidadAsignada:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Recurso asignado actualizado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       404:
+ *         description: No se encontró el recurso para actualizar
+ *       500:
+ *         description: Error al actualizar recurso asignado
+ */
 // //Actualizar
 router.put('/',   putMethod);
 

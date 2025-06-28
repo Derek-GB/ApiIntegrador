@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { nombre, idUbicacion, telefono, correo } = req.body;
+    const { nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion } = req.body;
 
-    if (!nombre == null || idUbicacion == null || telefono == null || correo == null) {
+    if (!nombre == null || idUbicacion == null || telefono == null || correo == null || idAlbergue == null || idUsuario == null || idUsuarioCreacion == null || idUsuarioModificacion == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: nombre, idUbicacion, telefono, correo '
+            message: 'Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion'
         });
     }
 
-    pool.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?)', [nombre, idUbicacion, telefono, correo], (error, results) => {
+    pool.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?, ?, ?,)', [nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion], (error, results) => {
         if (error) {
             console.error('Error al insertar municipalidad:', error);
             return res.status(500).json({
@@ -70,7 +70,12 @@ const postMethod = (req = request, res = response) => {
                 nombre,
                 idUbicacion,
                 telefono,
-                correo
+                correo,
+                idAlbergue,
+                idUsuario,
+                idUsuarioCreacion,
+                idUsuarioModificacion
+                
             }
         });
     });
@@ -78,16 +83,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {nombre, idUbicacion, telefono, correo } = req.body;
+    const {nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion } = req.body;
 
-    if (!id || !nombre || idUbicacion == null || telefono == null || correo == null) {
+    if (!id || !nombre || idUbicacion == null || telefono == null || correo == null || idAlbergue == null || idUsuario == null || idUsuarioCreacion == null || idUsuarioModificacion == null ) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: nombre, idUbicacion, telefono, correo '
+            message: 'Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion'
         });
     }
 
-    pool.query('CALL pa_UpdateMunicipalidad(?, ?, ?, ?, ?)', [id, nombre, idUbicacion, telefono, correo], (error, results) => {
+    pool.query('CALL pa_UpdateMunicipalidad(?, ?, ?, ?, ?, ?, ?, ?, ?,)', [id, nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion], (error, results) => {
         if (error) {
             console.error('Error al actualizar municipalidad:', error);
             return res.status(500).json({
@@ -103,7 +108,12 @@ const putMethod = (req = request, res = response) => {
                 nombre,
                 idUbicacion,
                 telefono,
-                correo
+                correo,
+                idAlbergue,
+                idUsuario,
+                idUsuarioCreacion,
+                idUsuarioModificacion,
+                
             }
         });
     });

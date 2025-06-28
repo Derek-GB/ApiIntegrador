@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { provincia, canton, distrito, direccion } = req.body;
+    const { provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad } = req.body;
 
-    if (!provincia == null || canton == null || distrito == null || direccion == null) {
+    if (!provincia == null || canton == null || distrito == null || direccion == null || idFamilia == null || idAlbergue == null || idMunicipalidad == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: provincia, canton, distrito, direccion '
+            message: 'Faltan datos: provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad'
         });
     }
 
-    pool.query('CALL pa_InsertUbicacion(?, ?, ?, ?)', [provincia, canton, distrito, direccion], (error, results) => {
+    pool.query('CALL pa_InsertUbicacion(?, ?, ?, ?, ?, ?, ?)', [provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad], (error, results) => {
         if (error) {
             console.error('Error al insertar ubicacion:', error);
             return res.status(500).json({
@@ -70,7 +70,10 @@ const postMethod = (req = request, res = response) => {
                 provincia,
                 canton,
                 distrito,
-                direccion
+                direccion,
+                idFamilia,
+                idAlbergue,
+                idMunicipalidad
             }
         });
     });
@@ -78,16 +81,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {provincia, canton, distrito, direccion } = req.body;
+    const {provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad } = req.body;
 
-    if (!id || !provincia || canton == null || distrito == null || direccion == null) {
+    if (!id || !provincia || canton == null || distrito == null || direccion == null || idFamilia == null || idAlbergue == null || idMunicipalidad == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: provincia, canton, distrito, direccion '
+            message: 'Faltan datos: provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad'
         });
     }
 
-    pool.query('CALL pa_UpdateUbicacion(?, ?, ?, ?, ?)', [id, provincia, canton, distrito, direccion], (error, results) => {
+    pool.query('CALL pa_UpdateUbicacion(?, ?, ?, ?, ?, ?, ?, ?)', [id, provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad ], (error, results) => {
         if (error) {
             console.error('Error al actualizar ubicacion:', error);
             return res.status(500).json({
@@ -103,7 +106,10 @@ const putMethod = (req = request, res = response) => {
                 provincia,
                 canton,
                 distrito,
-                direccion
+                direccion,
+                idFamilia,
+                idAlbergue,
+                idMunicipalidad
             }
         });
     });

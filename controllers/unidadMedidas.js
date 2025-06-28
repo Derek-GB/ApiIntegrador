@@ -17,7 +17,6 @@ const getAllMethod = (req = request, res = response) => {
         });
     });
 };
-
 const getMethod = (req = request, res = response) => {
     const { id } = req.params;
     pool.query('CALL pa_SelectUnidadMedida(?)', [id], (error, results) => {

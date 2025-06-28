@@ -1,29 +1,140 @@
-const {Router}=require('express');
-
-const router=Router();
-
+const { Router } = require('express');
+const router = Router();
 
 const {
+  getAllMethod,
   getMethod,
   postMethod,
   putMethod,
-  getAllMethod,
-  deleteMethod}=require('../controllers/categoriaConsumibles');
+  deleteMethod,
+} = require('../controllers/categoriaConsumibles');
 
-//Devolver datos desde mi API
-router.get('/id/:id',   getMethod);
+/**
+ * @swagger
+ * /api/categoriaConsumibles/id/{id}:
+ *   get:
+ *     tags:
+ *       - Categorías de Consumibles
+ *     summary: Obtener una categoría de consumible por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la categoría
+ *     responses:
+ *       200:
+ *         description: Categoría obtenida exitosamente
+ *       404:
+ *         description: Categoría no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/id/:id', getMethod);
 
-//Registrar o insertar
-router.post('/',  postMethod);
+/**
+ * @swagger
+ * /api/categoriaConsumibles/all:
+ *   get:
+ *     tags:
+ *       - Categorías de Consumibles
+ *     summary: Obtener todas las categorías de consumibles
+ *     responses:
+ *       200:
+ *         description: Lista de categorías obtenida correctamente
+ *       500:
+ *         description: Error al obtener los datos
+ */
+router.get('/all', getAllMethod);
 
-//Registrar o insertar
-router.put('/',  putMethod);
+/**
+ * @swagger
+ * /api/categoriaConsumibles:
+ *   post:
+ *     tags:
+ *       - Categorías de Consumibles
+ *     summary: Insertar una nueva categoría de consumible
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nombre
+ *               - idConsumible
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               idConsumible:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Categoría insertada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error del servidor
+ */
+router.post('/', postMethod);
 
-//Eliminar
+/**
+ * @swagger
+ * /api/categoriaConsumibles:
+ *   put:
+ *     tags:
+ *       - Categorías de Consumibles
+ *     summary: Actualizar una categoría de consumible existente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - nombre
+ *               - idConsumible
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               nombre:
+ *                 type: string
+ *               idConsumible:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Categoría actualizada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar
+ */
+router.put('/', putMethod);
+
+/**
+ * @swagger
+ * /api/categoriaConsumibles/id/{id}:
+ *   delete:
+ *     tags:
+ *       - Categorías de Consumibles
+ *     summary: Eliminar una categoría de consumible por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la categoría a eliminar
+ *     responses:
+ *       200:
+ *         description: Categoría eliminada correctamente
+ *       400:
+ *         description: ID no proporcionado
+ *       500:
+ *         description: Error al eliminar
+ */
 router.delete('/id/:id', deleteMethod);
 
-//Actualizar
-router.get('/all',   getAllMethod);
-
-
-module.exports=router;
+module.exports = router;

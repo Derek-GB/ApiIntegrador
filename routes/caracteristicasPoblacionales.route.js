@@ -1,6 +1,5 @@
-const {Router}= require('express');
-
-const router=Router();
+const { Router } = require('express');
+const router = Router();
 
 const {
   getAllMethod,
@@ -8,21 +7,140 @@ const {
   postMethod,
   putMethod,
   deleteMethod,
-  }=require('../controllers/caracteristicasPoblacionales');
+} = require('../controllers/caracteristicasPoblacionales');
 
-//Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
-    
-//Devuelve todos los productos
-router.get('/all', getAllMethod);             
+/**
+ * @swagger
+ * /api/caracteristicasPoblacionales/id/{id}:
+ *   get:
+ *     tags:
+ *       - Características Poblacionales
+ *     summary: Obtener características poblacionales por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la característica
+ *     responses:
+ *       200:
+ *         description: Característica obtenida exitosamente
+ *       404:
+ *         description: Característica no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/id/:id', getMethod);
 
-// Registrar o insertar
+/**
+ * @swagger
+ * /api/caracteristicasPoblacionales/all:
+ *   get:
+ *     tags:
+ *       - Características Poblacionales
+ *     summary: Obtener todas las características poblacionales
+ *     responses:
+ *       200:
+ *         description: Lista de características obtenida correctamente
+ *       500:
+ *         description: Error al obtener los datos
+ */
+router.get('/all', getAllMethod);
+
+/**
+ * @swagger
+ * /api/caracteristicasPoblacionales:
+ *   post:
+ *     tags:
+ *       - Características Poblacionales
+ *     summary: Insertar una nueva característica poblacional
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - migrante
+ *               - indigena
+ *               - idPersona
+ *             properties:
+ *               migrante:
+ *                 type: boolean
+ *               indigena:
+ *                 type: boolean
+ *               idPersona:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Característica insertada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error del servidor
+ */
 router.post('/', postMethod);
 
-// //Eliminar
+/**
+ * @swagger
+ * /api/caracteristicasPoblacionales:
+ *   put:
+ *     tags:
+ *       - Características Poblacionales
+ *     summary: Actualizar una característica poblacional existente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - migrante
+ *               - indigena
+ *               - idPersona
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               migrante:
+ *                 type: boolean
+ *               indigena:
+ *                 type: boolean
+ *               idPersona:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Característica actualizada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar
+ */
+router.put('/', putMethod);
+
+/**
+ * @swagger
+ * /api/caracteristicasPoblacionales/id/{id}:
+ *   delete:
+ *     tags:
+ *       - Características Poblacionales
+ *     summary: Eliminar una característica poblacional por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la característica a eliminar
+ *     responses:
+ *       200:
+ *         description: Característica eliminada correctamente
+ *       400:
+ *         description: ID no proporcionado
+ *       500:
+ *         description: Error al eliminar
+ */
 router.delete('/id/:id', deleteMethod);
 
-// //Actualizar
-router.put('/',   putMethod);
-
-module.exports=router;
+module.exports = router;

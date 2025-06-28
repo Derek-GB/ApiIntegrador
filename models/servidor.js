@@ -14,7 +14,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: '/api',
+      url: '/api/documentacion',
     },
   ],
 };
@@ -36,8 +36,8 @@ class servidor{
     }
     //Metodo que contiene las rutas
 routes() {
-  // Servir la documentación en /api
-  this.app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  // Servir la documentación en /api/documentacion
+  this.app.use('/api/documentacion', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   // Recorre las rutas y las aplica al servidor
   this.rutas.forEach(({ path, route }) => {
     this.app.use(path, route);

@@ -1,29 +1,146 @@
-const {Router}=require('express');
-
-const router=Router();
-
+const { Router } = require('express');
+const router = Router();
 
 const {
+  getAllMethod,
   getMethod,
   postMethod,
   putMethod,
-  getAllMethod,
-  deleteMethod}=require('../controllers/consumibles');
+  deleteMethod,
+} = require('../controllers/consumibles');
 
-//Devolver datos desde mi API
-router.get('/id/:id',   getMethod);
+/**
+ * @swagger
+ * /api/consumibles/id/{id}:
+ *   get:
+ *     tags:
+ *       - Consumibles
+ *     summary: Obtener un consumible por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del consumible
+ *     responses:
+ *       200:
+ *         description: Consumible obtenido correctamente
+ *       404:
+ *         description: Consumible no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/id/:id', getMethod);
 
-//Registrar o insertar
-router.post('/',  postMethod);
+/**
+ * @swagger
+ * /api/consumibles/all:
+ *   get:
+ *     tags:
+ *       - Consumibles
+ *     summary: Obtener todos los consumibles
+ *     responses:
+ *       200:
+ *         description: Lista de consumibles obtenida correctamente
+ *       500:
+ *         description: Error al obtener los datos
+ */
+router.get('/all', getAllMethod);
 
-//Registrar o insertar
-router.put('/',  putMethod);
+/**
+ * @swagger
+ * /api/consumibles:
+ *   post:
+ *     tags:
+ *       - Consumibles
+ *     summary: Insertar un nuevo consumible
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nombre
+ *               - idUnidadMedida
+ *               - idCategoria
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               idUnidadMedida:
+ *                 type: integer
+ *               idCategoria:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Consumible insertado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al insertar
+ */
+router.post('/', postMethod);
 
-//Eliminar
+/**
+ * @swagger
+ * /api/consumibles:
+ *   put:
+ *     tags:
+ *       - Consumibles
+ *     summary: Actualizar un consumible existente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - nombre
+ *               - idUnidadMedida
+ *               - idCategoria
+ *             properties:
+ *               id:
+ *                 type: string
+ *               nombre:
+ *                 type: string
+ *               idUnidadMedida:
+ *                 type: integer
+ *               idCategoria:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Consumible actualizado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar
+ */
+router.put('/', putMethod);
+
+/**
+ * @swagger
+ * /api/consumibles/id/{id}:
+ *   delete:
+ *     tags:
+ *       - Consumibles
+ *     summary: Eliminar un consumible por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del consumible
+ *     responses:
+ *       200:
+ *         description: Consumible eliminado correctamente
+ *       400:
+ *         description: ID no proporcionado
+ *       500:
+ *         description: Error al eliminar
+ */
 router.delete('/id/:id', deleteMethod);
 
-//Actualizar
-router.get('/all',   getAllMethod);
-
-
-module.exports=router;
+module.exports = router;

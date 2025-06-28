@@ -1,28 +1,174 @@
-const {Router}= require('express');
-
-const router=Router();
+const { Router } = require('express');
+const router = Router();
 
 const {
   getAllMethod,
   getMethod,
   postMethod,
   putMethod,
-  deleteMethod,
-  }=require('../controllers/infraestructurasAlbergues');
+  deleteMethod
+} = require('../controllers/infraestructurasAlbergues');
 
-//Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
-    
-//Devuelve todos los productos
-router.get('/all', getAllMethod);             
+/**
+ * @swagger
+ * /api/infraestructurasAlbergues/all:
+ *   get:
+ *     tags:
+ *       - InfraestructurasAlbergues
+ *     summary: Obtener todas las infraestructuras de albergues
+ *     responses:
+ *       200:
+ *         description: Infraestructuras obtenidas correctamente
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/all', getAllMethod);
 
-// Registrar o insertar
+/**
+ * @swagger
+ * /api/infraestructurasAlbergues/id/{id}:
+ *   get:
+ *     tags:
+ *       - InfraestructurasAlbergues
+ *     summary: Obtener infraestructura por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la infraestructura
+ *     responses:
+ *       200:
+ *         description: Infraestructura obtenida correctamente
+ *       400:
+ *         description: Falta el ID
+ *       404:
+ *         description: Infraestructura no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/id/:id', getMethod);
+
+/**
+ * @swagger
+ * /api/infraestructurasAlbergues:
+ *   post:
+ *     tags:
+ *       - InfraestructurasAlbergues
+ *     summary: Insertar una nueva infraestructura de albergue
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - cocina
+ *               - duchas
+ *               - servicios_sanitarios
+ *               - bodega
+ *               - menaje_mobiliario
+ *               - tanque_agua
+ *               - area_total_m2
+ *             properties:
+ *               cocina:
+ *                 type: boolean
+ *               duchas:
+ *                 type: boolean
+ *               servicios_sanitarios:
+ *                 type: boolean
+ *               bodega:
+ *                 type: boolean
+ *               menaje_mobiliario:
+ *                 type: boolean
+ *               tanque_agua:
+ *                 type: boolean
+ *               area_total_m2:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Infraestructura insertada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       409:
+ *         description: Infraestructura duplicada
+ *       500:
+ *         description: Error del servidor
+ */
 router.post('/', postMethod);
 
-// //Eliminar
+/**
+ * @swagger
+ * /api/infraestructurasAlbergues:
+ *   put:
+ *     tags:
+ *       - InfraestructurasAlbergues
+ *     summary: Actualizar una infraestructura existente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - cocina
+ *               - duchas
+ *               - servicios_sanitarios
+ *               - bodega
+ *               - menaje_mobiliario
+ *               - tanque_agua
+ *               - area_total_m2
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               cocina:
+ *                 type: boolean
+ *               duchas:
+ *                 type: boolean
+ *               servicios_sanitarios:
+ *                 type: boolean
+ *               bodega:
+ *                 type: boolean
+ *               menaje_mobiliario:
+ *                 type: boolean
+ *               tanque_agua:
+ *                 type: boolean
+ *               area_total_m2:
+ *                 type: float
+ *     responses:
+ *       200:
+ *         description: Infraestructura actualizada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error del servidor
+ */
+router.put('/', putMethod);
+
+/**
+ * @swagger
+ * /api/infraestructurasAlbergues/id/{id}:
+ *   delete:
+ *     tags:
+ *       - InfraestructurasAlbergues
+ *     summary: Eliminar una infraestructura por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la infraestructura
+ *     responses:
+ *       200:
+ *         description: Infraestructura eliminada correctamente
+ *       400:
+ *         description: Falta el ID
+ *       500:
+ *         description: Error del servidor
+ */
 router.delete('/id/:id', deleteMethod);
 
-// //Actualizar
-router.put('/',   putMethod);
-
-module.exports=router;
+module.exports = router;

@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion } = req.body;
+    const { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
 
-    if (!nombreUsuario || correo == null || contrasenaHash == null || rol == null || activo == null || fechaCreacion == null || ultimaSesion == null || idMunicipalidad == null || identificacion == null) {
+    if (!nombreUsuario || correo == null || contrasenaHash == null || rol == null || activo == null || idMunicipalidad == null || identificacion == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion'
+            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion'
         });
     }
 
-    pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion], (error, results) => {
+    pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?,)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
         if (error) {
             console.error('Error al insertar usuario:', error);
             return res.status(500).json({
@@ -68,7 +68,7 @@ const postMethod = (req = request, res = response) => {
             message: 'Usuario insertado correctamente',
             data: {
                 id: results[0][0].p_id, // Assuming the stored procedure returns the inserted
-                nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion
+                nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion
             }
         });
     });
@@ -76,16 +76,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion } = req.body;
+    const {nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
 
-    if (!id || !nombreUsuario || correo == null || contrasenaHash == null || rol == null || activo == null || fechaCreacion == null || ultimaSesion == null || idMunicipalidad == null || identificacion == null) {
+    if (!id || !nombreUsuario || correo == null || contrasenaHash == null || rol == null || activo == null || idMunicipalidad == null || identificacion == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion'
+            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion'
         });
     }
 
-    pool.query('CALL pa_UpdateUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion], (error, results) => {
+    pool.query('CALL pa_UpdateUsuario(?, ?, ?, ?, ?, ?, ?)', [id, nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
         if (error) {
             console.error('Error al actualizar usuario:', error);
             return res.status(500).json({
@@ -98,7 +98,7 @@ const putMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto actualizado correctamente',
             data: {
-                id, nombreUsuario, correo, contrasenaHash, rol, activo, fechaCreacion, ultimaSesion, idMunicipalidad, identificacion
+                id, nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion
             }
         });
     });
@@ -111,7 +111,7 @@ const deleteMethod = (req = request, res = response) => {
     if (!id) {
         return res.status(400).json({
             success: false,
-            message: 'ID de producto no proporcionado en el body'
+            message: 'ID de usuario no proporcionado en el body'
         });
     }
 

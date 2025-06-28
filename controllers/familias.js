@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza } = req.body;
+    const { codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza, idReferencia } = req.body;
 
-    if (!codigoFamilia || cantidadPersonas == null || idAlbergue == null || idUbicacion == null || idAmenaza == null) {
+    if (!codigoFamilia || cantidadPersonas == null || idAlbergue == null || idUbicacion == null || idAmenaza == null || idReferencia == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza '
+            message: 'Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza, idReferencia'
         });
     }
 
-    pool.query('CALL pa_InsertFamilia(?, ?, ?, ?, ?)', [codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza], (error, results) => {
+    pool.query('CALL pa_InsertFamilia(?, ?, ?, ?, ?, ?)', [codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza, idReferencia], (error, results) => {
         if (error) {
             console.error('Error al insertar familia:', error);
             return res.status(500).json({
@@ -71,7 +71,8 @@ const postMethod = (req = request, res = response) => {
                 cantidadPersonas,
                 idAlbergue,
                 idUbicacion,
-                idAmenaza
+                idAmenaza,
+                idReferencia
             }
         });
     });

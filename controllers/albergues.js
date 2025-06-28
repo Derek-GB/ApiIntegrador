@@ -187,11 +187,42 @@ const deleteMethod = (req = request, res = response) => {
     });
 };
 
+const getForIdMethod = (req = request, res = response) => {     
+    const { id } = req.params;     
+    if (!id) {         
+        return res.status(400).json({             
+            success: false,             
+            message: 'ID del albergue es requerido'         
+        });     
+    }     
+    pool.query('CALL pa_ConsultarAlberguePorId(?)', [id], (error, results) => {         
+        if (error) {             
+            console.error('Error en getForIdMethod:', error);             
+            return res.status(500).json({                 
+                success: false,                 
+                error: 'Error al obtener el albergue'             
+            });         
+        }         
+        if (!results || !results[0] || results[0].length === 0) {            
+            return res.status(404).json({                 
+                success: false,                 
+                message: 'Albergue no encontrado'             
+            });         
+        }         
+        const info = results[0];            
+        res.json({             
+            success: true,             
+            message: 'Albergue obtenido exitosamente',             
+            data: info         
+        });     
+    }); 
+};
 
 module.exports = {
     getAllMethod,
     getMethod,
     postMethod,
     putMethod,
-    deleteMethod
+    deleteMethod,
+    getForIdMethod
 }

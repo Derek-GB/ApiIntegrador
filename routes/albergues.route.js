@@ -7,6 +7,7 @@ const {
   postMethod,
   putMethod,
   deleteMethod,
+  getForIdMethod,
 } = require('../controllers/albergues');
 
 /**
@@ -20,7 +21,7 @@ const {
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del albergue
  *     responses:
@@ -83,7 +84,7 @@ router.get('/all', getAllMethod);
  *               coordenadaY:
  *                 type: number
  *               idUbicacion:
- *                 type: string
+ *                 type: number
  *               tipo_establecimiento:
  *                 type: string
  *               tipo_albergue:
@@ -99,7 +100,7 @@ router.get('/all', getAllMethod);
  *               telefono:
  *                 type: string
  *               idCapacidad:
- *                 type: string
+ *                 type: integer
  *               seccion:
  *                 type: string
  *               requerimientos_tecnicos:
@@ -107,9 +108,9 @@ router.get('/all', getAllMethod);
  *               costo_requerimientos_tecnicos:
  *                 type: number
  *               idInfraestructura:
- *                 type: string
+ *                 type: integer
  *               idMunicipalidad:
- *                 type: string
+ *                 type: integer
  *               color:
  *                 type: string
  *     responses:
@@ -145,7 +146,7 @@ router.post('/', postMethod);
  *               - cantidad
  *             properties:
  *               id:
- *                 type: string
+ *                 type: integer
  *               codigoProducto:
  *                 type: string
  *               nombre:
@@ -175,7 +176,7 @@ router.put('/', putMethod);
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del albergue a eliminar
  *     responses:
@@ -187,5 +188,14 @@ router.put('/', putMethod);
  *         description: Error al eliminar el albergue
  */
 router.delete('/id/:id', deleteMethod);
+
+
+router.get('/consulta/id/:id', getForIdMethod);
+
+
+// router.get('/consulta/nombre/:nombre', getForNombreMethod);
+
+
+// router.get('/consulta/distrito/:distrito', getForDistritoMethod);
 
 module.exports = router;

@@ -45,16 +45,16 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
 
-    if (!codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!codigoProducto || nombre == null || descripcion == null || cantidad == null || categoria == null || unidadMedida == null ) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida'
         });
     }
 
-    pool.query('CALL pa_InsertProducto(?, ?, ?, ?)', [codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_InsertProducto(?, ?, ?, ?, ?, ?)', [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
         if (error) {
             console.error('Error al insertar producto:', error);
             return res.status(500).json({
@@ -70,7 +70,9 @@ const postMethod = (req = request, res = response) => {
                 codigoProducto,
                 nombre,
                 descripcion,
-                cantidad
+                cantidad,
+                categoria,
+                unidadMedida
             }
         });
     });
@@ -78,16 +80,16 @@ const postMethod = (req = request, res = response) => {
 
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
-    const {codigoProducto, nombre, descripcion, cantidad } = req.body;
+    const {codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
 
-    if (!id || !codigoProducto || nombre == null || descripcion == null || cantidad == null) {
+    if (!id || !codigoProducto || nombre == null || descripcion == null || cantidad == null || categoria == null || unidadMedida == null) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigo, nombre, descripcion, cantidad '
+            message: 'Faltan datos: id, codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida'
         });
     }
 
-    pool.query('CALL pa_UpdateProducto(?, ?, ?, ?, ?)', [id, codigoProducto, nombre, descripcion, cantidad], (error, results) => {
+    pool.query('CALL pa_UpdateProducto(?, ?, ?, ?, ?, ?, ?)', [id, codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
         if (error) {
             console.error('Error al actualizar producto:', error);
             return res.status(500).json({
@@ -103,7 +105,9 @@ const putMethod = (req = request, res = response) => {
                 codigoProducto,
                 nombre,
                 descripcion,
-                cantidad
+                cantidad,
+                categoria,
+                unidadMedida
             }
         });
     });

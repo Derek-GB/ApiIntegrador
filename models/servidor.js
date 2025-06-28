@@ -1,6 +1,30 @@
 const express= require('express');
 const cors=require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 require('dotenv').config();
+
+// Configuración de swagger-jsdoc
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Documentación API',
+    version: '1.0.0',
+    description: 'Documentación de las rutas de la API, proyecto integrador (Por 4D)',
+  },
+  servers: [
+    {
+      url: '/api',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./routes/*.route.js'], // aquí busca los comentarios JSDoc
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 
 class servidor{
     constructor(){
@@ -12,6 +36,9 @@ class servidor{
     }
     //Metodo que contiene las rutas
 routes() {
+  // Servir la documentación en /api
+  this.app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  // Recorre las rutas y las aplica al servidor
   this.rutas.forEach(({ path, route }) => {
     this.app.use(path, route);
   });

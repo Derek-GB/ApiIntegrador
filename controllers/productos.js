@@ -55,7 +55,7 @@ const postMethod = (req = request, res = response) => {
     }
 
     pool.query(
-        'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?, @id);',
+        'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);',
         [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
         if (error) {
             console.error('Error al insertar producto:', error);
@@ -69,7 +69,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto insertado correctamente',
             data: {
-                p_id: results[2][0].id,
+                p_id: results[0][0].id,
                 codigoProducto,
                 nombre,
                 descripcion,

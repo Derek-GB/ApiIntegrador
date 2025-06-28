@@ -37,7 +37,11 @@ class servidor{
     //Metodo que contiene las rutas
 routes() {
   // Servir la documentación en /api/documentacion
-  this.app.use('/api/documentacion', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  this.app.use('/api/documentacion', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      docExpansion: 'none'  // que los tag vengan colapsados por defecto
+    }
+  }));
   // Recorre las rutas y las aplica al servidor
   this.rutas.forEach(({ path, route }) => {
     this.app.use(path, route);

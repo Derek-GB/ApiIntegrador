@@ -72,7 +72,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto insertado correctamente',
             data: {
-                id: results[0][0].p_id, 
+                id: results[0][0].id, 
                 codigoProducto,
                 nombre,
                 descripcion,

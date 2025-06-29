@@ -45,7 +45,7 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
+    let { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
 
     if (!codigoProducto || !nombre || !cantidad) {
         return res.status(400).json({

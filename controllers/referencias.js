@@ -61,8 +61,8 @@ const postMethod = (req = request, res = response) => {
     });
   }
 
-  responsable = responsable || null; // Si no se proporciona, se establece como null
-  idUsuarioCreacion = idUsuarioCreacion || null; // Si no se proporciona, se establece como null
+  responsable = responsable ?? null; // Si no se proporciona, se establece como null
+  idUsuarioCreacion = idUsuarioCreacion ?? null; // Si no se proporciona, se establece como null
 
   pool.query(
     "CALL pa_InsertReferencia(?, ?, ?, ?, ?, ?)",

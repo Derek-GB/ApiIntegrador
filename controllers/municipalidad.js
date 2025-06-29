@@ -61,12 +61,12 @@ const postMethod = (req = request, res = response) => {
       message: "Faltan datos: nombre, idUbicacion",
     });
   }
-  telefono = telefono || null;
-  correo = correo || null;
-  idAlbergue = idAlbergue || null;
-  idUsuario = idUsuario || null;
-  idUsuarioCreacion = idUsuarioCreacion || null;
-  idUsuarioModificacion = idUsuarioModificacion || null;
+  telefono = telefono ?? null;
+  correo = correo ?? null;
+  idAlbergue = idAlbergue ?? null;
+  idUsuario = idUsuario ?? null;
+  idUsuarioCreacion = idUsuarioCreacion ?? null;
+  idUsuarioModificacion = idUsuarioModificacion ?? null;
 
   pool.query(
     "CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?, ?, ?)",

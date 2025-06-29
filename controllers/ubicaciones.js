@@ -61,9 +61,9 @@ const postMethod = (req = request, res = response) => {
         "Faltan datos: provincia, canton, distrito, direccion",
     });
   }
-  idFamilia = idFamilia || null; // Allow null for optional fields
-  idAlbergue = idAlbergue || null; // Allow null for optional fields
-    idMunicipalidad = idMunicipalidad || null; // Allow null for optional fields
+  idFamilia = idFamilia ?? null; // Allow null for optional fields
+  idAlbergue = idAlbergue ?? null; // Allow null for optional fields
+    idMunicipalidad = idMunicipalidad ?? null; // Allow null for optional fields
 
   pool.query(
     "CALL pa_InsertUbicacion(?, ?, ?, ?, ?, ?, ?)",

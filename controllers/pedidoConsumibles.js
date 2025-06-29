@@ -58,8 +58,8 @@ const postMethod = (req = request, res = response) => {
       message: "Faltan datos: tipoComida, cantidadPersonas, idAlbergue",
     });
   }
-  idConsumible = idConsumible || null;
-  idUsuarioCreacion = idUsuarioCreacion || null;
+  idConsumible = idConsumible ?? null;
+  idUsuarioCreacion = idUsuarioCreacion ?? null;
 
   pool.query(
     "CALL pa_InsertPedidoConsumible(?, ?, ?, ?, ?)",

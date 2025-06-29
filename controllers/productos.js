@@ -53,9 +53,9 @@ const postMethod = (req = request, res = response) => {
             message: 'Faltan datos: codigoProducto, nombre, cantidad'
         });
     }
-    descripcion = descripcion || null; 
-    categoria = categoria || null;
-    unidadMedida = unidadMedida || null;
+    descripcion = descripcion ?? null; 
+    categoria = categoria ?? null;
+    unidadMedida = unidadMedida ?? null;
 
     pool.query(
         'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);',

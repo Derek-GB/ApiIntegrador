@@ -116,7 +116,7 @@ router.post('/', postMethod);
  *       201:
  *         description: Amenaza insertada correctamente
  *       400:
- *         description: Faltan datos: familiaEvento, evento
+ *         description: "Faltan datos: familiaEvento, evento"
  *       500:
  *         description: Error al insertar amenaza
  */

@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/categoria-consumible:
+ * /api/categoriaConsumible:
  *   post:
  *     tags:
- *       - CategoriaConsumible
+ *       - Categorías de Consumibles
  *     summary: Insertar una nueva categoría de consumible
  *     requestBody:
  *       required: true

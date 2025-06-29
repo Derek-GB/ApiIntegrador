@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/caracteristicas-poblacionales:
+ * /api/caracteristicasPoblacionales:
  *   post:
  *     tags:
- *       - CaracteristicasPoblacionales
+ *       - Características Poblacionales
  *     summary: Insertar nuevas características poblacionales
  *     requestBody:
  *       required: true

@@ -52,10 +52,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/firma-digital:
+ * /api/firmasDigitales:
  *   post:
  *     tags:
- *       - FirmaDigital
+ *       - FirmasDigitales
  *     summary: Insertar una nueva firma digital
  *     requestBody:
  *       required: true

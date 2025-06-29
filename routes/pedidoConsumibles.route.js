@@ -52,10 +52,10 @@ router.get('/id/:id', getMethod);
 
 /**
  * @swagger
- * /api/pedidosConsumibles:
+ * /api/pedidoConsumibles:
  *   post:
  *     tags:
- *       - PedidosConsumibles
+ *       - PedidoConsumibles
  *     summary: Insertar un nuevo pedido consumible
  *     requestBody:
  *       required: true

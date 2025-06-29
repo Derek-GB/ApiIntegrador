@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/condiciones-salud:
+ * /api/condicionesSalud:
  *   post:
  *     tags:
- *       - CondicionesSalud
+ *       - Condiciones Salud
  *     summary: Insertar una nueva condición de salud
  *     requestBody:
  *       required: true

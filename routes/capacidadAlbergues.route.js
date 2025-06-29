@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/capacidad-albergue:
+ * /api/capacidadAlbergue:
  *   post:
  *     tags:
- *       - CapacidadAlbergue
+ *       - Capacidad Albergues
  *     summary: Insertar un nuevo registro de capacidad de albergue
  *     requestBody:
  *       required: true

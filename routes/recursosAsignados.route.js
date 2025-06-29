@@ -73,7 +73,7 @@ router.get('/all', getAllMethod);
  * /api/recursos-asignados:
  *   post:
  *     tags:
- *       - RecursosAsignados
+ *       - Recursos Asignados
  *     summary: Asignar un recurso (producto) a una persona
  *     requestBody:
  *       required: true

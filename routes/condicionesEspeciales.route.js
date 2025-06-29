@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/condiciones-especiales:
+ * /api/condicionesEspeciales:
  *   post:
  *     tags:
- *       - CondicionesEspeciales
+ *       - Condiciones Especiales
  *     summary: Insertar una nueva condición especial
  *     requestBody:
  *       required: true

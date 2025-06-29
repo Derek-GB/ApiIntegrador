@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/detalle-pedido-consumible:
+ * /api/detallePedidoConsumible:
  *   post:
  *     tags:
- *       - DetallePedidoConsumible
+ *       - DetallePedidoConsumibles
  *     summary: Insertar un nuevo detalle de pedido consumible
  *     requestBody:
  *       required: true

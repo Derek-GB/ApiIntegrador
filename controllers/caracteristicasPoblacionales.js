@@ -47,12 +47,14 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { migrante, indigena, idPersona } = req.body;
 
-    if (migrante == null || indigena == null || !idPersona) {
+    if (!migrante || !indigena) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: migrante, indigena'
         });
     }
+
+    idPersona = idPersona ?? null; 
 
     pool.query('CALL pa_InsertCaracteristicasPoblacionales(?, ?, ?)', [migrante, indigena, idPersona], (error, results) => {
         if (error) {
@@ -67,6 +69,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Caracteristicas poblacionales insertada correctamente',
             data: {
+                p_id: results[0][0].id,
                 migrante,
                 indigena,
                 idPersona

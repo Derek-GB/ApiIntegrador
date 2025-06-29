@@ -136,7 +136,7 @@ const postMethod = (req = request, res = response) => {
         return res.status(500).json({ success: false, error: 'Error al insertar persona' });
       }
 
-      res.status(201).json({ success: true, message: 'Persona registrada correctamente' });
+      res.status(201).json({ success: true, message: 'Persona registrada correctamente', data: { id: results[0][0].id } });
     }
   );
 };

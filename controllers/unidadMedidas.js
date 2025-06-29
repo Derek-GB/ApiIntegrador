@@ -46,12 +46,13 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { nombre, idConsumible } = req.body;
 
-    if (!nombre == null || idConsumible == null ) {
+    if (!nombre ) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: nombre, idConsumible'
         });
     }
+    idConsumible = idConsumible || null; // Allow null for optional fields
 
     pool.query('CALL pa_InsertUnidadMedida(?, ?)', [nombre, idConsumible], (error, results) => {
         if (error) {

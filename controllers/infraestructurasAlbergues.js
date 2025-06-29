@@ -48,7 +48,13 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-    const {cocina,duchas,servicios_sanitarios,bodega,menaje_mobiliario,tanque_agua,area_total_m2} = req.body;
+    const {cocina,duchas,servicios_sanitarios,bodega,menaje_mobiliario,tanque_agua,area_total_m2, idAlbergue} = req.body;
+    if (!idAlbergue) {
+        return res.status(400).json({
+            success: false,
+            message: 'ID del albergue es obligatorio'
+        });
+    }
     if (cocina == null || duchas == null || servicios_sanitarios == null) {
         return res.status(400).json({
             success: false,
@@ -67,8 +73,8 @@ const postMethod = (req = request, res = response) => {
             message: 'El área total en m² es obligatoria'
         });
     }
-    pool.query('CALL pa_InsertInfraestructuraAlbergue(?, ?, ?, ?, ?, ?, ?)',[cocina,duchas,servicios_sanitarios,
-            bodega,menaje_mobiliario,tanque_agua,area_total_m2],(error, results) => {
+    pool.query('CALL pa_InsertInfraestructuraAlbergue(?, ?, ?, ?, ?, ?, ?, ?)',[cocina,duchas,servicios_sanitarios,
+            bodega,menaje_mobiliario,tanque_agua,area_total_m2,idAlbergue],(error, results) => {
             if (error) {
                 console.error('Error al insertar infraestructura del albergue:', error);
                 if (error.code === 'ER_DUP_ENTRY') {
@@ -87,13 +93,15 @@ const postMethod = (req = request, res = response) => {
                 success: true,
                 message: 'Infraestructura del albergue insertada correctamente',
                 data: {
+                    id: results[0][0].id,
                     cocina,
                     duchas,
                     servicios_sanitarios,
                     bodega,
                     menaje_mobiliario,
                     tanque_agua,
-                    area_total_m2
+                    area_total_m2,
+                    idAlbergue
                 }
             });
         }

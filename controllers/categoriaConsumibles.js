@@ -47,13 +47,13 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { nombre, idConsumible } = req.body;
 
-    if (!nombre == null || idConsumible == null ) {
+    if (!nombre ) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: nombre, idConsumible'
         });
     }
-
+    idConsumible = idConsumible ?? null; 
     pool.query('CALL pa_InsertCategoriaConsumible(?, ?)', [nombre, idConsumible], (error, results) => {
         if (error) {
             console.error('Error al insertar categoria:', error);
@@ -67,7 +67,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Categoria insertado correctamente',
             data: {
-                id: results[0][0].p_id, // Assuming the stored procedure returns the inserted
+                 id: results[0][0].id,
                 nombre, idConsumible
             }
         });

@@ -47,12 +47,17 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
 
-    if (!nombreUsuario || correo == null || contrasenaHash == null || rol == null || activo == null || idMunicipalidad == null || identificacion == null) {
+    if (!nombreUsuario || !correo || !contrasenaHash ) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion'
+            message: 'Faltan datos: nombreUsuario, correo, contrasenaHash '
         });
     }
+
+    rol = rol || null; // Allow null for optional fields
+    activo = activo || null; // Allow null for optional fields
+    idMunicipalidad = idMunicipalidad || null; // Allow null for optional fields
+    identificacion = identificacion || null; // Allow null for optional fields
 
     pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
         if (error) {

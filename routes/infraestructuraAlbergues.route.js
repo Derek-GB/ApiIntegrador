@@ -71,6 +71,7 @@ router.get('/id/:id', getMethod);
  *               - menaje_mobiliario
  *               - tanque_agua
  *               - area_total_m2
+ *              - idAlbergue
  *             properties:
  *               cocina:
  *                 type: boolean
@@ -86,6 +87,9 @@ router.get('/id/:id', getMethod);
  *                 type: boolean
  *               area_total_m2:
  *                 type: number
+ * *                 format: float
+ *               idAlbergue:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Infraestructura insertada correctamente

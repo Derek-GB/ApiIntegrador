@@ -47,12 +47,15 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
 
-    if (!codigoProducto || nombre == null || descripcion == null || cantidad == null || categoria == null || unidadMedida == null ) {
+    if (!codigoProducto || !nombre || !cantidad) {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida'
+            message: 'Faltan datos: codigoProducto, nombre, cantidad'
         });
     }
+    descripcion = descripcion || null; 
+    categoria = categoria || null;
+    unidadMedida = unidadMedida || null;
 
     pool.query(
         'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);',
@@ -69,7 +72,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto insertado correctamente',
             data: {
-                p_id: results[0][0].id,
+                id: results[0][0].p_id, 
                 codigoProducto,
                 nombre,
                 descripcion,

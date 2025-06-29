@@ -81,6 +81,7 @@ const postMethod = (req = request, res = response) => {
         success: true,
         message: "Amenaza insertada correctamente",
         data: {
+            p_id: results[0][0].id,
           familiaEvento,
           evento,
           peligro,

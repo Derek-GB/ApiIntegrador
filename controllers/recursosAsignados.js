@@ -51,7 +51,7 @@ const getMethod = (req = request, res = response) => {
 
 const postMethod = (req = request, res = response) => {
     const { idProducto, idPersona, cantidadAsignada } = req.body;
-    if (!idProducto || !idPersona || cantidadAsignada == null) {
+    if (!idProducto || !idPersona || !cantidadAsignada) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: idProducto, idPersona, cantidadAsignada son requeridos'
@@ -81,6 +81,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Recurso asignado insertado correctamente',
             data: {
+                id: results[0][0].p_id,
                 idProducto,
                 idPersona,
                 cantidadAsignada

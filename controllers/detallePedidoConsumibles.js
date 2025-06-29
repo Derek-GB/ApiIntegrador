@@ -47,7 +47,7 @@ const getMethod = (req = request, res = response) => {
 const postMethod = (req = request, res = response) => {
     const { idPedido, idConsumible, cantidad } = req.body;
 
-    if (!idPedido == null || idConsumible == null || cantidad == null) {
+    if (!idPedido || !idConsumible || !cantidad) {
         return res.status(400).json({
             success: false,
             message: 'Faltan datos: idPedido, idConsumible, cantidad'
@@ -67,13 +67,12 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Detalle insertado correctamente',
             data: {
-                id: results[0][0].p_id, // Assuming the stored procedure returns the inserted
+                id: results[0][0].id,
                 idPedido, idConsumible, cantidad
             }
         });
     });
 };
-
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
     const {idPedido, idConsumible, cantidad } = req.body;

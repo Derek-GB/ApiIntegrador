@@ -140,7 +140,8 @@ router.post('/', postMethod);
  *               tanque_agua:
  *                 type: boolean
  *               area_total_m2:
- *                 type: float
+ *                 type: number
+ *                 format: float
  *     responses:
  *       200:
  *         description: Infraestructura actualizada correctamente

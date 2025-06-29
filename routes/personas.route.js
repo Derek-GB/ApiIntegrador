@@ -84,7 +84,7 @@ router.get('/id/:id', getMethod);
  *               - idUsuarioModificacion
  *               - fechaMofificacion
  *             properties:
- *               idFamilia: { type: integer }
+ *               idFamilia: { type: string }
  *               nombre: { type: string }
  *               primerApellido: { type: string }
  *               segundoApellido: { type: string }
@@ -101,9 +101,9 @@ router.get('/id/:id', getMethod);
  *               idFirma: { type: integer }
  *               contactoEmergencia: { type: string }
  *               observaciones: { type: string }
- *               idUsuarioCreacion: { type: string }
+ *               idUsuarioCreacion: { type: integer }
  *               fechaCreacion: { type: string, format: date-time }
- *               idUsuarioModificacion: { type: string }
+ *               idUsuarioModificacion: { type: integer }
  *               fechaMofificacion: { type: string, format: date-time }
  *     responses:
  *       201:
@@ -153,7 +153,7 @@ router.post('/', postMethod);
  *               - fechaMofificacion
  *             properties:
  *               id: { type: integer }
- *               idFamilia: { type: integer }
+ *               idFamilia: { type: string }
  *               nombre: { type: string }
  *               primerApellido: { type: string }
  *               segundoApellido: { type: string }
@@ -170,9 +170,9 @@ router.post('/', postMethod);
  *               idFirma: { type: integer }
  *               contactoEmergencia: { type: string }
  *               observaciones: { type: string }
- *               idUsuarioCreacion: { type: string }
+ *               idUsuarioCreacion: { type: integer }
  *               fechaCreacion: { type: string, format: date-time }
- *               idUsuarioModificacion: { type: string }
+ *               idUsuarioModificacion: { type: integer }
  *               fechaMofificacion: { type: string, format: date-time }
  *     responses:
  *       200:
@@ -196,7 +196,7 @@ router.put('/', putMethod);
  *         name: id
  *         required: true
  *         schema:
- *           type: string
+ *           type: integer
  *         description: ID de la persona
  *     responses:
  *       200:

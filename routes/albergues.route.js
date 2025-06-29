@@ -71,20 +71,23 @@ router.get('/all', getAllMethod);
  *               - coordenadaX
  *               - coordenadaY
  *               - idUbicacion
+ *               - tipo_establecimiento
+ *               - tipo_albergue
+ *               - condicion_albergue
  *               - idCapacidad
  *               - idInfraestructura
  *               - idMunicipalidad
  *             properties:
  *               idAlbergue:
- *                 type: string
+ *                 type: integer
  *               nombre:
  *                 type: string
  *               region:
  *                 type: string
  *               coordenadaX:
- *                 type: integer
+ *                 type: number
  *               coordenadaY:
- *                 type: integer
+ *                 type: number
  *               idUbicacion:
  *                 type: integer
  *               tipo_establecimiento:
@@ -95,35 +98,52 @@ router.get('/all', getAllMethod);
  *                 type: string
  *               especificacion:
  *                 type: string
+ *                 nullable: true
  *               detalle_condicion:
  *                 type: string
+ *                 nullable: true
  *               administrador:
  *                 type: string
+ *                 nullable: true
  *               telefono:
  *                 type: string
+ *                 nullable: true
  *               idCapacidad:
  *                 type: integer
  *               seccion:
  *                 type: string
+ *                 nullable: true
  *               requerimientos_tecnicos:
  *                 type: string
+ *                 nullable: true
  *               costo_requerimientos_tecnicos:
- *                 type: integer
+ *                 type: number
+ *                 nullable: true
  *               idInfraestructura:
  *                 type: integer
  *               idMunicipalidad:
  *                 type: integer
  *               color:
  *                 type: string
+ *                 nullable: true
+ *               idPedidoAbarrote:
+ *                 type: integer
+ *                 nullable: true
+ *               idUsuarioCreacion:
+ *                 type: integer
+ *                 nullable: true
+ *               idUsuarioModificacion:
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Albergue insertado correctamente
  *       400:
- *         description: Datos faltantes u obligatorios no proporcionados
+ *         description: Faltan datos obligatorios
  *       409:
- *         description: ID de albergue ya existente
+ *         description: Ya existe un albergue con ese ID
  *       500:
- *         description: Error del servidor
+ *         description: Error al insertar albergue
  */
 router.post('/', postMethod);
 
@@ -191,13 +211,121 @@ router.put('/', putMethod);
  */
 router.delete('/id/:id', deleteMethod);
 
-
+/**
+ * @swagger
+ * /api/albergues/consulta/id/{id}:
+ *   get:
+ *     summary: Consultar albergue por ID
+ *     tags: 
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del albergue
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: ID no proporcionado
+ *       404:
+ *         description: Albergue no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.get('/consulta/id/:id', getForIdMethod);
 
-
+/**
+ * @swagger
+ * /api/albergues/consulta/nombre/{nombre}:
+ *   get:
+ *     summary: Consultar albergue por nombre
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: nombre
+ *         required: true
+ *         description: Nombre del albergue (codificado en URL si tiene espacios)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: Nombre no proporcionado
+ *       404:
+ *         description: Albergue no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
-
+/**
+ * @swagger
+ * /api/albergues/consulta/distrito/{distrito}:
+ *   get:
+ *     summary: Consultar albergues por distrito
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: distrito
+ *         required: true
+ *         description: Nombre del distrito (codificado si tiene espacios)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergues en el distrito obtenidos exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: Distrito no proporcionado
+ *       404:
+ *         description: Distrito no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.get('/consulta/distrito/:distrito', getForDistritoMethod);
 
 module.exports = router;

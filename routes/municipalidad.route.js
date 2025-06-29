@@ -69,37 +69,34 @@ router.get('/all', getAllMethod);
  *             required:
  *               - nombre
  *               - idUbicacion
- *               - telefono
- *               - correo
- *               - idAlbergue
- *               - idUsuario
- *               - idUsuarioCreacion
- *               - fechaCreacionUsuario
- *               - idUsuarioModificacion
- *               - fechaModificacionUsuario
  *             properties:
  *               nombre:
  *                 type: string
  *               idUbicacion:
- *                 type: int
+ *                 type: integer
  *               telefono:
  *                 type: string
+ *                 nullable: true
  *               correo:
  *                 type: string
+ *                 nullable: true
  *               idAlbergue:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *               idUsuario:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *               idUsuarioCreacion:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *               idUsuarioModificacion:
- *                 type: int
- *               
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Municipalidad insertada correctamente
  *       400:
- *         description: Datos faltantes en el cuerpo de la solicitud
+ *         description: Datos faltantes
  *       500:
  *         description: Error al insertar municipalidad
  */

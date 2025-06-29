@@ -53,13 +53,16 @@ const postMethod = (req = request, res = response) => {
     idUsuarioCreacion,
   } = req.body;
 
-  if (!idFamilia || !tipoAyuda || !fecachaEntrega) {
+  if (!idFamilia || !tipoAyuda || !fechaEntrega) {
     return res.status(400).json({
       success: false,
       message:
         "Faltan datos: idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion",
     });
   }
+
+  responsable = responsable || null; // Si no se proporciona, se establece como null
+  idUsuarioCreacion = idUsuarioCreacion || null; // Si no se proporciona, se establece como null
 
   pool.query(
     "CALL pa_InsertReferencia(?, ?, ?, ?, ?, ?)",
@@ -91,7 +94,7 @@ const postMethod = (req = request, res = response) => {
           fechaEntrega,
           responsable,
           idUsuarioCreacion,
-          idUsuarioModificacion,
+          
         },
       });
     }

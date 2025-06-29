@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/categoriaConsumibles:
+ * /api/categoria-consumible:
  *   post:
  *     tags:
- *       - Categorías de Consumibles
+ *       - CategoriaConsumible
  *     summary: Insertar una nueva categoría de consumible
  *     requestBody:
  *       required: true
@@ -63,19 +63,19 @@ router.get('/all', getAllMethod);
  *             type: object
  *             required:
  *               - nombre
- *               - idConsumible
  *             properties:
  *               nombre:
  *                 type: string
  *               idConsumible:
  *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Categoría insertada correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error del servidor
+ *         description: Error al insertar categoría de consumible
  */
 router.post('/', postMethod);
 

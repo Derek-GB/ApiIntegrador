@@ -37,7 +37,7 @@ router.get('/id/:id',   getMethod);
 
 /**
  * @swagger
- * /api/unidades:
+ * /api/unidades-medida:
  *   post:
  *     tags:
  *       - Unidades de Medida
@@ -50,15 +50,15 @@ router.get('/id/:id',   getMethod);
  *             type: object
  *             required:
  *               - nombre
- *               - idConsumible
  *             properties:
  *               nombre:
  *                 type: string
  *               idConsumible:
  *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
- *         description: Unidad de medida insertada correctamente
+ *         description: Unidad insertada correctamente
  *       400:
  *         description: Datos faltantes
  *       500:

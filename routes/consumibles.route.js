@@ -72,13 +72,16 @@ router.get('/all', getAllMethod);
  *                 type: integer
  *               idCategoria:
  *                 type: integer
+ *               idCantidadPorPersona:
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Consumible insertado correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar
+ *         description: Error al insertar consumible
  */
 router.post('/', postMethod);
 

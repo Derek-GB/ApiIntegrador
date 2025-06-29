@@ -41,7 +41,7 @@ router.get('/id/:id',   getMethod);
  *   post:
  *     tags:
  *       - Referencias
- *     summary: Insertar una nueva referencia
+ *     summary: Insertar una nueva referencia de ayuda
  *     requestBody:
  *       required: true
  *       content:
@@ -51,11 +51,7 @@ router.get('/id/:id',   getMethod);
  *             required:
  *               - idFamilia
  *               - tipoAyuda
- *               - descripcion
  *               - fechaEntrega
- *               - responsable
- *               - idUsuarioCreacion
- *               - idUsuarioModificacion
  *             properties:
  *               idFamilia:
  *                 type: integer
@@ -69,8 +65,6 @@ router.get('/id/:id',   getMethod);
  *               responsable:
  *                 type: string
  *               idUsuarioCreacion:
- *                 type: integer
- *               idUsuarioModificacion:
  *                 type: integer
  *     responses:
  *       201:

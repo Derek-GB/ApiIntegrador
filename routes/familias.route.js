@@ -73,16 +73,22 @@ router.get('/all', getAllMethod);
  *               cantidadPersonas:
  *                 type: integer
  *               idAlbergue:
- *                 type: string
+ *                 type: integer
  *               idUbicacion:
- *                 type: string
+ *                 type: integer
  *               idAmenaza:
- *                 type: string
+ *                 type: integer
+ *               idPersona:
+ *                 type: integer
+ *                 nullable: true
+ *               idUsuarioCreacion:
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Familia insertada correctamente
  *       400:
- *         description: Datos obligatorios faltantes
+ *         description: Datos faltantes
  *       500:
  *         description: Error al insertar familia
  */

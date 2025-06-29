@@ -1,6 +1,6 @@
-const {Router}= require('express');
+const { Router } = require("express");
 
-const router=Router();
+const router = Router();
 
 const {
   getAllMethod,
@@ -8,8 +8,7 @@ const {
   postMethod,
   putMethod,
   deleteMethod,
-  }=require('../controllers/ubicaciones');
-
+} = require("../controllers/ubicaciones");
 
 /**
  * @swagger
@@ -34,8 +33,8 @@ const {
  *         description: Error al obtener ubicación
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
-    
+router.get("/id/:id", getMethod);
+
 /**
  * @swagger
  * /api/ubicaciones:
@@ -50,7 +49,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener ubicaciones
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get("/all", getAllMethod);
 
 /**
  * @swagger
@@ -70,9 +69,6 @@ router.get('/all', getAllMethod);
  *               - canton
  *               - distrito
  *               - direccion
- *               - idFamilia
- *               - idAlbergue
- *               - idMunicipalidad
  *             properties:
  *               provincia:
  *                 type: string
@@ -83,22 +79,24 @@ router.get('/all', getAllMethod);
  *               direccion:
  *                 type: string
  *               idFamilia:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *               idAlbergue:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *               idMunicipalidad:
- *                 type: int
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Ubicación insertada correctamente
  *       400:
- *         description: Datos faltantes en el cuerpo de la solicitud
+ *         description: Datos faltantes
  *       500:
  *         description: Error al insertar ubicación
  */
 // Registrar o insertar
-router.post('/', postMethod);
-
+router.post("/", postMethod);
 
 /**
  * @swagger
@@ -123,7 +121,7 @@ router.post('/', postMethod);
  *         description: Error al eliminar ubicación
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete("/id/:id", deleteMethod);
 
 /**
  * @swagger
@@ -173,6 +171,6 @@ router.delete('/id/:id', deleteMethod);
  *         description: Error al actualizar ubicación
  */
 // //Actualizar
-router.put('/',   putMethod);
+router.put("/", putMethod);
 
-module.exports=router;
+module.exports = router;

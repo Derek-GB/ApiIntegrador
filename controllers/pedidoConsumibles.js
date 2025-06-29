@@ -61,14 +61,6 @@ const postMethod = (req = request, res = response) => {
   idConsumible = idConsumible || null;
   idUsuarioCreacion = idUsuarioCreacion || null;
 
-  {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Faltan datos: tipoComida, cantidadPersonas, idAlbergue, idUsuarioCreacion",
-    });
-  }
-
   pool.query(
     "CALL pa_InsertPedidoConsumible(?, ?, ?, ?, ?)",
     [tipoComida, cantidadPersonas, idConsumible, idAlbergue, idUsuarioCreacion],
@@ -85,15 +77,12 @@ const postMethod = (req = request, res = response) => {
         success: true,
         message: "Pedido consumible insertado correctamente",
         data: {
-          id: results[0][0].p_id, 
-          fechaCreacion,
+          id: results[0][0].p_id,
           tipoComida,
           cantidadPersonas,
+          idConsumible,
           idAlbergue,
           idUsuarioCreacion,
-          fechaCreacionUsuario,
-          idUsuarioModificacion,
-          fechaModificacionUsuario,
         },
       });
     }

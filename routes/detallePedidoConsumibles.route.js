@@ -50,11 +50,11 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/detallePedidoConsumibles:
+ * /api/detalle-pedido-consumible:
  *   post:
  *     tags:
- *       - DetallePedidoConsumibles
- *     summary: Insertar un nuevo detalle de pedido de consumible
+ *       - DetallePedidoConsumible
+ *     summary: Insertar un nuevo detalle de pedido consumible
  *     requestBody:
  *       required: true
  *       content:
@@ -71,14 +71,14 @@ router.get('/all', getAllMethod);
  *               idConsumible:
  *                 type: integer
  *               cantidad:
- *                 type: integer
+ *                 type: number
  *     responses:
  *       201:
  *         description: Detalle insertado correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar
+ *         description: Error al insertar detalle de pedido consumible
  */
 router.post('/', postMethod);
 

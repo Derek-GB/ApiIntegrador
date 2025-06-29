@@ -52,10 +52,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/firmasDigitales:
+ * /api/firma-digital:
  *   post:
  *     tags:
- *       - FirmasDigitales
+ *       - FirmaDigital
  *     summary: Insertar una nueva firma digital
  *     requestBody:
  *       required: true
@@ -65,19 +65,19 @@ router.get('/all', getAllMethod);
  *             type: object
  *             required:
  *               - firma
- *               - idPersona
  *             properties:
- *               firma:
- *                 type: string
  *               idPersona:
  *                 type: integer
+ *                 nullable: true
+ *               firma:
+ *                 type: string
  *     responses:
  *       201:
- *         description: Firma insertada correctamente
+ *         description: Firma digital insertada correctamente
  *       400:
- *         description: Datos faltantes o firma vacía
+ *         description: Datos faltantes o firma inválida
  *       500:
- *         description: Error al insertar
+ *         description: Error al insertar firma digital
  */
 router.post('/', postMethod);
 

@@ -35,6 +35,7 @@ const {
 //Devolver datos desde mi API
 router.get('/id/:id',   getMethod);
 
+
 /**
  * @swagger
  * /api/usuarios:
@@ -52,10 +53,6 @@ router.get('/id/:id',   getMethod);
  *               - nombreUsuario
  *               - correo
  *               - contrasenaHash
- *               - rol
- *               - activo
- *               - idMunicipalidad
- *               - identificacion
  *             properties:
  *               nombreUsuario:
  *                 type: string

@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/condicionesEspeciales:
+ * /api/condiciones-especiales:
  *   post:
  *     tags:
- *       - Condiciones Especiales
+ *       - CondicionesEspeciales
  *     summary: Insertar una nueva condición especial
  *     requestBody:
  *       required: true
@@ -63,31 +63,31 @@ router.get('/all', getAllMethod);
  *             type: object
  *             required:
  *               - discapacidad
- *               - tipoDiscapacidad
- *               - subtipoDiscapacidad
  *               - tieneCondicionSalud
- *               - condicionSaludId
- *               - idPersona
  *             properties:
+ *               idPersona:
+ *                 type: integer
+ *                 nullable: true
  *               discapacidad:
- *                 type: string
+ *                 type: boolean
  *               tipoDiscapacidad:
  *                 type: string
+ *                 nullable: true
  *               subtipoDiscapacidad:
  *                 type: string
+ *                 nullable: true
  *               tieneCondicionSalud:
  *                 type: boolean
  *               condicionSaludId:
- *                 type: string
- *               idPersona:
- *                 type: number
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Condición especial insertada correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar
+ *         description: Error al insertar condición especial
  */
 router.post('/', postMethod);
 

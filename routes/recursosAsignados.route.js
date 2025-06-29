@@ -73,8 +73,8 @@ router.get('/all', getAllMethod);
  * /api/recursos-asignados:
  *   post:
  *     tags:
- *       - Recursos Asignados
- *     summary: Crear un nuevo recurso asignado
+ *       - RecursosAsignados
+ *     summary: Asignar un recurso (producto) a una persona
  *     requestBody:
  *       required: true
  *       content:
@@ -94,11 +94,11 @@ router.get('/all', getAllMethod);
  *                 type: number
  *     responses:
  *       201:
- *         description: Recurso asignado creado correctamente
+ *         description: Recurso asignado insertado correctamente
  *       400:
- *         description: Datos faltantes o referencias inexistentes
+ *         description: Datos faltantes o claves foráneas inválidas
  *       409:
- *         description: Ya existe una asignación para esa combinación
+ *         description: Recurso ya asignado previamente
  *       500:
  *         description: Error al insertar recurso asignado
  */

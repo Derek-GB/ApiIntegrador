@@ -50,10 +50,10 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/condicionesSalud:
+ * /api/condiciones-salud:
  *   post:
  *     tags:
- *       - Condiciones Salud
+ *       - CondicionesSalud
  *     summary: Insertar una nueva condición de salud
  *     requestBody:
  *       required: true
@@ -63,19 +63,19 @@ router.get('/all', getAllMethod);
  *             type: object
  *             required:
  *               - descripcion
- *               - idCondicionesEspeciales
  *             properties:
  *               descripcion:
  *                 type: string
  *               idCondicionesEspeciales:
  *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Condición de salud insertada correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar
+ *         description: Error al insertar condición de salud
  */
 router.post('/', postMethod);
 

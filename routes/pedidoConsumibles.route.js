@@ -52,11 +52,11 @@ router.get('/id/:id', getMethod);
 
 /**
  * @swagger
- * /api/pedidoConsumibles:
+ * /api/pedidosConsumibles:
  *   post:
  *     tags:
- *       - PedidoConsumibles
- *     summary: Insertar un nuevo pedido de consumibles
+ *       - PedidosConsumibles
+ *     summary: Insertar un nuevo pedido consumible
  *     requestBody:
  *       required: true
  *       content:
@@ -64,43 +64,29 @@ router.get('/id/:id', getMethod);
  *           schema:
  *             type: object
  *             required:
- *               - fechaCreacion
  *               - tipoComida
  *               - cantidadPersonas
  *               - idAlbergue
- *               - idUsuarioCreacion
- *               - fechaCreacionUsuario
- *               - idUsuarioModificacion
- *               - fechaModificacionUsuario
  *             properties:
- *               fechaCreacion:
- *                 type: string
- *                 format: date
  *               tipoComida:
  *                 type: string
  *               cantidadPersonas:
  *                 type: integer
+ *               idConsumible:
+ *                 type: integer
+ *                 nullable: true
  *               idAlbergue:
  *                 type: integer
  *               idUsuarioCreacion:
  *                 type: integer
- *               fechaCreacionUsuario:
- *                 type: date
- *                 format: date-time
- *                 description: Fecha de creación del usuario (aaaaa-mm-dd)
- *               idUsuarioModificacion:
- *                 type: string
- *               fechaModificacionUsuario:
- *                 type: date
- *                 format: date-time
- *                 description: Fecha de modificación del usuario (aaaaa-mm-dd)
+ *                 nullable: true
  *     responses:
  *       201:
- *         description: Pedido insertado correctamente
+ *         description: Pedido consumible insertado correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error del servidor
+ *         description: Error al insertar pedido consumible
  */
 router.post('/', postMethod);
 

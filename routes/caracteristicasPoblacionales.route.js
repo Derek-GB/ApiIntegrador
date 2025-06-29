@@ -50,11 +50,11 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/caracteristicasPoblacionales:
+ * /api/caracteristicas-poblacionales:
  *   post:
  *     tags:
- *       - Características Poblacionales
- *     summary: Insertar una nueva característica poblacional
+ *       - CaracteristicasPoblacionales
+ *     summary: Insertar nuevas características poblacionales
  *     requestBody:
  *       required: true
  *       content:
@@ -64,7 +64,6 @@ router.get('/all', getAllMethod);
  *             required:
  *               - migrante
  *               - indigena
- *               - idPersona
  *             properties:
  *               migrante:
  *                 type: boolean
@@ -72,13 +71,14 @@ router.get('/all', getAllMethod);
  *                 type: boolean
  *               idPersona:
  *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
- *         description: Característica insertada correctamente
+ *         description: Características poblacionales insertadas correctamente
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error del servidor
+ *         description: Error al insertar características poblacionales
  */
 router.post('/', postMethod);
 

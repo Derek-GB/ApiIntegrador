@@ -85,10 +85,10 @@ router.post('/', postMethod);
 /**
  * @swagger
  * /api/amenazas:
- *   put:
+ *   post:
  *     tags:
  *       - Amenazas
- *     summary: Actualizar una amenaza existente
+ *     summary: Insertar una nueva amenaza
  *     requestBody:
  *       required: true
  *       content:
@@ -96,26 +96,29 @@ router.post('/', postMethod);
  *           schema:
  *             type: object
  *             required:
- *               - id
  *               - familiaEvento
  *               - evento
- *               - peligro
  *             properties:
- *               id:
- *                 type: integer
  *               familiaEvento:
  *                 type: string
  *               evento:
  *                 type: string
  *               peligro:
  *                 type: string
+ *                 nullable: true
+ *               idFamilia:
+ *                 type: integer
+ *                 nullable: true
+ *               idUsuarioCreacion:
+ *                 type: integer
+ *                 nullable: true
  *     responses:
- *       200:
- *         description: Amenaza actualizada correctamente
+ *       201:
+ *         description: Amenaza insertada correctamente
  *       400:
- *         description: Datos faltantes
+ *         description: Faltan datos: familiaEvento, evento
  *       500:
- *         description: Error al actualizar la amenaza
+ *         description: Error al insertar amenaza
  */
 router.put('/', putMethod);
 

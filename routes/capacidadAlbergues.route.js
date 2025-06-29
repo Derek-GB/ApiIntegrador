@@ -50,11 +50,11 @@ router.get('/all', getAllMethod);
 
 /**
  * @swagger
- * /api/capacidadAlbergues:
+ * /api/capacidad-albergue:
  *   post:
  *     tags:
- *       - Capacidad Albergues
- *     summary: Insertar una nueva capacidad de albergue
+ *       - CapacidadAlbergue
+ *     summary: Insertar un nuevo registro de capacidad de albergue
  *     requestBody:
  *       required: true
  *       content:
@@ -62,34 +62,38 @@ router.get('/all', getAllMethod);
  *           schema:
  *             type: object
  *             required:
- *               - capacidad_personas
- *               - capacidad_colectiva
- *               - cantidad_familias
+ *               - capacidadPersonas
+ *               - capacidadColectiva
+ *               - cantidadFamilias
  *               - ocupacion
  *               - egresos
- *               - sospechosos_sanos
  *             properties:
- *               capacidad_personas:
+ *               idAlbergue:
  *                 type: integer
- *               capacidad_colectiva:
+ *                 nullable: true
+ *               capacidadPersonas:
  *                 type: integer
- *               cantidad_familias:
+ *               capacidadColectiva:
+ *                 type: integer
+ *               cantidadFamilias:
  *                 type: integer
  *               ocupacion:
  *                 type: integer
  *               egresos:
  *                 type: integer
- *               sospechosos_sanos:
+ *               sospechososSanos:
  *                 type: integer
+ *                 nullable: true
  *               otros:
  *                 type: string
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Registro creado correctamente
  *       400:
  *         description: Faltan campos obligatorios
  *       500:
- *         description: Error al crear el registro
+ *         description: Error al crear registro
  */
 router.post('/', postMethod);
 

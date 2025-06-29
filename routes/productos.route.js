@@ -70,10 +70,7 @@ router.get('/all', getAllMethod);
  *             required:
  *               - codigoProducto
  *               - nombre
- *               - descripcion
  *               - cantidad
- *               - categoria
- *               - unidadMedida
  *             properties:
  *               codigoProducto:
  *                 type: string
@@ -82,16 +79,16 @@ router.get('/all', getAllMethod);
  *               descripcion:
  *                 type: string
  *               cantidad:
- *                 type: integer
+ *                 type: number
  *               categoria:
- *                 type: string
+ *                 type: integer
  *               unidadMedida:
- *                 type: string
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Producto insertado correctamente
  *       400:
- *         description: Datos faltantes en el cuerpo de la solicitud
+ *         description: Datos faltantes
  *       500:
  *         description: Error al insertar producto
  */

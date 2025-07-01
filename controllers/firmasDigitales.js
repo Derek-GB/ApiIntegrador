@@ -50,8 +50,13 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  let{ idPersona, firma } = req.body;
-  console.log(firma);
+  let { idPersona, firma } = req.body;
+
+  if (firma.startsWith("data:")) {
+    firma = firma.split(",")[1];
+  }
+  
+  firma = Buffer.from(firma, "base64");
   if (!firma) {
     return res.status(400).json({
       success: false,

@@ -51,6 +51,7 @@ const getMethod = (req = request, res = response) => {
 
 const postMethod = (req = request, res = response) => {
   let{ idPersona, firma } = req.body;
+  console.log(firma);
   if (!firma) {
     return res.status(400).json({
       success: false,

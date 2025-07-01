@@ -102,7 +102,23 @@ const postMethod = (req = request, res = response) => {
     idCondicionesPoblacionales == null ||
     idFirma == null
   ) {
-    return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
+    return res.status(400).json({ success: false, message: 'Faltan datos requeridos', datosValidados : {
+      idFamilia,
+      nombre,
+      primerApellido,
+      segundoApellido,
+      tipoIdentificacion,
+      numIdentificacion,
+      nacionalidad,
+      parentesco,
+      fechaNacimiento,
+      genero,
+      sexo,
+      telefono,
+      idCondicionesEspeciales,
+      idCondicionesPoblacionales,
+      idFirma
+    } });
   }
 
   pool.query(

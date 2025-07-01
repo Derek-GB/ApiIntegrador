@@ -1,16 +1,17 @@
-const { request, response } = require('express');
-const { pool } = require('../MySQL/basedatos');
-const { put } = require('../routes/productos.route');
-
+const { request, response } = require("express");
+const { pool } = require("../MySQL/basedatos");
+const { put } = require("../routes/productos.route");
 
 const getAllMethod = (req = request, res = response) => {
-  pool.query('CALL pa_SelectAllPersona', (error, results) => {
+  pool.query("CALL pa_SelectAllPersona", (error, results) => {
     if (error) {
-      console.error('Error en getAllMethod:', error);
-      return res.status(500).json({ success: false, error: 'Error al obtener las personas' });
+      console.error("Error en getAllMethod:", error);
+      return res
+        .status(500)
+        .json({ success: false, error: "Error al obtener las personas" });
     }
 
-    const data = results[0].map(persona => ({
+    const data = results[0].map((persona) => ({
       id: persona.id_INT,
       idFamilia: persona.idFamilia_INT,
       nombreCompleto: persona.nombreCompleto_VARCHAR,
@@ -26,13 +27,13 @@ const getAllMethod = (req = request, res = response) => {
       idCondicionesPoblacionales: persona.idCondicionesPoblacionales_INT,
       idFirma: persona.idFirma_INT,
       contactoEmergencia: persona.contactoEmergencia_VARCHAR,
-      observaciones: persona.observaciones_VARCHAR
+      observaciones: persona.observaciones_VARCHAR,
     }));
 
     res.json({
-            success: true,
-            data: results[0]
-        });
+      success: true,
+      data: results[0],
+    });
   });
 };
 
@@ -40,14 +41,18 @@ const getAllMethod = (req = request, res = response) => {
 const getMethod = (req = request, res = response) => {
   const { id } = req.params;
 
-  pool.query('CALL pa_SelectPersona(?)', [id], (error, results) => {
+  pool.query("CALL pa_SelectPersona(?)", [id], (error, results) => {
     if (error) {
-      console.error('Error en getPersona:', error);
-      return res.status(500).json({ success: false, error: 'Error al obtener persona' });
+      console.error("Error en getPersona:", error);
+      return res
+        .status(500)
+        .json({ success: false, error: "Error al obtener persona" });
     }
 
     if (results[0].length === 0) {
-      return res.status(404).json({ success: false, message: 'Persona no encontrada' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Persona no encontrada" });
     }
 
     res.json({ success: true, data: results[0][0] });
@@ -56,7 +61,7 @@ const getMethod = (req = request, res = response) => {
 
 // Insertar nueva persona
 const postMethod = (req = request, res = response) => {
-  let{
+  let {
     idFamilia,
     nombre,
     primerApellido,
@@ -102,27 +107,31 @@ const postMethod = (req = request, res = response) => {
     idCondicionesPoblacionales == null ||
     idFirma == null
   ) {
-    return res.status(400).json({ success: false, message: 'Faltan datos requeridos', datosValidados : {
-      idFamilia,
-      nombre,
-      primerApellido,
-      segundoApellido,
-      tipoIdentificacion,
-      numIdentificacion,
-      nacionalidad,
-      parentesco,
-      fechaNacimiento,
-      genero,
-      sexo,
-      telefono,
-      idCondicionesEspeciales,
-      idCondicionesPoblacionales,
-      idFirma
-    } });
+    return res.status(400).json({
+      success: false,
+      message: "Faltan datos requeridos",
+      datosValidados: {
+        idFamilia: idFamilia,
+        nombre: nombre,
+        primerApellido: primerApellido,
+        segundoApellido: segundoApellido,
+        tipoIdentificacion: tipoIdentificacion,
+        numIdentificacion: numIdentificacion,
+        nacionalidad: nacionalidad,
+        parentesco: parentesco,
+        fechaNacimiento: fechaNacimiento,
+        genero: genero,
+        sexo: sexo,
+        telefono: telefono,
+        idCondicionesEspeciales: idCondicionesEspeciales,
+        idCondicionesPoblacionales: idCondicionesPoblacionales,
+        idFirma: idFirma,
+      },
+    });
   }
 
   pool.query(
-    'CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       idFamilia,
       nombre,
@@ -142,17 +151,25 @@ const postMethod = (req = request, res = response) => {
       contactoEmergencia,
       observaciones,
       idUsuarioCreacion,
-    fechaCreacion,
-    idUsuarioModificacion,
-    fechaMofificacion,
+      fechaCreacion,
+      idUsuarioModificacion,
+      fechaMofificacion,
     ],
     (error, results) => {
       if (error) {
-        console.error('Error en postPersona:', error);
-        return res.status(500).json({ success: false, error: 'Error al insertar persona' });
+        console.error("Error en postPersona:", error);
+        return res
+          .status(500)
+          .json({ success: false, error: "Error al insertar persona" });
       }
 
-      res.status(201).json({ success: true, message: 'Persona registrada correctamente', data: { id: results[0][0].id } });
+      res
+        .status(201)
+        .json({
+          success: true,
+          message: "Persona registrada correctamente",
+          data: { id: results[0][0].id },
+        });
     }
   );
 };
@@ -160,24 +177,24 @@ const postMethod = (req = request, res = response) => {
 // Actualizar persona por ID
 const putMethod = (req = request, res = response) => {
   const {
-   idFamilia,
-      nombre,
-      primerApellido,
-      segundoApellido,
-      tipoIdentificacion,
-      numIdentificacion,
-      nacionalidad,
-      parentesco,
-      fechaNacimiento,
-      genero,
-      sexo,
-      telefono,
-      idCondicionesEspeciales,
-      idCondicionesPoblacionales,
-      idFirma,
-      contactoEmergencia,
-      observaciones,
-      idUsuarioCreacion,
+    idFamilia,
+    nombre,
+    primerApellido,
+    segundoApellido,
+    tipoIdentificacion,
+    numIdentificacion,
+    nacionalidad,
+    parentesco,
+    fechaNacimiento,
+    genero,
+    sexo,
+    telefono,
+    idCondicionesEspeciales,
+    idCondicionesPoblacionales,
+    idFirma,
+    contactoEmergencia,
+    observaciones,
+    idUsuarioCreacion,
     fechaCreacion,
     idUsuarioModificacion,
     fechaMofificacion,
@@ -187,7 +204,7 @@ const putMethod = (req = request, res = response) => {
     !id ||
     !idFamilia ||
     !nombre ||
-    !primerApellido||
+    !primerApellido ||
     !segundoApellido ||
     !tipoIdentificacion ||
     !numIdentificacion ||
@@ -207,11 +224,13 @@ const putMethod = (req = request, res = response) => {
     !idUsuarioModificacion ||
     !fechaMofificacion
   ) {
-    return res.status(400).json({ success: false, message: 'Faltan datos requeridos o el ID' });
+    return res
+      .status(400)
+      .json({ success: false, message: "Faltan datos requeridos o el ID" });
   }
 
   pool.query(
-    'CALL pa_UpdatePersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    "CALL pa_UpdatePersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       idFamilia,
       nombre,
@@ -231,37 +250,39 @@ const putMethod = (req = request, res = response) => {
       contactoEmergencia,
       observaciones,
       idUsuarioCreacion,
-    fechaCreacion,
-    idUsuarioModificacion,
-    fechaMofificacion,
+      fechaCreacion,
+      idUsuarioModificacion,
+      fechaMofificacion,
     ],
     (error, results) => {
       if (error) {
-        console.error('Error en putPersona:', error);
-        return res.status(500).json({ success: false, error: 'Error al actualizar persona' });
+        console.error("Error en putPersona:", error);
+        return res
+          .status(500)
+          .json({ success: false, error: "Error al actualizar persona" });
       }
 
       res.status(200).json({
         success: true,
-        message: 'Persona actualizada correctamente',
+        message: "Persona actualizada correctamente",
       });
     }
   );
 };
 
-
-
 // Eliminar persona por ID
 const deleteMethod = (req = request, res = response) => {
   const { id } = req.params;
 
-  pool.query('CALL pa_DeletePersona(?)', [id], (error, results) => {
+  pool.query("CALL pa_DeletePersona(?)", [id], (error, results) => {
     if (error) {
-      console.error('Error en deletePersona:', error);
-      return res.status(500).json({ success: false, error: 'Error al eliminar persona' });
+      console.error("Error en deletePersona:", error);
+      return res
+        .status(500)
+        .json({ success: false, error: "Error al eliminar persona" });
     }
 
-    res.json({ success: true, message: 'Persona eliminada correctamente' });
+    res.json({ success: true, message: "Persona eliminada correctamente" });
   });
 };
 

@@ -44,7 +44,7 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  const { nombre, idUnidadMedida, idCategoria, idCantidadPorPersona } =
+  let{ nombre, idUnidadMedida, idCategoria, idCantidadPorPersona } =
     req.body;
 
   if (!nombre || idUnidadMedida || idCategoria) {

@@ -44,7 +44,7 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  const { descripcion, idCondicionesEspeciales } = req.body;
+  let { descripcion, idCondicionesEspeciales } = req.body;
 
   if (!descripcion) {
     return res.status(400).json({
@@ -70,7 +70,7 @@ const postMethod = (req = request, res = response) => {
         success: true,
         message: "Condiciones de salud insertada correctamente",
         data: {
-          id: results[0][0].p_id,
+          id: results[0][0].id,
           descripcion,
           idCondicionesEspeciales,
         },

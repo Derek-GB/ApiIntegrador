@@ -65,7 +65,7 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  const {
+  let{
     idAlbergue,
     nombre,
     region,

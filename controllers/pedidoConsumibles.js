@@ -44,7 +44,7 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  const {
+  let{
     tipoComida,
     cantidadPersonas,
     idConsumible,

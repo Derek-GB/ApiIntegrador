@@ -19,7 +19,7 @@ const getAllMethod = (req = request, res = response) => {
 };
 
 const getMethod = (req = request, res = response) => {
-    const { id } = req.params;
+    let { id } = req.params;
     pool.query('CALL pa_SelectDetallePedidoConsumible(?)', [id], (error, results) => {
         if (error) {
             console.error('Error en getMethod:', error);

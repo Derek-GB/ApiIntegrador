@@ -43,7 +43,7 @@ const getMethod = (req = request, res = response) => {
 
 // Crear nuevo registro
 const postMethod = (req = request, res = response) => {
-  const {
+  let{
     idAlbergue,
     capacidadPersonas,
     capacidadColectiva,

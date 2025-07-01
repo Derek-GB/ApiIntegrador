@@ -56,7 +56,7 @@ const getMethod = (req = request, res = response) => {
 
 // Insertar nueva persona
 const postMethod = (req = request, res = response) => {
-  const {
+  let{
     idFamilia,
     nombre,
     primerApellido,

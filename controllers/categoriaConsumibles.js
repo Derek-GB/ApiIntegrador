@@ -45,7 +45,7 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { nombre, idConsumible } = req.body;
+    let { nombre, idConsumible } = req.body;
 
     if (!nombre ) {
         return res.status(400).json({

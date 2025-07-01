@@ -45,7 +45,7 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
+    let { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
 
     if (!nombreUsuario || !correo || !contrasenaHash ) {
         return res.status(400).json({

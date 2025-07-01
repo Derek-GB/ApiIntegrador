@@ -52,7 +52,7 @@ const getMethod = (req = request, res = response) => {
 
 const postMethod = (req = request, res = response) => {
   // Llama al procedimiento almacenado para insertar una nueva amenaza
-  const { familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion } =
+  let { familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion } =
     req.body;
 
   if (!familiaEvento || !evento) {

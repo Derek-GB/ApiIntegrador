@@ -45,7 +45,7 @@ const getMethod = (req = request, res = response) => {
 
 
 const postMethod = (req = request, res = response) => {
-    const { migrante, indigena, idPersona } = req.body;
+    let { migrante, indigena, idPersona } = req.body;
 
     if (!migrante || !indigena) {
         return res.status(400).json({

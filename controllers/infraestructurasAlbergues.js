@@ -48,7 +48,7 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-    const {cocina,duchas,servicios_sanitarios,bodega,menaje_mobiliario,tanque_agua,area_total_m2, idAlbergue} = req.body;
+    let {cocina,duchas,servicios_sanitarios,bodega,menaje_mobiliario,tanque_agua,area_total_m2, idAlbergue} = req.body;
     if (!idAlbergue) {
         return res.status(400).json({
             success: false,

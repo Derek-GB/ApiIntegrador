@@ -77,12 +77,6 @@ router.get('/id/:id', getMethod);
  *               - idCondicionesEspeciales
  *               - idCondicionesPoblacionales
  *               - idFirma
- *               - contactoEmergencia
- *               - observaciones
- *               - idUsuarioCreacion
- *               - fechaCreacion
- *               - idUsuarioModificacion
- *               - fechaMofificacion
  *             properties:
  *               idFamilia: { type: string }
  *               nombre: { type: string }
@@ -102,9 +96,7 @@ router.get('/id/:id', getMethod);
  *               contactoEmergencia: { type: string }
  *               observaciones: { type: string }
  *               idUsuarioCreacion: { type: integer }
- *               fechaCreacion: { type: string, format: date-time }
  *               idUsuarioModificacion: { type: integer }
- *               fechaMofificacion: { type: string, format: date-time }
  *     responses:
  *       201:
  *         description: Persona registrada correctamente

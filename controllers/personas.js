@@ -75,10 +75,15 @@ const postMethod = (req = request, res = response) => {
     contactoEmergencia,
     observaciones,
     idUsuarioCreacion,
-    fechaCreacion,
     idUsuarioModificacion,
-    fechaMofificacion,
   } = req.body;
+
+  fechaCreacion = null;
+  fechaMofificacion = null;
+  idUsuarioCreacion = idUsuarioCreacion ?? null;
+  idUsuarioModificacion = idUsuarioModificacion ?? null;
+  observaciones = observaciones ?? null;
+  contactoEmergencia = contactoEmergencia ?? null;
 
   if (
     !idFamilia ||
@@ -95,12 +100,7 @@ const postMethod = (req = request, res = response) => {
     !telefono ||
     idCondicionesEspeciales == null ||
     idCondicionesPoblacionales == null ||
-    idFirma == null ||
-    !observaciones ||
-    !idUsuarioCreacion ||
-    !fechaCreacion ||
-    !idUsuarioModificacion ||
-    !fechaMofificacion
+    idFirma == null
   ) {
     return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
   }

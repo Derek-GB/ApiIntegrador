@@ -71,6 +71,8 @@ router.get('/all', getAllMethod);
  *                 nullable: true
  *               firma:
  *                 type: string
+ *                 format: binary
+ *                 description: Contenido BLOB o LONGBlOB de la firma digital
  *     responses:
  *       201:
  *         description: Firma digital insertada correctamente

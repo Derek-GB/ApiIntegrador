@@ -31,7 +31,7 @@ const {
  *       404:
  *         description: Firma no encontrada
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -46,7 +46,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de firmas obtenida correctamente
  *       500:
- *         description: Error al obtener firmas
+ *         description: Error al obtener firmas (Contactar equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -79,7 +79,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Datos faltantes o firma inválida
  *       500:
- *         description: Error al insertar firma digital
+ *         description: Error al insertar firma digital (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -113,7 +113,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al actualizar
+ *         description: Error al actualizar (Contactar equipo de API)
  */
 router.put('/', putMethod);
 
@@ -137,7 +137,7 @@ router.put('/', putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar
+ *         description: Error al eliminar (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

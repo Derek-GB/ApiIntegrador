@@ -31,7 +31,7 @@ const {
  *       404:
  *         description: producto no encontrado
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 //Devolver un solo producto por ID
 router.get('/id/:id', getMethod);   
@@ -48,7 +48,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de todos los productos
  *       500:
- *         description: Error al obtener los productos
+ *         description: Error al obtener los productos (Contactar equipo de API)
  */
 //Devuelve todos los productos
 router.get('/all', getAllMethod);             
@@ -90,7 +90,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar producto
+ *         description: Error al insertar producto (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -136,7 +136,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes en el cuerpo de la solicitud
  *       500:
- *         description: Error al actualizar producto
+ *         description: Error al actualizar producto (Contactar equipo de API)
  */
 // //Actualizar
 router.put('/',   putMethod);
@@ -162,7 +162,7 @@ router.put('/',   putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar el producto
+ *         description: Error al eliminar el producto (Contactar equipo de API)
  */
 // //Eliminar
 router.delete('/id/:id', deleteMethod);

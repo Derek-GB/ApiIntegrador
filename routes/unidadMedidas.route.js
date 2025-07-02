@@ -30,7 +30,7 @@ const {
  *       404:
  *         description: Unidad de medida no encontrada
  *       500:
- *         description: Error al obtener unidad de medida
+ *         description: Error al obtener unidad de medida (Contactar equipo de API)
  */
 //Devolver datos desde mi API
 router.get('/id/:id',   getMethod);
@@ -62,7 +62,7 @@ router.get('/id/:id',   getMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar unidad de medida
+ *         description: Error al insertar unidad de medida (Contactar equipo de API)
  */
 //Registrar o insertar
 router.post('/',  postMethod);
@@ -98,7 +98,7 @@ router.post('/',  postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al actualizar unidad de medida
+ *         description: Error al actualizar unidad de medida (Contactar equipo de API)
  */
 //Registrar o insertar
 router.put('/',  putMethod);
@@ -123,7 +123,7 @@ router.put('/',  putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar unidad de medida
+ *         description: Error al eliminar unidad de medida (Contactar equipo de API)
  */
 //Eliminar
 router.delete('/id/:id', deleteMethod);
@@ -139,7 +139,7 @@ router.delete('/id/:id', deleteMethod);
  *       200:
  *         description: Lista de unidades de medida obtenida correctamente
  *       500:
- *         description: Error al obtener unidades de medida
+ *         description: Error al obtener unidades de medida (Contactar equipo de API)
  */
 //Actualizar
 router.get('/all',   getAllMethod);

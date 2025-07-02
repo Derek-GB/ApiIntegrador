@@ -47,7 +47,7 @@ const {
  *       404:
  *         description: Recurso asignado no encontrado
  *       500:
- *         description: Error al obtener recurso asignado
+ *         description: Error al obtener recurso asignado (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
 router.get('/id/:id', getMethod);   
@@ -63,7 +63,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de recursos asignados obtenida correctamente
  *       500:
- *         description: Error al obtener los recursos asignados
+ *         description: Error al obtener los recursos asignados (Contactar equipo de API)
  */
 //Devuelve todos los productos
 router.get('/all', getAllMethod);             
@@ -100,7 +100,7 @@ router.get('/all', getAllMethod);
  *       409:
  *         description: Recurso ya asignado previamente
  *       500:
- *         description: Error al insertar recurso asignado
+ *         description: Error al insertar recurso asignado (Contactar equipo de API)
  */
 // Registrar o insertar
 router.post('/', postMethod);
@@ -134,7 +134,7 @@ router.post('/', postMethod);
  *       404:
  *         description: No se encontró recurso para eliminar
  *       500:
- *         description: Error al eliminar recurso asignado
+ *         description: Error al eliminar recurso asignado (Contactar equipo de API)
  */
 // //Eliminar
 router.delete('/id/:id', deleteMethod);
@@ -171,7 +171,7 @@ router.delete('/id/:id', deleteMethod);
  *       404:
  *         description: No se encontró el recurso para actualizar
  *       500:
- *         description: Error al actualizar recurso asignado
+ *         description: Error al actualizar recurso asignado (Contactar equipo de API)
  */
 // //Actualizar
 router.put('/',   putMethod);

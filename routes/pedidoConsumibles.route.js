@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Pedidos obtenidos correctamente
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -46,7 +46,7 @@ router.get('/all', getAllMethod);
  *       404:
  *         description: Pedido no encontrado
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -86,7 +86,7 @@ router.get('/id/:id', getMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar pedido consumible
+ *         description: Error al insertar pedido consumible (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -143,7 +143,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.put('/', putMethod);
 
@@ -167,7 +167,7 @@ router.put('/', putMethod);
  *       400:
  *         description: Falta el ID
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

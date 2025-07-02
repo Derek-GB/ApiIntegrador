@@ -32,7 +32,7 @@ const {
  *       404:
  *         description: Albergue no encontrado
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -47,7 +47,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de todos los albergues
  *       500:
- *         description: Error al obtener los albergues
+ *         description: Error al obtener los albergues (Contactar equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -143,7 +143,7 @@ router.get('/all', getAllMethod);
  *       409:
  *         description: Ya existe un albergue con ese ID
  *       500:
- *         description: Error al insertar albergue
+ *         description: Error al insertar albergue (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -183,7 +183,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al actualizar el albergue
+ *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
 router.put('/', putMethod);
 
@@ -207,7 +207,7 @@ router.put('/', putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar el albergue
+ *         description: Error al eliminar el albergue (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 
@@ -246,7 +246,7 @@ router.delete('/id/:id', deleteMethod);
  *       404:
  *         description: Albergue no encontrado
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/consulta/id/:id', getForIdMethod);
 
@@ -285,7 +285,7 @@ router.get('/consulta/id/:id', getForIdMethod);
  *       404:
  *         description: Albergue no encontrado
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
@@ -324,7 +324,7 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *       404:
  *         description: Distrito no encontrado
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/consulta/distrito/:distrito', getForDistritoMethod);
 

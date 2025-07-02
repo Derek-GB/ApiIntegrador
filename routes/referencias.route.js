@@ -30,7 +30,7 @@ const {
  *       404:
  *         description: Referencia no encontrada
  *       500:
- *         description: Error al obtener referencia
+ *         description: Error al obtener referencia (Contactar equipo de API)
  */
 //Devolver datos desde mi API
 router.get('/id/:id',   getMethod);
@@ -72,7 +72,7 @@ router.get('/id/:id',   getMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar referencia
+ *         description: Error al insertar referencia (Contactar equipo de API)
  */
 //Registrar o insertar
 router.post('/',  postMethod);
@@ -123,7 +123,7 @@ router.post('/',  postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al actualizar referencia
+ *         description: Error al actualizar referencia (Contactar equipo de API)
  */
 //Registrar o insertar
 router.put('/',  putMethod);
@@ -148,7 +148,7 @@ router.put('/',  putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar referencia
+ *         description: Error al eliminar referencia (Contactar equipo de API)
  */
 //Eliminar
 router.delete('/id/:id', deleteMethod);
@@ -164,7 +164,7 @@ router.delete('/id/:id', deleteMethod);
  *       200:
  *         description: Lista de referencias obtenida correctamente
  *       500:
- *         description: Error al obtener referencias
+ *         description: Error al obtener referencias (Contactar equipo de API)
  */
 router.get('/all',   getAllMethod);
 

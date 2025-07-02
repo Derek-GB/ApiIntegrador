@@ -29,7 +29,7 @@ const {
  *       404:
  *         description: Amenaza no encontrada
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -44,7 +44,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de todas las amenazas
  *       500:
- *         description: Error al obtener las amenazas
+ *         description: Error al obtener las amenazas (Contactar equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -78,7 +78,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Datos faltantes u obligatorios no proporcionados
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.post('/', postMethod);
 
@@ -118,7 +118,7 @@ router.post('/', postMethod);
  *       400:
  *         description: "Faltan datos: familiaEvento, evento"
  *       500:
- *         description: Error al insertar amenaza
+ *         description: Error al insertar amenaza (Contactar equipo de API)
  */
 router.put('/', putMethod);
 
@@ -142,7 +142,7 @@ router.put('/', putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar la amenaza
+ *         description: Error al eliminar la amenaza (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

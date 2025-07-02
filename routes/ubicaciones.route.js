@@ -30,7 +30,7 @@ const {
  *       404:
  *         description: Ubicación no encontrada
  *       500:
- *         description: Error al obtener ubicación
+ *         description: Error al obtener ubicación (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
 router.get("/id/:id", getMethod);
@@ -46,7 +46,7 @@ router.get("/id/:id", getMethod);
  *       200:
  *         description: Lista de ubicaciones obtenida correctamente
  *       500:
- *         description: Error al obtener ubicaciones
+ *         description: Error al obtener ubicaciones (Contactar equipo de API)
  */
 //Devuelve todos los productos
 router.get("/all", getAllMethod);
@@ -93,7 +93,7 @@ router.get("/all", getAllMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar ubicación
+ *         description: Error al insertar ubicación (Contactar equipo de API)
  */
 // Registrar o insertar
 router.post("/", postMethod);
@@ -118,7 +118,7 @@ router.post("/", postMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar ubicación
+ *         description: Error al eliminar ubicación (Contactar equipo de API)
  */
 // //Eliminar
 router.delete("/id/:id", deleteMethod);
@@ -168,7 +168,7 @@ router.delete("/id/:id", deleteMethod);
  *       400:
  *         description: Datos faltantes en el cuerpo de la solicitud
  *       500:
- *         description: Error al actualizar ubicación
+ *         description: Error al actualizar ubicación (Contactar equipo de API)
  */
 // //Actualizar
 router.put("/", putMethod);

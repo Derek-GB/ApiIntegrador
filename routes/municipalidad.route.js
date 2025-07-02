@@ -31,7 +31,7 @@ const {
  *       404:
  *         description: Municipalidad no encontrada
  *       500:
- *         description: Error al obtener municipalidad
+ *         description: Error al obtener municipalidad (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
 router.get('/id/:id', getMethod);   
@@ -48,7 +48,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de municipalidades obtenida correctamente
  *       500:
- *         description: Error al obtener municipalidades
+ *         description: Error al obtener municipalidades (Contactar equipo de API)
  */
 //Devuelve todos los productos
 router.get('/all', getAllMethod);             
@@ -98,7 +98,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar municipalidad
+ *         description: Error al insertar municipalidad (Contactar equipo de API)
  */
 // Registrar o insertar
 router.post('/', postMethod);
@@ -123,7 +123,7 @@ router.post('/', postMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar municipalidad
+ *         description: Error al eliminar municipalidad (Contactar equipo de API)
  */
 // //Eliminar
 router.delete('/id/:id', deleteMethod);
@@ -176,7 +176,7 @@ router.delete('/id/:id', deleteMethod);
  *       400:
  *         description: Datos faltantes en el cuerpo de la solicitud
  *       500:
- *         description: Error al actualizar municipalidad
+ *         description: Error al actualizar municipalidad (Contactar equipo de API)
  */
 // //Actualizar
 router.put('/',   putMethod);

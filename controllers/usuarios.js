@@ -54,10 +54,10 @@ const postMethod = (req = request, res = response) => {
         });
     }
 
-    rol = rol ?? null; // Allow null for optional fields
-    activo = activo ?? null; // Allow null for optional fields
-    idMunicipalidad = idMunicipalidad ?? null; // Allow null for optional fields
-    identificacion = identificacion ?? null; // Allow null for optional fields
+    rol = rol ?? null; 
+    activo = activo ?? null; 
+    idMunicipalidad = idMunicipalidad ?? null; 
+    identificacion = identificacion ?? null; 
 
     pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
         if (error) {
@@ -72,7 +72,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Usuario insertado correctamente',
             data: {
-                id: results[0][0].p_id, // Assuming the stored procedure returns the inserted
+                id: results[0][0].id,
                 nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion
             }
         });

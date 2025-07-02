@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Personas obtenidas correctamente
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -44,7 +44,7 @@ router.get('/all', getAllMethod);
  *       404:
  *         description: Persona no encontrada
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -103,7 +103,7 @@ router.get('/id/:id', getMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al registrar persona
+ *         description: Error al registrar persona (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -172,7 +172,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.put('/', putMethod);
 
@@ -194,7 +194,7 @@ router.put('/', putMethod);
  *       200:
  *         description: Persona eliminada correctamente
  *       500:
- *         description: Error al eliminar persona
+ *         description: Error al eliminar persona (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

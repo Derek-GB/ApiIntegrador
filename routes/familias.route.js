@@ -29,7 +29,7 @@ const {
  *       404:
  *         description: Familia no encontrada
  *       500:
- *         description: Error al obtener familia
+ *         description: Error al obtener familia (Contactar equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -44,7 +44,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de familias
  *       500:
- *         description: Error al obtener familias
+ *         description: Error al obtener familias (Contactar equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -90,7 +90,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al insertar familia
+ *         description: Error al insertar familia (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -133,7 +133,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Datos faltantes
  *       500:
- *         description: Error al actualizar familia
+ *         description: Error al actualizar familia (Contactar equipo de API)
  */
 router.put('/', putMethod);
 
@@ -157,7 +157,7 @@ router.put('/', putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar familia
+ *         description: Error al eliminar familia (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

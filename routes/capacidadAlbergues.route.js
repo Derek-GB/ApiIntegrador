@@ -29,7 +29,7 @@ const {
  *       404:
  *         description: Registro no encontrado
  *       500:
- *         description: Error del servidor
+ *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/id/:id', getMethod);
 
@@ -44,7 +44,7 @@ router.get('/id/:id', getMethod);
  *       200:
  *         description: Lista de capacidades obtenida correctamente
  *       500:
- *         description: Error al obtener las capacidades
+ *         description: Error al obtener las capacidades (Contactar equipo de API)
  */
 router.get('/all', getAllMethod);
 
@@ -93,7 +93,7 @@ router.get('/all', getAllMethod);
  *       400:
  *         description: Faltan campos obligatorios
  *       500:
- *         description: Error al crear registro
+ *         description: Error al crear registro (Contactar equipo de API)
  */
 router.post('/', postMethod);
 
@@ -141,7 +141,7 @@ router.post('/', postMethod);
  *       400:
  *         description: Faltan campos obligatorios
  *       500:
- *         description: Error al actualizar el registro
+ *         description: Error al actualizar el registro (Contactar equipo de API)
  */
 router.put('/', putMethod);
 
@@ -165,7 +165,7 @@ router.put('/', putMethod);
  *       400:
  *         description: ID no proporcionado
  *       500:
- *         description: Error al eliminar el registro
+ *         description: Error al eliminar el registro (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
 

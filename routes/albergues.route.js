@@ -4,13 +4,16 @@ const router = Router();
 const {
   getAllMethod,
   getMethod,
-  postMethod,
   putMethod,
   deleteMethod,
   getForIdMethod,
   getForNombreMethod,
   getForDistritoMethod,
 } = require('../controllers/albergues');
+
+const{
+  postMethod,
+} = require('../controllers/formularioAlbergue');
 
 /**
  * @swagger
@@ -57,7 +60,7 @@ router.get('/all', getAllMethod);
  *   post:
  *     tags:
  *       - Albergues
- *     summary: Insertar un nuevo albergue
+ *     summary: Insertar albergue con datos completos (infraestructura, capacidad y ubicación)
  *     requestBody:
  *       required: true
  *       content:
@@ -65,19 +68,72 @@ router.get('/all', getAllMethod);
  *           schema:
  *             type: object
  *             required:
+ *               - cocina
+ *               - duchas
+ *               - serviciosSanitarios
+ *               - bodega
+ *               - menajeMobiliario
+ *               - tanqueAgua
+ *               - areaTotalM2
+ *               - capacidadPersonas
+ *               - capacidadColectiva
+ *               - cantidadFamilias
+ *               - ocupacion
+ *               - egresos
+ *               - sospechososSanos
+ *               - provincia
+ *               - canton
+ *               - distrito
  *               - idAlbergue
  *               - nombre
  *               - region
  *               - coordenadaX
  *               - coordenadaY
- *               - idUbicacion
- *               - tipo_establecimiento
- *               - tipo_albergue
- *               - condicion_albergue
- *               - idCapacidad
- *               - idInfraestructura
- *               - idMunicipalidad
+ *               - tipoEstablecimiento
+ *               - tipoAlbergue
+ *               - condicionAlbergue
+ *               - administrador
+ *               - telefono
+ *               - seccion
  *             properties:
+ *               cocina:
+ *                 type: boolean
+ *               duchas:
+ *                 type: boolean
+ *               serviciosSanitarios:
+ *                 type: boolean
+ *               bodega:
+ *                 type: boolean
+ *               menajeMobiliario:
+ *                 type: boolean
+ *               tanqueAgua:
+ *                 type: boolean
+ *               areaTotalM2:
+ *                 type: number
+ *               capacidadPersonas:
+ *                 type: integer
+ *               capacidadColectiva:
+ *                 type: integer
+ *               cantidadFamilias:
+ *                 type: integer
+ *               ocupacion:
+ *                 type: integer
+ *               egresos:
+ *                 type: integer
+ *               sospechososSanos:
+ *                 type: integer
+ *               otros:
+ *                 type: string
+ *                 nullable: true
+ *               provincia:
+ *                 type: string
+ *               canton:
+ *                 type: string
+ *               distrito:
+ *                 type: string
+ *               direccion:
+ *                 type: string
+ *                 nullable: true
  *               idAlbergue:
  *                 type: integer
  *               nombre:
@@ -88,41 +144,33 @@ router.get('/all', getAllMethod);
  *                 type: number
  *               coordenadaY:
  *                 type: number
- *               idUbicacion:
- *                 type: integer
- *               tipo_establecimiento:
+ *               tipoEstablecimiento:
  *                 type: string
- *               tipo_albergue:
+ *               tipoAlbergue:
  *                 type: string
- *               condicion_albergue:
+ *               condicionAlbergue:
  *                 type: string
  *               especificacion:
  *                 type: string
  *                 nullable: true
- *               detalle_condicion:
+ *               detalleCondicion:
  *                 type: string
  *                 nullable: true
  *               administrador:
  *                 type: string
- *                 nullable: true
  *               telefono:
  *                 type: string
- *                 nullable: true
- *               idCapacidad:
- *                 type: integer
  *               seccion:
  *                 type: string
- *                 nullable: true
- *               requerimientos_tecnicos:
+ *               requerimientosTecnicos:
  *                 type: string
  *                 nullable: true
- *               costo_requerimientos_tecnicos:
+ *               costoRequerimientosTecnicos:
  *                 type: number
  *                 nullable: true
- *               idInfraestructura:
- *                 type: integer
  *               idMunicipalidad:
  *                 type: integer
+ *                 nullable: true
  *               color:
  *                 type: string
  *                 nullable: true
@@ -132,18 +180,13 @@ router.get('/all', getAllMethod);
  *               idUsuarioCreacion:
  *                 type: integer
  *                 nullable: true
- *               idUsuarioModificacion:
- *                 type: integer
- *                 nullable: true
  *     responses:
  *       201:
- *         description: Albergue insertado correctamente
+ *         description: Albergue registrado correctamente
  *       400:
- *         description: Faltan datos obligatorios
- *       409:
- *         description: Ya existe un albergue con ese ID
+ *         description: Faltan datos requeridos
  *       500:
- *         description: Error al insertar albergue (Contactar equipo de API)
+ *         description: Error al insertar albergue
  */
 router.post('/', postMethod);
 

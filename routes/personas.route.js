@@ -4,10 +4,11 @@ const router = Router();
 const {
   getAllMethod,
   getMethod,
-  postMethod,
   putMethod,
   deleteMethod
 } = require('../controllers/personas');
+
+const {postMethod} = require('../controllers/formularioPersonas');
 
 /**
  * @swagger
@@ -54,7 +55,7 @@ router.get('/id/:id', getMethod);
  *   post:
  *     tags:
  *       - Personas
- *     summary: Registrar nueva persona
+ *     summary: Insertar una nueva persona
  *     requestBody:
  *       required: true
  *       content:
@@ -62,48 +63,93 @@ router.get('/id/:id', getMethod);
  *           schema:
  *             type: object
  *             required:
+ *               - tieneCondicionSalud
+ *               - discapacidad
+ *               - firma
  *               - idFamilia
  *               - nombre
  *               - primerApellido
  *               - segundoApellido
  *               - tipoIdentificacion
- *               - numIdentificacion
+ *               - numeroIdentificacion
  *               - nacionalidad
  *               - parentesco
+ *               - esJefeFamilia
  *               - fechaNacimiento
  *               - genero
  *               - sexo
  *               - telefono
- *               - idCondicionesEspeciales
- *               - idCondicionesPoblacionales
- *               - idFirma
+ *               - estaACargoMenor
  *             properties:
- *               idFamilia: { type: string }
- *               nombre: { type: string }
- *               primerApellido: { type: string }
- *               segundoApellido: { type: string }
- *               tipoIdentificacion: { type: string }
- *               numIdentificacion: { type: string }
- *               nacionalidad: { type: string }
- *               parentesco: { type: string }
- *               fechaNacimiento: { type: string, format: date }
- *               genero: { type: string }
- *               sexo: { type: string }
- *               telefono: { type: string }
- *               idCondicionesEspeciales: { type: integer }
- *               idCondicionesPoblacionales: { type: integer }
- *               idFirma: { type: integer }
- *               contactoEmergencia: { type: string }
- *               observaciones: { type: string }
- *               idUsuarioCreacion: { type: integer }
- *               idUsuarioModificacion: { type: integer }
+ *               tieneCondicionSalud:
+ *                 type: boolean
+ *               descripcionCondicionSalud:
+ *                 type: string
+ *                 nullable: true
+ *               discapacidad:
+ *                 type: boolean
+ *               tipoDiscapacidad:
+ *                 type: string
+ *                 nullable: true
+ *               subtipoDiscapacidad:
+ *                 type: string
+ *                 nullable: true
+ *               paisOrigen:
+ *                 type: string
+ *                 nullable: true
+ *               autoidentificacionCultural:
+ *                 type: string
+ *                 nullable: true
+ *               puebloIndigena:
+ *                 type: string
+ *                 nullable: true
+ *               firma:
+ *                 type: string
+ *               idFamilia:
+ *                 type: integer
+ *               nombre:
+ *                 type: string
+ *               primerApellido:
+ *                 type: string
+ *               segundoApellido:
+ *                 type: string
+ *               tipoIdentificacion:
+ *                 type: string
+ *               numeroIdentificacion:
+ *                 type: string
+ *               nacionalidad:
+ *                 type: string
+ *               parentesco:
+ *                 type: string
+ *               esJefeFamilia:
+ *                 type: boolean
+ *               fechaNacimiento:
+ *                 type: string
+ *                 format: date
+ *               genero:
+ *                 type: string
+ *               sexo:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *               contactoEmergencia:
+ *                 type: string
+ *                 nullable: true
+ *               observaciones:
+ *                 type: string
+ *                 nullable: true
+ *               estaACargoMenor:
+ *                 type: boolean
+ *               idUsuarioCreacion:
+ *                 type: integer
+ *                 nullable: true
  *     responses:
  *       201:
  *         description: Persona registrada correctamente
  *       400:
- *         description: Datos faltantes
+ *         description: Faltan datos requeridos
  *       500:
- *         description: Error al registrar persona (Contactar equipo de API)
+ *         description: Error al insertar persona
  */
 router.post('/', postMethod);
 

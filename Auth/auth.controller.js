@@ -19,7 +19,7 @@ class AuthController {
 
             // 1. Buscar usuario por correo en la base de datos real
             // ERROR CORREGIDO: LIMIT 0 -> LIMIT 1
-            const query = 'CALL `railway`.`pa_LoginUsuario`(?,?) LIMIT 1';
+            const query = 'CALL `railway`.`pa_LoginUsuario`(?,?)';
 
             pool.query(query, [correo, contrasena], async (error, results) => {
                 if (error) {

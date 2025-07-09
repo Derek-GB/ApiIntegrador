@@ -19,9 +19,9 @@ class AuthController {
 
             // 1. Buscar usuario por correo en la base de datos real
             // ERROR CORREGIDO: LIMIT 0 -> LIMIT 1
-            const query = 'SELECT * FROM Usuario WHERE correo = ? LIMIT 1';
-            
-            pool.query(query, [correo], async (error, results) => {
+            const query = 'CALL `railway`.`pa_LoginUsuario`(?,?) LIMIT 1';
+
+            pool.query(query, [correo, contrasena], async (error, results) => {
                 if (error) {
                     console.error('Error en consulta de usuario:', error);
                     return res.status(500).json({ 
@@ -40,44 +40,44 @@ class AuthController {
 
                 const usuario = results[0];
 
-                // 2. Verificar si el usuario está activo
-                if (!usuario.activo) {
-                    return res.status(403).json({ 
-                        success: false,
-                        error: 'Cuenta inactiva' 
-                    });
-                }
+                // // 2. Verificar si el usuario está activo
+                // if (!usuario.activo) {
+                //     return res.status(403).json({ 
+                //         success: false,
+                //         error: 'Cuenta inactiva' 
+                //     });
+                // }
 
-                // 3. Validar contraseña
-                // ERROR CORREGIDO: contrasen -> contrasenaHash (según tu esquema de BD)
-                let contrasenaValida = false;
+                // // 3. Validar contraseña
+                // // ERROR CORREGIDO: contrasen -> contrasenaHash (según tu esquema de BD)
+                // let contrasenaValida = false;
                 
-                // Verificar si la contraseña está hasheada
-                if (usuario.contrasenaHash && usuario.contrasenaHash.startsWith('$2')) {
-                    // Contraseña hasheada con bcrypt
-                    contrasenaValida = await bcrypt.compare(contrasena, usuario.contrasenaHash);
-                } else if (usuario.contrasenaHash) {
-                    // Contraseña en texto plano (temporal - deberías hashear)
-                    contrasenaValida = (contrasena === usuario.contrasenaHash);
-                } else {
-                    console.error('Campo de contraseña no encontrado en usuario:', Object.keys(usuario));
-                    return res.status(500).json({ 
-                        success: false,
-                        error: 'Error en estructura de usuario' 
-                    });
-                }
+                // // Verificar si la contraseña está hasheada
+                // if (usuario.contrasenaHash && usuario.contrasenaHash.startsWith('$2')) {
+                //     // Contraseña hasheada con bcrypt
+                //     contrasenaValida = await bcrypt.compare(contrasena, usuario.contrasenaHash);
+                // } else if (usuario.contrasenaHash) {
+                //     // Contraseña en texto plano (temporal - deberías hashear)
+                //     contrasenaValida = (contrasena === usuario.contrasenaHash);
+                // } else {
+                //     console.error('Campo de contraseña no encontrado en usuario:', Object.keys(usuario));
+                //     return res.status(500).json({ 
+                //         success: false,
+                //         error: 'Error en estructura de usuario' 
+                //     });
+                // }
 
-                if (!contrasenaValida) {
-                    // Agregar logs para debug
-                    console.log('Contraseña enviada:', contrasena);
-                    console.log('Hash en BD:', usuario.contrasenaHash);
-                    console.log('Comparación válida:', contrasenaValida);
+                // if (!contrasenaValida) {
+                //     // Agregar logs para debug
+                //     console.log('Contraseña enviada:', contrasena);
+                //     console.log('Hash en BD:', usuario.contrasenaHash);
+                //     console.log('Comparación válida:', contrasenaValida);
                     
-                    return res.status(401).json({ 
-                        success: false,
-                        error: 'Contraseña incorrecta' 
-                    });
-                }
+                //     return res.status(401).json({ 
+                //         success: false,
+                //         error: 'Contraseña incorrecta' 
+                //     });
+                // }
 
                 // 4. Actualizar última sesión
                 const updateQuery = 'UPDATE Usuario SET ultimaSesion = NOW() WHERE id = ?';

@@ -37,7 +37,7 @@ class AuthController {
                         error: 'Usuario no encontrado' 
                     });
                 }
-
+                console.log('Resultados de la consulta:', results);
                 const usuario = results[0];
 
                 // // 2. Verificar si el usuario está activo

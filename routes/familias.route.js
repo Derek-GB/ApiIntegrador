@@ -4,10 +4,11 @@ const router = Router();
 const {
   getAllMethod,
   getMethod,
-  postMethod,
   putMethod,
   deleteMethod,
 } = require('../controllers/familias');
+
+const { postMethod } = require('../controllers/formularioFamilias');
 
 /**
  * @swagger
@@ -62,28 +63,47 @@ router.get('/all', getAllMethod);
  *           schema:
  *             type: object
  *             required:
+ *               - provincia
+ *               - canton
+ *               - distrito
  *               - codigoFamilia
  *               - cantidadPersonas
  *               - idAlbergue
- *               - idUbicacion
  *               - idAmenaza
  *             properties:
+ *               provincia:
+ *                 type: string
+ *                 example: "San José"
+ *               canton:
+ *                 type: string
+ *                 example: "Central"
+ *               distrito:
+ *                 type: string
+ *                 example: "Carmen"
+ *               direccion:
+ *                 type: string
+ *                 nullable: true
+ *                 example: "Del parque 200m al sur"
  *               codigoFamilia:
  *                 type: string
+ *                 example: "FAM12345"
  *               cantidadPersonas:
  *                 type: integer
+ *                 example: 4
  *               idAlbergue:
  *                 type: integer
- *               idUbicacion:
- *                 type: integer
+ *                 example: 2
  *               idAmenaza:
  *                 type: integer
+ *                 example: 5
  *               idPersona:
  *                 type: integer
  *                 nullable: true
+ *                 example: 10
  *               idUsuarioCreacion:
  *                 type: integer
  *                 nullable: true
+ *                 example: 1
  *     responses:
  *       201:
  *         description: Familia insertada correctamente
@@ -93,6 +113,7 @@ router.get('/all', getAllMethod);
  *         description: Error al insertar familia (Contactar equipo de API)
  */
 router.post('/', postMethod);
+
 
 /**
  * @swagger

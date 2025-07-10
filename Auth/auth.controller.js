@@ -83,7 +83,7 @@ class AuthController {
                 // Hay que corregir esto
                 // 4. Actualizar última sesión
                 const updateQuery = 'UPDATE Usuario SET ultimaSesion = NOW() WHERE id = ?';
-                pool.query(updateQuery, [usuario.id], (updateError) => {
+                pool.query(updateQuery, [usuario.idUsuario], (updateError) => {
                     if (updateError) {
                         console.warn('Error actualizando última sesión:', updateError);
                     }
@@ -93,7 +93,7 @@ class AuthController {
                 // 5. Generar token JWT
                 const token = jwt.sign(
                     {
-                        id: usuario.id,
+                        id: usuario.idUsuario,
                         correo: usuario.correo,
                         rol: usuario.rol,
                         nombreUsuario: usuario.nombreUsuario,
@@ -108,7 +108,7 @@ class AuthController {
                     success: true,
                     token,
                     usuario: {
-                        id: usuario.id,
+                        id: usuario.idUsuario,
                         nombreUsuario: usuario.nombreUsuario,
                         rol: usuario.rol,
                         correo: usuario.correo,

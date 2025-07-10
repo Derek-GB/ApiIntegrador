@@ -18,7 +18,6 @@ class AuthController {
             }
 
             // 1. Buscar usuario por correo en la base de datos real
-            // ERROR CORREGIDO: LIMIT 0 -> LIMIT 1
             const query = 'CALL `railway`.`pa_LoginUsuario`(?,?)';
 
             pool.query(query, [correo, contrasena], async (error, results) => {
@@ -37,9 +36,10 @@ class AuthController {
                         error: 'Usuario no encontrado' 
                     });
                 }
-                console.log('Resultados de la consulta:', results);
+                // console.log('Resultados de la consulta:', results);
                 const usuario = results[0];
 
+                //Todo este codigo es inecesario, ya que el procedimiento almacenado ya valida si el usuario existe y si la contraseña es correcta
                 // // 2. Verificar si el usuario está activo
                 // if (!usuario.activo) {
                 //     return res.status(403).json({ 
@@ -79,6 +79,7 @@ class AuthController {
                 //     });
                 // }
 
+                // Hay que corregir esto
                 // 4. Actualizar última sesión
                 const updateQuery = 'UPDATE Usuario SET ultimaSesion = NOW() WHERE id = ?';
                 pool.query(updateQuery, [usuario.id], (updateError) => {
@@ -87,6 +88,7 @@ class AuthController {
                     }
                 });
 
+                // Esto si funciona
                 // 5. Generar token JWT
                 const token = jwt.sign(
                     {

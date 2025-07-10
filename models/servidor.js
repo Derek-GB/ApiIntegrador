@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 require("dotenv").config();
@@ -25,7 +26,7 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ["./routes/*.route.js"], // aquí busca los comentarios JSDoc
+  apis: ["./routes/*.route.js", "./Auth/*route.js"], // aquí busca los comentarios JSDoc
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -54,11 +55,13 @@ class servidor {
     this.rutasP.forEach(({ path, route }) => {
       this.app.use(path, route); // <- Middleware aplicado a todas las rutas
     });
+    this.app.use('/css', express.static(path.join(__dirname, '../src/css')));
     // Servir la documentación en /api/documentacion
     this.app.use(
       "/api/documentacion",
       swaggerUi.serve,
       swaggerUi.setup(swaggerSpec, {
+        // customCssUrl: '/css/swagger-dark.css', // Ruta al CSS personalizado
         swaggerOptions: {
           docExpansion: "none", // que los tag vengan colapsados por defecto
         },

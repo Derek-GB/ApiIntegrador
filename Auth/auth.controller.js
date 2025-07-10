@@ -36,9 +36,9 @@ class AuthController {
                     error: 'Usuario no encontrado'
                     });
                 }
-                console.log('Resultados de la consulta:', results);
-                const usuario = results[0];
-                console.log('Usuario encontrado:', usuario);
+                // console.log('Resultados de la consulta:', results);
+                const usuario = results[0][0];
+                // console.log('Usuario encontrado:', usuario);
 
                 //Todo este codigo es inecesario, ya que el procedimiento almacenado ya valida si el usuario existe y si la contraseña es correcta
                 // // 2. Verificar si el usuario está activo

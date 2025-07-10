@@ -30,10 +30,10 @@ class AuthController {
                 }
 
                 // Verificar si el usuario existe
-                if (results.length === 0) {
-                    return res.status(401).json({ 
-                        success: false,
-                        error: 'Usuario no encontrado' 
+                if (!results?.[0]?.length) {
+                  return res.status(401).json({
+                    success: false,
+                    error: 'Usuario no encontrado'
                     });
                 }
                 // console.log('Resultados de la consulta:', results);

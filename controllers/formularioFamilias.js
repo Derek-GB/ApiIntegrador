@@ -52,7 +52,7 @@ const postMethod = (req = request, res = response) => {
 
   // Ejecutar procedimiento almacenado
   pool.query(
-    "CALL pa_InsertFamilia(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "CALL pa_InsertFamilia(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       provincia,
       canton,

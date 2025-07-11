@@ -1,10 +1,10 @@
 const {createPool}= require('mysql2/promise');
 
 const pool = createPool ({
-    host: 'centerbeam.proxy.rlwy.net',
+    host: 'maglev.proxy.rlwy.net',
     user: 'root',
-    password: 'seWZxRulWWycWTkgYGrzsXfaGtzItvwT',
-    port: 54185,
+    password: 'GdiRZmJyIbNEuxwCJDtjzOBqBuQSvmPp',
+    port: 44477,
     database: 'railway',
 })
 

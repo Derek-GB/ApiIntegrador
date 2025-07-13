@@ -6,7 +6,9 @@ const router=Router();
 const {
   getMethod,
   postMethod,
+  validarCorreoMethod,
   putMethod,
+  putContrasenaMethod,
   getAllMethod,
   deleteMethod}=require('../controllers/usuarios');
 
@@ -81,6 +83,35 @@ router.post('/',  postMethod);
 
 /**
  * @swagger
+ * /api/usuarios/validar/correo:
+ *   post:
+ *     tags:
+ *       - Usuarios
+ *     summary: Validar si el correo ya está en uso
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - correo
+ *             properties:
+ *               correo:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Correo válido y disponible
+ *       400:
+ *         description: Correo ya en uso
+ *       500:
+ *         description: Error al validar correo (Contactar equipo de API)
+ */
+router.post('/validar/correo', validarCorreoMethod);
+
+/**
+ * @swagger
  * /api/usuarios:
  *   put:
  *     tags:
@@ -129,6 +160,38 @@ router.post('/',  postMethod);
 
 //Registrar o insertar
 router.put('/',  putMethod);
+
+/**
+ * @swagger
+ * /api/usuarios/contrasena:
+ *   put:
+ *     tags:
+ *       - Usuarios
+ *     summary: Actualizar la contraseña de un usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - correo
+ *               - nuevaContrasena
+ *             properties:
+ *               correo:
+ *                 type: string
+ *                 format: email
+ *               nuevaContrasena:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar contraseña (Contactar equipo de API)
+ */
+router.put('/contrasena',  putContrasenaMethod);
 
 /**
  * @swagger

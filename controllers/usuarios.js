@@ -79,6 +79,42 @@ const postMethod = (req = request, res = response) => {
     });
 };
 
+const validarCorreoMethod = (req = request, res = response) => {
+    const { correo } = req.body;
+
+    if (!correo) {
+        return res.status(400).json({
+            success: false,
+            message: 'Falta el correo'
+        });
+    }
+
+    pool.query('CALL pa_ValidarCorreo(?)', [correo], (error, results) => {
+        if (error) {
+            console.error('Error al validar correo:', error);
+            return res.status(500).json({
+                success: false,
+                error: 'Error al validar correo'
+            });
+        }
+
+        // results[0] contiene el result set del SELECT dentro del procedimiento
+        const existe = results?.[0]?.[0]?.existe;
+
+        if (existe === 1) {
+            return res.status(400).json({
+                success: false,
+                message: 'El correo ya está en uso'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'El correo es válido y está disponible'
+        });
+    });
+};
+
 const putMethod = (req = request, res = response) => {
     const {id} = req.body;
     const {nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
@@ -109,6 +145,31 @@ const putMethod = (req = request, res = response) => {
     });
 };
 
+const putContrasenaMethod = (req = request, res = response) => {
+    const { correo, nuevaContrasena } = req.body;
+
+    if (!correo || !nuevaContrasena) {
+        return res.status(400).json({
+            success: false,
+            message: 'Faltan datos: correo, nuevaContrasena'
+        });
+    }
+
+    pool.query('CALL pa_UpdateUsuarioContrasena(?, ?)', [correo, nuevaContrasena], (error, results) => {
+        if (error) {
+            console.error('Error al actualizar contraseña:', error);
+            return res.status(500).json({
+                success: false,
+                error: 'Error al actualizar contraseña'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Contraseña actualizada correctamente'
+        });
+    });
+};
 
 const deleteMethod = (req = request, res = response) => {
     const { id } = req.params; 
@@ -141,6 +202,8 @@ module.exports = {
     getAllMethod,
     getMethod,
     postMethod,
+    validarCorreoMethod,
     putMethod,
+    putContrasenaMethod,
     deleteMethod
 }

@@ -49,109 +49,250 @@ router.get('/all', getAllMethod);
  */
 router.get('/id/:id', getMethod);
 
+// /**
+//  * @swagger
+//  * /api/personas:
+//  *   post:
+//  *     tags:
+//  *       - Personas
+//  *     summary: Insertar una nueva persona
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object
+//  *             required:
+//  *               - tieneCondicionSalud
+//  *               - discapacidad
+//  *               - firma
+//  *               - idFamilia
+//  *               - nombre
+//  *               - primerApellido
+//  *               - segundoApellido
+//  *               - tipoIdentificacion
+//  *               - numeroIdentificacion
+//  *               - nacionalidad
+//  *               - parentesco
+//  *               - esJefeFamilia
+//  *               - fechaNacimiento
+//  *               - genero
+//  *               - sexo
+//  *               - telefono
+//  *               - estaACargoMenor
+//  *             properties:
+//  *               tieneCondicionSalud:
+//  *                 type: boolean
+//  *               descripcionCondicionSalud:
+//  *                 type: string
+//  *                 nullable: true
+//  *               discapacidad:
+//  *                 type: boolean
+//  *               tipoDiscapacidad:
+//  *                 type: string
+//  *                 nullable: true
+//  *               subtipoDiscapacidad:
+//  *                 type: string
+//  *                 nullable: true
+//  *               paisOrigen:
+//  *                 type: string
+//  *                 nullable: true
+//  *               autoidentificacionCultural:
+//  *                 type: string
+//  *                 nullable: true
+//  *               puebloIndigena:
+//  *                 type: string
+//  *                 nullable: true
+//  *               firma:
+//  *                 type: string
+//  *               idFamilia:
+//  *                 type: integer
+//  *               nombre:
+//  *                 type: string
+//  *               primerApellido:
+//  *                 type: string
+//  *               segundoApellido:
+//  *                 type: string
+//  *               tipoIdentificacion:
+//  *                 type: string
+//  *               numeroIdentificacion:
+//  *                 type: string
+//  *               nacionalidad:
+//  *                 type: string
+//  *               parentesco:
+//  *                 type: string
+//  *               esJefeFamilia:
+//  *                 type: boolean
+//  *               fechaNacimiento:
+//  *                 type: string
+//  *                 format: date
+//  *               genero:
+//  *                 type: string
+//  *               sexo:
+//  *                 type: string
+//  *               telefono:
+//  *                 type: string
+//  *               contactoEmergencia:
+//  *                 type: string
+//  *                 nullable: true
+//  *               observaciones:
+//  *                 type: string
+//  *                 nullable: true
+//  *               estaACargoMenor:
+//  *                 type: boolean
+//  *               idUsuarioCreacion:
+//  *                 type: integer
+//  *                 nullable: true
+//  *     responses:
+//  *       201:
+//  *         description: Persona registrada correctamente
+//  *       400:
+//  *         description: Faltan datos requeridos
+//  *       500:
+//  *         description: Error al insertar persona
+//  */
+
+// router.post('/', postMethod);
+
 /**
  * @swagger
  * /api/personas:
  *   post:
  *     tags:
  *       - Personas
- *     summary: Insertar una nueva persona
+ *     summary: Insertar múltiples personas
+ *     description: Inserta una o más personas con sus datos personales, condiciones de salud, especiales y poblacionales.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - tieneCondicionSalud
- *               - discapacidad
- *               - firma
- *               - idFamilia
- *               - nombre
- *               - primerApellido
- *               - segundoApellido
- *               - tipoIdentificacion
- *               - numeroIdentificacion
- *               - nacionalidad
- *               - parentesco
- *               - esJefeFamilia
- *               - fechaNacimiento
- *               - genero
- *               - sexo
- *               - telefono
- *               - estaACargoMenor
- *             properties:
- *               tieneCondicionSalud:
- *                 type: boolean
- *               descripcionCondicionSalud:
- *                 type: string
- *                 nullable: true
- *               discapacidad:
- *                 type: boolean
- *               tipoDiscapacidad:
- *                 type: string
- *                 nullable: true
- *               subtipoDiscapacidad:
- *                 type: string
- *                 nullable: true
- *               paisOrigen:
- *                 type: string
- *                 nullable: true
- *               autoidentificacionCultural:
- *                 type: string
- *                 nullable: true
- *               puebloIndigena:
- *                 type: string
- *                 nullable: true
- *               firma:
- *                 type: string
- *               idFamilia:
- *                 type: integer
- *               nombre:
- *                 type: string
- *               primerApellido:
- *                 type: string
- *               segundoApellido:
- *                 type: string
- *               tipoIdentificacion:
- *                 type: string
- *               numeroIdentificacion:
- *                 type: string
- *               nacionalidad:
- *                 type: string
- *               parentesco:
- *                 type: string
- *               esJefeFamilia:
- *                 type: boolean
- *               fechaNacimiento:
- *                 type: string
- *                 format: date
- *               genero:
- *                 type: string
- *               sexo:
- *                 type: string
- *               telefono:
- *                 type: string
- *               contactoEmergencia:
- *                 type: string
- *                 nullable: true
- *               observaciones:
- *                 type: string
- *                 nullable: true
- *               estaACargoMenor:
- *                 type: boolean
- *               idUsuarioCreacion:
- *                 type: integer
- *                 nullable: true
+ *             type: array
+ *             minItems: 1
+ *             items:
+ *               type: object
+ *               required:
+ *                 - tieneCondicionSalud
+ *                 - discapacidad
+ *                 - firma
+ *                 - idFamilia
+ *                 - nombre
+ *                 - primerApellido
+ *                 - segundoApellido
+ *                 - tipoIdentificacion
+ *                 - numeroIdentificacion
+ *                 - nacionalidad
+ *                 - parentesco
+ *                 - esJefeFamilia
+ *                 - fechaNacimiento
+ *                 - genero
+ *                 - sexo
+ *                 - telefono
+ *                 - estaACargoMenor
+ *                 - idUsuarioCreacion
+ *               properties:
+ *                 tieneCondicionSalud:
+ *                   type: boolean
+ *                   example: true
+ *                 descripcionCondicionSalud:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Hipertensión"
+ *                 discapacidad:
+ *                   type: boolean
+ *                   example: false
+ *                 tipoDiscapacidad:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Motora"
+ *                 subtipoDiscapacidad:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Parálisis parcial"
+ *                 paisOrigen:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Nicaragua"
+ *                 autoidentificacionCultural:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Afrodescendiente"
+ *                 puebloIndigena:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Bribri"
+ *                 firma:
+ *                   type: string
+ *                   format: binary
+ *                   description: Firma digital en base64 o archivo binario
+ *                 idFamilia:
+ *                   type: integer
+ *                   example: 1
+ *                 nombre:
+ *                   type: string
+ *                   example: "Juan"
+ *                 primerApellido:
+ *                   type: string
+ *                   example: "Pérez"
+ *                 segundoApellido:
+ *                   type: string
+ *                   example: "Rodríguez"
+ *                 tipoIdentificacion:
+ *                   type: string
+ *                   enum: [Cédula, DIMEX, Permiso laboral, Pasaporte, No presenta]
+ *                   example: "Cédula"
+ *                 numeroIdentificacion:
+ *                   type: string
+ *                   example: "123456789"
+ *                 nacionalidad:
+ *                   type: string
+ *                   example: "Costarricense"
+ *                 parentesco:
+ *                   type: string
+ *                   example: "Padre"
+ *                 esJefeFamilia:
+ *                   type: boolean
+ *                   example: true
+ *                 fechaNacimiento:
+ *                   type: string
+ *                   format: date
+ *                   example: "1980-05-15"
+ *                 genero:
+ *                   type: string
+ *                   example: "Masculino"
+ *                 sexo:
+ *                   type: string
+ *                   enum: [Masculino, Femenino, Otro]
+ *                   example: "Masculino"
+ *                 telefono:
+ *                   type: string
+ *                   example: "88889999"
+ *                 contactoEmergencia:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Ana María 87001122"
+ *                 observaciones:
+ *                   type: string
+ *                   nullable: true
+ *                   example: "Usa medicamentos diariamente"
+ *                 estaACargoMenor:
+ *                   type: boolean
+ *                   example: false
+ *                 idUsuarioCreacion:
+ *                   type: integer
+ *                   example: 1
  *     responses:
  *       201:
- *         description: Persona registrada correctamente
+ *         description: Todas las personas fueron registradas correctamente
+ *       207:
+ *         description: Algunas personas se registraron con éxito, otras fallaron
  *       400:
- *         description: Faltan datos requeridos
+ *         description: El cuerpo de la solicitud no es un arreglo válido
  *       500:
- *         description: Error al insertar persona
+ *         description: Error en el registro de todas las personas
  */
-router.post('/', postMethod);
+router.post("/", postMethod);
+
 
 /**
  * @swagger

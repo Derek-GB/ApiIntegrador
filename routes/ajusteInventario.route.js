@@ -1,0 +1,66 @@
+const { Router } = require('express');
+const router = Router();
+
+const {
+    getAllMethod,
+    getMethod,
+    postMethod,
+} = require('../controllers/ajusteInventario');
+
+/*
+    * @swagger
+    * /api/ajusteInventario:
+    *   get:
+    *     summary: Obtener todos los ajustes de inventario
+    *     tags: 
+    *       - AjusteInventario
+    */
+router.get('/', getAllMethod);
+
+/*
+    * @swagger
+    * /api/ajusteInventario/{id}:
+    *   get:
+    *     summary: Obtener un ajuste de inventario por ID
+    *     tags: 
+    *       - AjusteInventario
+    *     parameters:
+    *       - in: path
+    *         name: id
+    *         required: true
+    *         schema:
+    *           type: integer
+    *         description: ID del ajuste de inventario a obtener
+    */
+router.get('/:id', getMethod);
+
+/*
+    * @swagger
+    * /api/ajusteInventario:
+    *   post:
+    *     summary: Registrar un nuevo ajuste de inventario
+    *     tags: 
+    *       - AjusteInventario
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             type: object
+    *             properties:
+    *               idProducto:
+    *                 type: integer
+    *               justificacion:
+    *                 type: string
+    *               cantidadOriginal:
+    *                 type: integer
+    *               cantidadAjustada:
+    *                 type: integer
+    *               fechaCreacion:
+    *                 type: string
+    *               idUsuarioCreacion:
+    *                 type: integer
+    */
+router.post('/', postMethod);
+
+module.exports = router;

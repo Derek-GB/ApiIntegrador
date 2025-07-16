@@ -20,5 +20,5 @@ module.exports = [
   { path: '/api/detallePedidoConsumibles', route: require('../../routes/detallePedidoConsumibles.route') },
   { path: '/api/pedidoConsumibles', route: require('../../routes/pedidoConsumibles.route') },
   { path: '/api/unidadMedidas', route: require('../../routes/unidadMedidas.route') },
-
+  { path: '/api/ajusteInventario', route: require('../../routes/ajusteInventario.route') }
 ];

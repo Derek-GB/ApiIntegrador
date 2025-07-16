@@ -15,7 +15,7 @@ const {
     *     tags: 
     *       - AjusteInventario
     */
-router.get('/', getAllMethod);
+router.get('/all', getAllMethod);
 
 /*
     * @swagger
@@ -32,7 +32,7 @@ router.get('/', getAllMethod);
     *           type: integer
     *         description: ID del ajuste de inventario a obtener
     */
-router.get('/:id', getMethod);
+router.get('/id/:id', getMethod);
 
 /*
     * @swagger

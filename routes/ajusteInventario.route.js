@@ -56,8 +56,6 @@ router.get('/id/:id', getMethod);
     *                 type: integer
     *               cantidadAjustada:
     *                 type: integer
-    *               fechaCreacion:
-    *                 type: string
     *               idUsuarioCreacion:
     *                 type: integer
     */

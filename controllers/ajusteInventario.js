@@ -41,9 +41,9 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  const { idProducto, justificacion, cantidadOriginal, cantidadAjustada, fechaCreacion, idUsuarioCreacion } = req.body;
+  const { idProducto, justificacion, cantidadOriginal, cantidadAjustada, idUsuarioCreacion } = req.body;
 
-  if (!idProducto || !justificacion || !cantidadOriginal || !cantidadAjustada || !fechaCreacion || !idUsuarioCreacion) {
+  if (!idProducto || !justificacion || !cantidadOriginal || !cantidadAjustada || !idUsuarioCreacion) {
     return res.status(400).json({
       success: false,
       error: "Todos los campos son obligatorios",
@@ -51,8 +51,8 @@ const postMethod = (req = request, res = response) => {
   }
 
   pool.query(
-    "CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?, ?)",
-    [idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion, fechaCreacion],
+    "CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?)",
+    [idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion],
     (error, results) => {
       if (error) {
         console.error("Error en postMethod:", error);

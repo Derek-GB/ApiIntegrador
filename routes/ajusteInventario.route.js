@@ -9,7 +9,7 @@ const {
 
 /*
     * @swagger
-    * /api/ajusteInventario:
+    * /api/ajusteInventario/all:
     *   get:
     *     summary: Obtener todos los ajustes de inventario
     *     tags: 
@@ -19,7 +19,7 @@ router.get('/all', getAllMethod);
 
 /*
     * @swagger
-    * /api/ajusteInventario/{id}:
+    * /api/ajusteInventario/id/{id}:
     *   get:
     *     summary: Obtener un ajuste de inventario por ID
     *     tags: 

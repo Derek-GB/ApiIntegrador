@@ -37,7 +37,7 @@ class servidor {
     this.port = process.env.PORT;
     this.authPath = "/api/auth"; // Ruta de autenticación
     this.rutas = require("../src/consts/rutas");
-    // this.rutasP = require("../src/consts/rutasP"); // Rutas Publicas
+    this.rutasP = require("../src/consts/rutasP"); // Rutas Publicas
     this.middlewares();
     this.routes();
   }

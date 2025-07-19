@@ -6,32 +6,38 @@ const AuthController = require('./auth.controller');
 
 class contrasenaController {
 
-    // ==================== ENDPOINTS PÚBLICOS (SIN TOKEN) ====================
+    // ==================== ENDPOINTS PÚBLICOS ====================
 
     // Validar correo 
-    static async validateEmail(req, res) {
+    static validateEmail(req, res) {
         const { correo } = req.body;
 
-        try {
-            // Validar que se envíe el correo
-            if (!correo) {
-                return res.status(400).json({
+        // Validar que se envíe el correo
+        if (!correo) {
+            return res.status(400).json({
+                success: false,
+                error: 'Correo electrónico es requerido'
+            });
+        }
+
+        // Validar formato de correo básico
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(correo)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Formato de correo electrónico inválido'
+            });
+        }
+
+        // Verificar si el usuario existe y está activo
+        AuthController.findUserByEmail(correo, (error, usuario) => {
+            if (error) {
+                console.error('Error en validateEmail:', error);
+                return res.status(500).json({
                     success: false,
-                    error: 'Correo electrónico es requerido'
+                    error: 'Error interno del servidor'
                 });
             }
-
-            // Validar formato de correo básico
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(correo)) {
-                return res.status(400).json({
-                    success: false,
-                    error: 'Formato de correo electrónico inválido'
-                });
-            }
-
-            // Verificar si el usuario existe y está activo
-            const usuario = await AuthController.findUserByEmail(correo);
 
             if (!usuario) {
                 // Por seguridad, no revelamos si el correo existe o no
@@ -50,48 +56,48 @@ class contrasenaController {
                 userId: usuario.id, // Para usar en el siguiente paso
                 nombreUsuario: usuario.nombreUsuario // Para personalizar el mensaje
             });
-
-        } catch (error) {
-            console.error('Error en validateEmail:', error);
-            res.status(500).json({
-                success: false,
-                error: 'Error interno del servidor'
-            });
-        }
+        });
     }
 
     // Cambiar contraseña con código de verificación 
-    static async changePasswordWithCode(req, res) {
+    static changePasswordWithCode(req, res) {
         const { correo, codigo, nuevaContrasena } = req.body;
 
-        try {
-            // Validar que se envíen todos los datos
-            if (!correo || !codigo || !nuevaContrasena) {
-                return res.status(400).json({
+        // Validar que se envíen todos los datos
+        if (!correo || !codigo || !nuevaContrasena) {
+            return res.status(400).json({
+                success: false,
+                error: 'Correo, código y nueva contraseña son requeridos'
+            });
+        }
+
+        // Validar longitud mínima de contraseña
+        if (nuevaContrasena.length < 6) {
+            return res.status(400).json({
+                success: false,
+                error: 'La nueva contraseña debe tener al menos 6 caracteres'
+            });
+        }
+
+        // Validar formato de correo básico
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(correo)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Formato de correo electrónico inválido'
+            });
+        }
+
+        // Verificar que el usuario existe y está activo
+        AuthController.findUserByEmail(correo, (error, usuario) => {
+            if (error) {
+                console.error('Error buscando usuario:', error);
+                return res.status(500).json({
                     success: false,
-                    error: 'Correo, código y nueva contraseña son requeridos'
+                    error: 'Error interno del servidor'
                 });
             }
 
-            // Validar longitud mínima de contraseña
-            if (nuevaContrasena.length < 6) {
-                return res.status(400).json({
-                    success: false,
-                    error: 'La nueva contraseña debe tener al menos 6 caracteres'
-                });
-            }
-
-            // Validar formato de correo básico
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(correo)) {
-                return res.status(400).json({
-                    success: false,
-                    error: 'Formato de correo electrónico inválido'
-                });
-            }
-
-            // Verificar que el usuario existe y está activo - CORREGIDO
-            const usuario = await AuthController.findUserByEmail(correo);
             if (!usuario) {
                 return res.status(400).json({
                     success: false,
@@ -100,43 +106,43 @@ class contrasenaController {
             }
 
             // Hashear la nueva contraseña
-            const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(nuevaContrasena, saltRounds);
+            AuthController.hashPassword(nuevaContrasena, (error, hashedPassword) => {
+                if (error) {
+                    console.error('Error hasheando contraseña:', error);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Error interno del servidor'
+                    });
+                }
 
-            // Actualizar la contraseña en la base de datos
-            await new Promise((resolve, reject) => {
+                // Actualizar la contraseña en la base de datos
                 const query = 'UPDATE Usuario SET contrasenaHash = ?, ultimaActualizacion = NOW() WHERE id = ?';
                 
                 pool.query(query, [hashedPassword, usuario.id], (error, results) => {
                     if (error) {
-                        reject(error);
-                    } else {
-                        resolve(results);
+                        console.error('Error actualizando contraseña:', error);
+                        return res.status(500).json({
+                            success: false,
+                            error: 'Error interno del servidor'
+                        });
                     }
+
+                    // Revocar todos los refresh tokens del usuario por seguridad
+                    AuthController.revokeUserRefreshTokens(usuario.id, (tokenError) => {
+                        if (tokenError) {
+                            console.error('Error revocando tokens:', tokenError);
+                            // No fallar la operación si hay error con los tokens
+                        }
+
+                        res.json({
+                            success: true,
+                            message: 'Contraseña actualizada exitosamente'
+                        });
+                    });
                 });
             });
-
-            // Revocar todos los refresh tokens del usuario por seguridad
-            try {
-                await AuthController.revokeUserRefreshTokens(usuario.id);
-            } catch (tokenError) {
-                console.error('Error revocando tokens:', tokenError);
-                // No fallar la operación si hay error con los tokens
-            }
-
-            res.json({
-                success: true,
-                message: 'Contraseña actualizada exitosamente'
-            });
-
-        } catch (error) {
-            console.error('Error en changePasswordWithCode:', error);
-            res.status(500).json({
-                success: false,
-                error: 'Error interno del servidor'
-            });
-        }
+        });
     }
 }
 
-module.exports = contrasenaController;
+module.exports = contrasenaController

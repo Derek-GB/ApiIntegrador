@@ -3,10 +3,12 @@ const cors = require("cors");
 const path = require('path');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
+const cookieParser = require('cookie-parser');
 require("dotenv").config();
 // Importar middleware de verificación de token
 const verificarToken = require('../middleware/verificarToken');
-
+// Importar TokenMaintenance para la limpieza automática
+const TokenMaintenance = require('./utils/TokenMaintenance');
 
 // Configuración de swagger-jsdoc
 const swaggerDefinition = {
@@ -37,10 +39,22 @@ class servidor {
     this.port = process.env.PORT;
     this.authPath = "/api/auth"; // Ruta de autenticación
     this.rutas = require("../src/consts/rutas");
-    this.rutasP = require("../src/consts/rutasP"); // Rutas Publicas
     this.middlewares();
     this.routes();
+    this.initializeTokenMaintenance(); 
   }
+
+  // Método para inicializar el mantenimiento de tokens
+  initializeTokenMaintenance() {
+    try {
+      // Iniciar la limpieza automática de tokens
+      TokenMaintenance.startCleanupSchedule();
+      console.log('Sistema de mantenimiento de tokens inicializado');
+    } catch (error) {
+      console.error('Error inicializando el mantenimiento de tokens:', error);
+    }
+  }
+
   //Metodo que contiene las rutas
   routes() {
     // Ruta de autenticación (pública - NO protegida)
@@ -51,10 +65,6 @@ class servidor {
       this.app.use(path, verificarToken, route); // <- Middleware aplicado a todas las rutas
     });
 
-    // Rutas publicas (Sin aplica el middleware de verificación de token)
-    this.rutasP.forEach(({ path, route }) => {
-      this.app.use(path, route); // <- Middleware aplicado a todas las rutas
-    });
     this.app.use('/css', express.static(path.join(__dirname, '../src/css')));
     // Servir la documentación en /api/documentacion
     this.app.use(
@@ -75,7 +85,8 @@ class servidor {
   //Funciones que tiene el express y que me permite usarlas reutilizando codigo
   middlewares() {
     this.app.use(express.static("public"));
-    this.app.use(cors());
+    this.app.use(cors({credentials: true}));
+    this.app.use(cookieParser()); // Middleware para cookies
     //Habilitar el parseo de los datos del body
     this.app.use(express.json());
   }

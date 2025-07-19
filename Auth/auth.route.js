@@ -2,6 +2,7 @@
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
 const contrasenaController = require('./contrasenaOlvidada'); // Actualizado el nombre del archivo
+const TokenMaintenance = require('../utils/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
 const router = Router();
 
 /**
@@ -342,6 +343,7 @@ router.post('/register', (req, res, next) => {
     next();
 }, AuthController.register);
 */
+
 /**
  * @swagger
  * /api/auth/sessions:
@@ -435,28 +437,23 @@ router.post('/cleanup-tokens', (req, res, next) => {
         });
     }
     next();
-}, async (req, res) => {
-    try {
-        const result = await AuthController.cleanupExpiredTokens();
-        
-        if (result) {
-            res.json({
-                success: true,
-                message: 'Tokens expirados limpiados exitosamente'
-            });
-        } else {
-            res.status(500).json({
+}, (req, res) => {
+    // Usar callback en lugar de async/await
+    AuthController.cleanupExpiredTokens((error, results) => {
+        if (error) {
+            console.error('Error en cleanup-tokens:', error);
+            return res.status(500).json({
                 success: false,
-                error: 'Error al limpiar tokens expirados'
+                error: 'Error interno del servidor'
             });
         }
-    } catch (error) {
-        console.error('Error en cleanup-tokens:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Error interno del servidor'
+
+        res.json({
+            success: true,
+            message: 'Tokens expirados limpiados exitosamente',
+            results: results
         });
-    }
+    });
 });
 
 module.exports = router;

@@ -6,43 +6,34 @@ class TokenMaintenance {
     // Ejecutar limpieza automática cada 24 horas
     static startCleanupSchedule() {
         // Ejecutar todos los días a las 2:00 AM
-        cron.schedule('0 2 * * *', async () => {
+        cron.schedule('0 2 * * *', () => {
             console.log('Iniciando limpieza automática de refresh tokens expirados...');
             
-            try {
-                const result = await AuthController.cleanupExpiredTokens();
-                
-                if (result) {
-                    console.log('Limpieza de refresh tokens completada exitosamente');
+            AuthController.cleanupExpiredTokens((error, results) => {
+                if (error) {
+                    console.error('Error en la limpieza automática de refresh tokens:', error);
                 } else {
-                    console.error('Error en la limpieza automática de refresh tokens');
+                    console.log('Limpieza de refresh tokens completada exitosamente');
                 }
-            } catch (error) {
-                console.error('Error en la limpieza automática de refresh tokens:', error);
-            }
+            });
         });
 
         console.log('Programación de limpieza de refresh tokens iniciada (todos los días a las 2:00 AM)');
     }
 
     // Ejecutar limpieza manual
-    static async manualCleanup() {
+    static manualCleanup(callback) {
         console.log('Iniciando limpieza manual de refresh tokens...');
         
-        try {
-            const result = await AuthController.cleanupExpiredTokens();
-            
-            if (result) {
-                console.log('Limpieza manual completada exitosamente');
-                return true;
-            } else {
-                console.error('Error en la limpieza manual de refresh tokens');
-                return false;
+        AuthController.cleanupExpiredTokens((error, results) => {
+            if (error) {
+                console.error('Error en la limpieza manual de refresh tokens:', error);
+                return callback(error, false);
             }
-        } catch (error) {
-            console.error('Error en la limpieza manual de refresh tokens:', error);
-            return false;
-        }
+            
+            console.log('Limpieza manual completada exitosamente');
+            callback(null, true);
+        });
     }
 
     // Iniciar limpieza automática usando setInterval (alternativa a cron)

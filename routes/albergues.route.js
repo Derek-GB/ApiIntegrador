@@ -11,7 +11,7 @@ const {
   getForUbicacionMethod,
 } = require('../controllers/albergues');
 
-const{
+const {
   postMethod,
 } = require('../controllers/formularioAlbergue');
 
@@ -334,21 +334,33 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
 /**
  * @swagger
- * /api/albergues/consulta/ubicacion/{ubicacion}:
+ * /api/albergues/ubicacion:
  *   get:
- *     summary: Consultar albergues por ubicacion
+ *     summary: Consultar albergues por ubicación
  *     tags:
  *       - Albergues
  *     parameters:
- *       - in: path
- *         name: ubicacion
- *         required: true
- *         description: Nombre de la ubicacion (codificado si tiene espacios)
+ *       - in: query
+ *         name: distrito
+ *         required: false
+ *         description: Nombre del distrito (opcional pero con prioridad más alta)
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: canton
+ *         required: false
+ *         description: Nombre del cantón (usado si no se proporciona distrito)
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: provincia
+ *         required: false
+ *         description: Nombre de la provincia (usado si no se proporciona distrito ni cantón)
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Albergues en la ubicacion obtenidos exitosamente
+ *         description: Albergues obtenidos exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -363,11 +375,11 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   items:
  *                     type: object
  *       400:
- *         description: ubicacion no proporcionado
+ *         description: No se proporcionó ningún dato de ubicación
  *       404:
- *         description: ubicacion no encontrado
+ *         description: No se encontraron albergues con los criterios proporcionados
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno del servidor (contactar con el equipo de API)
  */
 router.get('/consulta/ubicacion/:ubicacion', getForUbicacionMethod);
 

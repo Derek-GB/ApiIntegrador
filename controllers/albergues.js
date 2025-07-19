@@ -357,40 +357,42 @@ const getForNombreMethod = (req = request, res = response) => {
   );
 };
 
-const getForUbicacionMethod = (req = request, res = response) => {
-  const { ubicacion } = req.params;
-  if (!ubicacion) {
+const getForUbicacionMethod = async (req = request, res = response) => {
+  const { distrito = '', canton = '', provincia = '' } = req.query;
+
+  
+  if (!distrito && !canton && !provincia) {
     return res.status(400).json({
       success: false,
-      message: "Nombre de la ubicacion es requerido",
+      message: "Se requiere al menos un valor: distrito, cantón o provincia.",
     });
   }
 
-  pool.query(
-    "CALL pa_ConsultarAlbergueUbicacion(?)",
-    [ubicacion],
-    (error, results) => {
-      if (error) {
-        console.error("Error en getForUbicacionMethod:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al obtener el ubicacion del albergue",
-        });
-      }
-      if (!results || !results[0] || results[0].length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Ubicacion no encontrado",
-        });
-      }
-      const info = results[0];
-      res.json({
-        success: true,
-        message: "Albergue obtenido exitosamente",
-        data: info,
+  try {
+    const [results] = await pool.query(
+      "CALL pa_ConsultarAlbergueUbicacion(?, ?, ?)",
+      [distrito, canton, provincia]
+    );
+
+    if (!results || !results[0] || results[0].length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron albergues con los datos de ubicación proporcionados.",
       });
     }
-  );
+
+    res.json({
+      success: true,
+      message: "Albergues obtenidos exitosamente",
+      data: results[0],
+    });
+  } catch (error) {
+    console.error("Error en getForUbicacionMethod:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener los albergues por ubicación.",
+    });
+  }
 };
 
 module.exports = {

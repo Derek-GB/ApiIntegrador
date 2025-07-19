@@ -1,35 +1,30 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
 
-const getAllMethod = (req = request, res = response) => {
-  pool.query("CALL pa_SelectAllConsumible", (error, results) => {
-    if (error) {
-      console.error("Error en getAllMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener consumibles",
-      });
-    }
-
+const getAllMethod = async (req = request, res = response) => {
+  try {
+    const [results] = await pool.query("CALL pa_SelectAllConsumible");
     res.json({
       success: true,
       data: results[0],
     });
-  });
+  } catch (error) {
+    console.error("Error en getAllMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener consumibles",
+      details: error.message,
+    });
+  }
 };
 
-const getMethod = (req = request, res = response) => {
+const getMethod = async (req = request, res = response) => {
   const { id } = req.params;
-  pool.query("CALL pa_SelectConsumible(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error en getMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener consumible",
-      });
-    }
 
-    if (results[0].length === 0) {
+  try {
+    const [results] = await pool.query("CALL pa_SelectConsumible(?)", [id]);
+
+    if (!results || !results[0] || results[0].length === 0) {
       return res.status(404).json({
         success: false,
         message: "Consumible no encontrado",
@@ -40,86 +35,57 @@ const getMethod = (req = request, res = response) => {
       success: true,
       data: results[0][0],
     });
-  });
-};
-
-const postMethod = (req = request, res = response) => {
-  let{ nombre, idUnidadMedida, idCategoria, idCantidadPorPersona } =
-    req.body;
-
-  if (!nombre || idUnidadMedida || idCategoria) {
-    return res.status(400).json({
+  } catch (error) {
+    console.error("Error en getMethod:", error);
+    res.status(500).json({
       success: false,
-      message: "Faltan datos: nombre, idUnidadMedida, idCategoria",
+      error: "Error al obtener consumible",
+      details: error.message,
     });
   }
-  idCantidadPorPersona = idCantidadPorPersona ?? null;
-
-  pool.query(
-    "CALL pa_InsertConsumible(?, ?, ?, ?)",
-    [nombre, idUnidadMedida, idCategoria, idCantidadPorPersona],
-    (error, results) => {
-      if (error) {
-        console.error("Error al insertar consumible:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al insertar consumible",
-        });
-      }
-
-      res.status(201).json({
-        success: true,
-        message: "Consumible insertado correctamente",
-        data: {
-          id: results[0][0].id,
-          nombre,
-          idUnidadMedida,
-          idCategoria,
-          idCantidadPorPersona,
-        },
-      });
-    }
-  );
 };
 
-const putMethod = (req = request, res = response) => {
-  const { id } = req.body;
-  const { nombre, idUnidadMedida, idCategoria } = req.body;
+const postMethod = async (req = request, res = response) => {
+  const { nombre, unidadMedidaNombre, categoriaNombre, cantidad } = req.body;
 
-  if (!id || !nombre || idUnidadMedida == null || idCategoria == null) {
+  if (!nombre || !unidadMedidaNombre || !categoriaNombre || !cantidad) {
     return res.status(400).json({
       success: false,
-      message: "Faltan datos: id, nombre, idUnidadMedida, idCategoria",
+      message:
+        "Faltan datos: nombre, unidadMedidaNombre, categoriaNombre, cantidad",
     });
   }
 
-  pool.query(
-    "CALL pa_UpdateConsumible(?, ?, ?, ?)",
-    [id, nombre, idUnidadMedida, idCategoria],
-    (error, results) => {
-      if (error) {
-        console.error("Error al actualizar consumible:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al actualizar consumible",
-        });
-      }
+  try {
+    const [results] = await pool.query("CALL pa_InsertConsumible(?, ?, ?, ?)", [
+      nombre,
+      unidadMedidaNombre,
+      categoriaNombre,
+      cantidad,
+    ]);
 
-      res.status(200).json({
-        success: true,
-        message: "Consumible actualizado correctamente",
-        data: {
-          id,
-          nombre,
-          idUnidadMedida,
-          idCategoria,
-        },
-      });
-    }
-  );
+    res.status(201).json({
+      success: true,
+      message: "Consumible insertado correctamente",
+      data: {
+        id: results[0][0].id,
+        nombre,
+        unidadMedidaNombre,
+        categoriaNombre,
+        cantidad,
+      },
+    });
+  } catch (error) {
+    console.error("Error al insertar consumible:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al insertar consumible",
+      details: error.message,
+    });
+  }
 };
 
-const deleteMethod = (req = request, res = response) => {
+const deleteMethod = async (req = request, res = response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -129,26 +95,32 @@ const deleteMethod = (req = request, res = response) => {
     });
   }
 
-  pool.query("CALL pa_DeleteConsumible(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error al eliminar consumible:", error);
-      return res.status(500).json({
+  try {
+    const [results] = await pool.query("CALL pa_DeleteConsumible(?)", [id]);
+    if (!results || results.affectedRows === 0) {
+      return res.status(404).json({
         success: false,
-        error: "Error al eliminar consumible",
+        message: `No se encontró una consumible con ID ${id}`,
       });
     }
 
     res.json({
       success: true,
-      message: `Consumible con ID ${id} eliminado correctamente`,
+      message: `Consumible con ID ${id} eliminada correctamente`,
     });
-  });
+  } catch (error) {
+    console.error("Error al eliminar consumible:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al eliminar consumible",
+      details: error.message,
+    });
+  }
 };
-
 module.exports = {
   getAllMethod,
   getMethod,
   postMethod,
-  putMethod,
+  // putMethod,
   deleteMethod,
 };

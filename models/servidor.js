@@ -37,7 +37,6 @@ class servidor {
     this.port = process.env.PORT;
     this.authPath = "/api/auth"; // Ruta de autenticación
     this.rutas = require("../src/consts/rutas");
-    this.rutasP = require("../src/consts/rutasP"); // Rutas Publicas
     this.middlewares();
     this.routes();
   }
@@ -49,11 +48,6 @@ class servidor {
     // Rutas protegidas (aplica el middleware de verificación de token)
     this.rutas.forEach(({ path, route }) => {
       this.app.use(path, verificarToken, route); // <- Middleware aplicado a todas las rutas
-    });
-
-    // Rutas publicas (Sin aplica el middleware de verificación de token)
-    this.rutasP.forEach(({ path, route }) => {
-      this.app.use(path, route); // <- Middleware aplicado a todas las rutas
     });
     this.app.use('/css', express.static(path.join(__dirname, '../src/css')));
     // Servir la documentación en /api/documentacion

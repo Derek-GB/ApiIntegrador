@@ -1,21 +1,22 @@
 const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
 
-const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllCaracteristicasPoblacionales', (error, results) => {
-        if (error) {
-            console.error('Error en getAllMethod:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al obtener caracteristicas poblacionales'
-            });
-        }
+const getAllMethod = async (req = request, res = response) => {
+    try {
+    const [results] = await pool.query("CALL pa_SelectAllCaracteristicasPoblacionales");
 
-        res.json({
-            success: true,
-            data: results[0]
-        });
+    res.json({
+      success: true,
+      data: results[0],
     });
+  } catch (error) {
+    console.error("Error en getAllCaracteristicasPoblacionalesMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener características poblacionales",
+      details: error.message,
+    });
+  }
 };
 
 const getMethod = (req = request, res = response) => {

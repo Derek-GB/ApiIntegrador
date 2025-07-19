@@ -5,7 +5,7 @@ const {
   getAllMethod,
   getMethod,
   postMethod,
-  putMethod,
+  // putMethod,
   deleteMethod,
 } = require('../controllers/consumibles');
 
@@ -63,23 +63,24 @@ router.get('/all', getAllMethod);
  *             type: object
  *             required:
  *               - nombre
- *               - idUnidadMedida
- *               - idCategoria
+ *               - unidadMedidaNombre
+ *               - categoriaNombre
+ *               - cantidad
  *             properties:
  *               nombre:
  *                 type: string
- *               idUnidadMedida:
- *                 type: integer
- *               idCategoria:
- *                 type: integer
- *               idCantidadPorPersona:
- *                 type: integer
- *                 nullable: true
+ *               unidadMedidaNombre:
+ *                 type: string
+ *               categoriaNombre:
+ *                 type: string
+ *               cantidad:
+ *                 type: number
+ *                 format: float
  *     responses:
  *       201:
  *         description: Consumible insertado correctamente
  *       400:
- *         description: Datos faltantes
+ *         description: Datos faltantes en la solicitud
  *       500:
  *         description: Error al insertar consumible (Contactar equipo de API)
  */
@@ -120,7 +121,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putMethod);
 
 /**
  * @swagger

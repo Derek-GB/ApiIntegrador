@@ -2,48 +2,41 @@ const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
 
 // Obtener todos los registros
-const getAllMethod = (req = request, res = response) => {
-  pool.query("CALL pa_SelectAllCapacidadAlbergue()", (error, results) => {
-    if (error) {
-      console.error("Error en getAllMethod:", error);
-      return res
-        .status(500)
-        .json({ success: false, error: "Error al obtener capacidades" });
-    }
-
+const getAllMethod = async (req = request, res = response) => {
+  try {
+    const [results] = await pool.query("CALL pa_SelectAllCapacidadAlbergue()");
     res.json({ success: true, data: results[0] });
-  });
+  } catch (error) {
+    console.error("Error en getAllMethod:", error);
+    return res.status(500).json({ success: false, error: "Error al obtener capacidades" });
+  }
 };
 
 // Obtener un registro por ID
-const getMethod = (req = request, res = response) => {
+const getMethod = async (req = request, res = response) => {
   const { id } = req.params;
 
   if (!id) {
     return res.status(400).json({ success: false, message: "ID requerido" });
   }
 
-  pool.query("CALL pa_SelectCapacidadAlbergue(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error en getMethod:", error);
-      return res
-        .status(500)
-        .json({ success: false, error: "Error al obtener capacidad" });
-    }
+  try {
+    const [results] = await pool.query("CALL pa_SelectCapacidadAlbergue(?)", [id]);
 
     if (!results || !results[0] || results[0].length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Registro no encontrado" });
+      return res.status(404).json({ success: false, message: "Registro no encontrado" });
     }
 
-    res.json({ success: true, data: results[0][0] });
-  });
+    res.json({ success: true, data: results[0] });
+  } catch (error) {
+    console.error("Error en getMethod:", error);
+    res.status(500).json({ success: false, error: "Error al obtener capacidad" });
+  }
 };
 
 // Crear nuevo registro
-const postMethod = (req = request, res = response) => {
-  let{
+const postMethod = async (req = request, res = response) => {
+  let {
     idAlbergue,
     capacidadPersonas,
     capacidadColectiva,
@@ -70,43 +63,44 @@ const postMethod = (req = request, res = response) => {
   sospechososSanos = sospechososSanos ?? null;
   otros = otros ?? null;
 
-  pool.query(
-    "CALL pa_InsertCapacidadAlbergue(?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      idAlbergue,
-      capacidadPersonas,
-      capacidadColectiva,
-      cantidadFamilias,
-      ocupacion,
-      egresos,
-      sospechososSanos,
-      otros,
-    ],
-    (error, results) => {
-      if (error) {
-        console.error("Error en postMethod:", error);
-        return res
-          .status(500)
-          .json({ success: false, error: "Error al crear registro" });
-      }
+  try {
+    const [results] = await pool.query(
+      "CALL pa_InsertCapacidadAlbergue(?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        idAlbergue,
+        capacidadPersonas,
+        capacidadColectiva,
+        cantidadFamilias,
+        ocupacion,
+        egresos,
+        sospechososSanos,
+        otros,
+      ]
+    );
 
-      res.status(201).json({
-        success: true,
-        message: "Registro creado correctamente",
-        data: {
-          id: results[0][0].id,
-          idAlbergue,
-          capacidadPersonas,
-          capacidadColectiva,
-          cantidadFamilias,
-          ocupacion,
-          egresos,
-          sospechososSanos,
-          otros,
-        },
-      });
-    }
-  );
+    res.status(201).json({
+      success: true,
+      message: "Registro creado correctamente",
+      data: {
+        id: results[0][0].id,
+        idAlbergue,
+        capacidadPersonas,
+        capacidadColectiva,
+        cantidadFamilias,
+        ocupacion,
+        egresos,
+        sospechososSanos,
+        otros,
+      },
+    });
+  } catch (error) {
+    console.error("Error en insertCapacidadAlbergueMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al crear registro",
+      details: error.message,
+    });
+  }
 };
 
 // Actualizar un registro
@@ -166,7 +160,7 @@ const putMethod = (req = request, res = response) => {
 };
 
 // Eliminar registro
-const deleteMethod = (req = request, res = response) => {
+const deleteMethod = async (req = request, res = response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -176,19 +170,29 @@ const deleteMethod = (req = request, res = response) => {
     });
   }
 
-  pool.query("CALL pa_DeleteCapacidadAlbergue(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error en deleteMethod:", error);
-      return res
-        .status(500)
-        .json({ success: false, error: "Error al eliminar registro" });
+  try {
+    const [results] = await pool.query("CALL pa_DeleteCapacidadAlbergue(?)", [id]);
+
+    // Opcional: verificar si realmente se eliminó algo
+    if (!results || results.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `No se encontró registro con ID ${id}`,
+      });
     }
 
     res.json({
       success: true,
       message: `Registro con ID ${id} eliminado correctamente`,
     });
-  });
+  } catch (error) {
+    console.error("Error en deleteCapacidadAlbergueMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al eliminar registro",
+      details: error.message,
+    });
+  }
 };
 
 module.exports = {

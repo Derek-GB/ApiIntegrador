@@ -1,46 +1,48 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
+const pool = require("../MySQL/basedatos"); 
 
-const getAllMethod = (req = request, res = response) => {
-  pool.query("CALL pa_SelectAllAjusteInventario", (error, results) => {
-    if (error) {
-      console.error("Error en getAllMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener los ajustes de inventario",
-      });
-    }
+const getAllMethod = async (req = request, res = response) => {
+  try {
+    const [results] = await pool.query("CALL pa_SelectAllAjusteInventario");
     res.json({
       success: true,
-      data: results[0],
+      data: results[0], 
     });
-  });
+  } catch (error) {
+    console.error("Error en getAllMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener los ajustes de inventario",
+    });
+  }
 };
 
-const getMethod = (req = request, res = response) => {
+const getMethod = async (req = request, res = response) => {
   const { id } = req.params;
-  pool.query("CALL pa_SelectAjusteInventario(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error en getMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener el ajuste de inventario",
-      });
-    }
+  try {
+    const [results] = await pool.query("CALL pa_SelectAjusteInventario(?)", [id]);
+
     if (results[0].length === 0) {
       return res.status(404).json({
         success: false,
         error: "Ajuste de inventario no encontrado",
       });
     }
+
     res.json({
       success: true,
       data: results[0][0],
     });
-  });
+  } catch (error) {
+    console.error("Error en getMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener el ajuste de inventario",
+    });
+  }
 };
 
-const postMethod = (req = request, res = response) => {
+const postMethod = async (req = request, res = response) => {
   const { idProducto, justificacion, cantidadOriginal, cantidadAjustada, idUsuarioCreacion } = req.body;
 
   if (!idProducto || !justificacion || !cantidadOriginal || !cantidadAjustada || !idUsuarioCreacion) {
@@ -50,23 +52,23 @@ const postMethod = (req = request, res = response) => {
     });
   }
 
-  pool.query(
-    "CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?)",
-    [idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion],
-    (error, results) => {
-      if (error) {
-        console.error("Error en postMethod:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al registrar el ajuste de inventario",
-        });
-      }
-      res.status(201).json({
-        success: true,
-        message: "Ajuste de inventario registrado correctamente",
-      });
-    }
-  );
+  try {
+    await pool.query(
+      "CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?)",
+      [idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Ajuste de inventario registrado correctamente",
+    });
+  } catch (error) {
+    console.error("Error en postMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al registrar el ajuste de inventario",
+    });
+  }
 };
 
 module.exports = {

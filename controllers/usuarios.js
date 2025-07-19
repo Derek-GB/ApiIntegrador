@@ -1,50 +1,53 @@
 const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
 
-const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllUsuario', (error, results) => {
-        if (error) {
-            console.error('Error en getAllMethod:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al obtener usuarios'
-            });
-        }
+const getAllMethod = async  (req = request, res = response) => {
+    try {
+    const [results] = await pool.query("CALL pa_SelectAllUsuario");
 
-        res.json({
-            success: true,
-            data: results[0]
-        });
+    res.json({
+      success: true,
+      data: results[0],
     });
+  } catch (error) {
+    console.error("Error en getAllUsuariosMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener usuarios",
+      details: error.message,
+    });
+  }
+
 };
 
-const getMethod = (req = request, res = response) => {
+const getMethod = async  (req = request, res = response) => {
     const { id } = req.params;
-    pool.query('CALL pa_SelectUsuario(?)', [id], (error, results) => {
-        if (error) {
-            console.error('Error en getMethod:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al obtener usuarios'
-            });
-        }
+    try {
+    const [results] = await pool.query("CALL pa_SelectUsuario(?)", [id]);
 
-        if (results[0].length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Usuario no encontrado'
-            });
-        }
+    if (!results || results[0].length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado",
+      });
+    }
 
-        res.json({
-            success: true,
-            data: results[0][0]
-        });
+    res.json({
+      success: true,
+      data: results[0][0],
     });
+  } catch (error) {
+    console.error("Error en getUsuarioByIdMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener usuario",
+      details: error.message,
+    });
+  }
 };
 
 
-const postMethod = (req = request, res = response) => {
+const postMethod = async (req = request, res = response) => {
     let { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = req.body;
 
     if (!nombreUsuario || !correo || !contrasenaHash ) {
@@ -59,27 +62,45 @@ const postMethod = (req = request, res = response) => {
     idMunicipalidad = idMunicipalidad ?? null; 
     identificacion = identificacion ?? null; 
 
-    pool.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?)', [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion], (error, results) => {
-        if (error) {
-            console.error('Error al insertar usuario:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al insertar usuario'
-            });
-        }
+    try {
+    const [results] = await pool.query(
+      "CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?)",
+      [
+        nombreUsuario,
+        correo,
+        contrasenaHash,
+        rol,
+        activo,
+        idMunicipalidad,
+        identificacion
+      ]
+    );
 
-        res.status(201).json({
-            success: true,
-            message: 'Usuario insertado correctamente',
-            data: {
-                id: results[0][0].id,
-                nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion
-            }
-        });
+    res.status(201).json({
+      success: true,
+      message: "Usuario insertado correctamente",
+      data: {
+        id: results[0][0].id,
+        nombreUsuario,
+        correo,
+        contrasenaHash,
+        rol,
+        activo,
+        idMunicipalidad,
+        identificacion
+      }
     });
+  } catch (error) {
+    console.error("Error al insertar usuario:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al insertar usuario",
+      details: error.message
+    });
+  }
 };
 
-const validarCorreoMethod = (req = request, res = response) => {
+const validarCorreoMethod = async (req = request, res = response) => {
     const { correo } = req.body;
 
     if (!correo) {
@@ -89,30 +110,30 @@ const validarCorreoMethod = (req = request, res = response) => {
         });
     }
 
-    pool.query('CALL pa_ValidarCorreo(?)', [correo], (error, results) => {
-        if (error) {
-            console.error('Error al validar correo:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al validar correo'
-            });
-        }
+    try {
+    const [results] = await pool.query("CALL pa_ValidarCorreo(?)", [correo]);
 
-        // results[0] contiene el result set del SELECT dentro del procedimiento
-        const existe = results?.[0]?.[0]?.existe;
+    const existe = results?.[0]?.[0]?.existe;
 
-        if (existe === 1) {
-            return res.status(400).json({
-                success: false,
-                message: 'El correo ya está en uso'
-            });
-        }
+    if (existe === 1) {
+      return res.status(400).json({
+        success: false,
+        message: "El correo ya está en uso",
+      });
+    }
 
-        res.json({
-            success: true,
-            message: 'El correo es válido y está disponible'
-        });
+    res.json({
+      success: true,
+      message: "El correo es válido y está disponible",
     });
+  } catch (error) {
+    console.error("Error al validar correo:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al validar correo",
+      details: error.message,
+    });
+  }
 };
 
 const putMethod = (req = request, res = response) => {

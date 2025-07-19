@@ -1,42 +1,35 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
 
-// Este controlador maneja las operaciones CRUD para las amenazas
-const getAllMethod = (req = request, res = response) => {
-  // Llama al procedimiento almacenado para obtener todas las amenazas
-  pool.query("CALL pa_SelectAllAmenaza", (error, results) => {
-    // Maneja errores en la consulta
-    // Si hay un error, se captura y se envía una respuesta de error
-    if (error) {
-      console.error("Error en getAllMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener amenazas",
-      });
-    }
-    // Verifica si se encontraron amenazas
-
+const getAllMethod = async (req = request, res = response) => {
+  try {
+    const [results] = await pool.query("CALL pa_SelectAllAmenaza");
     res.json({
       success: true,
       data: results[0],
     });
-  });
-};
+  } catch (error) {
+    console.error("Error en getAllMethod:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener amenazas",
+    });
+  }
+  // Verifica si se encontraron amenazas
+  if (!results || !results[0] || results[0].length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "No se encontraron amenazas",
+    });
+  }
+}
 
-const getMethod = (req = request, res = response) => {
-  // Llama al procedimiento almacenado para obtener una amenaza específica por ID
+const getMethod = async (req = request, res = response) => {
   const { id } = req.params;
-  // Verifica si se proporcionó el ID
-  pool.query("CALL pa_SelectAmenaza(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error en getMethod:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener amenaza",
-      });
-    }
-    // Verifica si se encontró la amenaza
-    if (results[0].length === 0) {
+  try {
+    const [results] = await pool.query("CALL pa_SelectAmenaza(?)", [id]);
+
+    if (!results || results[0].length === 0) {
       return res.status(404).json({
         success: false,
         message: "Amenaza no encontrada",
@@ -47,11 +40,18 @@ const getMethod = (req = request, res = response) => {
       success: true,
       data: results[0][0],
     });
-  });
+
+  } catch (error) {
+    console.error("Error en getAmenazaMethod:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener amenaza",
+      details: error.message,
+    });
+  }
 };
 
-const postMethod = (req = request, res = response) => {
-  // Llama al procedimiento almacenado para insertar una nueva amenaza
+const postMethod = async (req = request, res = response) => {
   let { familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion } =
     req.body;
 
@@ -65,36 +65,35 @@ const postMethod = (req = request, res = response) => {
   idFamilia = idFamilia ?? null;
   idUsuarioCreacion = idUsuarioCreacion ?? null;
 
-  pool.query(
-    "CALL pa_InsertAmenaza(?, ?, ?, ?, ?)",
-    [familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion],
-    (error, results) => {
-      if (error) {
-        console.error("Error al insertar amenaza:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al insertar amenaza",
-        });
-      }
+  try {
+    const [results] = await pool.query(
+      "CALL pa_InsertAmenaza(?, ?, ?, ?, ?)",
+      [familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion]
+    );
 
-      res.status(201).json({
-        success: true,
-        message: "Amenaza insertada correctamente",
-        data: {
-            p_id: results[0][0].id,
-          familiaEvento,
-          evento,
-          peligro,
-            idFamilia,
-            idUsuarioCreacion,
-        },
-      });
-    }
-  );
+    res.status(201).json({
+      success: true,
+      message: "Amenaza insertada correctamente",
+      data: {
+        p_id: results[0][0].id,
+        familiaEvento,
+        evento,
+        peligro,
+        idFamilia,
+        idUsuarioCreacion,
+      },
+    });
+  } catch (error) {
+    console.error("Error al insertar amenaza:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al insertar amenaza",
+      details: error.message,
+    });
+  }
 };
 
-const putMethod = (req = request, res = response) => {
-  // Llama al procedimiento almacenado para actualizar una amenaza existente
+const putMethod = async (req = request, res = response) => {
   const { id } = req.body;
   const { familiaEvento, evento, peligro } = req.body;
 
@@ -105,33 +104,33 @@ const putMethod = (req = request, res = response) => {
     });
   }
 
-  pool.query(
-    "CALL pa_UpdateAmenaza(?, ?, ?, ?)",
-    [id, familiaEvento, evento, peligro],
-    (error, results) => {
-      if (error) {
-        console.error("Error al actualizar amenaza:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al actualizar amenaza",
-        });
-      }
+  try {
+    const [results] = await pool.query(
+      "CALL pa_UpdateAmenaza(?, ?, ?, ?)",
+      [id, familiaEvento, evento, peligro]
+    );
 
-      res.status(200).json({
-        success: true,
-        message: "Amenaza actualizada correctamente",
-        data: {
-          familiaEvento,
-          evento,
-          peligro,
-        },
-      });
-    }
-  );
+    res.status(200).json({
+      success: true,
+      message: "Amenaza actualizada correctamente",
+      data: {
+        id,
+        familiaEvento,
+        evento,
+        peligro,
+      },
+    });
+  } catch (error) {
+    console.error("Error al actualizar amenaza:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al actualizar amenaza",
+      details: error.message,
+    });
+  }
 };
 
-const deleteMethod = (req = request, res = response) => {
-  // Llama al procedimiento almacenado para eliminar una amenaza por ID
+const deleteMethod = async (req = request, res = response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -141,12 +140,12 @@ const deleteMethod = (req = request, res = response) => {
     });
   }
 
-  pool.query("CALL pa_DeleteAmenaza(?)", [id], (error, results) => {
-    if (error) {
-      console.error("Error al eliminar amenaza:", error);
-      return res.status(500).json({
+  try {
+    const [results] = await pool.query("CALL pa_DeleteAmenaza(?)", [id]);
+    if (!results || results.affectedRows === 0) {
+      return res.status(404).json({
         success: false,
-        error: "Error al eliminar amenaza",
+        message: `No se encontró una amenaza con ID ${id}`,
       });
     }
 
@@ -154,7 +153,14 @@ const deleteMethod = (req = request, res = response) => {
       success: true,
       message: `Amenaza con ID ${id} eliminada correctamente`,
     });
-  });
+  } catch (error) {
+    console.error("Error al eliminar amenaza:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al eliminar amenaza",
+      details: error.message,
+    });
+  }
 };
 
 module.exports = {

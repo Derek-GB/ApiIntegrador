@@ -8,7 +8,7 @@ require("dotenv").config();
 // Importar middleware de verificación de token
 const verificarToken = require('../middleware/verificarToken');
 // Importar TokenMaintenance para la limpieza automática
-const TokenMaintenance = require('./utils/TokenMaintenance');
+const TokenMaintenance = require('../Auth/TokenMaintenance');
 
 // Configuración de swagger-jsdoc
 const swaggerDefinition = {

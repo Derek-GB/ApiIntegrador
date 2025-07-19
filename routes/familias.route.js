@@ -7,6 +7,7 @@ const {
   putMethod,
   deleteMethod,
   getVistaFamiliaConJefeMethod,
+  getForCedulaJefeMethod,
 } = require('../controllers/familias');
 
 const { postMethod } = require('../controllers/formularioFamilias');
@@ -230,5 +231,29 @@ router.delete('/id/:id', deleteMethod);
  */
 
 router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
+
+/**
+ * @swagger
+ * /api/familias/consulta/familiaConJefe/{cedula}:
+ *   get:
+ *     tags:
+ *       - Familias
+ *     summary: Obtener familia por cédula del jefe
+ *     parameters:
+ *       - in: path
+ *         name: cedula
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cédula del jefe de la familia
+ *     responses:
+ *       200:
+ *         description: Familia obtenida exitosamente
+ *       404:
+ *         description: Familia no encontrada
+ *       500:
+ *         description: Error al obtener familia (Contactar equipo de API)
+ */
+router.get('/consulta/familiaConJefe/:cedula', getVistaFamiliaConJefeMethod);
 
 module.exports = router;

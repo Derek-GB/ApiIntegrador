@@ -1,7 +1,7 @@
 // Auth/auth.route.js
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
-const contrasenaController = require('./ContrasenaOlvidada'); // Actualizado el nombre del archivo
+const contrasenaController = require('./contrasenaOlvidada'); // Actualizado el nombre del archivo
 const router = Router();
 
 /**

@@ -224,6 +224,6 @@ router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/consulta/familiaConJefe/:cedula', getVistaFamiliaConJefeMethod);
+router.get('/consulta/familiaConJefe/:cedula', getForCedulaJefeMethod);
 
 module.exports = router;

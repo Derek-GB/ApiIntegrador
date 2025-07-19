@@ -1,158 +1,299 @@
 // Auth/AuthController.js
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { pool } = require('../MySQL/basedatos'); // Ajusta la ruta según tu estructura
-const { SECRET_KEY, TOKEN_EXPIRES_IN } = process.env;
+console.log('=== DEBUG ENV ===');
+console.log('SECRET_KEY:', process.env.SECRET_KEY);
+console.log('PORT:', process.env.PORT);
+console.log('=================');
+const { SECRET_KEY } = process.env;
+
+// Configuración de tokens (tiempos fijos)
+const ACCESS_TOKEN_EXPIRES_IN = '15m';
+const REFRESH_TOKEN_EXPIRES_IN = '7d';
 
 class AuthController {
+    // ==================== FUNCIONES DE UTILIDAD ====================
+
+    // Generar tokens (access y refresh)
+    static generateTokens(user) {
+        const accessToken = jwt.sign(
+            {
+                id: user.id,
+                correo: user.correo,
+                rol: user.rol,
+                nombreUsuario: user.nombreUsuario,
+                idMunicipalidad: user.idMunicipalidad
+            },
+            SECRET_KEY,
+            { expiresIn: ACCESS_TOKEN_EXPIRES_IN }
+        );
+
+        const refreshToken = jwt.sign(
+            {
+                id: user.id,
+                type: 'refresh'
+            },
+            SECRET_KEY,
+            { expiresIn: REFRESH_TOKEN_EXPIRES_IN }
+        );
+
+        return { accessToken, refreshToken };
+    }
+
+    // Buscar usuario por correo (función de utilidad para login)
+    static async findUserByEmail(correo) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM Usuario WHERE correo = ? AND activo = 1';
+
+            pool.query(query, [correo], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.length > 0 ? results[0] : null);
+                }
+            });
+        });
+    }
+
+    // Buscar usuario por nombre de usuario (nueva función)
+    static async findUserByUsername(nombreUsuario) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM Usuario WHERE nombreUsuario = ? AND activo = 1';
+
+            pool.query(query, [nombreUsuario], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.length > 0 ? results[0] : null);
+                }
+            });
+        });
+    }
+
+    // Buscar usuario por correo o nombre de usuario (nueva función unificada)
+    static async findUserByEmailOrUsername(identifier) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM Usuario WHERE (correo = ? OR nombreUsuario = ?) AND activo = 1';
+
+            pool.query(query, [identifier, identifier], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.length > 0 ? results[0] : null);
+                }
+            });
+        });
+    }
+
+    // Verificar contraseña (función de utilidad para login)
+    static async verifyPassword(plainPassword, hashedPassword) {
+        return await bcrypt.compare(plainPassword, hashedPassword);
+    }
+
+    // Guardar refresh token en BD
+    static async saveRefreshToken(userId, refreshToken) {
+        return new Promise((resolve, reject) => {
+            // Calcular fecha de expiración (7 días desde ahora)
+            const expiresAt = new Date();
+            expiresAt.setDate(expiresAt.getDate() + 7);
+
+            // Llamar al procedimiento almacenado para insertar refresh token
+            const query = 'CALL pa_InsertToken(?, ?, ?)';
+
+            pool.query(query, [userId, refreshToken, expiresAt], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // Revocar refresh tokens anteriores del usuario
+    static async revokeUserRefreshTokens(userId) {
+        return new Promise((resolve, reject) => {
+            const query = 'UPDATE Token SET esActivo = 0 WHERE idUsuario = ? AND esActivo = 1';
+
+            pool.query(query, [userId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // Obtener refresh tokens de un usuario
+    static async getUserRefreshTokens(userId) {
+        return new Promise((resolve, reject) => {
+            const query = 'CALL pa_SelectToken(?)';
+
+            pool.query(query, [userId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results[0] || []);
+                }
+            });
+        });
+    }
+
+    // Limpiar tokens expirados
+    static async cleanupExpiredTokens() {
+        return new Promise((resolve, reject) => {
+            const query = 'DELETE FROM Token WHERE fechaExpiracion < NOW()';
+
+            pool.query(query, [], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // Actualizar última sesión del usuario
+    static async updateLastSession(userId) {
+        return new Promise((resolve, reject) => {
+            const query = 'UPDATE Usuario SET ultimaSesion = NOW() WHERE id = ?';
+
+            pool.query(query, [userId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    // ==================== MÉTODOS DE AUTENTICACIÓN ====================
+
     static async login(req, res) {
-        const { correo, contrasena } = req.body;
+        // Ahora aceptamos tanto 'correo' como 'usuario' como identificador
+        const { correo, usuario, contrasena } = req.body;
+        
+        // El identificador puede venir como 'correo' o 'usuario', o directamente como string
+        const identifier = correo || usuario;
 
         try {
             // Validar que se envíen los datos requeridos
-            if (!correo || !contrasena) {
-                return res.status(400).json({ 
+            if (!identifier || !contrasena) {
+                return res.status(400).json({
                     success: false,
-                    error: 'Correo y contraseña son requeridos' 
+                    error: 'Correo/usuario y contraseña son requeridos'
                 });
             }
 
-            // 1. Buscar usuario por correo en la base de datos real
-            const query = 'CALL `railway`.`pa_LoginUsuario`(?,?)';
+            // 1. Buscar usuario por correo o nombre de usuario
+            const usuarioEncontrado = await AuthController.findUserByEmailOrUsername(identifier);
 
-            pool.query(query, [correo, contrasena], async (error, results) => {
-                if (error) {
-                    console.error('Error en consulta de usuario:', error);
-                    return res.status(500).json({ 
-                        success: false,
-                        error: 'Error interno del servidor' 
-                    });
-                }
-
-                // Verificar si el usuario existe
-                if (!results?.[0]?.length) {
-                  return res.status(401).json({
+            if (!usuarioEncontrado) {
+                return res.status(401).json({
                     success: false,
-                    error: 'Usuario no encontrado'
-                    });
-                }
-                // console.log('Resultados de la consulta:', results);
-                const usuario = results[0][0];
-                // console.log('Usuario encontrado:', usuario);
+                    error: 'Credenciales inválidas'
+                });
+            }
 
-                //Todo este codigo es inecesario, ya que el procedimiento almacenado ya valida si el usuario existe y si la contraseña es correcta
-                // // 2. Verificar si el usuario está activo
-                // if (!usuario.activo) {
-                //     return res.status(403).json({ 
-                //         success: false,
-                //         error: 'Cuenta inactiva' 
-                //     });
-                // }
+            // 2. Verificar contraseña
+            const isValidPassword = await AuthController.verifyPassword(contrasena, usuarioEncontrado.contrasenaHash);
 
-                // // 3. Validar contraseña
-                // // ERROR CORREGIDO: contrasen -> contrasenaHash (según tu esquema de BD)
-                // let contrasenaValida = false;
-                
-                // // Verificar si la contraseña está hasheada
-                // if (usuario.contrasenaHash && usuario.contrasenaHash.startsWith('$2')) {
-                //     // Contraseña hasheada con bcrypt
-                //     contrasenaValida = await bcrypt.compare(contrasena, usuario.contrasenaHash);
-                // } else if (usuario.contrasenaHash) {
-                //     // Contraseña en texto plano (temporal - deberías hashear)
-                //     contrasenaValida = (contrasena === usuario.contrasenaHash);
-                // } else {
-                //     console.error('Campo de contraseña no encontrado en usuario:', Object.keys(usuario));
-                //     return res.status(500).json({ 
-                //         success: false,
-                //         error: 'Error en estructura de usuario' 
-                //     });
-                // }
+            if (!isValidPassword) {
+                return res.status(401).json({
+                    success: false,
+                    error: 'Credenciales inválidas'
+                });
+            }
 
-                // if (!contrasenaValida) {
-                //     // Agregar logs para debug
-                //     console.log('Contraseña enviada:', contrasena);
-                //     console.log('Hash en BD:', usuario.contrasenaHash);
-                //     console.log('Comparación válida:', contrasenaValida);
-                    
-                //     return res.status(401).json({ 
-                //         success: false,
-                //         error: 'Contraseña incorrecta' 
-                //     });
-                // }
+            try {
+                // 3. Revocar refresh tokens anteriores (opcional - para mayor seguridad)
+                await AuthController.revokeUserRefreshTokens(usuarioEncontrado.id);
 
-                // Hay que corregir esto
-                // 4. Actualizar última sesión
-                const updateQuery = 'UPDATE Usuario SET ultimaSesion = NOW() WHERE id = ?';
-                pool.query(updateQuery, [usuario.idUsuario], (updateError) => {
-                    if (updateError) {
-                        console.warn('Error actualizando última sesión:', updateError);
-                    }
+                // 4. Generar nuevos tokens
+                const { accessToken, refreshToken } = AuthController.generateTokens({
+                    id: usuarioEncontrado.id,
+                    correo: usuarioEncontrado.correo,
+                    rol: usuarioEncontrado.rol,
+                    nombreUsuario: usuarioEncontrado.nombreUsuario,
+                    idMunicipalidad: usuarioEncontrado.idMunicipalidad
                 });
 
-                // Esto si funciona
-                // 5. Generar token JWT
-                const token = jwt.sign(
-                    {
-                        id: usuario.idUsuario,
-                        correo: usuario.correo,
-                        rol: usuario.rol,
-                        nombreUsuario: usuario.nombreUsuario,
-                        idMunicipalidad: usuario.idMunicipalidad || null
-                    },
-                    SECRET_KEY,
-                    { expiresIn: TOKEN_EXPIRES_IN || '24h' }
-                );
+                // 5. Guardar refresh token en BD
+                await AuthController.saveRefreshToken(usuarioEncontrado.id, refreshToken);
 
-                // 6. Responder con token y datos básicos del usuario
+                // 6. Actualizar última sesión
+                await AuthController.updateLastSession(usuarioEncontrado.id);
+
+                // 7. Configurar cookie segura con refresh token
+                res.cookie('refreshToken', refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
+                });
+
+                // 8. Responder con access token y datos básicos del usuario
                 res.json({
                     success: true,
-                    token,
+                    message: 'Login exitoso',
+                    accessToken,
                     usuario: {
-                        id: usuario.idUsuario,
-                        nombreUsuario: usuario.nombreUsuario,
-                        rol: usuario.rol,
-                        correo: usuario.correo,
-                        idMunicipalidad: usuario.idMunicipalidad
+                        id: usuarioEncontrado.id,
+                        nombreUsuario: usuarioEncontrado.nombreUsuario,
+                        rol: usuarioEncontrado.rol,
+                        correo: usuarioEncontrado.correo,
+                        idMunicipalidad: usuarioEncontrado.idMunicipalidad
                     }
                 });
-            });
+
+            } catch (tokenError) {
+                console.error('Error generando tokens:', tokenError);
+                return res.status(500).json({
+                    success: false,
+                    error: 'Error al generar tokens'
+                });
+            }
 
         } catch (error) {
             console.error('Error en login:', error);
-            res.status(500).json({ 
+            res.status(500).json({
                 success: false,
-                error: 'Error interno del servidor' 
+                error: 'Error interno del servidor'
             });
         }
     }
 
-    // Método para registro de usuarios
     static async register(req, res) {
-    const { nombreUsuario, correo, contrasena, rol = 'usuario', idMunicipalidad, identificacion } = req.body;
+        const { nombreUsuario, correo, contrasena, rol = 'usuario', idMunicipalidad, identificacion } = req.body;
 
-    try {
-        if (!nombreUsuario || !correo || !contrasena) {
-            return res.status(400).json({
-                success: false,
-                error: 'Nombre de usuario, correo y contraseña son requeridos'
-            });
-        }
-
-        // Verificar si el usuario ya existe
-        const checkQuery = 'SELECT id FROM Usuario WHERE correo = ? LIMIT 1';
-        pool.query(checkQuery, [correo], async (error, results) => {
-            if (error) {
-                console.error('Error verificando usuario:', error);
-                return res.status(500).json({
+        try {
+            if (!nombreUsuario || !correo || !contrasena) {
+                return res.status(400).json({
                     success: false,
-                    error: 'Error interno del servidor'
+                    error: 'Nombre de usuario, correo y contraseña son requeridos'
                 });
             }
 
-            if (results.length > 0) {
+            // Verificar si el usuario ya existe por correo
+            const existingUserByEmail = await AuthController.findUserByEmail(correo);
+            if (existingUserByEmail) {
                 return res.status(409).json({
                     success: false,
-                    error: 'El usuario ya existe'
+                    error: 'Ya existe un usuario con este correo electrónico'
+                });
+            }
+
+            // Verificar si el usuario ya existe por nombre de usuario
+            const existingUserByUsername = await AuthController.findUserByUsername(nombreUsuario);
+            if (existingUserByUsername) {
+                return res.status(409).json({
+                    success: false,
+                    error: 'Ya existe un usuario con este nombre de usuario'
                 });
             }
 
@@ -166,7 +307,7 @@ class AuthController {
                 VALUES (?, ?, ?, ?, 1, NOW(), ?, ?)
             `;
 
-            pool.query(insertQuery, [nombreUsuario, correo, hashedPassword, rol, idMunicipalidad, identificacion], (insertError, insertResults) => {
+            pool.query(insertQuery, [nombreUsuario, correo, hashedPassword, rol, idMunicipalidad, identificacion], async (insertError, insertResults) => {
                 if (insertError) {
                     console.error('Error creando usuario:', insertError);
                     return res.status(500).json({
@@ -184,43 +325,202 @@ class AuthController {
                     idMunicipalidad: idMunicipalidad || null
                 };
 
-                // Generar token JWT inmediatamente después del registro
-                const token = jwt.sign(
-                    {
-                        id: nuevoUsuario.id,
-                        correo: nuevoUsuario.correo,
-                        rol: nuevoUsuario.rol,
-                        nombreUsuario: nuevoUsuario.nombreUsuario,
-                        idMunicipalidad: nuevoUsuario.idMunicipalidad
-                    },
-                    SECRET_KEY,
-                    { expiresIn: TOKEN_EXPIRES_IN || '24h' }
-                );
+                try {
+                    // Generar tokens
+                    const { accessToken, refreshToken } = AuthController.generateTokens(nuevoUsuario);
 
-                // Responder con token y datos del usuario
-                res.status(201).json({
-                    success: true,
-                    message: 'Usuario creado exitosamente',
-                    token,
-                    usuario: nuevoUsuario
-                });
+                    // Guardar refresh token en BD
+                    await AuthController.saveRefreshToken(nuevoUsuario.id, refreshToken);
+
+                    // Configurar cookie segura con refresh token
+                    res.cookie('refreshToken', refreshToken, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'strict',
+                        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
+                    });
+
+                    // Responder con access token y datos del usuario
+                    res.status(201).json({
+                        success: true,
+                        message: 'Usuario creado exitosamente',
+                        accessToken,
+                        usuario: nuevoUsuario
+                    });
+
+                } catch (tokenError) {
+                    console.error('Error generando tokens:', tokenError);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Error al generar tokens'
+                    });
+                }
             });
-        });
 
-    } catch (error) {
-        console.error('Error en register:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Error interno del servidor'
+        } catch (error) {
+            console.error('Error en register:', error);
+            res.status(500).json({
+                success: false,
+                error: 'Error interno del servidor'
+            });
+        }
+    }
+
+    // Renovar Access Token
+    static async refreshToken(req, res) {
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!refreshToken) {
+            return res.status(401).json({
+                success: false,
+                error: 'Refresh token no encontrado'
+            });
+        }
+
+        try {
+            // Verificar el refresh token
+            const decoded = jwt.verify(refreshToken, SECRET_KEY);
+
+            // Verificar si el token existe en BD y está activo
+            const query = 'CALL pa_SelectToken(?)';
+
+            pool.query(query, [refreshToken], async (error, results) => {
+                if (error) {
+                    console.error('Error verificando refresh token:', error);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Error interno del servidor'
+                    });
+                }
+
+                const tokenResults = results[0];
+                if (!tokenResults || tokenResults.length === 0) {
+                    return res.status(403).json({
+                        success: false,
+                        error: 'Refresh token inválido o expirado'
+                    });
+                }
+
+                const tokenData = tokenResults[0];
+
+                // Verificar que el token esté activo y no haya expirado
+                if (!tokenData.activo || new Date() > new Date(tokenData.expires_at)) {
+                    return res.status(403).json({
+                        success: false,
+                        error: 'Refresh token inválido o expirado'
+                    });
+                }
+
+                // Buscar datos completos del usuario por ID
+                const usuario = await new Promise((resolve, reject) => {
+                    const userQuery = 'SELECT * FROM Usuario WHERE id = ? AND activo = 1';
+                    pool.query(userQuery, [decoded.id], (error, results) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(results.length > 0 ? results[0] : null);
+                        }
+                    });
+                });
+
+                if (!usuario) {
+                    return res.status(403).json({
+                        success: false,
+                        error: 'Usuario no encontrado'
+                    });
+                }
+
+                try {
+                    // Revocar el refresh token actual (rotación)
+                    await AuthController.revokeUserRefreshTokens(usuario.id);
+
+                    // Generar nuevos tokens
+                    const { accessToken, refreshToken: newRefreshToken } = AuthController.generateTokens({
+                        id: usuario.id,
+                        correo: usuario.correo,
+                        rol: usuario.rol,
+                        nombreUsuario: usuario.nombreUsuario,
+                        idMunicipalidad: usuario.idMunicipalidad
+                    });
+
+                    // Guardar el nuevo refresh token
+                    await AuthController.saveRefreshToken(usuario.id, newRefreshToken);
+
+                    // Actualizar cookie con nuevo refresh token
+                    res.cookie('refreshToken', newRefreshToken, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'strict',
+                        maxAge: 7 * 24 * 60 * 60 * 1000
+                    });
+
+                    // Responder con nuevo access token
+                    res.json({
+                        success: true,
+                        accessToken,
+                        usuario: {
+                            id: usuario.id,
+                            nombreUsuario: usuario.nombreUsuario,
+                            correo: usuario.correo,
+                            rol: usuario.rol,
+                            idMunicipalidad: usuario.idMunicipalidad
+                        }
+                    });
+
+                } catch (tokenError) {
+                    console.error('Error rotando tokens:', tokenError);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Error al renovar tokens'
+                    });
+                }
+            });
+
+        } catch (jwtError) {
+            console.error('Error verificando JWT:', jwtError);
+            return res.status(403).json({
+                success: false,
+                error: 'Refresh token inválido'
+            });
+        }
+    }
+
+    // Logout
+    static async logout(req, res) {
+        const refreshToken = req.cookies.refreshToken;
+
+        if (refreshToken) {
+            try {
+                // Revocar el refresh token en BD
+                const query = 'CALL pa_DeleteToken(?)';
+
+                pool.query(query, [refreshToken], (error, results) => {
+                    if (error) {
+                        console.error('Error revocando refresh token:', error);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error en logout:', error);
+            }
+        }
+
+        // Limpiar cookie
+        res.clearCookie('refreshToken');
+
+        res.json({
+            success: true,
+            message: 'Sesión cerrada exitosamente'
         });
     }
-}
 
-    // Método para verificar token (middleware)
+    // ==================== MÉTODOS DE VERIFICACIÓN ====================
+
+    // Método para verificar access token (middleware)
     static async verifyToken(req, res, next) {
         try {
             const token = req.header('Authorization')?.replace('Bearer ', '');
-            
+
             if (!token) {
                 return res.status(401).json({
                     success: false,
@@ -237,6 +537,137 @@ class AuthController {
                 error: 'Token inválido'
             });
         }
+    }
+
+    // ==================== MÉTODOS DE GESTIÓN DE SESIONES ====================
+
+    // Obtener sesiones activas del usuario
+    static async getUserSessions(req, res) {
+        try {
+            const userId = req.usuario.id; // Viene del middleware de autenticación
+
+            const sessions = await AuthController.getUserRefreshTokens(userId);
+
+            // Formatear la respuesta para no exponer tokens completos
+            const formattedSessions = sessions.map(session => ({
+                id: session.id,
+                created_at: session.created_at,
+                expires_at: session.expires_at,
+                activo: session.activo,
+                // Solo mostrar primeros y últimos caracteres del token por seguridad
+                token_preview: session.token.substring(0, 10) + '...' + session.token.substring(session.token.length - 10)
+            }));
+
+            res.json({
+                success: true,
+                sessions: formattedSessions
+            });
+
+        } catch (error) {
+            console.error('Error obteniendo sesiones:', error);
+            res.status(500).json({
+                success: false,
+                error: 'Error interno del servidor'
+            });
+        }
+    }
+
+    // Revocar una sesión específica
+    static async revokeSession(req, res) {
+        try {
+            const { sessionId } = req.params;
+            const userId = req.usuario.id;
+
+            // Primero verificar que la sesión pertenece al usuario
+            const sessions = await AuthController.getUserRefreshTokens(userId);
+            const session = sessions.find(s => s.id === parseInt(sessionId));
+
+            if (!session) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'Sesión no encontrada'
+                });
+            }
+
+            // Revocar la sesión específica
+            await new Promise((resolve, reject) => {
+                const query = 'CALL pa_DeleteToken(?)';
+                pool.query(query, [session.token], (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(results);
+                    }
+                });
+            });
+
+            res.json({
+                success: true,
+                message: 'Sesión revocada exitosamente'
+            });
+
+        } catch (error) {
+            console.error('Error revocando sesión:', error);
+            res.status(500).json({
+                success: false,
+                error: 'Error interno del servidor'
+            });
+        }
+    }
+
+    // Revocar todas las sesiones del usuario excepto la actual
+    static async revokeAllOtherSessions(req, res) {
+        try {
+            const userId = req.usuario.id;
+            const currentRefreshToken = req.cookies.refreshToken;
+
+            // Obtener todas las sesiones del usuario
+            const sessions = await AuthController.getUserRefreshTokens(userId);
+
+            // Revocar todas excepto la actual
+            const promises = sessions
+                .filter(session => session.token !== currentRefreshToken && session.activo)
+                .map(session => {
+                    return new Promise((resolve, reject) => {
+                        const query = 'CALL pa_DeleteToken(?)';
+                        pool.query(query, [session.token], (error, results) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(results);
+                            }
+                        });
+                    });
+                });
+
+            await Promise.all(promises);
+
+            res.json({
+                success: true,
+                message: 'Todas las otras sesiones han sido revocadas'
+            });
+
+        } catch (error) {
+            console.error('Error revocando sesiones:', error);
+            res.status(500).json({
+                success: false,
+                error: 'Error interno del servidor'
+            });
+        }
+    }
+
+    // ==================== MÉTODOS DE MANTENIMIENTO ====================
+
+    // Programar limpieza de tokens
+    static scheduleTokenCleanup() {
+        setInterval(async () => {
+            try {
+                await AuthController.cleanupExpiredTokens();
+                console.log('Limpieza de tokens expirados completada');
+            } catch (error) {
+                console.error('Error en limpieza de tokens:', error);
+            }
+        }, 24 * 60 * 60 * 1000); // 24 horas
     }
 }
 

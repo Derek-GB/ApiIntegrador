@@ -357,43 +357,116 @@ const getForNombreMethod = (req = request, res = response) => {
   );
 };
 
-const getForUbicacionMethod = async (req = request, res = response) => {
-  const { distrito = '', canton = '', provincia = '' } = req.query;
-
-  
-  if (!distrito && !canton && !provincia) {
+const getForDistritoMethod = (req = request, res = response) => {
+  const { distrito } = req.params;
+  if (!distrito) {
     return res.status(400).json({
       success: false,
-      message: "Se requiere al menos un valor: distrito, cantón o provincia.",
+      message: "Distrito del albergue es requerido",
     });
   }
 
-  try {
-    const [results] = await pool.query(
-      "CALL pa_ConsultarAlbergueUbicacion(?, ?, ?)",
-      [distrito, canton, provincia]
-    );
-
-    if (!results || !results[0] || results[0].length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No se encontraron albergues con los datos de ubicación proporcionados.",
+  pool.query(
+    "CALL pa_ConsultarAlberguePorDistrito(?)",
+    [distrito],
+    (error, results) => {
+      if (error) {
+        console.error("Error en getForDistritoMethod:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Error al obtener el distrito del albergue",
+        });
+      }
+      if (!results || !results[0] || results[0].length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Albergue no encontrado",
+        });
+      }
+      const info = results[0];
+      res.json({
+        success: true,
+        message: "Albergue obtenido exitosamente",
+        data: info,
       });
     }
+  );
+};
 
-    res.json({
-      success: true,
-      message: "Albergues obtenidos exitosamente",
-      data: results[0],
-    });
-  } catch (error) {
-    console.error("Error en getForUbicacionMethod:", error);
-    return res.status(500).json({
+const getForCantonMethod = (req = request, res = response) => {
+  const { canton } = req.params;
+  if (!canton) {
+    return res.status(400).json({
       success: false,
-      error: "Error al obtener los albergues por ubicación.",
+      message: "Canton del albergue es requerido",
     });
   }
+
+  pool.query(
+    "CALL pa_ConsultarAlberguePorCanton(?)",
+    [canton],
+    (error, results) => {
+      if (error) {
+        console.error("Error en getForCantonMethod:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Error al obtener el canton del albergue",
+        });
+      }
+      if (!results || !results[0] || results[0].length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Albergue no encontrado",
+        });
+      }
+      const info = results[0];
+      res.json({
+        success: true,
+        message: "Albergue obtenido exitosamente",
+        data: info,
+      });
+    }
+  );
+
 };
+
+const getForProvinciaMethod = (req = request, res = response) => {
+  const { provincia } = req.params;
+  if (!provincia) {
+    return res.status(400).json({
+      success: false,
+      message: "Provincia del albergue es requerido",
+    });
+  }
+
+  pool.query(
+    "CALL pa_ConsultarAlberguePorProvincia(?)",
+    [provincia],
+    (error, results) => {
+      if (error) {
+        console.error("Error en getForProvinciaMethod:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Error al obtener la provincia del albergue",
+        });
+      }
+      if (!results || !results[0] || results[0].length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Albergue no encontrado",
+        });
+      }
+      const info = results[0];
+      res.json({
+        success: true,
+        message: "Albergue obtenido exitosamente",
+        data: info,
+      });
+    }
+  );
+
+};
+
 
 module.exports = {
   getAllMethod,
@@ -403,5 +476,7 @@ module.exports = {
   deleteMethod,
   getForIdMethod,
   getForNombreMethod,
-  getForUbicacionMethod,
+  getForDistritoMethod,
+  getForCantonMethod,
+  getForProvinciaMethod,
 };

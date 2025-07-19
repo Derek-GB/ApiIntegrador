@@ -8,7 +8,10 @@ const {
   deleteMethod,
   getForIdMethod,
   getForNombreMethod,
-  getForUbicacionMethod,
+  getForDistritoMethod,
+  getForCantonMethod,
+  getForProvinciaMethod,
+  
 } = require('../controllers/albergues');
 
 const {
@@ -332,35 +335,23 @@ router.get('/consulta/id/:id', getForIdMethod);
  */
 router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
-/**
- * @swagger
- * /api/albergues/ubicacion:
+
+/** * @swagger
+ * /api/albergues/consulta/distrito/{distrito}:
  *   get:
- *     summary: Consultar albergues por ubicación
+ *     summary: Consultar albergue por distrito
  *     tags:
  *       - Albergues
  *     parameters:
- *       - in: query
+ *       - in: path
  *         name: distrito
- *         required: false
- *         description: Nombre del distrito (opcional pero con prioridad más alta)
- *         schema:
- *           type: string
- *       - in: query
- *         name: canton
- *         required: false
- *         description: Nombre del cantón (usado si no se proporciona distrito)
- *         schema:
- *           type: string
- *       - in: query
- *         name: provincia
- *         required: false
- *         description: Nombre de la provincia (usado si no se proporciona distrito ni cantón)
+ *         required: true
+ *         description: Distrito del albergue
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Albergues obtenidos exitosamente
+ *         description: Albergue(s) obtenido(s) exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -374,13 +365,71 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   type: array
  *                   items:
  *                     type: object
- *       400:
- *         description: No se proporcionó ningún dato de ubicación
- *       404:
- *         description: No se encontraron albergues con los criterios proporcionados
- *       500:
- *         description: Error interno del servidor (contactar con el equipo de API)
  */
-router.get('/consulta/ubicacion/:ubicacion', getForUbicacionMethod);
+router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+
+/** * @swagger
+ * /api/albergues/consulta/canton/{canton}:
+ *   get:
+ *     summary: Consultar albergue por cantón
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: canton
+ *         required: true
+ *         description: Cantón del albergue
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue(s) obtenido(s) exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ */
+router.get('/consulta/canton/:canton', getForCantonMethod);
+
+/** * @swagger
+ * /api/albergues/consulta/provincia/{provincia}:
+ *   get:
+ *     summary: Consultar albergue por provincia
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: provincia
+ *         required: true
+ *         description: Provincia del albergue
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue(s) obtenido(s) exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ */
+router.get('/consulta/provincia/:provincia', getForProvinciaMethod);
 
 module.exports = router;

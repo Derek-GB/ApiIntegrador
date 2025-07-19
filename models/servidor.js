@@ -9,6 +9,9 @@ require("dotenv").config();
 const verificarToken = require('../middleware/verificarToken');
 // Importar TokenMaintenance para la limpieza automática
 //const TokenMaintenance = require('../Auth/TokenMaintenance');
+const publicRoutes = require('../routes/publicRoutes.route');
+const usuariosRoutes = require('../routes/usuarios.route');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // Configuración de swagger-jsdoc
 const swaggerDefinition = {
@@ -59,7 +62,11 @@ class servidor {
   routes() {
     // Ruta de autenticación (pública - NO protegida)
     this.app.use(this.authPath, require("../Auth/auth.route"));
+    // RUTAS PÚBLICAS (sin autenticación)
+    this.app.use('/api/public', publicRoutes);
 
+    // RUTAS PROTEGIDAS (con autenticación)
+    this.app.use('/api/usuarios', authMiddleware, usuariosRoutes);
     // Rutas protegidas (aplica el middleware de verificación de token)
     this.rutas.forEach(({ path, route }) => {
       this.app.use(path, verificarToken, route); // <- Middleware aplicado a todas las rutas

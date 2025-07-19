@@ -1,7 +1,6 @@
 // Auth/auth.route.js
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
-const contrasenaController = require('./contrasenaOlvidada'); // Actualizado el nombre del archivo
 //const TokenMaintenance = require('../Auth/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
 const router = Router();
 
@@ -124,94 +123,6 @@ const router = Router();
  */
 router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
-
-// ==================== RUTAS DE RECUPERACIÓN DE CONTRASEÑA (SIN TOKEN) ====================
-
-/**
- * @swagger
- * /api/auth/validate-email:
- *   post:
- *     tags:
- *       - Recuperación de Contraseña
- *     summary: Validar si un correo existe en el sistema
- *     description: Valida si el correo existe en el sistema (el envío de correo se hace desde frontend)
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - correo
- *             properties:
- *               correo:
- *                 type: string
- *                 format: email
- *                 example: usuario@email.com
- *     responses:
- *       200:
- *         description: Resultado de la validación del correo
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                 emailExists:
- *                   type: boolean
- *                 userId:
- *                   type: integer
- *                 nombreUsuario:
- *                   type: string
- *       400:
- *         description: Correo electrónico es requerido o formato inválido
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/validate-email', contrasenaController.validateEmail);
-
-/**
- * @swagger
- * /api/auth/change-password:
- *   post:
- *     tags:
- *       - Recuperación de Contraseña
- *     summary: Cambiar contraseña con código de verificación
- *     description: Cambia la contraseña del usuario después de validar el código (validación del código en frontend)
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - correo
- *               - codigo
- *               - nuevaContrasena
- *             properties:
- *               correo:
- *                 type: string
- *                 format: email
- *                 example: usuario@email.com
- *               codigo:
- *                 type: string
- *                 example: "123456"
- *               nuevaContrasena:
- *                 type: string
- *                 minLength: 6
- *                 example: "nuevaContrasena123"
- *     responses:
- *       200:
- *         description: Contraseña actualizada exitosamente
- *       400:
- *         description: Datos faltantes, usuario no encontrado o contraseña muy corta
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/change-password', contrasenaController.changePasswordWithCode);
 
 /**
  * @swagger

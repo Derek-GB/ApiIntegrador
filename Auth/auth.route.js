@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
 const contrasenaController = require('./contrasenaOlvidada'); // Actualizado el nombre del archivo
-const TokenMaintenance = require('../utils/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
+const TokenMaintenance = require('../Auth/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
 const router = Router();
 
 /**

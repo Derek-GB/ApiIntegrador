@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
 const contrasenaController = require('./contrasenaOlvidada'); // Actualizado el nombre del archivo
-const TokenMaintenance = require('../Auth/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
+//const TokenMaintenance = require('../Auth/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
 const router = Router();
 
 /**
@@ -124,42 +124,6 @@ const router = Router();
  */
 router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
-
-/**
- * @swagger
- * /api/auth/refresh-token:
- *   post:
- *     tags:
- *       - Autenticación
- *     summary: Renovar token de acceso usando refresh token
- *     description: Renueva el access token usando el refresh token almacenado en cookies
- *     responses:
- *       200:
- *         description: Token renovado exitosamente
- *       401:
- *         description: Refresh token no encontrado
- *       403:
- *         description: Refresh token inválido o expirado
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/refresh-token', AuthController.refreshToken);
-
-/**
- * @swagger
- * /api/auth/logout:
- *   post:
- *     tags:
- *       - Autenticación
- *     summary: Cerrar sesión y revocar tokens
- *     description: Cierra la sesión del usuario y revoca el refresh token
- *     responses:
- *       200:
- *         description: Sesión cerrada exitosamente
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/logout', AuthController.logout);
 
 // ==================== RUTAS DE RECUPERACIÓN DE CONTRASEÑA (SIN TOKEN) ====================
 
@@ -343,117 +307,5 @@ router.post('/register', (req, res, next) => {
     next();
 }, AuthController.register);
 */
-
-/**
- * @swagger
- * /api/auth/sessions:
- *   get:
- *     tags:
- *       - Autenticación
- *     summary: Obtener sesiones activas del usuario
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Lista de sesiones activas
- *       401:
- *         description: Token no válido
- *       500:
- *         description: Error interno del servidor
- */
-router.get('/sessions', AuthController.getUserSessions);
-
-/**
- * @swagger
- * /api/auth/sessions/{sessionId}:
- *   delete:
- *     tags:
- *       - Autenticación
- *     summary: Revocar una sesión específica
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: sessionId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID de la sesión a revocar
- *     responses:
- *       200:
- *         description: Sesión revocada exitosamente
- *       401:
- *         description: Token no válido
- *       404:
- *         description: Sesión no encontrada
- *       500:
- *         description: Error interno del servidor
- */
-router.delete('/sessions/:sessionId', AuthController.revokeSession);
-
-/**
- * @swagger
- * /api/auth/revoke-all-sessions:
- *   post:
- *     tags:
- *       - Autenticación
- *     summary: Revocar todas las otras sesiones del usuario
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Todas las otras sesiones han sido revocadas
- *       401:
- *         description: Token no válido
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/revoke-all-sessions', AuthController.revokeAllOtherSessions);
-
-/**
- * @swagger
- * /api/auth/cleanup-tokens:
- *   post:
- *     tags:
- *       - Autenticación
- *     summary: Limpiar tokens expirados (Solo administradores)
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Tokens expirados limpiados exitosamente
- *       401:
- *         description: Token no válido
- *       403:
- *         description: Acceso denegado - Se requiere rol de administrador
- *       500:
- *         description: Error interno del servidor
- */
-router.post('/cleanup-tokens', (req, res, next) => {
-    if (req.usuario.rol !== 'admin') {
-        return res.status(403).json({
-            success: false,
-            error: 'Acceso denegado. Se requiere rol de administrador'
-        });
-    }
-    next();
-}, (req, res) => {
-    // Usar callback en lugar de async/await
-    AuthController.cleanupExpiredTokens((error, results) => {
-        if (error) {
-            console.error('Error en cleanup-tokens:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error interno del servidor'
-            });
-        }
-
-        res.json({
-            success: true,
-            message: 'Tokens expirados limpiados exitosamente',
-            results: results
-        });
-    });
-});
 
 module.exports = router;

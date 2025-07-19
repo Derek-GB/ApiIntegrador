@@ -3,12 +3,12 @@ const cors = require("cors");
 const path = require('path');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 require("dotenv").config();
 // Importar middleware de verificación de token
 const verificarToken = require('../middleware/verificarToken');
 // Importar TokenMaintenance para la limpieza automática
-const TokenMaintenance = require('../Auth/TokenMaintenance');
+//const TokenMaintenance = require('../Auth/TokenMaintenance');
 
 // Configuración de swagger-jsdoc
 const swaggerDefinition = {
@@ -41,11 +41,11 @@ class servidor {
     this.rutas = require("../src/consts/rutas");
     this.middlewares();
     this.routes();
-    this.initializeTokenMaintenance(); 
+    //this.initializeTokenMaintenance(); 
   }
 
   // Método para inicializar el mantenimiento de tokens
-  initializeTokenMaintenance() {
+  /*initializeTokenMaintenance() {
     try {
       // Iniciar la limpieza automática de tokens
       TokenMaintenance.startCleanupSchedule();
@@ -54,7 +54,7 @@ class servidor {
       console.error('Error inicializando el mantenimiento de tokens:', error);
     }
   }
-
+*/
   //Metodo que contiene las rutas
   routes() {
     // Ruta de autenticación (pública - NO protegida)
@@ -85,8 +85,7 @@ class servidor {
   //Funciones que tiene el express y que me permite usarlas reutilizando codigo
   middlewares() {
     this.app.use(express.static("public"));
-    this.app.use(cors({credentials: true}));
-    this.app.use(cookieParser()); // Middleware para cookies
+    this.app.use(cors());
     //Habilitar el parseo de los datos del body
     this.app.use(express.json());
   }

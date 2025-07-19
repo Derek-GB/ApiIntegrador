@@ -218,8 +218,24 @@ const postMethod = async (req = request, res = response) => {
       continue;
     }
 
-    try {
-      const [results] = await pool.query(
+    if (firma.startsWith("data:")) {
+      firma = firma.split(",")[1];
+    }
+
+    firma = Buffer.from(firma, "base64");
+    if (!firma) {
+      return res.status(400).json({
+        success: false,
+        message: "Falta dato requerido: firma",
+      });
+    }
+    if (firma.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "La firma no puede estar vacia",
+      });
+
+      pool.query(
         "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           tieneCondicionSalud,
@@ -248,22 +264,27 @@ const postMethod = async (req = request, res = response) => {
           observaciones,
           estaACargoMenor,
           idUsuarioCreacion,
-        ]
-      );
+        ],
+        (error, results) => {
+          if (error) {
+            console.error(`Error al insertar persona en índice ${index}:`, error);
+            errores.push({
+              index,
+              error: error.message || "Error al insertar persona",
+            });
+            return;
+          }
 
-      resultados.push({
-        index,
-        id: results[0][0]?.id ?? null,
-        message: "Persona registrada correctamente",
-      });
-    } catch (error) {
-      console.error(`Error al insertar persona en índice ${index}:`, error);
-      errores.push({
-        index,
-        error: error.message || "Error al insertar persona",
-      });
+          resultados.push({
+            index,
+            id: results[0][0]?.id ?? null,
+            message: "Persona registrada correctamente",
+          });
+        }
+      );
     }
   }
+  
 
   const statusCode = errores.length === personas.length ? 500 : errores.length > 0 ? 207 : 201;
 

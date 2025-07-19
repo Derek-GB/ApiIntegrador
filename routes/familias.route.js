@@ -6,6 +6,7 @@ const {
   getMethod,
   putMethod,
   deleteMethod,
+  getVistaFamiliaConJefeMethod,
 } = require('../controllers/familias');
 
 const { postMethod } = require('../controllers/formularioFamilias');
@@ -181,5 +182,53 @@ router.put('/', putMethod);
  *         description: Error al eliminar familia (Contactar equipo de API)
  */
 router.delete('/id/:id', deleteMethod);
+
+/**
+ * @swagger
+ * /vista/familiaConJefe:
+ *   get:
+ *     summary: Obtener familia con jefe desde la vista
+ *     description: Retorna los datos de una familia junto con el nombre del jefe desde la vista `vista_FamiliaConJefe`.
+ *     tags:
+ *       - Familia
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la familia a consultar
+ *     responses:
+ *       200:
+ *         description: Datos de la familia encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     codigoFamilia:
+ *                       type: string
+ *                     cantidadPersonas:
+ *                       type: integer
+ *                     nombreJefeFamilia:
+ *                       type: string
+ *                     primerApellidoJefeFamilia:
+ *                       type: string
+ *                     segundoApellidoJefeFamilia:
+ *                       type: string
+ *       404:
+ *         description: Familia no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+
+router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
 
 module.exports = router;

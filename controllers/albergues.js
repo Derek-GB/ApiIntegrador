@@ -357,30 +357,30 @@ const getForNombreMethod = (req = request, res = response) => {
   );
 };
 
-const getForDistritoMethod = (req = request, res = response) => {
-  const { distrito } = req.params;
-  if (!distrito) {
+const getForUbicacionMethod = (req = request, res = response) => {
+  const { ubicacion } = req.params;
+  if (!ubicacion) {
     return res.status(400).json({
       success: false,
-      message: "Nombre del distrito es requerido",
+      message: "Nombre de la ubicacion es requerido",
     });
   }
 
   pool.query(
-    "CALL pa_ConsultarAlberguePorDistrito(?)",
-    [distrito],
+    "CALL pa_ConsultarAlbergueUbicacion(?)",
+    [ubicacion],
     (error, results) => {
       if (error) {
-        console.error("Error en getForPorDistritoMethod:", error);
+        console.error("Error en getForUbicacionMethod:", error);
         return res.status(500).json({
           success: false,
-          error: "Error al obtener el distrito del albergue",
+          error: "Error al obtener el ubicacion del albergue",
         });
       }
       if (!results || !results[0] || results[0].length === 0) {
         return res.status(404).json({
           success: false,
-          message: "Distrito no encontrado",
+          message: "Ubicacion no encontrado",
         });
       }
       const info = results[0];
@@ -401,5 +401,5 @@ module.exports = {
   deleteMethod,
   getForIdMethod,
   getForNombreMethod,
-  getForDistritoMethod,
+  getForUbicacionMethod,
 };

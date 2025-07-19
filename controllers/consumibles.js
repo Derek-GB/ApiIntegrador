@@ -44,20 +44,18 @@ const getMethod = (req = request, res = response) => {
 };
 
 const postMethod = (req = request, res = response) => {
-  let{ nombre, idUnidadMedida, idCategoria, idCantidadPorPersona } =
-    req.body;
+  const { nombre, unidadMedidaNombre, categoriaNombre, cantidad } = req.body;
 
-  if (!nombre || idUnidadMedida || idCategoria) {
+  if (!nombre || !unidadMedidaNombre || !categoriaNombre || cantidad == null) {
     return res.status(400).json({
       success: false,
-      message: "Faltan datos: nombre, idUnidadMedida, idCategoria",
+      message: "Faltan datos: nombre, unidadMedidaNombre, categoriaNombre, cantidad",
     });
   }
-  idCantidadPorPersona = idCantidadPorPersona ?? null;
 
   pool.query(
     "CALL pa_InsertConsumible(?, ?, ?, ?)",
-    [nombre, idUnidadMedida, idCategoria, idCantidadPorPersona],
+    [nombre, unidadMedidaNombre, categoriaNombre, cantidad],
     (error, results) => {
       if (error) {
         console.error("Error al insertar consumible:", error);
@@ -73,9 +71,9 @@ const postMethod = (req = request, res = response) => {
         data: {
           id: results[0][0].id,
           nombre,
-          idUnidadMedida,
-          idCategoria,
-          idCantidadPorPersona,
+          unidadMedidaNombre,
+          categoriaNombre,
+          cantidad,
         },
       });
     }

@@ -8,7 +8,7 @@ const {
   deleteMethod,
   getForIdMethod,
   getForNombreMethod,
-  getForDistritoMethod,
+  getForUbicacionMethod,
 } = require('../controllers/albergues');
 
 const{
@@ -334,21 +334,21 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
 /**
  * @swagger
- * /api/albergues/consulta/distrito/{distrito}:
+ * /api/albergues/consulta/ubicacion/{ubicacion}:
  *   get:
- *     summary: Consultar albergues por distrito
+ *     summary: Consultar albergues por ubicacion
  *     tags:
  *       - Albergues
  *     parameters:
  *       - in: path
- *         name: distrito
+ *         name: ubicacion
  *         required: true
- *         description: Nombre del distrito (codificado si tiene espacios)
+ *         description: Nombre de la ubicacion (codificado si tiene espacios)
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Albergues en el distrito obtenidos exitosamente
+ *         description: Albergues en la ubicacion obtenidos exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -363,12 +363,12 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   items:
  *                     type: object
  *       400:
- *         description: Distrito no proporcionado
+ *         description: ubicacion no proporcionado
  *       404:
- *         description: Distrito no encontrado
+ *         description: ubicacion no encontrado
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+router.get('/consulta/ubicacion/:ubicacion', getForUbicacionMethod);
 
 module.exports = router;

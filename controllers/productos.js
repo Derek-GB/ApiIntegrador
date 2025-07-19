@@ -85,17 +85,17 @@ const postMethod = (req = request, res = response) => {
 };
 
 const putMethod = (req = request, res = response) => {
-    const {id} = req.body;
-    const {codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
+    const { id, descripcion, cantidad } = req.body;
 
-    if (!id || !codigoProducto || nombre == null || descripcion == null || cantidad == null || categoria == null || unidadMedida == null) {
+    
+    if (typeof id !== 'number' || typeof descripcion !== 'string' || typeof cantidad !== 'number') {
         return res.status(400).json({
             success: false,
-            message: 'Faltan datos: id, codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida'
+            message: 'Datos inválidos o faltantes: se requieren id (number), descripcion (string) y cantidad (number)'
         });
     }
 
-    pool.query('CALL pa_UpdateProducto(?, ?, ?, ?, ?, ?, ?)', [id, codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
+    pool.query('CALL pa_UpdateProducto(?, ?, ?)', [id, descripcion, cantidad], (error, results) => {
         if (error) {
             console.error('Error al actualizar producto:', error);
             return res.status(500).json({
@@ -108,17 +108,13 @@ const putMethod = (req = request, res = response) => {
             success: true,
             message: 'Producto actualizado correctamente',
             data: {
-                codigoProducto,
-                nombre,
+                id,
                 descripcion,
-                cantidad,
-                categoria,
-                unidadMedida
+                cantidad
             }
         });
     });
-};
-
+}
 
 const deleteMethod = (req = request, res = response) => {
     const { id } = req.params; 

@@ -109,36 +109,27 @@ router.post('/', postMethod);
  *             type: object
  *             required:
  *               - id
- *               - codigoProducto
- *               - nombre
  *               - descripcion
  *               - cantidad
- *               - categoria
- *               - unidadMedida
  *             properties:
  *               id:
- *                 type: int
- *               codigoProducto:
- *                 type: string
- *               nombre:
- *                 type: string
+ *                 type: integer
+ *                 description: ID del producto
  *               descripcion:
  *                 type: string
+ *                 description: Nueva descripción del producto
  *               cantidad:
- *                 type: int
- *               categoria:
- *                 type: string
- *               unidadMedida:
- *                 type: string
+ *                 type: number
+ *                 format: float
+ *                 description: Nueva cantidad del producto
  *     responses:
  *       200:
  *         description: Producto actualizado correctamente
  *       400:
- *         description: Datos faltantes en el cuerpo de la solicitud
+ *         description: Datos inválidos o faltantes en la solicitud
  *       500:
  *         description: Error al actualizar producto (Contactar equipo de API)
  */
-// //Actualizar
 router.put('/',   putMethod);
 
 

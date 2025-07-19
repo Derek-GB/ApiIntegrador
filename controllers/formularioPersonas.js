@@ -219,7 +219,7 @@ const postMethod = async (req = request, res = response) => {
     }
 
     try {
-      const [results] = await pool.promise().query(
+      const [results] = await pool.query(
         "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           tieneCondicionSalud,

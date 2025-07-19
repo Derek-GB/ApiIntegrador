@@ -6,17 +6,6 @@ const router = Router();
 
 /**
  * @swagger
- * tags:
- *   - name: Autenticación
- *     description: Operaciones relacionadas con el login y registro de usuarios
- *   - name: Recuperación de Contraseña
- *     description: Operaciones para recuperar contraseña sin autenticación
- */
-
-// ==================== RUTAS PÚBLICAS (SIN TOKEN) ====================
-
-/**
- * @swagger
  * /api/auth/login:
  *   post:
  *     tags:
@@ -122,7 +111,6 @@ const router = Router();
  *         description: Error interno del servidor
  */
 router.post('/login', AuthController.login);
-router.post('/register', AuthController.register);
 
 /**
  * @swagger
@@ -207,7 +195,7 @@ router.use(AuthController.verifyToken);
  *       500:
  *         description: Error interno del servidor
  */
-/*
+
 router.post('/register', (req, res, next) => {
     if (req.usuario.rol !== 'admin') {
         return res.status(403).json({
@@ -217,6 +205,5 @@ router.post('/register', (req, res, next) => {
     }
     next();
 }, AuthController.register);
-*/
 
 module.exports = router;

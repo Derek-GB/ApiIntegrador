@@ -14,7 +14,7 @@ const {
  * /api/nuevaInfraestructura/all:
  *   get:
  *     tags:
- *       - nuevaInfraestructura
+ *       - NuevaInfraestructura
  *     summary: Obtener todas las infraestructuras
  *     responses:
  *       200:
@@ -29,7 +29,7 @@ router.get('/all', getAllMethod);
  * /api/nuevaInfraestructura/id/{id}:
  *   get:
  *     tags:
- *       - nuevaInfraestructura
+ *       - NuevaInfraestructura
  *     summary: Obtener una infraestructura por ID
  *     parameters:
  *       - in: path
@@ -53,7 +53,7 @@ router.get('/id/:id', getMethod);
  * /api/nuevaInfraestructura:
  *   post:
  *     tags:
- *       - nuevaInfraestructura
+ *       - NuevaInfraestructura
  *     summary: Insertar nueva infraestructura
  *     requestBody:
  *       required: true
@@ -97,7 +97,7 @@ router.post('/', postMethod);
  * /api/nuevaInfraestructura:
  *   put:
  *     tags:
- *       - nuevaInfraestructura
+ *       - NuevaInfraestructura
  *     summary: Actualizar infraestructura existente
  *     requestBody:
  *       required: true
@@ -144,7 +144,7 @@ router.put('/', putMethod);
  * /api/nuevaInfraestructura/id/{id}:
  *   delete:
  *     tags:
- *       - nuevaInfraestructura
+ *       - NuevaInfraestructura
  *     summary: Eliminar infraestructura por ID
  *     parameters:
  *       - in: path

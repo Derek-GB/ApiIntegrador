@@ -284,7 +284,6 @@ const postMethod = async (req = request, res = response) => {
       );
     }
   }
-  
 
   const statusCode = errores.length === personas.length ? 500 : errores.length > 0 ? 207 : 201;
 

@@ -362,7 +362,7 @@ const getForDistritoMethod = (req = request, res = response) => {
   if (!distrito) {
     return res.status(400).json({
       success: false,
-      message: "Nombre del distrito es requerido",
+      message: "Distrito del albergue es requerido",
     });
   }
 
@@ -371,7 +371,7 @@ const getForDistritoMethod = (req = request, res = response) => {
     [distrito],
     (error, results) => {
       if (error) {
-        console.error("Error en getForPorDistritoMethod:", error);
+        console.error("Error en getForDistritoMethod:", error);
         return res.status(500).json({
           success: false,
           error: "Error al obtener el distrito del albergue",
@@ -380,7 +380,7 @@ const getForDistritoMethod = (req = request, res = response) => {
       if (!results || !results[0] || results[0].length === 0) {
         return res.status(404).json({
           success: false,
-          message: "Distrito no encontrado",
+          message: "Albergue no encontrado",
         });
       }
       const info = results[0];
@@ -393,6 +393,81 @@ const getForDistritoMethod = (req = request, res = response) => {
   );
 };
 
+const getForCantonMethod = (req = request, res = response) => {
+  const { canton } = req.params;
+  if (!canton) {
+    return res.status(400).json({
+      success: false,
+      message: "Canton del albergue es requerido",
+    });
+  }
+
+  pool.query(
+    "CALL pa_ConsultarAlberguePorCanton(?)",
+    [canton],
+    (error, results) => {
+      if (error) {
+        console.error("Error en getForCantonMethod:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Error al obtener el canton del albergue",
+        });
+      }
+      if (!results || !results[0] || results[0].length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Albergue no encontrado",
+        });
+      }
+      const info = results[0];
+      res.json({
+        success: true,
+        message: "Albergue obtenido exitosamente",
+        data: info,
+      });
+    }
+  );
+
+};
+
+const getForProvinciaMethod = (req = request, res = response) => {
+  const { provincia } = req.params;
+  if (!provincia) {
+    return res.status(400).json({
+      success: false,
+      message: "Provincia del albergue es requerido",
+    });
+  }
+
+  pool.query(
+    "CALL pa_ConsultarAlberguePorProvincia(?)",
+    [provincia],
+    (error, results) => {
+      if (error) {
+        console.error("Error en getForProvinciaMethod:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Error al obtener la provincia del albergue",
+        });
+      }
+      if (!results || !results[0] || results[0].length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Albergue no encontrado",
+        });
+      }
+      const info = results[0];
+      res.json({
+        success: true,
+        message: "Albergue obtenido exitosamente",
+        data: info,
+      });
+    }
+  );
+
+};
+
+
 module.exports = {
   getAllMethod,
   getMethod,
@@ -402,4 +477,6 @@ module.exports = {
   getForIdMethod,
   getForNombreMethod,
   getForDistritoMethod,
+  getForCantonMethod,
+  getForProvinciaMethod,
 };

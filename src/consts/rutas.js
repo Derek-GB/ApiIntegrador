@@ -20,5 +20,8 @@ module.exports = [
   { path: '/api/detallePedidoConsumibles', route: require('../../routes/detallePedidoConsumibles.route') },
   { path: '/api/pedidoConsumibles', route: require('../../routes/pedidoConsumibles.route') },
   { path: '/api/unidadMedidas', route: require('../../routes/unidadMedidas.route') },
-  { path: '/api/ajusteInventario', route: require('../../routes/ajusteInventario.route') }
+  { path: '/api/ajusteInventario', route: require('../../routes/ajusteInventario.route') },
+  { path: '/api/inventario', route: require('../../routes/inventario.route') },
+  { path: '/api/mascotas', route: require('../../routes/mascotas.route') },
+  { path: '/api/nuevaInfraestructura', route: require('../../routes/nuevaInfraestructura.route') }
 ];

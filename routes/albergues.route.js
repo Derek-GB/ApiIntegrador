@@ -9,9 +9,12 @@ const {
   getForIdMethod,
   getForNombreMethod,
   getForDistritoMethod,
+  getForCantonMethod,
+  getForProvinciaMethod,
+  
 } = require('../controllers/albergues');
 
-const{
+const {
   postMethod,
 } = require('../controllers/formularioAlbergue');
 
@@ -332,23 +335,23 @@ router.get('/consulta/id/:id', getForIdMethod);
  */
 router.get('/consulta/nombre/:nombre', getForNombreMethod);
 
-/**
- * @swagger
+
+/** * @swagger
  * /api/albergues/consulta/distrito/{distrito}:
  *   get:
- *     summary: Consultar albergues por distrito
+ *     summary: Consultar albergue por distrito
  *     tags:
  *       - Albergues
  *     parameters:
  *       - in: path
  *         name: distrito
  *         required: true
- *         description: Nombre del distrito (codificado si tiene espacios)
+ *         description: Distrito del albergue
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Albergues en el distrito obtenidos exitosamente
+ *         description: Albergue(s) obtenido(s) exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -362,13 +365,71 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   type: array
  *                   items:
  *                     type: object
- *       400:
- *         description: Distrito no proporcionado
- *       404:
- *         description: Distrito no encontrado
- *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+
+/** * @swagger
+ * /api/albergues/consulta/canton/{canton}:
+ *   get:
+ *     summary: Consultar albergue por cantón
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: canton
+ *         required: true
+ *         description: Cantón del albergue
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue(s) obtenido(s) exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ */
+router.get('/consulta/canton/:canton', getForCantonMethod);
+
+/** * @swagger
+ * /api/albergues/consulta/provincia/{provincia}:
+ *   get:
+ *     summary: Consultar albergue por provincia
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: provincia
+ *         required: true
+ *         description: Provincia del albergue
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue(s) obtenido(s) exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ */
+router.get('/consulta/provincia/:provincia', getForProvinciaMethod);
 
 module.exports = router;

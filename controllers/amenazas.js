@@ -52,22 +52,43 @@ const getMethod = (req = request, res = response) => {
 
 const postMethod = (req = request, res = response) => {
   // Llama al procedimiento almacenado para insertar una nueva amenaza
-  let { familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion } =
-    req.body;
+  let {
+    familiaEvento,
+    evento,
+    peligro,
+    causa,
+    categoriaEvento,
+    idFamilia,
+    idUsuarioCreacion,
+  } = req.body;
 
+  // Validación mínima
   if (!familiaEvento || !evento) {
     return res.status(400).json({
       success: false,
-      message: "Faltan datos: familiaEvento, evento ",
+      message: "Faltan datos: familiaEvento, evento",
     });
   }
+
+  // Asignar valores nulos a los opcionales si no vienen
   peligro = peligro ?? null;
+  causa = causa ?? null;
+  categoriaEvento = categoriaEvento ?? null;
   idFamilia = idFamilia ?? null;
   idUsuarioCreacion = idUsuarioCreacion ?? null;
 
+  // Llamada al procedimiento almacenado
   pool.query(
-    "CALL pa_InsertAmenaza(?, ?, ?, ?, ?)",
-    [familiaEvento, evento, peligro, idFamilia, idUsuarioCreacion],
+    "CALL pa_InsertAmenaza(?, ?, ?, ?, ?, ?, ?)",
+    [
+      familiaEvento,
+      evento,
+      peligro,
+      causa,
+      categoriaEvento,
+      idFamilia,
+      idUsuarioCreacion,
+    ],
     (error, results) => {
       if (error) {
         console.error("Error al insertar amenaza:", error);
@@ -81,12 +102,14 @@ const postMethod = (req = request, res = response) => {
         success: true,
         message: "Amenaza insertada correctamente",
         data: {
-            p_id: results[0][0].id,
+          p_id: results[0][0].id,
           familiaEvento,
           evento,
           peligro,
-            idFamilia,
-            idUsuarioCreacion,
+          causa,
+          categoriaEvento,
+          idFamilia,
+          idUsuarioCreacion,
         },
       });
     }

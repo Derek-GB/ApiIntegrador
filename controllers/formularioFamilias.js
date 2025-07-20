@@ -78,7 +78,7 @@ const postMethod = (req = request, res = response) => {
         success: true,
         message: "Familia insertada correctamente",
         data: {
-          id: results[0][0].id,
+          idFamilia: results[0][0].idFamilia ?? 0,
         },
       });
     }

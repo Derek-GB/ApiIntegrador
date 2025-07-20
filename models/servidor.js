@@ -3,10 +3,15 @@ const cors = require("cors");
 const path = require('path');
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
+//const cookieParser = require('cookie-parser');
 require("dotenv").config();
 // Importar middleware de verificación de token
 const verificarToken = require('../middleware/verificarToken');
-
+// Importar TokenMaintenance para la limpieza automática
+//const TokenMaintenance = require('../Auth/TokenMaintenance');
+const publicRoutes = require('../routes/publicRoutes.route');
+const usuariosRoutes = require('../routes/usuarios.route');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // Configuración de swagger-jsdoc
 const swaggerDefinition = {
@@ -37,24 +42,36 @@ class servidor {
     this.port = process.env.PORT;
     this.authPath = "/api/auth"; // Ruta de autenticación
     this.rutas = require("../src/consts/rutas");
-    this.rutasP = require("../src/consts/rutasP"); // Rutas Publicas
     this.middlewares();
     this.routes();
+    //this.initializeTokenMaintenance(); 
   }
+
+  // Método para inicializar el mantenimiento de tokens
+  /*initializeTokenMaintenance() {
+    try {
+      // Iniciar la limpieza automática de tokens
+      TokenMaintenance.startCleanupSchedule();
+      console.log('Sistema de mantenimiento de tokens inicializado');
+    } catch (error) {
+      console.error('Error inicializando el mantenimiento de tokens:', error);
+    }
+  }
+*/
   //Metodo que contiene las rutas
   routes() {
     // Ruta de autenticación (pública - NO protegida)
     this.app.use(this.authPath, require("../Auth/auth.route"));
+    // RUTAS PÚBLICAS (sin autenticación)
+    this.app.use('/api/public', publicRoutes);
 
+    // RUTAS PROTEGIDAS (con autenticación)
+    this.app.use('/api/usuarios', authMiddleware, usuariosRoutes);
     // Rutas protegidas (aplica el middleware de verificación de token)
     this.rutas.forEach(({ path, route }) => {
       this.app.use(path, verificarToken, route); // <- Middleware aplicado a todas las rutas
     });
 
-    // Rutas publicas (Sin aplica el middleware de verificación de token)
-    this.rutasP.forEach(({ path, route }) => {
-      this.app.use(path, route); // <- Middleware aplicado a todas las rutas
-    });
     this.app.use('/css', express.static(path.join(__dirname, '../src/css')));
     // Servir la documentación en /api/documentacion
     this.app.use(
@@ -87,3 +104,5 @@ class servidor {
   }
 }
 module.exports = servidor;
+
+//importos

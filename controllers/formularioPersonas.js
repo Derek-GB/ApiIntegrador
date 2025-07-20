@@ -218,45 +218,62 @@ const postMethod = (req = request, res = response) => {
       continue;
     }
 
-    pool.query(
-      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [
-        tieneCondicionSalud,
-        descripcionCondicionSalud,
-        discapacidad,
-        tipoDiscapacidad,
-        subtipoDiscapacidad,
-        paisOrigen,
-        autoidentificacionCultural,
-        puebloIndigena,
-        firma,
-        idFamilia,
-        nombre,
-        primerApellido,
-        segundoApellido,
-        tipoIdentificacion,
-        numeroIdentificacion,
-        nacionalidad,
-        parentesco,
-        esJefeFamilia,
-        fechaNacimiento,
-        genero,
-        sexo,
-        telefono,
-        contactoEmergencia,
-        observaciones,
-        estaACargoMenor,
-        idUsuarioCreacion,
-      ],
-      (error, results) => {
-        if (error) {
-          console.error(`Error al insertar persona en índice ${index}:`, error);
-          errores.push({
-            index,
-            error: error.message || "Error al insertar persona",
-          });
-          return;
-        }
+    if (firma.startsWith("data:")) {
+      firma = firma.split(",")[1];
+    }
+
+    firma = Buffer.from(firma, "base64");
+    if (!firma) {
+      return res.status(400).json({
+        success: false,
+        message: "Falta dato requerido: firma",
+      });
+    }
+    if (firma.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "La firma no puede estar vacia",
+      });
+
+      pool.query(
+        "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          tieneCondicionSalud,
+          descripcionCondicionSalud,
+          discapacidad,
+          tipoDiscapacidad,
+          subtipoDiscapacidad,
+          paisOrigen,
+          autoidentificacionCultural,
+          puebloIndigena,
+          firma,
+          idFamilia,
+          nombre,
+          primerApellido,
+          segundoApellido,
+          tipoIdentificacion,
+          numeroIdentificacion,
+          nacionalidad,
+          parentesco,
+          esJefeFamilia,
+          fechaNacimiento,
+          genero,
+          sexo,
+          telefono,
+          contactoEmergencia,
+          observaciones,
+          estaACargoMenor,
+          idUsuarioCreacion,
+        ],
+        (error, results) => {
+          if (error) {
+            console.error(`Error al insertar persona en índice ${index}:`, error);
+            errores.push({
+              index,
+              error: error.message || "Error al insertar persona",
+            });
+            return;
+          }
 
         resultados.push({
           index,

@@ -54,7 +54,8 @@ router.get('/all', getAllMethod);
  *   post:
  *     tags:
  *       - Amenazas
- *     summary: Insertar una nueva amenaza
+ *     summary: Registrar una nueva amenaza
+ *     description: Inserta una nueva amenaza en la base de datos mediante un procedimiento almacenado.
  *     requestBody:
  *       required: true
  *       content:
@@ -64,21 +65,69 @@ router.get('/all', getAllMethod);
  *             required:
  *               - familiaEvento
  *               - evento
- *               - peligro
  *             properties:
  *               familiaEvento:
  *                 type: string
+ *                 example: Meteorológico
  *               evento:
  *                 type: string
+ *                 example: Lluvias intensas
  *               peligro:
  *                 type: string
+ *                 nullable: true
+ *                 example: Inundación
+ *               causa:
+ *                 type: string
+ *                 nullable: true
+ *                 example: Lluvias continuas
+ *               categoriaEvento:
+ *                 type: string
+ *                 nullable: true
+ *                 example: Natural
+ *               idFamilia:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 3
+ *               idUsuarioCreacion:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: 7
  *     responses:
  *       201:
  *         description: Amenaza insertada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     p_id:
+ *                       type: integer
+ *                       example: 15
+ *                     familiaEvento:
+ *                       type: string
+ *                     evento:
+ *                       type: string
+ *                     peligro:
+ *                       type: string
+ *                     causa:
+ *                       type: string
+ *                     categoriaEvento:
+ *                       type: string
+ *                     idFamilia:
+ *                       type: integer
+ *                     idUsuarioCreacion:
+ *                       type: integer
  *       400:
- *         description: Datos faltantes u obligatorios no proporcionados
+ *         description: Faltan datos obligatorios
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error al insertar amenaza
  */
 router.post('/', postMethod);
 

@@ -234,12 +234,13 @@ const postMethod = (req = request, res = response) => {
         success: false,
         message: "La firma no puede estar vacia",
       });
+    }
 
-      pool.query(
-        "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          tieneCondicionSalud,
-          descripcionCondicionSalud,
+    pool.query(
+      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        tieneCondicionSalud,
+        descripcionCondicionSalud,
           discapacidad,
           tipoDiscapacidad,
           subtipoDiscapacidad,

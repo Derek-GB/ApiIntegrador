@@ -142,7 +142,7 @@ const pool = require("../MySQL/basedatos"); // ajusta según la ruta real
 //   );
 // };
 
-const postMethod = async (req = request, res = response) => {
+const postMethod = (req = request, res = response) => {
   const personas = req.body;
 
   if (!Array.isArray(personas) || personas.length === 0) {
@@ -218,51 +218,53 @@ const postMethod = async (req = request, res = response) => {
       continue;
     }
 
-    try {
-      const [results] = await pool.promise().query(
-        "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          tieneCondicionSalud,
-          descripcionCondicionSalud,
-          discapacidad,
-          tipoDiscapacidad,
-          subtipoDiscapacidad,
-          paisOrigen,
-          autoidentificacionCultural,
-          puebloIndigena,
-          firma,
-          idFamilia,
-          nombre,
-          primerApellido,
-          segundoApellido,
-          tipoIdentificacion,
-          numeroIdentificacion,
-          nacionalidad,
-          parentesco,
-          esJefeFamilia,
-          fechaNacimiento,
-          genero,
-          sexo,
-          telefono,
-          contactoEmergencia,
-          observaciones,
-          estaACargoMenor,
-          idUsuarioCreacion,
-        ]
-      );
+    pool.query(
+      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        tieneCondicionSalud,
+        descripcionCondicionSalud,
+        discapacidad,
+        tipoDiscapacidad,
+        subtipoDiscapacidad,
+        paisOrigen,
+        autoidentificacionCultural,
+        puebloIndigena,
+        firma,
+        idFamilia,
+        nombre,
+        primerApellido,
+        segundoApellido,
+        tipoIdentificacion,
+        numeroIdentificacion,
+        nacionalidad,
+        parentesco,
+        esJefeFamilia,
+        fechaNacimiento,
+        genero,
+        sexo,
+        telefono,
+        contactoEmergencia,
+        observaciones,
+        estaACargoMenor,
+        idUsuarioCreacion,
+      ],
+      (error, results) => {
+        if (error) {
+          console.error(`Error al insertar persona en índice ${index}:`, error);
+          errores.push({
+            index,
+            error: error.message || "Error al insertar persona",
+          });
+          return;
+        }
 
-      resultados.push({
-        index,
-        id: results[0][0]?.id ?? null,
-        message: "Persona registrada correctamente",
-      });
-    } catch (error) {
-      console.error(`Error al insertar persona en índice ${index}:`, error);
-      errores.push({
-        index,
-        error: error.message || "Error al insertar persona",
-      });
-    }
+        resultados.push({
+          index,
+          id: results[0][0]?.id ?? null,
+          message: "Persona registrada correctamente",
+        });
+      }
+    );
   }
 
   const statusCode = errores.length === personas.length ? 500 : errores.length > 0 ? 207 : 201;

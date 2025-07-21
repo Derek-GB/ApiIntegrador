@@ -143,9 +143,9 @@ const pool = require("../MySQL/basedatos"); // ajusta según la ruta real
 // };
 
 const postMethod = (req = request, res = response) => {
-  const personas = req.body;
+  const {personas} = req.body;
 
-  if (!Array.isArray(personas) || personas.length === 0) {
+  if (!personas || !Array.isArray(personas) || personas.length === 0) {
     return res.status(400).json({
       success: false,
       message: "Se esperaba un arreglo de personas en el cuerpo de la solicitud.",
@@ -237,7 +237,7 @@ const postMethod = (req = request, res = response) => {
     }
 
     pool.query(
-      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         tieneCondicionSalud,
         descripcionCondicionSalud,

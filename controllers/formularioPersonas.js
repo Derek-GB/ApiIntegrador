@@ -142,8 +142,8 @@ const pool = require("../MySQL/basedatos"); // ajusta según la ruta real
 //   );
 // };
 
-const postMethod = (req = request, res = response) => {
-  const {personas} = req.body;
+const postMethod = async (req = request, res = response) => {
+  const { personas } = req.body;
 
   if (!personas || !Array.isArray(personas) || personas.length === 0) {
     return res.status(400).json({
@@ -155,92 +155,85 @@ const postMethod = (req = request, res = response) => {
   const resultados = [];
   const errores = [];
 
-  for (const [index, persona] of personas.entries()) {
-    let {
-      tieneCondicionSalud,
-      descripcionCondicionSalud = null,
-
-      discapacidad,
-      tipoDiscapacidad = null,
-      subtipoDiscapacidad = null,
-
-      paisOrigen = null,
-      autoidentificacionCultural = null,
-      puebloIndigena = null,
-
-      firma,
-
-      idFamilia,
-      nombre,
-      primerApellido,
-      segundoApellido,
-      tipoIdentificacion,
-      numeroIdentificacion,
-      nacionalidad,
-      parentesco,
-      esJefeFamilia,
-      fechaNacimiento,
-      genero,
-      sexo,
-      telefono,
-      contactoEmergencia = null,
-      observaciones = null,
-      estaACargoMenor,
-      idUsuarioCreacion,
-    } = persona;
-
-    // Validación de campos obligatorios
-    if (
-      tieneCondicionSalud === undefined ||
-      discapacidad === undefined ||
-      firma === undefined ||
-      idFamilia === undefined ||
-      nombre === undefined ||
-      primerApellido === undefined ||
-      segundoApellido === undefined ||
-      tipoIdentificacion === undefined ||
-      numeroIdentificacion === undefined ||
-      nacionalidad === undefined ||
-      parentesco === undefined ||
-      esJefeFamilia === undefined ||
-      fechaNacimiento === undefined ||
-      genero === undefined ||
-      sexo === undefined ||
-      telefono === undefined ||
-      estaACargoMenor === undefined ||
-      idUsuarioCreacion === undefined
-    ) {
-      errores.push({
-        index,
-        message: "Faltan datos requeridos",
-        datos: persona,
-      });
-      continue;
-    }
-
-    if (firma.startsWith("data:")) {
-      firma = firma.split(",")[1];
-    }
-
-    firma = Buffer.from(firma, "base64");
-    if (!firma) {
-      return res.status(400).json({
-        success: false,
-        message: "Falta dato requerido: firma",
-      });
-    }
-    if (firma.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "La firma no puede estar vacia",
-      });
-    }
-
-    pool.query(
-      "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [
+  const insertPersona = (persona, index) => {
+    return new Promise((resolve) => {
+      let {
         tieneCondicionSalud,
-        descripcionCondicionSalud,
+        descripcionCondicionSalud = null,
+        discapacidad,
+        tipoDiscapacidad = null,
+        subtipoDiscapacidad = null,
+        paisOrigen = null,
+        autoidentificacionCultural = null,
+        puebloIndigena = null,
+        firma,
+        idFamilia,
+        nombre,
+        primerApellido,
+        segundoApellido,
+        tipoIdentificacion,
+        numeroIdentificacion,
+        nacionalidad,
+        parentesco,
+        esJefeFamilia,
+        fechaNacimiento,
+        genero,
+        sexo,
+        telefono,
+        contactoEmergencia = null,
+        observaciones = null,
+        estaACargoMenor,
+        idUsuarioCreacion,
+      } = persona;
+
+      // Validación de campos obligatorios
+      if (
+        tieneCondicionSalud === undefined ||
+        discapacidad === undefined ||
+        firma === undefined ||
+        idFamilia === undefined ||
+        nombre === undefined ||
+        primerApellido === undefined ||
+        segundoApellido === undefined ||
+        tipoIdentificacion === undefined ||
+        numeroIdentificacion === undefined ||
+        nacionalidad === undefined ||
+        parentesco === undefined ||
+        esJefeFamilia === undefined ||
+        fechaNacimiento === undefined ||
+        genero === undefined ||
+        sexo === undefined ||
+        telefono === undefined ||
+        estaACargoMenor === undefined ||
+        idUsuarioCreacion === undefined
+      ) {
+        errores.push({
+          index,
+          message: "Faltan datos requeridos",
+          datos: persona,
+        });
+        return resolve(); // No continuamos con la inserción
+      }
+
+      if (firma.startsWith("data:")) {
+        firma = firma.split(",")[1];
+      }
+
+      firma = Buffer.from(firma, "base64");
+
+      if (!firma || firma.length === 0) {
+        errores.push({
+          index,
+          message: "Firma inválida o vacía",
+        });
+        return resolve();
+      }
+
+      pool.query(
+        "CALL pa_InsertPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          tieneCondicionSalud,
+          descripcionCondicionSalud,
           discapacidad,
           tipoDiscapacidad,
           subtipoDiscapacidad,
@@ -273,19 +266,28 @@ const postMethod = (req = request, res = response) => {
               index,
               error: error.message || "Error al insertar persona",
             });
-            return;
+          } else {
+            resultados.push({
+              index,
+              id: results[0][0].id,
+              message: "Persona registrada correctamente",
+            });
           }
+          return resolve();
+        }
+      );
+    });
+  };
 
-        resultados.push({
-          index,
-          id: results[0][0]?.id ?? null,
-          message: "Persona registrada correctamente",
-        });
-      }
-    );
-  }
+  // Ejecutar todas las inserciones en paralelo y esperar a que terminen
+  await Promise.all(personas.map(insertPersona));
 
-  const statusCode = errores.length === personas.length ? 500 : errores.length > 0 ? 207 : 201;
+  const statusCode =
+    errores.length === personas.length
+      ? 500
+      : errores.length > 0
+      ? 207
+      : 201;
 
   return res.status(statusCode).json({
     success: errores.length === 0,
@@ -293,6 +295,7 @@ const postMethod = (req = request, res = response) => {
     errores,
   });
 };
+
 
 module.exports = {
   postMethod,

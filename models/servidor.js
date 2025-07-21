@@ -66,7 +66,7 @@ class servidor {
     this.app.use('/api/public', publicRoutes);
 
     // RUTAS PROTEGIDAS (con autenticación)
-    this.app.use('/api/usuarios', authMiddleware, usuariosRoutes);
+    // this.app.use('/api/usuarios', authMiddleware, usuariosRoutes);
     // Rutas protegidas (aplica el middleware de verificación de token)
     this.rutas.forEach(({ path, route }) => {
       this.app.use(path, verificarToken, route); // <- Middleware aplicado a todas las rutas

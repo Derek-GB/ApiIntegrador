@@ -72,7 +72,7 @@ const postMethod = (req = request, res = response) => {
             success: true,
             message: 'Usuario insertado correctamente',
             data: {
-                id: results[0][0].id,
+                id: results[0][0]?.id ?? null,
                 nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion
             }
         });

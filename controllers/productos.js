@@ -1,152 +1,48 @@
-const { request, response } = require('express');
-const { pool } = require('../MySQL/basedatos')
+const productoService = require('../services/productoService.js');
 
-const getAllMethod = (req = request, res = response) => {
-    pool.query('CALL pa_SelectAllProducto', (error, results) => {
-        if (error) {
-            console.error('Error en getAllMethod:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al obtener productos'
-            });
-        }
-
-        res.json({
-            success: true,
-            data: results[0]
-        });
-    });
+const getAllMethod = async (req, res) => {
+  try {
+    const data = await productoService.getAll();
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 };
 
-const getMethod = (req = request, res = response) => {
-    const { id } = req.params;
-    pool.query('CALL pa_SelectProducto(?)', [id], (error, results) => {
-        if (error) {
-            console.error('Error en getMethod:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al obtener productos'
-            });
-        }
-
-        if (results[0].length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Producto no encontrado'
-            });
-        }
-
-        res.json({
-            success: true,
-            data: results[0][0]
-        });
-    });
+const getMethod = async (req, res) => {
+  try {
+    const data = await productoService.getById(Number(req.params.id));
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
 };
 
-
-const postMethod = (req = request, res = response) => {
-    let { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
-
-    if (!codigoProducto || !nombre || !cantidad) {
-        return res.status(400).json({
-            success: false,
-            message: 'Faltan datos: codigoProducto, nombre, cantidad'
-        });
-    }
-    descripcion = descripcion ?? null; 
-    categoria = categoria ?? null;
-    unidadMedida = unidadMedida ?? null;
-
-    pool.query(
-        'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);',
-        [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
-        if (error) {
-            console.error('Error al insertar producto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al insertar producto'
-            });
-        }
-
-        res.status(201).json({
-            success: true,
-            message: 'Producto insertado correctamente',
-            data: {
-                id: results[0][0].id, 
-                codigoProducto,
-                nombre,
-                descripcion,
-                cantidad,
-                categoria,
-                unidadMedida
-            }
-        });
-    });
+const postMethod = async (req, res) => {
+  try {
+    const data = await productoService.create(req.body);
+    res.status(201).json({ success: true, message: 'Producto insertado', data });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
 };
 
-const putMethod = (req = request, res = response) => {
-    const { id, descripcion, cantidad } = req.body;
-
-    
-    if (typeof id !== 'number' || typeof descripcion !== 'string' || typeof cantidad !== 'number') {
-        return res.status(400).json({
-            success: false,
-            message: 'Datos inválidos o faltantes: se requieren id (number), descripcion (string) y cantidad (number)'
-        });
-    }
-
-    pool.query('CALL pa_UpdateProducto(?, ?, ?)', [id, descripcion, cantidad], (error, results) => {
-        if (error) {
-            console.error('Error al actualizar producto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al actualizar producto'
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: 'Producto actualizado correctamente',
-            data: {
-                id,
-                descripcion,
-                cantidad
-            }
-        });
-    });
-}
-
-const deleteMethod = (req = request, res = response) => {
-    const { id } = req.params; 
-
-    if (!id) {
-        return res.status(400).json({
-            success: false,
-            message: 'ID de producto no proporcionado en el body'
-        });
-    }
-
-    pool.query('CALL pa_DeleteProducto(?)', [id], (error, results) => {
-        if (error) {
-            console.error('Error al eliminar producto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al eliminar producto'
-            });
-        }
-
-        res.json({
-            success: true,
-            message: `Producto con ID ${id} eliminado correctamente`
-        });
-    });
+const putMethod = async (req, res) => {
+  try {
+    const data = await productoService.update(req.body);
+    res.json({ success: true, message: 'Producto actualizado', data });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
 };
 
+const deleteMethod = async (req, res) => {
+  try {
+    await productoService.remove(Number(req.params.id));
+    res.json({ success: true, message: `Producto con ID ${req.params.id} eliminado` });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
 
-module.exports = {
-    getAllMethod,
-    getMethod,
-    postMethod,
-    putMethod,
-    deleteMethod
-}
+module.exports = { getAllMethod, getMethod, postMethod, putMethod, deleteMethod };

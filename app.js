@@ -1,40 +1,36 @@
-// app.js (archivo principal)
-const Servidor = require('./models/servidor.js'); // Importar la clase desde server.js
+const Servidor = require('./index'); // Ajusta la ruta según tu estructura
 
-// Crear instancia del servidor
-const servidor = new Servidor();
+// Función principal asíncrona
+async function iniciarAplicacion() {
+    try {
+        console.log('🚀 Iniciando aplicación...');
+        
+        const servidor = new Servidor();
+        
+        // Inicializar el servidor (que ahora incluye la inicialización de BD)
+        await servidor.listen();
+        
+        console.log('✅ Aplicación iniciada correctamente');
+        
+    } catch (error) {
+        console.error('❌ Error crítico al iniciar la aplicación:', error.message);
+        process.exit(1);
+    }
+}
 
-// Iniciar el servidor
-servidor.listen();
-
-// Manejar señales de terminación
-process.on('SIGTERM', async () => {
-  console.log('📡 Recibida señal SIGTERM');
-  await servidor.shutdown();
-});
-
+// Manejo de cierre graceful
 process.on('SIGINT', async () => {
-  console.log('📡 Recibida señal SIGINT');
-  await servidor.shutdown();
+    console.log('\n🔄 Cerrando aplicación...');
+    try {
+        const basedatos = require('./MySQL/basedatos.js');
+        await basedatos.disconnect();
+        console.log('👋 Aplicación cerrada correctamente');
+        process.exit(0);
+    } catch (error) {
+        console.error('❌ Error al cerrar:', error.message);
+        process.exit(1);
+    }
 });
 
-// Manejar errores no capturados
-process.on('uncaughtException', (error) => {
-  console.error('❌ Error no capturado:', error);
-  process.exit(1);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Promise rechazada no manejada:', reason);
-  process.exit(1);
-});
-
-// Mensaje de inicio
-console.log('🔄 Iniciando aplicación...');
-console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
-console.log(`📅 Fecha de inicio: ${new Date().toISOString()}`);
-
-
-
-
-
+// Iniciar la aplicación
+iniciarAplicacion();

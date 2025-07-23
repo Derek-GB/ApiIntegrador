@@ -1,15 +1,15 @@
-const {Router}= require('express');
+const express = require('express');
 
-const router=Router();
-
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
+const router = express.Router();
+const productoController = require('../controllers/productos');
+/*const {
+  // getAllMethod,
+  // getMethod,
+  // postMethod,
+  // putMethod,
+  // deleteMethod,
   }=require('../controllers/productos');
-
+*/
 
   /**
  * @swagger
@@ -34,7 +34,7 @@ const {
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
+router.get('/productoID/:id', productoController.getMethod);   
     
 
 /**
@@ -51,7 +51,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener los productos (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get('/productoAll/all', productoController.getAllMethod);             
 
 
 /**
@@ -92,7 +92,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar producto (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', productoController.postMethod);
 
 /**
  * @swagger
@@ -130,7 +130,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar producto (Contactar equipo de API)
  */
-router.put('/',   putMethod);
+router.put('/',   productoController.putMethod);
 
 
 /**
@@ -156,6 +156,6 @@ router.put('/',   putMethod);
  *         description: Error al eliminar el producto (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', productoController.deleteMethod);
 
 module.exports=router;

@@ -40,6 +40,3 @@ const authMiddleware = (req, res, next) => {
 };
 
 module.exports = authMiddleware;
-
-// Uso en app.js:
-// app.use('/api/usuarios', authMiddleware, usuariosRoutes);

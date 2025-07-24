@@ -11,8 +11,8 @@ const {
   getForDistritoMethod,
   getForCantonMethod,
   getForProvinciaMethod,
-  
-} = require('../controllers/albergues');
+    getAllAlbergues
+} = require('../controllers/albergueController');
 
 const {
   postMethod,
@@ -55,7 +55,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los albergues (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', getAllAlbergues);
 
 /**
  * @swagger

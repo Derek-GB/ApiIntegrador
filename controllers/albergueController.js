@@ -1,5 +1,28 @@
 const { request, response } = require("express");
+// importamos el servicio de albergue
+const albergueService = require("../service/albergueService");
 const { pool } = require("../MySQL/basedatos");
+
+/* Ejemplo de un controlador más sano
+esto lo hizo Emerson.
+*/
+const getAllAlbergues = async (req, res) => {
+  try{
+    const data = await albergueService.getAllAlbergues();
+    res.status(200).json({
+        success: true,
+        data: data,
+        message: "Albergues obtenidos exitosamente",
+    });
+  }catch (error) {
+    console.error("Error en getAllAlbergues:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener los albergues",
+      error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
+    });
+  }
+}
 
 const getAllMethod = (req = request, res = response) => {
   pool.query("CALL pa_SelectAllAlbergue", (error, results) => {
@@ -479,4 +502,5 @@ module.exports = {
   getForDistritoMethod,
   getForCantonMethod,
   getForProvinciaMethod,
+  getAllAlbergues
 };

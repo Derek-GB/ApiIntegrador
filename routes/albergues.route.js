@@ -1,18 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod,
-  getForIdMethod,
-  getForNombreMethod,
-  getForDistritoMethod,
-  getForCantonMethod,
-  getForProvinciaMethod,
-    getAllAlbergues
-} = require('../controllers/albergueController');
+const albergueController = require('../controllers/albergueController');
 
 const {
   postMethod,
@@ -40,7 +29,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', albergueController.getMethod);
 
 /**
  * @swagger
@@ -55,7 +44,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los albergues (Contactar equipo de API)
  */
-router.get('/all', getAllAlbergues);
+router.get('/all', albergueController.getAllAlbergues);
 
 /**
  * @swagger
@@ -191,7 +180,7 @@ router.get('/all', getAllAlbergues);
  *       500:
  *         description: Error al insertar albergue
  */
-router.post('/', postMethod);
+router.post('/', albergueController.postMethod);
 
 /**
  * @swagger
@@ -231,7 +220,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-router.put('/', putMethod);
+router.put('/', albergueController.putMethod);
 
 /**
  * @swagger
@@ -255,7 +244,7 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar el albergue (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', albergueController.deleteMethod);
 
 /**
  * @swagger
@@ -294,7 +283,7 @@ router.delete('/id/:id', deleteMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/id/:id', getForIdMethod);
+router.get('/consulta/id/:id', albergueController.getForIdMethod);
 
 /**
  * @swagger
@@ -333,7 +322,7 @@ router.get('/consulta/id/:id', getForIdMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/nombre/:nombre', getForNombreMethod);
+router.get('/consulta/nombre/:nombre', albergueController.getForNombreMethod);
 
 
 /** * @swagger
@@ -366,7 +355,7 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+router.get('/consulta/distrito/:distrito', albergueController.getForDistritoMethod);
 
 /** * @swagger
  * /api/albergues/consulta/canton/{canton}:
@@ -398,7 +387,7 @@ router.get('/consulta/distrito/:distrito', getForDistritoMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/canton/:canton', getForCantonMethod);
+router.get('/consulta/canton/:canton', albergueController.getForCantonMethod);
 
 /** * @swagger
  * /api/albergues/consulta/provincia/{provincia}:
@@ -430,6 +419,6 @@ router.get('/consulta/canton/:canton', getForCantonMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/provincia/:provincia', getForProvinciaMethod);
+router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaMethod);
 
 module.exports = router;

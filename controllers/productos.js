@@ -1,4 +1,6 @@
 const { request, response } = require('express');
+const productoService = require("../service/productoService");
+
 const { pool } = require('../MySQL/basedatos')
 
 const getAllMethod = (req = request, res = response) => {
@@ -43,7 +45,40 @@ const getMethod = (req = request, res = response) => {
     });
 };
 
+const postMethodTwo = async (req, res) => {
+    let { 
+        codigoProducto, 
+        nombre, 
+        descripcion = null, 
+        cantidad, 
+        categoria = null, 
+        unidadMedida = null 
+    } = req.body;
 
+    try {
+        const data = await productoService.postMethod(codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida);
+        res.status(201).json({
+                success: true,
+                message: 'Producto insertado correctamente',
+                data: {
+                    id: results[0][0].id,
+                    codigoProducto,
+                    nombre,
+                    descripcion,
+                    cantidad,
+                    categoria,
+                    unidadMedida
+                }
+            });
+    } catch (error) {
+        console.error("Error en postMethodTwo:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error al insertar producto",
+            error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
+        });
+    }
+}
 const postMethod = (req = request, res = response) => {
     let { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = req.body;
 
@@ -53,41 +88,41 @@ const postMethod = (req = request, res = response) => {
             message: 'Faltan datos: codigoProducto, nombre, cantidad'
         });
     }
-    descripcion = descripcion ?? null; 
+    descripcion = descripcion ?? null;
     categoria = categoria ?? null;
     unidadMedida = unidadMedida ?? null;
 
     pool.query(
         'CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);',
         [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida], (error, results) => {
-        if (error) {
-            console.error('Error al insertar producto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al insertar producto'
-            });
-        }
-
-        res.status(201).json({
-            success: true,
-            message: 'Producto insertado correctamente',
-            data: {
-                id: results[0][0].id, 
-                codigoProducto,
-                nombre,
-                descripcion,
-                cantidad,
-                categoria,
-                unidadMedida
+            if (error) {
+                console.error('Error al insertar producto:', error);
+                return res.status(500).json({
+                    success: false,
+                    error: 'Error al insertar producto'
+                });
             }
+
+            res.status(201).json({
+                success: true,
+                message: 'Producto insertado correctamente',
+                data: {
+                    id: results[0][0].id,
+                    codigoProducto,
+                    nombre,
+                    descripcion,
+                    cantidad,
+                    categoria,
+                    unidadMedida
+                }
+            });
         });
-    });
 };
 
 const putMethod = (req = request, res = response) => {
     const { id, descripcion, cantidad } = req.body;
 
-    
+
     if (typeof id !== 'number' || typeof descripcion !== 'string' || typeof cantidad !== 'number') {
         return res.status(400).json({
             success: false,
@@ -117,7 +152,7 @@ const putMethod = (req = request, res = response) => {
 }
 
 const deleteMethod = (req = request, res = response) => {
-    const { id } = req.params; 
+    const { id } = req.params;
 
     if (!id) {
         return res.status(400).json({
@@ -148,5 +183,6 @@ module.exports = {
     getMethod,
     postMethod,
     putMethod,
-    deleteMethod
+    deleteMethod, 
+    postMethodTwo
 }

@@ -2,13 +2,7 @@ const {Router}= require('express');
 
 const router=Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-  }=require('../controllers/productos');
+const productosController =require('../controllers/productos');
 
 
   /**
@@ -34,7 +28,7 @@ const {
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
+router.get('/id/:id', productosController.getMethod);   
     
 
 /**
@@ -51,7 +45,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener los productos (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get('/all', productosController.getAllMethod);             
 
 
 /**
@@ -92,7 +86,47 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar producto (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', productosController.postMethod);
+
+/**
+ * @swagger
+ * /api/productos:
+ *   post:
+ *     tags:
+ *       - Productos
+ *     summary: Insertar un nuevo producto
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - codigoProducto
+ *               - nombre
+ *               - cantidad
+ *             properties:
+ *               codigoProducto:
+ *                 type: string
+ *               nombre:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               cantidad:
+ *                 type: number
+ *               categoria:
+ *                 type: integer
+ *               unidadMedida:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Producto insertado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al insertar producto (Contactar equipo de API)
+ */
+router.post('/', productosController.postMethodTwo);
 
 /**
  * @swagger
@@ -130,7 +164,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar producto (Contactar equipo de API)
  */
-router.put('/',   putMethod);
+router.put('/',   productosController.putMethod);
 
 
 /**
@@ -156,6 +190,6 @@ router.put('/',   putMethod);
  *         description: Error al eliminar el producto (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', productosController.deleteMethod);
 
 module.exports=router;

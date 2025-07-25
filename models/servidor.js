@@ -24,8 +24,11 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: "/api/documentacion",
+      url: "https://apiintegrador-production-8ad3.up.railway.app",
     },
+    {
+      url: "http://localhost:4000",
+    }
   ],
 };
 

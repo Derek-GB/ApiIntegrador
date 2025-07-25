@@ -91,13 +91,17 @@ class AuthController {
 
                 // Esto si funciona
                 // 5. Generar token JWT
-                const token = jwt.sign(
+                const tokenpayload =
                     {
                         id: usuario.idUsuario,
                         correo: usuario.correo,
                         rol: usuario.rol,
                         nombreUsuario: usuario.nombreUsuario,
                         idMunicipalidad: usuario.idMunicipalidad || null
+                    }
+                const token = jwt.sign(
+                    {
+                        tokenpayload
                     },
                     SECRET_KEY,
                     { expiresIn: TOKEN_EXPIRES_IN || '24h' }
@@ -108,11 +112,7 @@ class AuthController {
                     success: true,
                     token,
                     usuario: {
-                        id: usuario.idUsuario,
-                        nombreUsuario: usuario.nombreUsuario,
-                        rol: usuario.rol,
-                        correo: usuario.correo,
-                        idMunicipalidad: usuario.idMunicipalidad
+                        tokenpayload
                     }
                 });
             });
@@ -185,13 +185,16 @@ class AuthController {
                 };
 
                 // Generar token JWT inmediatamente después del registro
-                const token = jwt.sign(
-                    {
+                const tokenpayload = {
                         id: nuevoUsuario.id,
                         correo: nuevoUsuario.correo,
                         rol: nuevoUsuario.rol,
                         nombreUsuario: nuevoUsuario.nombreUsuario,
                         idMunicipalidad: nuevoUsuario.idMunicipalidad
+                    }
+                const token = jwt.sign(
+                    {
+                        tokenpayload
                     },
                     SECRET_KEY,
                     { expiresIn: TOKEN_EXPIRES_IN || '24h' }

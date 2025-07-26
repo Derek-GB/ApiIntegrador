@@ -1,12 +1,9 @@
 const { Router } = require('express');
 const router = Router();
+const pedidoConsumibleController = require('../controllers/pedidoConsumibleController');
 
 const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod
+  
 } = require('../controllers/pedidoConsumibles');
 
 /**
@@ -22,7 +19,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', pedidoConsumibleController.getAllPedidosConsumibles);
 
 /**
  * @swagger
@@ -48,7 +45,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', pedidoConsumibleController.getPedidoConsumible);
 
 /**
  * @swagger
@@ -88,7 +85,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al insertar pedido consumible (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', pedidoConsumibleController.postPedidoConsumible);
 
 /**
  * @swagger
@@ -145,7 +142,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', pedidoConsumibleController.putPedidoConsumible);
 
 /**
  * @swagger
@@ -169,6 +166,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', pedidoConsumibleController.deletePedidoConsumible);
 
 module.exports = router;

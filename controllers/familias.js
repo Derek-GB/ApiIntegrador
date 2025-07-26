@@ -1,5 +1,22 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
+const familiaService = require("../service/familiaService");
+const { pool } = require("../MySQL/basedatos"); //Borrar cuando put sea actualizado
+
+const getAllFamilias = async (req = request, res = response) => {
+  try {
+    const data = await familiaService.getAllFamilias();
+    res.status(200).json({
+      success: true,
+      data: results[0],
+    });
+  } catch (error) {
+    console.error("Error en getAllMethod:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener familias; " + error.message,
+    });
+  }
+}
 
 const getAllMethod = (req = request, res = response) => {
   pool.query("CALL pa_SelectAllFamilia", (error, results) => {
@@ -17,6 +34,30 @@ const getAllMethod = (req = request, res = response) => {
     });
   });
 };
+
+const getFamilia = async (req = request, res = response) => {
+  if (!req.params) return res.status(400).json({ success: false, error: "Se esperaba el parametro id en" });
+  try {
+    const { id } = req.params;
+    const data = await familiaService.getFamilia(id);
+    if (data[0]?.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Familia no encontrada",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: results[0][0],
+    });
+  } catch (error) {
+    console.error("Error en getMethod:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener la familia; " + error.message
+    });
+  }
+}
 
 const getMethod = (req = request, res = response) => {
   const { id } = req.params;
@@ -43,8 +84,30 @@ const getMethod = (req = request, res = response) => {
   });
 };
 
+const postFamilia = async (req = request, res = response) => {
+  if (!req.body) return res.status(400).json({ success: false, error: "Se esperaba el body de la consulta" });
+  try {
+    const { provincia, canton, distrito, direccion, codigoFamilia, cantidadPersonas, idAlbergue, idAmenaza, idPersona, idUsuarioCreacion } = req.body;
+    const data = await familiaService.postFamilia({ provincia, canton, distrito, direccion, codigoFamilia, cantidadPersonas, idAlbergue, idAmenaza, idPersona, idUsuarioCreacion });
+    res.status(201).json({
+      success: true, message: "se insertó correctamente"
+    });
+  } catch (error) {
+    if (error.flagStatus || error.flagStatus === 400) {
+      return res.status(error.flagStatus).json({
+        success: false, error: error.message
+      })
+    }
+    console.error("Error al insertar familia:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al insertar familia; " + error.message,
+    });
+  }
+}
+
 const postMethod = (req = request, res = response) => {
-  let{
+  let {
     codigoFamilia,
     cantidadPersonas,
     idAlbergue,

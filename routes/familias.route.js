@@ -1,14 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod,
-  getVistaFamiliaConJefeMethod,
-  getForCedulaJefeMethod,
-} = require('../controllers/familias');
+const familiasController = require('../controllers/familias');
 
 const { postMethod } = require('../controllers/formularioFamilias');
 
@@ -34,7 +27,7 @@ const { postMethod } = require('../controllers/formularioFamilias');
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', familiasController.getFamilia);
 
 /**
  * @swagger
@@ -49,7 +42,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener familias (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', familiasController.getAllFamilia);
 
 /**
  * @swagger
@@ -114,7 +107,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar familia (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', familiasController.postFamilia);
 
 
 /**
@@ -158,7 +151,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar familia (Contactar equipo de API)
  */
-router.put('/', putMethod);
+router.put('/', familiasController.putMethod);
 
 /**
  * @swagger
@@ -182,7 +175,7 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar familia (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', familiasController.delete);
 
 /**
  * @swagger
@@ -200,7 +193,7 @@ router.delete('/id/:id', deleteMethod);
  *         description: Error al obtener familia (Contactar equipo de API)
  */
 
-router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
+router.get('/vista/familiaConJefe', familiasController.getVistaFamiliaJefe);
 
 /**
  * @swagger
@@ -224,6 +217,6 @@ router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/consulta/familiaConJefe/:cedula', getForCedulaJefeMethod);
+router.get('/consulta/familiaConJefe/:cedula', familiasController.getForCedulaJefe);
 
 module.exports = router;

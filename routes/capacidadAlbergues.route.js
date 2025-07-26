@@ -2,11 +2,11 @@ const { Router } = require('express');
 const router = Router();
 
 const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
+  getAllCapacidadAlbergue,
+  getCapacidadAlbergue,
+  postCapacidadAlbergue,
+  putCapacidadAlbergue,
+  deleteCapacidadAlbergue,
 } = require('../controllers/capacidadAlbergues');
 
 /**
@@ -31,7 +31,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', getCapacidadAlbergue);
 
 /**
  * @swagger
@@ -46,7 +46,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener las capacidades (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', getAllCapacidadAlbergue);
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al crear registro (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', postCapacidadAlbergue);
 
 /**
  * @swagger
@@ -143,7 +143,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar el registro (Contactar equipo de API)
  */
-router.put('/', putMethod);
+router.put('/', putCapacidadAlbergue);
 
 /**
  * @swagger
@@ -167,6 +167,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar el registro (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', deleteCapacidadAlbergue);
 
 module.exports = router;

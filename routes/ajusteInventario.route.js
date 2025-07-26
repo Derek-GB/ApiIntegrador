@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const router = Router();
 
+
 const {
-    getAllMethod,
-    getMethod,
-    postMethod,
-} = require('../controllers/ajusteInventario');
+    getAllAjuste,
+    getAjuste,
+    postAjuste,
+} = require('../controllers/ajusteInventarioController');
 
 /*
     * @swagger
@@ -15,7 +16,7 @@ const {
     *     tags: 
     *       - AjusteInventario
     */
-router.get('/all', getAllMethod);
+router.get('/all', getAllAjuste);
 
 /*
     * @swagger
@@ -32,7 +33,7 @@ router.get('/all', getAllMethod);
     *           type: integer
     *         description: ID del ajuste de inventario a obtener
     */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', getAjuste);
 
 /*
     * @swagger
@@ -59,6 +60,6 @@ router.get('/id/:id', getMethod);
     *               idUsuarioCreacion:
     *                 type: integer
     */
-router.post('/', postMethod);
+router.post('/', postAjuste);
 
 module.exports = router;

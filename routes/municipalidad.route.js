@@ -1,13 +1,11 @@
 const {Router}= require('express');
 
+const municipalidadController = require('../controllers/municipalidadController');
+
 const router=Router();
 
 const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
+
   }=require('../controllers/municipalidad');
 
 
@@ -34,7 +32,7 @@ const {
  *         description: Error al obtener municipalidad (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
+router.get('/id/:id', municipalidadController.getMunicipalidad);   
     
 
 /**
@@ -51,7 +49,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener municipalidades (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get('/all', municipalidadController.getAllMunicipalidades);             
 
 /**
  * @swagger
@@ -101,7 +99,7 @@ router.get('/all', getAllMethod);
  *         description: Error al insertar municipalidad (Contactar equipo de API)
  */
 // Registrar o insertar
-router.post('/', postMethod);
+router.post('/', municipalidadController.postMunicipalidad);
 
 /**
  * @swagger
@@ -126,7 +124,7 @@ router.post('/', postMethod);
  *         description: Error al eliminar municipalidad (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', municipalidadController.deleteMunicipalidad);
 
 /**
  * @swagger
@@ -179,6 +177,6 @@ router.delete('/id/:id', deleteMethod);
  *         description: Error al actualizar municipalidad (Contactar equipo de API)
  */
 // //Actualizar
-router.put('/',   putMethod);
+// router.put('/',   putMethod);
 
 module.exports=router;

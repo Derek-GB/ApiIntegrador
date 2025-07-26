@@ -1,13 +1,10 @@
 const {Router}= require('express');
 
+const recursoAsignadoController = require('../controllers/recursoAsignadoController');
+
 const router=Router();
 
 const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
   }=require('../controllers/recursosAsignados');
 
 
@@ -50,7 +47,7 @@ const {
  *         description: Error al obtener recurso asignado (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
+router.get('/id/:id', recursoAsignadoController.getRecursoAsignado);   
     
 /**
  * @swagger
@@ -66,7 +63,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener los recursos asignados (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get('/all', recursoAsignadoController.getAllRecursosAsignados);             
 
 /**
  * @swagger
@@ -103,7 +100,7 @@ router.get('/all', getAllMethod);
  *         description: Error al insertar recurso asignado (Contactar equipo de API)
  */
 // Registrar o insertar
-router.post('/', postMethod);
+router.post('/', recursoAsignadoController.postRecursoAsignado);
 
 /**
  * @swagger
@@ -137,7 +134,7 @@ router.post('/', postMethod);
  *         description: Error al eliminar recurso asignado (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', recursoAsignadoController.deleteRecursoAsignado);
 
 /**
  * @swagger
@@ -174,6 +171,6 @@ router.delete('/id/:id', deleteMethod);
  *         description: Error al actualizar recurso asignado (Contactar equipo de API)
  */
 // //Actualizar
-router.put('/',   putMethod);
+// router.put('/',   putMethod);
 
 module.exports=router;

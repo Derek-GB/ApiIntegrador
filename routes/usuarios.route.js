@@ -1,16 +1,29 @@
 const {Router}=require('express');
 
+const usuarioController=require('../controllers/usuarioController');
+
 const router=Router();
 
 
 const {
-  getMethod,
-  postMethod,
-  validarCorreoMethod,
-  putMethod,
-  putContrasenaMethod,
-  getAllMethod,
-  deleteMethod}=require('../controllers/usuarios');
+ 
+  }=require('../controllers/usuarioController');
+
+
+  /**
+ * @swagger
+ * /api/usuarios:
+ *   get:
+ *     tags:
+ *       - Usuarios
+ *     summary: Obtener todos los usuarios
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios obtenida correctamente
+ *       500:
+ *         description: Error al obtener usuarios (Contactar equipo de API)
+ */
+router.get('/all', usuarioController.getAllUsuarios);
 
   /**
  * @swagger
@@ -35,7 +48,7 @@ const {
  *         description: Error al obtener usuario (Contactar equipo de API)
  */
 //Devolver datos desde mi API
-router.get('/id/:id',   getMethod);
+router.get('/id/:id',   usuarioController.getUsuario);
 
 
 /**
@@ -79,7 +92,7 @@ router.get('/id/:id',   getMethod);
  *         description: Error al insertar usuario (Contactar equipo de API)
  */
 //Registrar o insertar
-router.post('/',  postMethod);
+router.post('/',  usuarioController.postUsuario);
 
 // RUTAS PÚBLICAS (sin middleware de autenticación)
 /**
@@ -91,7 +104,7 @@ router.post('/',  postMethod);
  *     summary: Actualizar la contraseña de un usuario
  *     security: []  # Sin autenticación requerida
  */
-router.put('/contrasena', putContrasenaMethod);
+router.put('/contrasena', usuarioController.putContrasenaMethod);
 
 /**
  * @swagger
@@ -102,7 +115,7 @@ router.put('/contrasena', putContrasenaMethod);
  *     summary: Validar si el correo ya está en uso
  *     security: []  # Sin autenticación requerida
  */
-router.post('/validar/correo', validarCorreoMethod);
+router.post('/validar/correo', usuarioController.validarCorreoMethod);
 
 /**
  * @swagger
@@ -178,23 +191,9 @@ router.put('/',  putMethod);
  *         description: Error al eliminar usuario (Contactar equipo de API)
  */
 //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', usuarioController.deleteUsuario);
 
-/**
- * @swagger
- * /api/usuarios:
- *   get:
- *     tags:
- *       - Usuarios
- *     summary: Obtener todos los usuarios
- *     responses:
- *       200:
- *         description: Lista de usuarios obtenida correctamente
- *       500:
- *         description: Error al obtener usuarios (Contactar equipo de API)
- */
-//Actualizar
-router.get('/all',   getAllMethod);
+
 
 
 module.exports=router;

@@ -2,13 +2,7 @@ const { Router } = require("express");
 
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require("../controllers/ubicaciones");
+const ubicacionController = require("../controllers/ubicacionController");
 
 /**
  * @swagger
@@ -33,7 +27,7 @@ const {
  *         description: Error al obtener ubicación (Contactar equipo de API)
  */
 //Devolver un solo producto por ID
-router.get("/id/:id", getMethod);
+router.get("/id/:id", ubicacionController.getUbicacion);
 
 /**
  * @swagger
@@ -49,7 +43,7 @@ router.get("/id/:id", getMethod);
  *         description: Error al obtener ubicaciones (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get("/all", getAllMethod);
+router.get("/all", ubicacionController.getAllUbicacion);
 
 /**
  * @swagger
@@ -96,7 +90,7 @@ router.get("/all", getAllMethod);
  *         description: Error al insertar ubicación (Contactar equipo de API)
  */
 // Registrar o insertar
-router.post("/", postMethod);
+router.post("/", ubicacionController.postUbicacion);
 
 /**
  * @swagger
@@ -121,7 +115,7 @@ router.post("/", postMethod);
  *         description: Error al eliminar ubicación (Contactar equipo de API)
  */
 // //Eliminar
-router.delete("/id/:id", deleteMethod);
+router.delete("/id/:id", ubicacionController.deleteUbicacion);
 
 /**
  * @swagger
@@ -171,6 +165,6 @@ router.delete("/id/:id", deleteMethod);
  *         description: Error al actualizar ubicación (Contactar equipo de API)
  */
 // //Actualizar
-router.put("/", putMethod);
+router.put("/", ubicacionController.putUbicacion);
 
 module.exports = router;

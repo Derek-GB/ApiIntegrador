@@ -4,10 +4,6 @@ const municipalidadController = require('../controllers/municipalidadController'
 
 const router=Router();
 
-const {
-
-  }=require('../controllers/municipalidad');
-
 
   /**
  * @swagger

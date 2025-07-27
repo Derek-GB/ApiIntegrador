@@ -2,10 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const mascotaController = require('../controllers/mascotaController');
 
-const {
-
-} = require('../controllers/mascotas');
-
 /**
  * @swagger
  * /api/mascotas/all:

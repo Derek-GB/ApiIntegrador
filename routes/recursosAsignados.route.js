@@ -1,11 +1,8 @@
 const {Router}= require('express');
+const router = Router();
+
 
 const recursoAsignadoController = require('../controllers/recursoAsignadoController');
-
-const router=Router();
-
-const {
-  }=require('../controllers/recursosAsignados');
 
 
   /**

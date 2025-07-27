@@ -2,10 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const caracteristicasPoblacionalesController = require('../controllers/caracteristicasPoblacionalesController');
 
-const {
-  
-} = require('../controllers/caracteristicasPoblacionales');
-
 /**
  * @swagger
  * /api/caracteristicasPoblacionales/id/{id}:

@@ -2,10 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const amenazasController = require('../controllers/amenazasController');
 
-const {
-
-} = require('../controllers/amenazas');
-
 /**
  * @swagger
  * /api/amenazas/id/{id}:

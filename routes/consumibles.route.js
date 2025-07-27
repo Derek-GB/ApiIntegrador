@@ -2,11 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const consumibleController = require('../controllers/consumibleController');
 
-
-const {
-  
-} = require('../controllers/consumibles');
-
 /**
  * @swagger
  * /api/consumibles/id/{id}:

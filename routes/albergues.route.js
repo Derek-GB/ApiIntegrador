@@ -180,7 +180,7 @@ router.get('/all', albergueController.getAllAlbergues);
  *       500:
  *         description: Error al insertar albergue
  */
-router.post('/', albergueController.postMethod);
+// router.post('/', albergueController.postMethod);
 
 /**
  * @swagger

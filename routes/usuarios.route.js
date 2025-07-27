@@ -166,7 +166,7 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
  */
 
 //Registrar o insertar
-router.put('/',  putMethod);
+// router.put('/',  usuarioController.putUsuario);
 
 /**
  * @swagger

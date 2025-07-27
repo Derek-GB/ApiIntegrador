@@ -5,10 +5,6 @@ const unidadMedidaController=require('../controllers/unidadMedidaController');
 const router=Router();
 
 
-const {
-  }=require('../controllers/unidadMedidas');
-
-
   /**
  * @swagger
  * /api/unidades:
@@ -116,7 +112,7 @@ router.post('/',  unidadMedidaController.postUnidadMedida);
  *         description: Error al actualizar unidad de medida (Contactar equipo de API)
  */
 //Registrar o insertar
-router.put('/',  putMethod);
+// router.put('/',  putMethod);
 
 /**
  * @swagger

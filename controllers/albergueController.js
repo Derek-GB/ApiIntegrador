@@ -494,7 +494,6 @@ const getForProvinciaMethod = (req = request, res = response) => {
 module.exports = {
   getAllMethod,
   getMethod,
-  postMethod,
   putMethod,
   deleteMethod,
   getForIdMethod,

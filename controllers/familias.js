@@ -7,7 +7,7 @@ const getAllFamilias = async (req = request, res = response) => {
     const data = await familiaService.getAllFamilias();
     res.status(200).json({
       success: true,
-      data: results[0],
+      data: data[0],
     });
   } catch (error) {
     console.error("Error en getAllMethod:", error);
@@ -48,7 +48,7 @@ const getFamilia = async (req = request, res = response) => {
     }
     res.status(200).json({
       success: true,
-      data: results[0][0],
+      data: data[0][0],
     });
   } catch (error) {
     console.error("Error en getMethod:", error);
@@ -370,10 +370,10 @@ const getForCedulaJefe = async (req = request, res = response) => {
 // };
 
 const generarIdentificador = async (req = request, res = response) => {
-  if (!req.body) {
-    return res.status(400).json({ success: false, error: "Se esperaba el body de la consulta" });
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el canton en la query" });
   }
-  const { canton } = req.body;
+  const { canton } = req.params;
   try {
     const identificador = await familiaService.generarIdentificador(canton);
     res.status(200).json({
@@ -396,4 +396,5 @@ module.exports = {
   putFamilia,
   getVistaFamiliaJefe,
   getForCedulaJefe,
+  generarIdentificador,
 };

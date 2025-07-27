@@ -1,14 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod
-} = require('../controllers/personas');
-
-const {postMethod} = require('../controllers/formularioPersonas');
+const personasController = require('../controllers/personas');
 
 /**
  * @swagger
@@ -23,7 +16,7 @@ const {postMethod} = require('../controllers/formularioPersonas');
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', personasController.getAllPersonas);
 
 /**
  * @swagger
@@ -47,7 +40,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', personasController.getPersona);
 
 // /**
 //  * @swagger
@@ -291,7 +284,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error en el registro de todas las personas
  */
-router.post("/", postMethod);
+router.post("/", personasController.postPersonas);
 
 
 /**
@@ -361,7 +354,7 @@ router.post("/", postMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', personasController.putPersona);
 
 /**
  * @swagger
@@ -383,6 +376,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar persona (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', personasController.deletePersona);
 
 module.exports = router;

@@ -15,6 +15,15 @@ const confirmarOpcionales = (objeto, opcionales) => {
     }
 }
 
+const confirmarObligatorios = (objeto, indice, obligatorios) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError("postPersonas", new Error(`Falta el campo obligatorio '${campo}' en la persona #${indice}`), 400);
+        }
+    }
+}
+
 class PersonasService {
 
     async getAllPersonas() {
@@ -38,79 +47,52 @@ class PersonasService {
         }
     }
     
-    //esto iba en el controller
-    async postPersonas(personas) {
-        if (!Array.isArray(personas)) {
-            handleError("postPersonas", new Error("Se esperaba un array de personas."), 400);
-        }
-        if (personas.length === 0) {
-            handleError("postPersonas", new Error("El array de personas no puede estar vacío."), 400);
-        }
-        const resultados = [];
-        const errores = [];
-
-        const postPersona = async (persona, indice) => {
-            if (
-                persona.tieneCondicionSalud === undefined ||
-                persona.discapacidad === undefined ||
-                persona.firma === undefined ||
-                persona.idFamilia === undefined ||
-                persona.nombre === undefined ||
-                persona.primerApellido === undefined ||
-                persona.segundoApellido === undefined ||
-                persona.tipoIdentificacion === undefined ||
-                persona.numeroIdentificacion === undefined ||
-                persona.nacionalidad === undefined ||
-                persona.parentesco === undefined ||
-                persona.esJefeFamilia === undefined ||
-                persona.fechaNacimiento === undefined ||
-                persona.genero === undefined ||
-                persona.sexo === undefined ||
-                persona.telefono === undefined ||
-                persona.estaACargoMenor === undefined ||
-                persona.idUsuarioCreacion === undefined
-            ) {
-                handleError("postPersonas", new Error("Faltan campos obligatorios en el objeto persona numero: " + indice), 400);
-            }
-            confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
-            const resultado = await personasModel.postPersona(persona);
-            resultados.push({ succcess: true, resultado: resultado, indice });
-        }
-
-        for (const persona of personas) {
-            try {
-                if (typeof persona !== 'object' || persona === null) {
-                    handleError("postPersonas", new Error("Cada elemento del array debe ser un objeto persona."), 400);
-                }
-                await postPersona(persona, resultados.length);
-            } catch (error) {
-                resultados.push({ success: false, indice });
-                errores.push({ indice, error });
-            }
-        }
-        const statusCode =
-            errores.length === personas.length
-                ? 500
-                : errores.length > 0
-                    ? 207
-                    : 201;
-        return res.status(statusCode).json({
-            success: errores.length === 0,
-            resultados,
-            errores,
-        });
+    async postPersonas(personas = null) {
+    if (!personas) {
+        handleError("postPersonas", new Error("El array de personas no puede ser nulo."), 400);
+    }
+    if (!Array.isArray(personas)) {
+        handleError("postPersonas", new Error("Se esperaba un array de personas."), 400);
+    }
+    if (personas.length === 0) {
+        handleError("postPersonas", new Error("El array de personas no puede estar vacío."), 400);
     }
 
+    const resultados = [];
+    const errores = [];
 
+    const postPersona = async (persona, indice) => {
+        const camposObligatorios = [
+            'tieneCondicionSalud', 'discapacidad', 'firma', 'idFamilia',
+            'nombre', 'primerApellido', 'segundoApellido',
+            'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
+            'parentesco', 'esJefeFamilia', 'fechaNacimiento',
+            'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
+        ];
 
-    async putPersona(id, persona) {
+        confirmarObligatorios(persona, indice, camposObligatorios);
+        confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
+        const resultado = await personasModel.postPersona(persona);
+        resultados.push({ success: true, resultado, indice });
+    };
+
+    for (let i = 0; i < personas.length; i++) {
+        const persona = personas[i];
         try {
-            confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
-            return await personasModel.putPersona(id, persona);
+            if (typeof persona !== 'object' || persona === null) {
+                handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
+            }
+            await postPersona(persona, i);
         } catch (error) {
-            handleError("putPersona", error);
+            resultados.push({ success: false, indice: i });
+            errores.push({ indice: i, error: error.message });
         }
     }
+
+    return { resultados, errores };
+}
+
+    //alguna vez habrá un put
 
     async deletePersona(id) {
         try {
@@ -120,3 +102,5 @@ class PersonasService {
         }
     }
 }
+
+module.exports = new PersonasService();

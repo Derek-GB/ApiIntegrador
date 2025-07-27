@@ -3,8 +3,6 @@ const router = Router();
 
 const familiasController = require('../controllers/familias');
 
-const { postMethod } = require('../controllers/formularioFamilias');
-
 /**
  * @swagger
  * /api/familias/id/{id}:
@@ -42,7 +40,7 @@ router.get('/id/:id', familiasController.getFamilia);
  *       500:
  *         description: Error al obtener familias (Contactar equipo de API)
  */
-router.get('/all', familiasController.getAllFamilia);
+router.get('/all', familiasController.getAllFamilias);
 
 /**
  * @swagger
@@ -151,31 +149,7 @@ router.post('/', familiasController.postFamilia);
  *       500:
  *         description: Error al actualizar familia (Contactar equipo de API)
  */
-router.put('/', familiasController.putMethod);
-
-/**
- * @swagger
- * /api/familias/id/{id}:
- *   delete:
- *     tags:
- *       - Familias
- *     summary: Eliminar una familia por ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la familia a eliminar
- *     responses:
- *       200:
- *         description: Familia eliminada correctamente
- *       400:
- *         description: ID no proporcionado
- *       500:
- *         description: Error al eliminar familia (Contactar equipo de API)
- */
-router.delete('/id/:id', familiasController.delete);
+router.put('/', familiasController.putFamilia);
 
 /**
  * @swagger
@@ -218,5 +192,29 @@ router.get('/vista/familiaConJefe', familiasController.getVistaFamiliaJefe);
  *         description: Error al obtener familia (Contactar equipo de API)
  */
 router.get('/consulta/familiaConJefe/:cedula', familiasController.getForCedulaJefe);
+
+/**
+ * @swagger
+ * /api/familias/requerimiento/indentificador/{canton}:
+ *   get:
+ *     tags:
+ *       - Familias
+ *     summary: Generar identificador de familia por cantón
+ *     parameters:
+ *       - in: path
+ *         name: canton
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cantón para generar el identificador
+ *     responses:
+ *       200:
+ *         description: Identificador generado exitosamente
+ *       400:
+ *         description: Error en los parámetros de entrada
+ *       500:
+ *         description: Error al generar identificador (Contactar equipo de API)
+ */
+router.get('/requerimiento/indentificador/:canton', familiasController.generarIdentificador);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
-const ajusteInventarioService = require("../services/ajusteInventarioService");
+const ajusteInventarioService = require("../service/ajusteInventarioService");
 
 // const getAllMethod = (req = request, res = response) => {
 //   pool.query("CALL pa_SelectAllAjusteInventario", (error, results) => {

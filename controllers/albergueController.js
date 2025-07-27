@@ -87,146 +87,146 @@ const getMethod = (req = request, res = response) => {
   });
 };
 
-const postMethod = (req = request, res = response) => {
-  let{
-    idAlbergue,
-    nombre,
-    region,
-    coordenadaX,
-    coordenadaY,
-    idUbicacion,
-    tipo_establecimiento,
-    tipo_albergue,
-    condicion_albergue,
-    especificacion,
-    detalle_condicion,
-    administrador,
-    telefono,
-    idCapacidad,
-    seccion,
-    requerimientos_tecnicos,
-    costo_requerimientos_tecnicos,
-    idInfraestructura,
-    idMunicipalidad,
-    color,
-    idPedidoAbarrote,
-    idUsuarioCreacion,
-    idUsuarioModificacion,
-  } = req.body;
-  if (!idAlbergue || !nombre || !region) {
-    return res.status(400).json({
-      success: false,
-      message: "Faltan datos obligatorios: idAlbergue, nombre, region",
-    });
-  }
-  if (coordenadaX == null || coordenadaY == null) {
-    return res.status(400).json({
-      success: false,
-      message: "Las coordenadas X e Y son obligatorias",
-    });
-  }
-  if (!tipo_establecimiento || !tipo_albergue || !condicion_albergue) {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Faltan datos obligatorios: tipo_establecimiento, tipo_albergue, condicion_albergue",
-    });
-  }
-  if (!idUbicacion || !idCapacidad || !idInfraestructura || !idMunicipalidad) {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Faltan IDs obligatorios: idUbicacion, idCapacidad, idInfraestructura, idMunicipalidad",
-    });
-  }
+// const postMethod = (req = request, res = response) => {
+//   let{
+//     idAlbergue,
+//     nombre,
+//     region,
+//     coordenadaX,
+//     coordenadaY,
+//     idUbicacion,
+//     tipo_establecimiento,
+//     tipo_albergue,
+//     condicion_albergue,
+//     especificacion,
+//     detalle_condicion,
+//     administrador,
+//     telefono,
+//     idCapacidad,
+//     seccion,
+//     requerimientos_tecnicos,
+//     costo_requerimientos_tecnicos,
+//     idInfraestructura,
+//     idMunicipalidad,
+//     color,
+//     idPedidoAbarrote,
+//     idUsuarioCreacion,
+//     idUsuarioModificacion,
+//   } = req.body;
+//   if (!idAlbergue || !nombre || !region) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Faltan datos obligatorios: idAlbergue, nombre, region",
+//     });
+//   }
+//   if (coordenadaX == null || coordenadaY == null) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Las coordenadas X e Y son obligatorias",
+//     });
+//   }
+//   if (!tipo_establecimiento || !tipo_albergue || !condicion_albergue) {
+//     return res.status(400).json({
+//       success: false,
+//       message:
+//         "Faltan datos obligatorios: tipo_establecimiento, tipo_albergue, condicion_albergue",
+//     });
+//   }
+//   if (!idUbicacion || !idCapacidad || !idInfraestructura || !idMunicipalidad) {
+//     return res.status(400).json({
+//       success: false,
+//       message:
+//         "Faltan IDs obligatorios: idUbicacion, idCapacidad, idInfraestructura, idMunicipalidad",
+//     });
+//   }
 
-  especificacion = especificacion ?? null;
-  detalle_condicion = detalle_condicion ?? null;
-  administrador = administrador ?? null;
-  telefono = telefono ?? null;
-  seccion = seccion ?? null;
-  requerimientos_tecnicos = requerimientos_tecnicos ?? null;
-  costo_requerimientos_tecnicos = costo_requerimientos_tecnicos ?? null;
-  color = color ?? null;
-  idPedidoAbarrote = idPedidoAbarrote ?? null;
-  idUsuarioCreacion = idUsuarioCreacion ?? null;
-  idUsuarioModificacion = idUsuarioCreacion ?? null;
+//   especificacion = especificacion ?? null;
+//   detalle_condicion = detalle_condicion ?? null;
+//   administrador = administrador ?? null;
+//   telefono = telefono ?? null;
+//   seccion = seccion ?? null;
+//   requerimientos_tecnicos = requerimientos_tecnicos ?? null;
+//   costo_requerimientos_tecnicos = costo_requerimientos_tecnicos ?? null;
+//   color = color ?? null;
+//   idPedidoAbarrote = idPedidoAbarrote ?? null;
+//   idUsuarioCreacion = idUsuarioCreacion ?? null;
+//   idUsuarioModificacion = idUsuarioCreacion ?? null;
 
-  pool.query(
-    "CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-    [
-      idAlbergue,
-      nombre,
-      region,
-      coordenadaX,
-      coordenadaY,
-      idUbicacion,
-      tipo_establecimiento,
-      tipo_albergue,
-      condicion_albergue,
-      especificacion,
-      detalle_condicion,
-      administrador,
-      telefono,
-      idCapacidad,
-      seccion,
-      requerimientos_tecnicos,
-      costo_requerimientos_tecnicos,
-      idInfraestructura,
-      idMunicipalidad,
-      color,
-      idPedidoAbarrote,
-      idUsuarioCreacion,
-      idUsuarioModificacion,
-    ],
-    (error, results) => {
-      if (error) {
-        console.error("Error al insertar albergue:", error);
-        if (error.code === "ER_DUP_ENTRY") {
-          return res.status(409).json({
-            success: false,
-            message: "Ya existe un albergue con ese ID",
-          });
-        }
-        return res.status(500).json({
-          success: false,
-          error: "Error al insertar albergue",
-          details: error.message,
-        });
-      }
-      res.status(201).json({
-        success: true,
-        message: "Albergue insertado correctamente",
-        data: {
-          p_id: results[0][0].id,
-          idAlbergue,
-          nombre,
-          region,
-          coordenadaX,
-          coordenadaY,
-          idUbicacion,
-          tipo_establecimiento,
-          tipo_albergue,
-          condicion_albergue,
-          especificacion,
-          detalle_condicion,
-          administrador,
-          telefono,
-          idCapacidad,
-          seccion,
-          requerimientos_tecnicos,
-          costo_requerimientos_tecnicos,
-          idInfraestructura,
-          idMunicipalidad,
-          color,
-          idPedidoAbarrote,
-          idUsuarioCreacion,
-          idUsuarioModificacion,
-        },
-      });
-    }
-  );
-};
+//   pool.query(
+//     "CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+//     [
+//       idAlbergue,
+//       nombre,
+//       region,
+//       coordenadaX,
+//       coordenadaY,
+//       idUbicacion,
+//       tipo_establecimiento,
+//       tipo_albergue,
+//       condicion_albergue,
+//       especificacion,
+//       detalle_condicion,
+//       administrador,
+//       telefono,
+//       idCapacidad,
+//       seccion,
+//       requerimientos_tecnicos,
+//       costo_requerimientos_tecnicos,
+//       idInfraestructura,
+//       idMunicipalidad,
+//       color,
+//       idPedidoAbarrote,
+//       idUsuarioCreacion,
+//       idUsuarioModificacion,
+//     ],
+//     (error, results) => {
+//       if (error) {
+//         console.error("Error al insertar albergue:", error);
+//         if (error.code === "ER_DUP_ENTRY") {
+//           return res.status(409).json({
+//             success: false,
+//             message: "Ya existe un albergue con ese ID",
+//           });
+//         }
+//         return res.status(500).json({
+//           success: false,
+//           error: "Error al insertar albergue",
+//           details: error.message,
+//         });
+//       }
+//       res.status(201).json({
+//         success: true,
+//         message: "Albergue insertado correctamente",
+//         data: {
+//           p_id: results[0][0].id,
+//           idAlbergue,
+//           nombre,
+//           region,
+//           coordenadaX,
+//           coordenadaY,
+//           idUbicacion,
+//           tipo_establecimiento,
+//           tipo_albergue,
+//           condicion_albergue,
+//           especificacion,
+//           detalle_condicion,
+//           administrador,
+//           telefono,
+//           idCapacidad,
+//           seccion,
+//           requerimientos_tecnicos,
+//           costo_requerimientos_tecnicos,
+//           idInfraestructura,
+//           idMunicipalidad,
+//           color,
+//           idPedidoAbarrote,
+//           idUsuarioCreacion,
+//           idUsuarioModificacion,
+//         },
+//       });
+//     }
+//   );
+// };
 
 const putMethod = (req = request, res = response) => {
   const { id } = req.body;

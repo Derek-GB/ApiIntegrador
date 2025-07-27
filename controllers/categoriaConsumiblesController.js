@@ -1,6 +1,6 @@
 const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
-const categoriaConsumibleService = require('../services/categoriaConsumibleServer');
+const categoriaConsumibleService = require('../service/categoriaConsumibleServer');
 
 const getAllCategoriaConsumibles = async (req = request, res = response) => {
     try {

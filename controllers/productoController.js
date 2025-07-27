@@ -22,26 +22,26 @@ const getAllProducto = async (req = request, res = response) => {
 
 const getProducto = async (req = request, res = response) => {
     const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "ID de producto no proporcionado",
+        });
+    }
     try {
         const data = await productoService.getProducto(id);
+        if (data[0].length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Producto no encontrado",
+            });
+        }
         res.json({
             success: true,
             data: data[0][0]
         });
     } catch (error) {
         console.error('Error en getMethod:', error);
-        if (error.message === 'ID de producto es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de producto no proporcionado",
-            });
-        }
-        if (error.message === 'Producto no encontrado') {
-            return res.status(404).json({
-                success: false,
-                message: "Producto no encontrado",
-            });
-        }
         return res.status(500).json({
             success: false,
             error: 'Error al obtener productos'
@@ -58,7 +58,12 @@ const postProducto = async (req, res) => {
         categoria = null,
         unidadMedida = null
     } = req.body;
-
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
     try {
         const data = await productoService.postProducto({ codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida });
         res.json({
@@ -76,12 +81,6 @@ const postProducto = async (req, res) => {
         });
     } catch (error) {
         console.error("Error en postMethodTwo:", error);
-        if (error.message.includes('Faltan datos obligatorios')) {
-            return res.status(400).json({
-                success: false,
-                message: error.message,
-            });
-        }
         res.status(500).json({
             success: false,
             message: "Error al insertar producto",
@@ -124,6 +123,12 @@ const putProducto = (req = request, res = response) => {
 
 const deleteProducto = async (req = request, res = response) => {
     const { id } = req.body;
+    if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de producto no proporcionado en el body'
+            });
+        }
     try {
         const data = await productoService.deleteProducto(id);
         res.json({
@@ -132,16 +137,10 @@ const deleteProducto = async (req = request, res = response) => {
         });
     } catch (error) {
         console.error('Error al eliminar producto:', error);
-        if (!id) {
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
-            message: 'ID de producto no proporcionado en el body'
+            error: 'Error al eliminar producto'
         });
-    }
-    return res.status(500).json({
-                success: false,
-                error: 'Error al eliminar producto'
-            });
     }
 };
 

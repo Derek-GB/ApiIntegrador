@@ -21,26 +21,26 @@ const getAllReferencia = async (req = request, res = response) => {
 
 const getReferencia = async (req = request, res = response) => {
   const { id } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de referencia no proporcionado",
+    });
+  }
   try {
     const data = await referenciaService.getReferencia(id);
+    if (data[0].length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Referencia no encontrada",
+      });
+    }
     res.json({
       success: true,
       data: data[0][0],
     });
   } catch (error) {
     console.error("Error en getReferencia:", error);
-    if (error.message === 'Referencia no encontrada') {
-      return res.status(404).json({
-        success: false,
-        message: "Referencia no encontrada",
-      });
-    }
-    if (error.message === 'ID de referencia es requerido') {
-      return res.status(400).json({
-        success: false,
-        message: "ID de referencia no proporcionado",
-      });
-    }
     return res.status(500).json({
       success: false,
       error: "Error al obtener referencia",
@@ -57,6 +57,12 @@ const postReferencia = async (req = request, res = response) => {
     responsable = responsable ?? null,
     idUsuarioCreacion = idUsuarioCreacion ?? null,
   } = req.body;
+  if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "ID de referencia no proporcionado",
+      });
+    }
   try {
     const data = await referenciaService.postReferencia(idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion);
     res.json({
@@ -74,12 +80,6 @@ const postReferencia = async (req = request, res = response) => {
     });
   } catch (error) {
     console.error("Error al insertar categoria:", error);
-    if (error.message === 'ID de referencia es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de referencia no proporcionado",
-            });
-        }
     return res.status(500).json({
       success: false,
       error: "Error al insertar referencia",
@@ -155,6 +155,12 @@ const putReferencia = (req = request, res = response) => {
 
 const deleteReferencia = async (req = request, res = response) => {
   const { id } = req.body;
+  if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "ID de referencia no proporcionado",
+      });
+    }
   try {
     const data = await referenciaService.deleteReferencia(id);
     res.json({
@@ -163,12 +169,6 @@ const deleteReferencia = async (req = request, res = response) => {
     });
   } catch (error) {
     console.error("Error al eliminar referencia:", error);
-    if (error.message === 'ID de referencia es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de referencia no proporcionado",
-            });
-        }
     return res.status(500).json({
       success: false,
       error: "Error al eliminar referencia",

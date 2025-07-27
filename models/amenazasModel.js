@@ -10,7 +10,7 @@ class amanezasModel {
         }
     }
 
-    async getAmenaza(id) {j
+    async getAmenaza(id) {
         try {
             return await db.query('CALL pa_SelectAmenaza(?);', [id])
         } catch (error) {

@@ -22,26 +22,26 @@ const getAllInventario = async (req = request, res = response) => {
 
 const getInventario = async (req = request, res = response) => {
     const { id } = req.body;
+    if (error.message === 'ID de inventario es requerido') {
+        return res.status(400).json({
+            success: false,
+            message: "ID de inventario no proporcionado",
+        });
+    }
     try {
         const data = await inventarioService.getInventario(id);
+        if (ddata[0].length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Registro de inventario no encontrado",
+            });
+        }
         res.json({
             success: true,
             data: data[0][0],
         });
     } catch (error) {
         console.error("Error en getMethod:", error);
-        if (error.message === 'ID de inventario es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de inventario no proporcionado",
-            });
-        }
-        if (results[0].length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Registro de inventario no encontrado",
-            });
-        }
         return res.status(500).json({
             success: false,
             error: "Error al obtener el registro de inventario",
@@ -51,6 +51,12 @@ const getInventario = async (req = request, res = response) => {
 
 const postInventario = async (req = request, res = response) => {
     const { idAlbergue, fecha, articulo, cantidad, estado, comentario } = req.body;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "ID de inventario no proporcionado",
+        });
+    }
     try {
         const data = await inventarioService.postInventario(idAlbergue, fecha, articulo, cantidad, estado, comentario);
         res.json({
@@ -68,12 +74,6 @@ const postInventario = async (req = request, res = response) => {
         });
     } catch (error) {
         console.error("Error al insertar inventario:", error);
-        if (error.message === 'ID de inventario es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de inventario no proporcionado",
-            });
-        }
         return res.status(500).json({
             success: false,
             error: "Error al insertar inventario",
@@ -122,6 +122,12 @@ const putInventario = (req = request, res = response) => {
 
 const deleteInventario = async (req = request, res = response) => {
     const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "ID de inventario no proporcionado",
+        });
+    }
     try {
         const data = await inventarioService.deleteInventario(id);
         res.json({
@@ -130,12 +136,6 @@ const deleteInventario = async (req = request, res = response) => {
         });
     } catch (error) {
         console.error("Error al eliminar inventario:", error);
-        if (error.message === 'ID de inventario es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de inventario no proporcionado",
-            });
-        }
         return res.status(500).json({
             success: false,
             error: "Error al eliminar inventario",

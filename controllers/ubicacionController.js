@@ -22,26 +22,26 @@ const getAllUbicacion = async (req = request, res = response) => {
 
 const getUbicacion = async (req = request, res = response) => {
   let { id } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de ubicación no proporcionado",
+    });
+  }
   try {
     const data = await productoService.postMethod(id);
-    res.json({
-      success: true,
-      data: data[0][0],
-    });
-  } catch (error) {
-    console.error("Error en getMethod:", error);
-    if (error.message === 'ID de ubicación es requerido') {
-      return res.status(400).json({
-        success: false,
-        message: "ID de ubicación no proporcionado",
-      });
-    }
     if (data[0].length === 0) {
       return res.status(404).json({
         success: false,
         message: "Ubicacion no encontrada",
       });
     }
+    res.json({
+      success: true,
+      data: data[0][0],
+    });
+  } catch (error) {
+    console.error("Error en getMethod:", error);
     return res.status(500).json({
       success: false,
       error: "Error al obtener ubicacion",
@@ -59,6 +59,12 @@ const postUbicacion = async (req = request, res = response) => {
     idAlbergue = idAlbergue ?? null,
     idMunicipalidad = idMunicipalidad ?? null,
   } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de ubicación no proporcionado",
+    });
+  }
   try {
     const data = await ubicacionService.postUbicacion(provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad);
     res.json({
@@ -77,12 +83,6 @@ const postUbicacion = async (req = request, res = response) => {
     });
   } catch (error) {
     console.error("Error en postUbicacion:", error);
-    if (error.message === 'ID de ubicación es requerido') {
-      return res.status(400).json({
-        success: false,
-        message: "ID de ubicación no proporcionado",
-      });
-    }
     res.status(500).json({
       success: false,
       message: "Error al insertar ubicación",
@@ -160,6 +160,12 @@ const putUbicacion = (req = request, res = response) => {
 
 const deleteUbicacion = async (req = request, res = response) => {
   const { id } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de ubicación no proporcionado",
+    });
+  }
   try {
     const data = await ubicacionService.deleteUbicacion(id);
     res.json({
@@ -168,12 +174,6 @@ const deleteUbicacion = async (req = request, res = response) => {
     });
   } catch (error) {
     console.error("Error en deleteUbicacion: ", error);
-    if (error.message === 'ID de ubicación es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de ubicación no proporcionado",
-            });
-        }
     return res.status(500).json({
       success: false,
       error: "Error al eliminar ubicación",

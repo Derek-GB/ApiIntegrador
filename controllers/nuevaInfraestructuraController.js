@@ -21,26 +21,26 @@ const getAllNuevaInfraestructura = async (req = request, res = response) => {
 
 const getNuevaInfraestructura = async (req = request, res = response) => {
     const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "ID de infraestructura no encontrado",
+        });
+    }
     try {
         const data = await nuevaInfraestructuraService.getNuevaInfraestructura(id);
+        if (data[0].length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Infraestructura no encontrada",
+            });
+        }
         res.json({
             success: true,
             data: data[0][0],
         });
     } catch (error) {
         console.error("Error en getNuevaInfraestructura:", error);
-        if (error.message === 'ID de infraestructura debe ser un número válido mayor a 0') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de infraestructura debe ser un número válido mayor a 0",
-            });
-        }
-        if (results[0].length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Infraestructura no encontrada",
-            });
-        }
         return res.status(500).json({
             success: false,
             error: "Error al obtener infraestructura",
@@ -57,29 +57,30 @@ const postNuevaInfraestructura = async (req = request, res = response) => {
         descripcion,
         costoTotal,
     } = req.body;
+    if (!data.idAlbergue || !data.fecha || !data.cantidad ||
+        !data.tipo || !data.descripcion || !data.costoTotal) {
+        return res.status(400).json({
+            error: 'Datos obligatorios faltantes',
+            message: 'Los siguientes campos son obligatorios: idAlbergue, fecha, cantidad, tipo, descripcion, costoTotal'
+        });
+    }
     try {
         const data = await nuevaInfraestructuraService.postNuevaInfraestructura(idAlbergue, fecha, motivo, tipo, descripcion, costoTotal);
         res.json({
-                success: true,
-                message: "Infraestructura insertada correctamente",
-                data: {
-                    id: data[0][0].id,
-                    idAlbergue,
-                    fecha,
-                    motivo,
-                    tipo,
-                    descripcion,
-                    costoTotal,
-                },
-            });
+            success: true,
+            message: "Infraestructura insertada correctamente",
+            data: {
+                id: data[0][0].id,
+                idAlbergue,
+                fecha,
+                motivo,
+                tipo,
+                descripcion,
+                costoTotal,
+            },
+        });
     } catch (error) {
         console.error("Error al insertar infraestructura:", error);
-        if (error.message.includes('Faltan datos obligatorios')) {
-            return res.status(400).json({
-                success: false,
-                message: error.message,
-            });
-        }
         return res.status(500).json({
             success: false,
             error: "Error al insertar infraestructura",
@@ -128,6 +129,12 @@ const putNuevaInfraestructura = (req = request, res = response) => {
 
 const deleteNuevaInfraestructura = async (req = request, res = response) => {
     const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({
+            success: false,
+            message: "ID de infraestructura no proporcionado",
+        });
+    }
     try {
         const data = await nuevaInfraestructuraService.deleteNuevaInfraestructura(id);
         res.json({
@@ -136,16 +143,10 @@ const deleteNuevaInfraestructura = async (req = request, res = response) => {
         });
     } catch (error) {
         console.error("Error al eliminar infraestructura:", error);
-        if (error.message === 'ID de infraestructura es requerido') {
-            return res.status(400).json({
-                success: false,
-                message: "ID de infraestructura no proporcionado",
-            });
-        }
         return res.status(500).json({
-                success: false,
-                error: "Error al eliminar infraestructura",
-            });
+            success: false,
+            error: "Error al eliminar infraestructura",
+        });
     }
 };
 

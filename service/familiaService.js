@@ -7,7 +7,7 @@ const handleError = (lugar, error, status = null) => {
 }
 
 const confirmarOpcionales = (objeto, opcionales) => {
-    if (typeof objeto !== 'object' || objeto= null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of opcionales) {
         if (objeto[campo] === undefined) {
             objeto[campo] = null;
@@ -15,8 +15,7 @@ const confirmarOpcionales = (objeto, opcionales) => {
     }
 }
 
-
-class FamiliaService {
+class familiaService {
 
     async getAllFamilias() {
         try {
@@ -27,7 +26,7 @@ class FamiliaService {
         }
     }
 
-    async getFamilia({ id = null }) {
+    async getFamilia(id = null ) {
         if (!id) {
             handleError("getFamilia", new Error("Faltan datos requeridos"), 400);
         }
@@ -62,7 +61,7 @@ class FamiliaService {
 
     //algun dia put estara aqui
 
-    async deleteFamilia({ id = null }) {
+    async deleteFamilia(id = null) {
         if (!id) {
             handleError("deleteFamilia", new Error("Falta el id"), 400);
         }
@@ -74,7 +73,7 @@ class FamiliaService {
         }
     }
 
-    async getVistaFamiliaJefe({id = null}){
+    async getVistaFamiliaJefe(id = null){
         if (!id) {
             handleError("getVistaFamiliaJefe", new Error("Falta el id"), 400);
         }
@@ -86,7 +85,7 @@ class FamiliaService {
         }
     }
 
-    async getForCedulaJefe({cedula = null}){
+    async getForCedulaJefe(cedula = null){
         if (!cedula) {
             handleError("getForCedulaJefe", new Error("Falta la cedula"), 400);
         }
@@ -98,5 +97,19 @@ class FamiliaService {
         }
     }
 
+    async generarIdentificador(canton = null) {
+        if (!canton) {
+            handleError("generarIdentificador", new Error("Falta el canton"), 400);
+        }
+        try {
+            const data = await familiaModel.getAllForCanton(canton);
+            const cantidadFamilias = data[0].length;
+            const nuevoNumero = cantidadFamilias + 1;
+            const identificador = `${canton}${String(nuevoNumero).padStart(3, '0')}`;
+            return identificador;
+        } catch (error) {
+            handleError("generarIdentificador", error);
+        }
+    }
 }
-module.exports = new FamiliaService();
+module.exports = new familiaService();

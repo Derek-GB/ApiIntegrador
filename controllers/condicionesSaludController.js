@@ -228,9 +228,13 @@ const deleteCondicionSalud = async (req = request, res = response) => {
 // };
 
 module.exports = {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
+  getAllCondicionesSalud,
+  getCondicionSalud,
+  postCondicionSalud,
+  deleteCondicionSalud,
+  // getAllMethod,
+  // getMethod,
+  // postMethod,
+  // putMethod,
+  // deleteMethod
 };

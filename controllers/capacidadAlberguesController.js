@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
-const capacidadAlberguesService = require("../services/capacidadAlberguesService");
+const capacidadAlberguesService = require("../service/capacidadAlberguesService");
 
 // Obtener todos los registros
 // const getAllCapacidadAlbergue = (req = request, res = response) => {

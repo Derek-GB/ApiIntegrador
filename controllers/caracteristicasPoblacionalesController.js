@@ -1,6 +1,6 @@
 const { request, response } = require('express');
 const { pool } = require('../MySQL/basedatos')
-const caracteristicasPoblacionalesService = require('../services/caracteristicasPoblacionalesService');
+const caracteristicasPoblacionalesService = require('../service/caracteristicasPoblacionalesService');
 
 // const getAllcaracteristicasPoblacionales = (req = request, res = response) => {
 //     pool.query('CALL pa_SelectAllCaracteristicasPoblacionales', (error, results) => {

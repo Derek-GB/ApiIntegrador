@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
-const amenazasService = require("../services/amenazasService");
+const amenazasService = require("../service/amenazasService");
 
 // Este controlador maneja las operaciones CRUD para las amenazas
 // const getAllMethod = (req = request, res = response) => {

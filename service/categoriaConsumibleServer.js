@@ -42,16 +42,6 @@ class categoriaConsumibleService {
 
     }
 
-    async putcategoriaConsumible(categoriaConsumible) {
-        try {
-            const result = await categoriaConsumibleModel.putcategoriaConsumible(categoriaConsumible);
-            return result;
-        } catch (error) {
-            console.error("Error en categoriaConsumibleService.putcategoriaConsumible: ", error);
-            throw error;
-        }
-    }
-
 }
 
     

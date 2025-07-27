@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
-const consumibleService = require("../services/consumibleService");
+const consumibleService = require("../service/consumibleService");
 
 const getAllConsumibles = async (req = request, res = response) => {
   try {
@@ -233,9 +233,13 @@ const deleteConsumible = async (req = request, res = response) => {
 // };
 
 module.exports = {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
+  getAllConsumibles,
+  getConsumible,
+  postConsumible,
+  deleteConsumible,
+  // getAllMethod,
+  // getMethod,
+  // postMethod,
+  // putMethod,
+  // deleteMethod
 };

@@ -1,7 +1,7 @@
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 
-class FamiliaModel {
+class familiaModel {
     async getAllFamilias() {
         try {
             return await db.query('CALL pa_SelectAllFamilia();');
@@ -71,6 +71,15 @@ class FamiliaModel {
         }
     }
 
+    async getAllForCanton(canton) {
+        try {
+            return await db.query('CALL pa_SelectFamiliasPorCanton(?);', [canton]);
+        } catch (error) {
+            console.error("Error en getAllForCanton: ", error);
+            throw error;
+        }
+    }
+
 }
 
-module.exports = new FamiliaModel();
+module.exports = new familiaModel();

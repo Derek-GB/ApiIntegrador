@@ -1,12 +1,9 @@
 const { Router } = require('express');
 const router = Router();
+const caracteristicasPoblacionalesController = require('../controllers/caracteristicasPoblacionalesController');
 
 const {
-  getAllcaracteristicasPoblacionales,
-  getcaracteristicasPoblacionales,
-  postcaracteristicasPoblacionales,
-  putcaracteristicasPoblacionales,
-  deletecaracteristicasPoblacionales,
+  
 } = require('../controllers/caracteristicasPoblacionales');
 
 /**
@@ -31,7 +28,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getcaracteristicasPoblacionales);
+router.get('/id/:id',   caracteristicasPoblacionalesController.getcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -46,7 +43,7 @@ router.get('/id/:id', getcaracteristicasPoblacionales);
  *       500:
  *         description: Error al obtener los datos (Contactar equipo de API)
  */
-router.get('/all', getAllcaracteristicasPoblacionales);
+router.get('/all', caracteristicasPoblacionalesController.getAllcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -80,7 +77,7 @@ router.get('/all', getAllcaracteristicasPoblacionales);
  *       500:
  *         description: Error al insertar características poblacionales (Contactar equipo de API)
  */
-router.post('/', postcaracteristicasPoblacionales);
+router.post('/', caracteristicasPoblacionalesController.postcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -117,7 +114,7 @@ router.post('/', postcaracteristicasPoblacionales);
  *       500:
  *         description: Error al actualizar (Contactar equipo de API)
  */
-router.put('/', putcaracteristicasPoblacionales);
+// router.put('/', putcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -141,6 +138,6 @@ router.put('/', putcaracteristicasPoblacionales);
  *       500:
  *         description: Error al eliminar (Contactar equipo de API)
  */
-router.delete('/id/:id', deletecaracteristicasPoblacionales);
+router.delete('/id/:id', caracteristicasPoblacionalesController.deletecaracteristicasPoblacionales);
 
 module.exports = router;

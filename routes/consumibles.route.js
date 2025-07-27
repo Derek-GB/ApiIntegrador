@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
-const consumibleController = require('../controllers/consumiblesController');
+const consumibleController = require('../controllers/consumibleController');
+
 
 const {
   

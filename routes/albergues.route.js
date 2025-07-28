@@ -3,9 +3,9 @@ const router = Router();
 
 const albergueController = require('../controllers/albergueController');
 
-const {
-  postMethod,
-} = require('../controllers/formularioAlbergue');
+// const {
+//   postMethod,
+// } = require('../controllers/formularioAlbergue');
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', albergueController.getMethod);
+router.get('/id/:id', albergueController.getAlbergue);
 
 /**
  * @swagger
@@ -244,7 +244,7 @@ router.put('/', albergueController.putMethod);
  *       500:
  *         description: Error al eliminar el albergue (Contactar equipo de API)
  */
-router.delete('/id/:id', albergueController.deleteMethod);
+router.delete('/id/:id', albergueController.deleteAlbergue);
 
 /**
  * @swagger

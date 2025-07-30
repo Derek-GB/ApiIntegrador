@@ -19,7 +19,7 @@ const confirmarObligatorios = (objeto, indice, obligatorios) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of obligatorios) {
         if (!objeto[campo]) {
-            handleError("postPersonas", new Error(`Falta el campo obligatorio '${campo}' en la persona #${indice}`), 400);
+            handleError("postPersonas", new Error(`Falta el campo obligatorio '${campo}'` + (indice ? ` en la persona #${indice}` : "")), 400);
         }
     }
 }
@@ -47,7 +47,7 @@ class PersonasService {
         }
     }
     
-    async postPersonas(personas = null) {
+    async postPersonas(personas = null, firma = null) {
     if (!personas) {
         handleError("postPersonas", new Error("El array de personas no puede ser nulo."), 400);
     }
@@ -57,11 +57,14 @@ class PersonasService {
     if (personas.length === 0) {
         handleError("postPersonas", new Error("El array de personas no puede estar vacío."), 400);
     }
+    if (!firma || typeof firma !== 'object') {
+        handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
+    }
 
     const resultados = [];
     const errores = [];
 
-    const postPersona = async (persona, indice) => {
+    const postPersona = async (persona, indice, firma = null) => {
         const camposObligatorios = [
             'tieneCondicionSalud', 'discapacidad', 'firma', 'idFamilia',
             'nombre', 'primerApellido', 'segundoApellido',
@@ -69,8 +72,12 @@ class PersonasService {
             'parentesco', 'esJefeFamilia', 'fechaNacimiento',
             'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
         ];
-
         confirmarObligatorios(persona, indice, camposObligatorios);
+        if (firma) {
+            const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
+            confirmarObligatorios(firma, null, camposfirma);
+            persona.firma = firma.ruta + '/' + firma.nombre;
+        }
         confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
         const resultado = await personasModel.postPersona(persona);
         resultados.push({ success: true, resultado, indice });
@@ -82,7 +89,12 @@ class PersonasService {
             if (typeof persona !== 'object' || persona === null) {
                 handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
             }
-            await postPersona(persona, i);
+            if (firma.exists && firma.numeroIdentificacion === persona.numeroIdentificacion) {
+                await postPersona(persona, i, firma);
+                firma = {exists: false};
+            } else {
+                await postPersona(persona, i);
+            }
         } catch (error) {
             resultados.push({ success: false, indice: i });
             errores.push({ indice: i, error: error.message });

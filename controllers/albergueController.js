@@ -234,114 +234,114 @@ const getForProvinciaMethod = async (req = request, res = response) => {
  * Ejemplo de método POST (crear albergue)
  * Debes implementar el método en tu modelo y service para que funcione.
  */
-// const createAlbergue = async (req = request, res = response) => {
-//   try {
-//     const albergueData = req.body;
-//     // Aquí llamas a tu service/model para insertar el albergue
-//     const result = await albergueService.createAlbergue(albergueData);
-//     res.status(201).json({
-//       success: true,
-//       message: "Albergue creado correctamente",
-//       data: result,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Error al crear el albergue",
-//       error: error.message,
-//     });
-//   }
-// };
-
-/**
- * Método PUT para actualizar un albergue
- * Debes tener el método updateAlbergue en tu modelo y service.
- */
-const updateAlbergue = async (req = request, res = response) => {
-  const { id } = req.params;
-  const albergueData = req.body;
-  if (!id) {
-    return res.status(400).json({
-      success: false,
-      message: "ID del albergue es requerido",
-    });
-  }
+const createAlbergue = async (req = request, res = response) => {
   try {
-    // Debes implementar updateAlbergue en tu modelo y service
-    const result = await albergueService.updateAlbergue(id, albergueData);
-    res.json({
+    const albergueData = req.body;
+    // Aquí llamas a tu service/model para insertar el albergue
+    const result = await albergueService.createAlbergue(albergueData);
+    res.status(201).json({
       success: true,
-      message: "Albergue actualizado correctamente",
+      message: "Albergue creado correctamente",
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error al actualizar el albergue",
+      message: "Error al crear el albergue",
       error: error.message,
     });
   }
 };
 
-const putMethod = (req = request, res = response) => {
-  const { id } = req.body;
-  const {
-    idAlbergue,
-    nombre,
-    region,
-    coordenadaX,
-    coordenadaY,
-    idUbicacion,
-    tipo_establecimiento,
-    tipo_albergue,
-    condicion_albergue,
-    especificacion,
-    detalle_condicion,
-    administrador,
-    telefono,
-    idCapacidad,
-    seccion,
-    requerimientos_tecnicos,
-    costo_requerimientos_tecnicos,
-    idInfraestructura,
-    idMunicipalidad,
-    color,
-    idPedidoAbarrote,
-    idUsuarioModificacion,
-  } = req.body;
+/**
+ * Método PUT para actualizar un albergue
+ * Debes tener el método updateAlbergue en tu modelo y service.
+ */
+// const updateAlbergue = async (req = request, res = response) => {
+//   const { id } = req.params;
+//   const albergueData = req.body;
+//   if (!id) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "ID del albergue es requerido",
+//     });
+//   }
+//   try {
+//     // Debes implementar updateAlbergue en tu modelo y service
+//     const result = await albergueService.updateAlbergue(id, albergueData);
+//     res.json({
+//       success: true,
+//       message: "Albergue actualizado correctamente",
+//       data: result,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error al actualizar el albergue",
+//       error: error.message,
+//     });
+//   }
+// };
 
-  if (!idAlbergue || !nombre || !region || coordenadaX) {
-    return res.status(400).json({
-      success: false,
-      message: "Faltan datos: idalbergue, ",
-    });
-  }
+// const putMethod = (req = request, res = response) => {
+//   const { id } = req.body;
+//   const {
+//     idAlbergue,
+//     nombre,
+//     region,
+//     coordenadaX,
+//     coordenadaY,
+//     idUbicacion,
+//     tipo_establecimiento,
+//     tipo_albergue,
+//     condicion_albergue,
+//     especificacion,
+//     detalle_condicion,
+//     administrador,
+//     telefono,
+//     idCapacidad,
+//     seccion,
+//     requerimientos_tecnicos,
+//     costo_requerimientos_tecnicos,
+//     idInfraestructura,
+//     idMunicipalidad,
+//     color,
+//     idPedidoAbarrote,
+//     idUsuarioModificacion,
+//   } = req.body;
 
-  pool.query(
-    "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [id, codigoProducto, nombre, descripcion, cantidad],
-    (error, results) => {
-      if (error) {
-        console.error("Error al actualizar producto:", error);
-        return res.status(500).json({
-          success: false,
-          error: "Error al actualizar producto",
-        });
-      }
+//   if (!idAlbergue || !nombre || !region || coordenadaX) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Faltan datos: idalbergue, ",
+//     });
+//   }
 
-      res.status(200).json({
-        success: true,
-        message: "Producto actualizado correctamente",
-        data: {
-          codigoProducto,
-          nombre,
-          descripcion,
-          cantidad,
-        },
-      });
-    }
-  );
-};
+//   pool.query(
+//     "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+//     [id, codigoProducto, nombre, descripcion, cantidad],
+//     (error, results) => {
+//       if (error) {
+//         console.error("Error al actualizar producto:", error);
+//         return res.status(500).json({
+//           success: false,
+//           error: "Error al actualizar producto",
+//         });
+//       }
+
+//       res.status(200).json({
+//         success: true,
+//         message: "Producto actualizado correctamente",
+//         data: {
+//           codigoProducto,
+//           nombre,
+//           descripcion,
+//           cantidad,
+//         },
+//       });
+//     }
+//   );
+// };
 
 
 
@@ -354,5 +354,8 @@ module.exports = {
   getForDistritoMethod,
   getForCantonMethod,
   getForProvinciaMethod,
-  putMethod,
+  createAlbergue,
+  updateAlbergue,
+  // putMethod, // Descomentar si se implementa el método PUT
+
 };

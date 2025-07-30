@@ -1,6 +1,4 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
-const { put } = require("../routes/productos.route");
 const personasService = require("../service/personasService");
 
 const getAllPersonas = async (req = request, res = response) => {
@@ -228,9 +226,16 @@ const postPersonas = async (req = request, res = response) => {
       message: "El cuerpo de la solicitud no puede estar vacío.",
     });
   }
+  if (!req.firma || typeof req.firma !== 'object') {
+    return res.status(400).json({
+      success: false,
+      message: "Se esperaba una declaración de firma",
+    });
+  }
   try {
     ({ personas } = req.body);
-    const data = await personasService.postPersonas(personas);
+    ({ firma } = req);
+    const data = await personasService.postPersonas(personas, firma);
     const statusCode =
       data.errores.length === personas.length
         ? 500

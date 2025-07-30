@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const upload = require('../middleware/uploadMiddleware');
 const router = Router();
 
 const personasController = require('../controllers/personas');
@@ -284,8 +285,12 @@ router.get('/id/:id', personasController.getPersona);
  *       500:
  *         description: Error en el registro de todas las personas
  */
-router.post("/", personasController.postPersonas);
+router.post("/", upload.single("firma"), personasController.postPersonas);
 
+// router.post("/prueba", upload.single("firma"), (req, res) => {
+//   // Aquí puedes manejar la solicitud de prueba
+//   res.json({ message: "Solicitud de prueba recibida", file: req.file });
+// });
 
 /**
  * @swagger

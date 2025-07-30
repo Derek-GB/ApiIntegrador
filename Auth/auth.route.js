@@ -1,7 +1,7 @@
 // Auth/auth.route.js
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
-//const TokenMaintenance = require('../Auth/TokenMaintenance'); // Asegúrate de que la ruta sea correcta
+const verificarToken = require('../middleware/verificarToken');
 const router = Router();
 
 /**
@@ -114,96 +114,85 @@ router.post('/login', AuthController.login);
 
 /**
  * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     tags:
+ *       - Autenticación
+ *     summary: Cerrar sesión del usuario
+ *     description: Elimina la cookie de autenticación y cierra la sesión del usuario
+ *     responses:
+ *       200:
+ *         description: Sesión cerrada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Sesión cerrada exitosamente"
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.post('/logout', AuthController.logout);
+
+/**
+ * @swagger
  * /api/auth/validate:
  *   get:
  *     tags:
  *       - Autenticación
  *     summary: Verificar validez de token JWT
+ *     description: Valida el token desde cookie o header Authorization
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Token válido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Token válido"
+ *                 usuario:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     correo:
+ *                       type: string
+ *                       example: "usuario@example.com"
+ *                     rol:
+ *                       type: string
+ *                       example: "usuario"
+ *                     idMunicipalidad:
+ *                       type: integer
+ *                       nullable: true
+ *                       example: 1
  *       401:
- *         description: Token inválido o no proporcionado
+ *         description: Token inválido, expirado o no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: "Token expirado"
  */
-router.get('/validate', AuthController.verifyToken, (req, res) => {
-    res.json({
-        success: true,
-        message: 'Token válido',
-        usuario: req.usuario
-    });
-});
-
-// ==================== RUTAS PROTEGIDAS (REQUIEREN TOKEN) ====================
-// Aplicar middleware de autenticación a todas las rutas siguientes
-router.use(AuthController.verifyToken);
-
-/**
- * @swagger
- * /api/auth/register:
- *   post:
- *     tags:
- *       - Autenticación
- *     summary: Registrar un nuevo usuario (Solo administradores)
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nombreUsuario
- *               - correo
- *               - contrasena
- *             properties:
- *               nombreUsuario:
- *                 type: string
- *                 example: admin123
- *               correo:
- *                 type: string
- *                 format: email
- *                 example: admin@example.com
- *               contrasena:
- *                 type: string
- *                 example: "123456"
- *               rol:
- *                 type: string
- *                 enum: [usuario, admin]
- *                 example: usuario
- *               idMunicipalidad:
- *                 type: integer
- *                 nullable: true
- *                 example: 1
- *               identificacion:
- *                 type: string
- *                 nullable: true
- *                 example: "506290123"
- *     responses:
- *       201:
- *         description: Usuario creado exitosamente
- *       400:
- *         description: Faltan campos obligatorios
- *       401:
- *         description: Token no válido
- *       403:
- *         description: Acceso denegado - Se requiere rol de administrador
- *       409:
- *         description: El usuario ya existe
- *       500:
- *         description: Error interno del servidor
- */
-
-router.post('/register', (req, res, next) => {
-    if (req.usuario.rol !== 'admin') {
-        return res.status(403).json({
-            success: false,
-            error: 'Acceso denegado. Se requiere rol de administrador'
-        });
-    }
-    next();
-}, AuthController.register);
+router.get('/validate', verificarToken, AuthController.validateToken)
 
 module.exports = router;

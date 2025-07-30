@@ -8,22 +8,28 @@ if (!SECRET_KEY) {
 
 const verificarToken = (req, res, next) => {
     try {
-        // 1. Obtener el token del header Authorization
-        const authHeader = req.headers.authorization || req.headers.Authorization;
-        
-        if (!authHeader?.startsWith('Bearer ')) {
+        let token;
+        if (req.cookies && req.cookies.authToken){
+            token = req.cookies.authToken;
+        } else {
+            const authHeader = req.headers.authorization || req.headers.Authorization;
+            if (!authHeader?.startsWith('Bearer ')) {
             return res.status(401).json({ 
                 success: false,
                 error: 'Formato de token inválido. Use: Bearer <token>' 
-            });
+                });
+            }
+            token = authHeader.split(' ')[1];
         }
-
-        const token = authHeader.split(' ')[1];
-
-        // 2. Verificar token
-        const decoded = jwt.verify(token, SECRET_KEY);
         
-        // 3. Adjuntar datos de usuario al request
+        if(!token){
+            return res.status(401).json({
+                success: false,
+                error: 'Token de acceso requerido'
+            })
+        }
+        
+        const decoded = jwt.verify(token, SECRET_KEY);
         req.usuario = {
             id: decoded.id,
             correo: decoded.correo,
@@ -32,6 +38,7 @@ const verificarToken = (req, res, next) => {
         };
 
         next();
+        
     } catch (error) {
         console.error('Error en verificarToken:', error.message);
         

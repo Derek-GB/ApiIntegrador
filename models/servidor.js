@@ -64,7 +64,7 @@ class servidor {
         origin: [
           "http://localhost:5173",
           "http://201.197.202.42",
-          "http://192.168.0.10:3000",
+          "http://192.168.0.10:80",
         ], // Permitir solicitudes solo desde estas IPs
         methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
         allowedHeaders: [

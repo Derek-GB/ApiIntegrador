@@ -12,6 +12,29 @@ class albergueService {
         }
     }
 
+     async updateAlbergue(id, albergueData) {
+    try {
+      const result = await albergueModel.updateAlbergue(id, albergueData);
+      return result;
+    } catch (error) {
+      throw new Error('Error en el servicio al actualizar el albergue: ' + error.message);
+    }
+  }
+
+
+    async postAlbergue(Albergue) {
+        const { idAlbergue, nombre, distrito, canton, provincia, direccion, telefono, idPedidoAbarrote, idUsuarioCreacion, idUsuarioModificacion } = albergue;
+        if (!idAlbergue || !nombre || !distrito || !canton  || !provincia || !direccion || !telefono || !idPedidoAbarrote || !idUsuarioCreacion || !idUsuarioModificacion) {
+            throw new Error('Faltan datos: idAlbergue, nombre, distrito, canton, provincia, direccion, telefono, idPedidoAbarrote, idUsuarioCreacion e idUsuarioModificacion son requeridos');
+        }   
+        try {
+            const result = await albergueModel.postAlbergue(Albergue);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueService.postAlbergue: ", error);
+            throw error;
+        }
+    }
 
     async getAlbergue(id) {
         try {

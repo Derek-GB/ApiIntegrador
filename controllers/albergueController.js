@@ -342,6 +342,134 @@ const createAlbergue = async (req = request, res = response) => {
 //     }
 //   );
 // };
+const postAlbergue = async (req, res) => {
+    const {
+        idAlbergue,
+        nombre,
+        region,
+        coordenadaX,
+        coordenadaY,
+        idUbicacion,
+        tipo_establecimiento,
+        tipo_albergue,
+        condicion_albergue,
+        especificacion,
+        detalle_condicion,
+        administrador,
+        telefono,
+        idCapacidad,
+        seccion,
+        requerimientos_tecnicos,
+        costo_requerimientos_tecnicos,
+        idInfraestructura,
+        idMunicipalidad,
+        color,
+        idPedidoAbarrote,
+        idUsuarioCreacion,
+        idUsuarioModificacion
+    } = req.body;
+
+    // Validación de campos obligatorios
+    if (!idAlbergue || !nombre || !region || coordenadaX == null 
+      || coordenadaY == null || !tipo_establecimiento || !tipo_albergue 
+      || !condicion_albergue || !idUbicacion || !idCapacidad || !idInfraestructura || !idMunicipalidad) {
+        return res.status(400).json({
+            success: false,
+            message: "Faltan datos obligatorios"
+        });
+    }
+
+    // Valores opcionales con valor null por defecto
+    especificacion = especificacion ?? null;
+    detalle_condicion = detalle_condicion ?? null;
+    administrador = administrador ?? null;
+    telefono = telefono ?? null;
+    seccion = seccion ?? null;
+    requerimientos_tecnicos = requerimientos_tecnicos ?? null;
+    costo_requerimientos_tecnicos = costo_requerimientos_tecnicos ?? null;
+    color = color ?? null;
+    idPedidoAbarrote = idPedidoAbarrote ?? null;
+    idUsuarioCreacion = idUsuarioCreacion ?? null;
+    idUsuarioModificacion = idUsuarioModificacion ?? idUsuarioCreacion; 
+
+    try {
+        const result = await albergueService.postAlbergue(req.body);
+        res.status(201).json({
+            success: true,
+            message: "Albergue insertado correctamente",
+            data: result
+        });
+    } catch (error) {
+        console.error("Error al insertar albergue:", error);
+        res.status(500).json({
+            success: false,
+            error: "Error al insertar albergue",
+            details: error.message
+        });
+    }
+};
+
+
+
+// const putMethod = (req = request, res = response) => {
+//   const { id } = req.body;
+//   const {
+//     idAlbergue,
+//     nombre,
+//     region,
+//     coordenadaX,
+//     coordenadaY,
+//     idUbicacion,
+//     tipo_establecimiento,
+//     tipo_albergue,
+//     condicion_albergue,
+//     especificacion,
+//     detalle_condicion,
+//     administrador,
+//     telefono,
+//     idCapacidad,
+//     seccion,
+//     requerimientos_tecnicos,
+//     costo_requerimientos_tecnicos,
+//     idInfraestructura,
+//     idMunicipalidad,
+//     color,
+//     idPedidoAbarrote,
+//     idUsuarioModificacion,
+//   } = req.body;
+
+//   if (!idAlbergue || !nombre || !region || coordenadaX) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Faltan datos: idalbergue, ",
+//     });
+//   }
+
+//   pool.query(
+//     "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+//     [id, codigoProducto, nombre, descripcion, cantidad],
+//     (error, results) => {
+//       if (error) {
+//         console.error("Error al actualizar producto:", error);
+//         return res.status(500).json({
+//           success: false,
+//           error: "Error al actualizar producto",
+//         });
+//       }
+
+//       res.status(200).json({
+//         success: true,
+//         message: "Producto actualizado correctamente",
+//         data: {
+//           codigoProducto,
+//           nombre,
+//           descripcion,
+//           cantidad,
+//         },
+//       });
+//     }
+//   );
+// };
 
 
 
@@ -358,4 +486,6 @@ module.exports = {
   updateAlbergue,
   // putMethod, // Descomentar si se implementa el método PUT
 
+  postAlbergue,
+  updateAlbergue,
 };

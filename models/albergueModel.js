@@ -2,10 +2,10 @@
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class albergueModel {
-    async getAllAlbergues(){
+    async getAllAlbergues() {
         try {
             return await db.query('CALL pa_SelectAllAlbergue();')
-        }catch(error){
+        } catch (error) {
             console.error("Error en getAllAlbergues: ", error);
             throw error;
         }
@@ -31,6 +31,79 @@ class albergueModel {
 
     }
 
+    async updateAlbergue(id, albergueData) {
+    const { nombre, direccion, capacidad, telefono } = albergueData;
+    try {
+      const query = `
+        UPDATE albergues
+        SET nombre = ?, direccion = ?, capacidad = ?, telefono = ?
+        WHERE id = ?`;
+      const [result] = await pool.query(query, [nombre, direccion, capacidad, telefono, id]);
+      return result;
+    } catch (error) {
+      throw new Error('Error al actualizar el albergue: ' + error.message);
+    }
+  }
+
+
+    async postAlbergue(Albergue) {
+        const { idAlbergue,
+            nombre,
+            region,
+            coordenadaX,
+            coordenadaY,
+            idUbicacion,
+            tipo_establecimiento,
+            tipo_albergue,
+            condicion_albergue,
+            especificacion,
+            detalle_condicion,
+            administrador,
+            telefono,
+            idCapacidad,
+            seccion,
+            requerimientos_tecnicos,
+            costo_requerimientos_tecnicos,
+            idInfraestructura,
+            idMunicipalidad,
+            color,
+            idPedidoAbarrote,
+            idUsuarioCreacion,
+            idUsuarioModificacion, } = Albergue;
+        try {
+            return await db.query('CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                [
+                    idAlbergue,
+                    nombre,
+                    region,
+                    coordenadaX,
+                    coordenadaY,
+                    idUbicacion,
+                    tipo_establecimiento,
+                    tipo_albergue,
+                    condicion_albergue,
+                    especificacion,
+                    detalle_condicion,
+                    administrador,
+                    telefono,
+                    idCapacidad,
+                    seccion,
+                    requerimientos_tecnicos,
+                    costo_requerimientos_tecnicos,
+                    idInfraestructura,
+                    idMunicipalidad,
+                    color,
+                    idPedidoAbarrote,
+                    idUsuarioCreacion,
+                    idUsuarioModificacion,
+                ]);
+        }
+        catch (error) {
+            console.error("Error en postAlbergue: ", error);
+            throw error;
+        }
+    }
+
     async getForIdMethod(id) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorId(?);', [id])
@@ -40,7 +113,7 @@ class albergueModel {
         }
     }
 
-    async  getForNombreMethod(nombre) {
+    async getForNombreMethod(nombre) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorNombre(?);', [nombre])
         } catch (error) {
@@ -75,7 +148,7 @@ class albergueModel {
             throw error;
         }
     }
-    
+
 }
 
 

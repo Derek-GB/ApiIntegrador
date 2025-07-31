@@ -181,6 +181,7 @@ router.get('/all', albergueController.getAllAlbergues);
  *         description: Error al insertar albergue
  */
 // router.post('/', albergueController.createAlbergue);
+router.post('/', albergueController.postAlbergue);
 
 /**
  * @swagger
@@ -220,7 +221,7 @@ router.get('/all', albergueController.getAllAlbergues);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-router.put('/', albergueController.putMethod);
+router.put('/', albergueController.updateAlbergue);
 
 /**
  * @swagger

@@ -39,7 +39,7 @@ router.get('/id/:id', amenazasController.getAmenaza);
  *       500:
  *         description: Error al obtener las amenazas (Contactar equipo de API)
  */
-router.get('/all', amenazasController.getAllAmenaza);
+router.get('/all', amenazasController.getAllAmenazas);
 
 /**
  * @swagger

@@ -31,19 +31,19 @@ class albergueModel {
 
     }
 
-    async updateAlbergue(id, albergueData) {
-    const { nombre, direccion, capacidad, telefono } = albergueData;
-    try {
-      const query = `
-        UPDATE albergues
-        SET nombre = ?, direccion = ?, capacidad = ?, telefono = ?
-        WHERE id = ?`;
-      const [result] = await pool.query(query, [nombre, direccion, capacidad, telefono, id]);
-      return result;
-    } catch (error) {
-      throw new Error('Error al actualizar el albergue: ' + error.message);
-    }
-  }
+//     async updateAlbergue(id, albergueData) {
+//     const { nombre, direccion, capacidad, telefono } = albergueData;
+//     try {
+//       const query = `
+//         UPDATE albergues
+//         SET nombre = ?, direccion = ?, capacidad = ?, telefono = ?
+//         WHERE id = ?`;
+//       const [result] = await pool.query(query, [nombre, direccion, capacidad, telefono, id]);
+//       return result;
+//     } catch (error) {
+//       throw new Error('Error al actualizar el albergue: ' + error.message);
+//     }
+//   }
 
 
     async postAlbergue(Albergue) {
@@ -149,7 +149,18 @@ class albergueModel {
         }
     }
 
+    async getResumenAlberguesColor(Color){
+        try{
+           return await db.query('CALL pa_ResumenAlberguesColor(?);', [Color])
+        } catch (error) {
+            console.error("Error al encontrar el albergue por color: ", error);
+            throw error; 
+        }
+    }
+
 }
+
+    
 
 
 module.exports = new albergueModel();

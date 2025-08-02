@@ -58,6 +58,10 @@ class condicionEspecialService {
         }
     }
 
+    async getResumenCondicionesEspeciales() {
+        
+    }
+
 
 
 

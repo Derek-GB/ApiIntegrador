@@ -12,6 +12,15 @@ class municipalidadService {
         }
     }
 
+    // async getAllMunicipalidades() {
+    //     try {
+    //         const results = await municipalidadModel.getAllMunicipalidades();
+    //         return results;
+    //     } catch (error) {
+    //         handleError("getAllMunicipalidades", error);
+    //     }
+    // }
+
 
     async getMunicipalidad(id) {
         if (!id) {

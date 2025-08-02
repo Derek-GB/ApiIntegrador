@@ -1,5 +1,4 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
 const municipalidadService = require("../service/municipalidadService");
 
 const getAllMunicipalidades = async (req = request, res = response) => {
@@ -7,7 +6,7 @@ const getAllMunicipalidades = async (req = request, res = response) => {
     const results = await municipalidadService.getAllMunicipalidades();
     res.json({
       success: true,
-      data: results,
+      data: results[0],
     });
   } catch (error) {
     console.error("Error en getAllMunicipalidades:", error);
@@ -48,7 +47,33 @@ const getMunicipalidad = async (req = request, res = response) => {
 };
 
 const postMunicipalidad = async (req, res) => {
-    let {
+  let {
+    nombre,
+    idUbicacion,
+    telefono,
+    correo,
+    idAlbergue,
+    idUsuario,
+    idUsuarioCreacion,
+    idUsuarioModificacion,
+  } = req.body;
+
+  try {
+    const data = await municipalidadService.postMunicipalidad({
+      nombre,
+      idUbicacion,
+      telefono,
+      correo,
+      idAlbergue,
+      idUsuario,
+      idUsuarioCreacion,
+      idUsuarioModificacion,
+    });
+    res.status(201).json({
+      success: true,
+      message: "Municipalidad insertado correctamente",
+      data: {
+        id: data[0][0].id,
         nombre,
         idUbicacion,
         telefono,
@@ -57,72 +82,52 @@ const postMunicipalidad = async (req, res) => {
         idUsuario,
         idUsuarioCreacion,
         idUsuarioModificacion,
-    } = req.body;
-
-    try {
-        const data = await municipalidadService.postMunicipalidad({ nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion });
-        res.status(201).json({
-            success: true,
-            message: 'Municipalidad insertado correctamente',
-            data: {
-                id: results[0][0].id,
-                nombre,
-                idUbicacion,
-                telefono,
-                correo,
-                idAlbergue,
-                idUsuario,
-                idUsuarioCreacion,
-                idUsuarioModificacion,
-                
-            }
-        });
-    } catch (error) {
-        console.error("Error en postMunicipalidad:", error);
-        if (error.message.includes('Faltan datos obligatorios')) {
-            return res.status(400).json({
-                success: false,
-                message: error.message,
-            });
-        }
-        res.status(500).json({
-            success: false,
-            message: "Error al insertar municipalidad",
-            error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
-        });
+      },
+    });
+  } catch (error) {
+    console.error("Error en postMunicipalidad:", error);
+    if (error.message.includes("Faltan datos obligatorios")) {
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
     }
-}
-
-const deleteMunicipalidad = async (req, res) => {
-    const { id } = req.params;
-    if (!id) {
-        return res.status(400).json({
-            success: false,
-            message: "ID de municipalidad no proporcionado",
-        });
-    }
-    try {
-        const result = await municipalidadService.deleteMunicipalidad(id);
-        if (result[0].affectedRows === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Municipalidad no encontrada o ya fue eliminada",
-            });
-        }
-        res.json({
-            success: true,
-            message: `Municipalidad con ID ${id} eliminada correctamente`,
-        });
-    } catch (error) {
-        console.error("Error en deleteMunicipalidad:", error);
-        res.status(500).json({
-            success: false,
-            error: "Error al eliminar municipalidad",
-        });
-    }
+    res.status(500).json({
+      success: false,
+      message: "Error al insertar municipalidad",
+      error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
+    });
+  }
 };
 
-
+const deleteMunicipalidad = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de municipalidad no proporcionado",
+    });
+  }
+  try {
+    const result = await municipalidadService.deleteMunicipalidad(id);
+    if (result[0].affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Municipalidad no encontrada o ya fue eliminada",
+      });
+    }
+    res.json({
+      success: true,
+      message: `Municipalidad con ID ${id} eliminada correctamente`,
+    });
+  } catch (error) {
+    console.error("Error en deleteMunicipalidad:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al eliminar municipalidad",
+    });
+  }
+};
 
 // const getAllMethod = (req = request, res = response) => {
 //   pool.query("CALL pa_SelectAllMunicipalidad", (error, results) => {

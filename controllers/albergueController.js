@@ -1,6 +1,5 @@
 const { request, response } = require("express");
 const albergueService = require("../service/albergueService");
-// const { put } = require("../routes/albergues.route"); esto se borra
 
 // Obtener todos los albergues
 const getAllAlbergues = async (req, res) => {

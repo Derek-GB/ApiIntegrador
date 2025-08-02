@@ -15,7 +15,7 @@ const {
     *     tags: 
     *       - AjusteInventario
     */
-router.get('/all', ajusteInventarioController.getAllAjuste);
+router.get('/all', ajusteInventarioController.getAllAjusteInventarios);
 
 /*
     * @swagger

@@ -8,11 +8,14 @@ const handleError = (lugar, error, status = null) => {
 
 const confirmarOpcionales = (objeto, opcionales) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    const nulleados = [];
     for (const campo of opcionales) {
         if (objeto[campo] === undefined) {
             objeto[campo] = null;
+            nulleados.push(campo);
         }
     }
+    if (nulleados) console.warn(`Los siguientes campos fueron nulleados porque no estaban definidos: ${nulleados.join(', ')}`);
 }
 
 const confirmarObligatorios = (objeto, indice, obligatorios) => {

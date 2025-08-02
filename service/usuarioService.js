@@ -1,5 +1,20 @@
 const usuarioModel = require('../models/usuarioModel');
 
+const confirmarObligatorios = (objeto, obligatorios) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError("postPersonas", new Error(`Falta el campo obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en PersonasService. " + lugar + ": ", error.message);
+    throw error;
+}
+
 class usuarioService {
     async getAllUsuarios() {
         try {
@@ -21,11 +36,11 @@ class usuarioService {
         }
     }
 
+    
+
     async postUsuario(usuario) {
 
-        if (!usuario.nombreUsuario || !usuario.correo || !usuario.contrasenaHash || !usuario.rol || !usuario.activo || !usuario.idMunicipalidad || !usuario.identificacion) {
-            throw new Error('Faltan datos: nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion')
-        }
+        confirmarObligatorios(usuario, ["nombreUsuario", "correo", "contrasenaHash", "rol", "activo", "idMunicipalidad", "identificacion"]);
         const result = await usuarioModel.postUsuario(usuario);
         return result;
 

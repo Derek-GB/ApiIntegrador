@@ -18,9 +18,9 @@ const ajusteInventarioService = require("../service/ajusteInventarioService");
 //   });
 // };
 
-const getAllAjuste = async (req = request, res = response) => {
+const getAllAjusteInventarios = async (req = request, res = response) => {
   try {
-    const data = await ajusteInventarioService.getAllAjuste();
+    const data = await ajusteInventarioService.getAllAjusteInventario();
     res.status(200).json({
       success: true,
       message: 'Lista de ajustes obtenida correctamente',
@@ -113,14 +113,14 @@ const getAjuste = async (req = request, res = response) => {
 // };
 
 const postAjuste = async (req = request, res = response) => {
-  const { idProducto, justificacion, cantidadOriginal, cantidadAjustada, idUsuarioCreacion } = req.body;
+  const { idProducto, cantidadOriginal,cantidadAjustada,justificacion,idUsuarioCreacion } = req.body;
 
   try {
-    const mensaje = await ajusteInventarioService.postAjuste({
+    const mensaje = await ajusteInventarioService.postAjusteInventario({
       idProducto,
-      justificacion,
       cantidadOriginal,
       cantidadAjustada,
+      justificacion,
       idUsuarioCreacion,
     });
 
@@ -140,7 +140,7 @@ const postAjuste = async (req = request, res = response) => {
 
 
 module.exports = {
-  getAllAjuste,
+  getAllAjusteInventarios,
   getAjuste,
   postAjuste,
 };

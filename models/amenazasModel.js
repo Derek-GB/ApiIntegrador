@@ -1,7 +1,7 @@
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class amanezasModel {
-    async getAllAmenaza() {
+    async getAllAmenazas() {
         try {
             return await db.query('CALL pa_SelectAllAmenaza')
         } catch (error) {

@@ -9,7 +9,7 @@ const getAllUsuarios = async (req, res) => {
     const data = await usuarioService.getAllUsuarios();
     res.status(200).json({
         success: true,
-        data: data,
+        data: data[0],
         message: "Usuarios obtenidos exitosamente",
     });
   }catch (error) {
@@ -56,7 +56,6 @@ const postUsuario = async (req, res) => {
         activo = null,
         idMunicipalidad = null,
         identificacion = null
-
     } = req.body;
 
     try {
@@ -65,10 +64,9 @@ const postUsuario = async (req, res) => {
                 success: true,
                 message: 'Usuario insertado correctamente',
                 data: {
-                    id: results[0][0].id,
+                    id: data[0][0].id,
                     nombreUsuario,
                     correo,
-                    contrasenaHash,
                     rol,
                     activo,
                     idMunicipalidad,

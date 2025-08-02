@@ -25,9 +25,9 @@ const amenazasService = require("../service/amenazasService");
 // };
 
 
-const getAllAmenaza = async (req = request, res = response) => {
+const getAllAmenazas = async (req = request, res = response) => {
   try {
-    const data = await amenazasService.getAllAmenaza();
+    const data = await amenazasService.getAllAmenazas();
     res.status(200).json({
       success: true,
       message: "Amenazas obtenidas correctamente",
@@ -307,7 +307,7 @@ const deleteAmenaza = async (req = request, res = response) => {
   }
 
   try {
-    await amenazasService.deleteMethod(id);
+    await amenazasService.deleteAmenaza(id);
     res.status(200).json({
       success: true,
       message: `Amenaza con ID ${id} eliminada correctamente`,
@@ -326,7 +326,7 @@ const deleteAmenaza = async (req = request, res = response) => {
 
 
 module.exports = {
-  getAllAmenaza,
+  getAllAmenazas,
   getAmenaza,
   postAmenaza,
   putAmenaza,

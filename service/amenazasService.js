@@ -1,53 +1,53 @@
 const amenazasModel = require('../models/amenazasModel');
 
 class amenazasService {
-    async getAllMethod() {
+    async getAllAmenazas() {
         try {
-            const result = await amenazasModel.getAllMethod();
+            const result = await amenazasModel.getAllAmenazas();
             return result;
         } catch (error) {
-            console.error("Error en amenazasService.getAllMethod: ", error);
+            console.error("Error en amenazasService.getAllAmenazas: ", error);
             throw error;
         }
     }
 
-    async getMethod(id) {
+    async getAmenaza(id) {
         try {
-            const result = await amenazasModel.getMethod(id);
+            const result = await amenazasModel.getAmenaza(id);
             return result;
         } catch (error) {
-            console.error("Error en amenazasService.getMethod: ", error);
+            console.error("Error en amenazasService.getAmenaza: ", error);
             throw error;
         }
     }
 
-    async postMethod(Amenaza) {
+    async postAmenaza(Amenaza) {
 
         if (!Amenaza.familiaEvento || !Amenaza.evento || !Amenaza.peligro || !Amenaza. causa || !Amenaza.categoriaEvento || !Amenaza. idFamilia || !Amenaza.idUsuarioCreacion) {
             throw new Error('Faltan datos: familiaEvento, evento, peligro, causa, categoriaEvento, idFamilia y idUsuarioCreacion son requeridos');
         }
-        const result = await amenazasModel.postMethod(Amenaza);
+        const result = await amenazasModel.postAmenaza(Amenaza);
         return result;
 
     }
 
-    async deleteMethod(id) {
+    async deleteAmenaza(id) {
         try {
-            const result = await amenazasModel.deleteMethod(id);
+            const result = await amenazasModel.deleteAmenaza(id);
             return result;
         } catch (error) {
-            console.error("Error en amenazasService.deleteMethod: ", error);
+            console.error("Error en amenazasService.deleteAmenaza: ", error);
             throw error;
         }
 
     }
 
-    async putMethod(Amenaza) {
+    async putAmenaza(Amenaza) {
         try {
-            const result = await amenazasModel.putMethod(Amenaza);
+            const result = await amenazasModel.putAmenaza(Amenaza);
             return result;
         } catch (error) {
-            console.error("Error en amenazasService.putMethod: ", error);
+            console.error("Error en amenazasService.putAmenaza: ", error);
             throw error;
         }
     }

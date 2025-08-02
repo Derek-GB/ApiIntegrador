@@ -12,14 +12,14 @@ class albergueService {
         }
     }
 
-     async updateAlbergue(id, albergueData) {
-    try {
-      const result = await albergueModel.updateAlbergue(id, albergueData);
-      return result;
-    } catch (error) {
-      throw new Error('Error en el servicio al actualizar el albergue: ' + error.message);
-    }
-  }
+//      async updateAlbergue(id, albergueData) {
+//     try {
+//       const result = await albergueModel.updateAlbergue(id, albergueData);
+//       return result;
+//     } catch (error) {
+//       throw new Error('Error en el servicio al actualizar el albergue: ' + error.message);
+//     }
+//   }
 
 
     async postAlbergue(Albergue) {

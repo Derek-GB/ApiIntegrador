@@ -43,6 +43,16 @@ class condicionEspecial {
             throw error;
         }
     }
+
+    async getResumenCondicionesEspeciales(especiales) {
+        const { id } = especiales;
+        try {
+            return await db.query('CALL pa_SelectReferencia(?);', [id])
+        }catch(error){
+            console.error("Error en getReferencia: ", error);
+            throw error;
+        }
+    }
     
 
 }

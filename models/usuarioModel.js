@@ -1,4 +1,4 @@
-const DbService = require('../MySQL/dbConfig')
+const DbService = require('../MySQL/dbConfig');
 const db = DbService.getDbServiceInstance();
 class usuarioModel {
     async getAllUsuarios() {
@@ -19,12 +19,11 @@ class usuarioModel {
         }
     }
 
-
     async postUsuario(usuario) {
-        const { cedula, nombre, apellido1, apellido2, correo, contrasenaHash, telefono, idRol } = usuario;
+        const { nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion } = usuario;
         try {
-            return await db.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?, ?);', 
-                [cedula, nombre, apellido1, apellido2, correo, contrasenaHash, telefono, idRol]);
+            return await db.query('CALL pa_InsertUsuario(?, ?, ?, ?, ?, ?, ?);',
+                [nombreUsuario, correo, contrasenaHash, rol, activo, idMunicipalidad, identificacion]);
         }
         catch (error) {
             console.error("Error en postUsuario: ", error);
@@ -65,7 +64,7 @@ class usuarioModel {
         }
     }
 
-    //ahora con el pa_LoginUsuario
+    
     async loginUsuario(usuario) {
         const { usuario: nombreUsuario, contrasena } = usuario;
         try {

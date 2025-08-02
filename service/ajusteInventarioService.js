@@ -2,27 +2,28 @@ const ajusteInventarioModel = require('../models/ajusteInventarioModel');
 
 class ajusteInventarioService {
 
-    async getMethod(Inventario) {
+    async getAjusteInventario(Inventario) {
 
         if (!Inventario.IdInventario) {
             throw new Error('Faltan datos: id')
         }
-        const result = await ajusteInventarioModel.getMethod(Inventario);
+        const result = await ajusteInventarioModel.getAjuste(Inventario);
         return result;
 
     }
 
-     async postMethod(Inventario) {
-        if (!Inventario.idProducto || !Inventario.justificacion || !Inventario.cantidadOriginal || !Inventario.cantidadAjustada || !Inventario.idUsuarioCreacion  ) {
+     async postAjusteInventario(Inventario) {
+        
+        if (!Inventario.idProducto || !Inventario.justificacion || !Inventario.cantidadOriginal || !Inventario.cantidadAjustada || !Inventario.idUsuarioCreacion) {
             throw new Error('Faltan datos: idProducto, justificacion, cantidadOriginal, cantidadAjustada, idUsuarioCreacion')
         }
-        const result = await ajusteInventarioModel.postMethod(Inventario);
+        const result = await ajusteInventarioModel.postAjuste(Inventario);
         return result;
     }   
 
-   async getAllMethod() {
+   async getAllAjusteInventario() {
         try {
-            const result = await ajusteInventarioModel.getAllMethod();
+            const result = await ajusteInventarioModel.getAllAjustes();
             return result;
         } catch (error) {
             console.error("Error en ajusteInventarioService.getAllMethod: ", error);

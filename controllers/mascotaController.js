@@ -1,5 +1,4 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
 const mascotaService = require("../service/mascotaService");
 
 
@@ -52,7 +51,7 @@ const postMascota = async (req = request, res = response) => {
             success: true,
             message: 'Producto insertado correctamente',
             data: {
-                id: results[0][0].id,
+                id: data[0][0].id,
                 idFamilia,
                 tipo,
                 tamaño,

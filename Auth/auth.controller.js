@@ -84,7 +84,7 @@ class AuthController {
       res.status(200).json({
         success: true,
         message: 'Login exitoso',
-        accessToken: token,
+        Token: token,
         usuario: {
             id: usuarioEncontrado.idUsuario,
             nombreUsuario: usuarioEncontrado.nombreUsuario || usuarioEncontrado.nombre,

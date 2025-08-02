@@ -1,6 +1,6 @@
 const { request, response } = require("express");
 const albergueService = require("../service/albergueService");
-const { put } = require("../routes/albergues.route");
+// const { put } = require("../routes/albergues.route"); esto se borra
 
 // Obtener todos los albergues
 const getAllAlbergues = async (req, res) => {
@@ -483,9 +483,9 @@ module.exports = {
   getForCantonMethod,
   getForProvinciaMethod,
   createAlbergue,
-  updateAlbergue,
+  // updateAlbergue,
   // putMethod, // Descomentar si se implementa el método PUT
 
   postAlbergue,
-  updateAlbergue,
+  // updateAlbergue,
 };

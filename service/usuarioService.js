@@ -62,6 +62,16 @@ class usuarioService {
         }
     }
 
+    async loginUsuario(usuario) {
+        try {
+            const result = await usuarioModel.loginUsuario(usuario);
+            return result;
+        } catch (error) {
+            console.error("Error en usuarioService.loginUsuario: ", error);
+            throw error;
+        }
+    }
+
 }
 
     

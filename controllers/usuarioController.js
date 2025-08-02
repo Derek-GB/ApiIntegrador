@@ -163,6 +163,36 @@ const putContrasenaMethod = async (req, res) => {
     }
 }
 
+const loginUsuario = (req = request, res = response) => {
+  const { nombreUsuario, contrasena } = req.body;
+
+  if (!nombreUsuario || !contrasena) {
+    return res.status(400).json({ message: 'Faltan datos requeridos' });
+  }
+
+  const query = 'CALL pa_LoginUsuario(?, ?)';
+  pool.query(query, [nombreUsuario, contrasena], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ message: 'Error del servidor' });
+    }
+
+    const usuario = results[0][0]; 
+
+    if (!usuario) {
+      return res.status(401).json({ message: 'Credenciales inválidas' });
+    }
+
+    
+    res.json({
+      message: 'Login exitoso',
+      usuario
+    });
+  });
+};
+
+
+
 
 // const getAllMethod = (req = request, res = response) => {
 //     pool.query('CALL pa_SelectAllUsuario', (error, results) => {
@@ -367,7 +397,8 @@ module.exports = {
     postUsuario,
     deleteUsuario,
     validarCorreoMethod,
-    putContrasenaMethod
+    putContrasenaMethod,
+    loginUsuario
     // getAllMethod,
     // getMethod,
     // postMethod,

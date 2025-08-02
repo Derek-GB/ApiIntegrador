@@ -193,6 +193,8 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
 //Eliminar
 router.delete('/id/:id', usuarioController.deleteUsuario);
 
+router.post('/login', usuarioController.loginUsuario);
+
 
 
 

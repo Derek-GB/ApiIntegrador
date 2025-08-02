@@ -28,10 +28,7 @@ class AuthController {
       }
 
       const identificador = usuario || correo;
-      const resultadoUsuario = await usuarioModel.loginUsuario({
-        usuario: identificador,
-        contrasena
-      });
+      const resultadoUsuario = await usuarioModel.loginUsuarioDirecto(identificador, contrasena);
 
       if (!resultadoUsuario || resultadoUsuario.length === 0) {
         return res.status(401).json({
@@ -41,17 +38,6 @@ class AuthController {
       }
 
       const usuarioEncontrado = resultadoUsuario[0];
-      //const contrasenaValida = await bcrypt.compare(
-      //  contrasena,
-      //  usuarioEncontrado.contrasenaHash || usuarioEncontrado.contrasena
-      //);
-
-      //if (!usuarioEncontrado.activo) {
-      //  return res.status(401).json({
-      //      success: false,
-      //      error: 'Cuenta desactivada'
-      //  });
-      //}
 
       const tokenpayload = {
         id: usuarioEncontrado.idUsuario,

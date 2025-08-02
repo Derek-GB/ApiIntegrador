@@ -77,7 +77,31 @@ class usuarioModel {
         }
     }
     
-
+    async loginUsuarioDirecto(identificador, contrasena) {
+        try {
+            const query = `
+                SELECT 
+                    id as idUsuario,
+                    nombreUsuario,
+                    correo,
+                    rol,
+                    activo,
+                    idMunicipalidad,
+                    identificacion
+                FROM Usuario
+                WHERE (correo = ? OR nombreUsuario = ?) 
+                    AND contrasenaHash = SHA2(?, 256)
+                    AND activo = 1
+            `;
+            
+            const result = await db.query(query, [identificador, identificador, contrasena]);
+            console.log('Consulta directa resultado:', result);
+            return result;
+        } catch (error) {
+            console.error("Error en loginUsuarioDirecto:", error);
+            throw error;
+        }
+    }
 
 
 

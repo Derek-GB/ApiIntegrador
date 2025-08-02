@@ -10,8 +10,7 @@ class ubicacionModel {
         }
     }
 
-    async getUbicacion(ubicacion){
-        const { id } = ubicacion;
+    async getUbicacion(id){
         try {
             return await db.query('CALL pa_SelectUbicacion(?);', [id])
         }catch(error){
@@ -31,8 +30,7 @@ class ubicacionModel {
         }
     }
 
-    async deleteUbicacion(ubicacion) {
-        const { id } = ubicacion;
+    async deleteUbicacion(id) {
         try {
             return await db.query('CALL pa_DeleteUbicacion(?);', [id])
         } catch (error) {

@@ -44,6 +44,32 @@ router.get('/id/:id', inventarioController.getInventario);
 
 /**
  * @swagger
+ * /api/condicionesEspeciales/id/{id}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de suministros por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de suministros
+ *     responses:
+ *       200:
+ *         description: Resumen de suministro obtenido exitosamente
+ *       400:
+ *          description: Se espera un id de suministro
+ *       404:
+ *         description: Suministro no encontrada
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.get('/id/:id', inventarioController.getResumenSuministros);
+
+/**
+ * @swagger
  * /api/inventario:
  *   post:
  *     tags:

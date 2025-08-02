@@ -12,12 +12,12 @@ class infraestructuraAlbergueService {
         }
     }
 
-    async getInfraestructuraAlbergue(infraAlbergue) {
-        if (!infraAlbergue.id) {
+    async getInfraestructuraAlbergue(id) {
+        if (!id) {
             throw new Error('ID de infraestructura es requerido');
         }
         try {
-            const result = await infraestructuraAlbergueModel.getInfraestructuraAlbergue(infraAlbergue);
+            const result = await infraestructuraAlbergueModel.getInfraestructuraAlbergue(id);
             if (!result || !result[0] || result[0].length === 0) {
                 throw new Error('Infraestructura no encontrada');
             }
@@ -45,12 +45,12 @@ class infraestructuraAlbergueService {
         }
     }
 
-    async deleteInfraestructuraAlbergue(infraAlbergue) {
-        if (!infraAlbergue.id) {
+    async deleteInfraestructuraAlbergue(id) {
+        if (!id) {
             throw new Error('ID de infraestructura es requerido');
         }
         try {
-            const result = await infraestructuraAlbergueModel.deleteInfraestructuraAlbergue(infraAlbergue);
+            const result = await infraestructuraAlbergueModel.deleteInfraestructuraAlbergue(id);
             if (result[0].affectedRows === 0) {
                 throw new Error('Infraestructura no encontrada o ya fue eliminada');
             }

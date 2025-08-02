@@ -12,12 +12,12 @@ class nuevaInfraestructuraService {
         }
     }
 
-    async getNuevaInfraestructura(nuevaInfraestructura) {
-        if (!nuevaInfraestructura.id) {
+    async getNuevaInfraestructura(id) {
+        if (!id) {
             throw new Error('ID de la nueva infraestructura es requerido');
         }
         try {
-            const result = await nuevaInfraestructuraModel.getNuevaInfraestructura(nuevaInfraestructura);
+            const result = await nuevaInfraestructuraModel.getNuevaInfraestructura(id);
             if (!result || !result[0] || result[0].length === 0) {
                 throw new Error('Nueva infraestructura no encontrada');
             }
@@ -42,12 +42,12 @@ class nuevaInfraestructuraService {
         }
     }
 
-    async deleteNuevaInfraestructura(nuevaInfraestructura) {
-        if (!nuevaInfraestructura.id) {
+    async deleteNuevaInfraestructura(id) {
+        if (!id) {
             throw new Error('ID de nueva infraestructura es requerido');
         }
         try {
-            const result = await nuevaInfraestructuraModel.deleteNuevaInfraestructura(nuevaInfraestructura);
+            const result = await nuevaInfraestructuraModel.deleteNuevaInfraestructura(id);
             if (result[0].affectedRows === 0) {
                 throw new Error('Nueva infraestructura no encontrado o ya fue eliminado');
             }

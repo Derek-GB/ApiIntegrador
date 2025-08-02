@@ -57,12 +57,6 @@ const postReferencia = async (req = request, res = response) => {
     responsable = responsable ?? null,
     idUsuarioCreacion = idUsuarioCreacion ?? null,
   } = req.body;
-  if (!id) {
-      return res.status(400).json({
-        success: false,
-        message: "ID de referencia no proporcionado",
-      });
-    }
   try {
     const data = await referenciaService.postReferencia(idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion);
     res.json({

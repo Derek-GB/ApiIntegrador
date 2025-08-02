@@ -59,12 +59,6 @@ const postUbicacion = async (req = request, res = response) => {
     idAlbergue = idAlbergue ?? null,
     idMunicipalidad = idMunicipalidad ?? null,
   } = req.body;
-  if (!id) {
-    return res.status(400).json({
-      success: false,
-      message: "ID de ubicación no proporcionado",
-    });
-  }
   try {
     const data = await ubicacionService.postUbicacion(provincia, canton, distrito, direccion, idFamilia, idAlbergue, idMunicipalidad);
     res.json({

@@ -58,12 +58,6 @@ const postProducto = async (req, res) => {
         categoria = null,
         unidadMedida = null
     } = req.body;
-    if (!id) {
-        return res.status(400).json({
-            success: false,
-            message: error.message,
-        });
-    }
     try {
         const data = await productoService.postProducto({ codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida });
         res.json({

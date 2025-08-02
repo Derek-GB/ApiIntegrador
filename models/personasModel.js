@@ -72,5 +72,25 @@ class PersonasModel {
             throw error;
         }
     }
+
+    async getResumenPersonasDinamico(id) {
+        try {
+            const result = await db.query('CALL pa_ResumenPersonasDinamico(?)', [id]);
+            return result[0];
+        } catch (error) {
+            console.error(`Error consiguiendo por ID ${id}:`, error);
+            throw error;
+        }
+    }
+
+    async getResumenDiscapacidad(id) {
+        try {
+            const result = await db.query('CALL pa_ResumenDiscapacidad(?)', [id]);
+            return result[0];
+        } catch (error) {
+            console.error(`Error consiguiendo por ID ${id}:`, error);
+            throw error;
+        }
+    }
 }
 module.exports = new PersonasModel();

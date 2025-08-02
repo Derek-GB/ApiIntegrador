@@ -10,8 +10,7 @@ class infraestructuraAlbergueModel {
         }
     }
 
-    async getInfraestructuraAlbergue(infraAlbergue){
-        const { id } = infraAlbergue;
+    async getInfraestructuraAlbergue(id){
         try {
             return await db.query('CALL pa_SelectInfraestructuraAlbergue(?);', [id])
         }catch(error){
@@ -31,8 +30,7 @@ class infraestructuraAlbergueModel {
         }
     }
 
-    async deleteInfraestructuraAlbergue(infraAlbergue) {
-        const { id } = infraAlbergue;
+    async deleteInfraestructuraAlbergue(id) {
         try {
             return await db.query('CALL pa_DeleteInfraestructuraAlbergue(?);', [id])
         } catch (error) {

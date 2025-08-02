@@ -83,6 +83,35 @@ const getPersona = async (req = request, res = response) => {
   }
 };
 
+const getResumenDiscapacidad = async (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({
+      success: false,
+      message: "Se esperaba el parametro id en la query.",
+    });
+  }
+  try {
+    const { id } = req.params;
+    const data = await personasService.getResumenDiscapacidad(id);
+    if (data[0]?.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Discapacidad no encontrada.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: data[0][0],
+    });
+  } catch (error) {
+    console.error("Error en getResumenDiscapacidad:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener la discapacidad; " + error.message,
+    });
+  }
+};
+
 // const getMethod = (req = request, res = response) => {
 //   const { id } = req.params;
 
@@ -497,6 +526,37 @@ const deletePersona = async (req = request, res = response) => {
   }
 };
 
+
+const getResumenPersonasDinamico  = async (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({
+      success: false,
+      message: "Se esperaba el parametro id en la query.",
+    });
+  }
+  try {
+    const { id } = req.params;
+    const data = await personasService.getResumenPersonasDinamico(id);
+    if (data[0]?.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Persona no encontrada.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: data[0][0],
+    });
+  } catch (error) {
+    console.error("Error en getResumenPersonasDinamico:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error al obtener la persona; " + error.message,
+    });
+  }
+};
+
+
 // Eliminar persona por ID
 // const deleteMethod = (req = request, res = response) => {
 //   const { id } = req.params;
@@ -516,6 +576,8 @@ const deletePersona = async (req = request, res = response) => {
 module.exports = {
   getAllPersonas,
   getPersona,
+  getResumenDiscapacidad,
   postPersonas,
   deletePersona,
+  getResumenPersonasDinamico,
 };

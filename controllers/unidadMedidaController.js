@@ -57,7 +57,7 @@ const postUnidadMedida = async (req, res) => {
                 success: true,
                 message: 'Unidad insertado correctamente',
                 data: {
-                    id: results[0][0].id,
+                    id: data[0][0].id,
                     nombre,
                     idConsumible
                 }

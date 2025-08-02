@@ -10,8 +10,7 @@ class referenciaModel {
         }
     }
 
-    async getReferencia(referencia){
-        const { id } = referencia;
+    async getReferencia(id){
         try {
             return await db.query('CALL pa_SelectReferencia(?);', [id])
         }catch(error){
@@ -31,8 +30,7 @@ class referenciaModel {
         }
     }
 
-    async deleteReferencia(referencia) {
-        const { id } = referencia;
+    async deleteReferencia(id) {
         try {
             return await db.query('CALL pa_DeleteUbicacion(?);', [id])
         } catch (error) {

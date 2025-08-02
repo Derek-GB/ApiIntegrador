@@ -1,5 +1,20 @@
 const referenciaModel = require('../models/referenciaModel.js');
 
+const confirmarObligatorios = (objeto, obligatorios) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError("postReferencia", new Error(`Falta el campo obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en referenciaService. " + lugar + ": ", error.message);
+    throw error;
+}
+
 class referenciaService {
 
     async getAllReferencia() {
@@ -12,12 +27,12 @@ class referenciaService {
         }
     }
 
-    async getReferencia(referencia) {
-        if (!referencia.id) {
+    async getReferencia(id) {
+        if (!id) {
             throw new Error('ID de referencia es requerido');
         }
         try {
-            const result = await referenciaModel.getReferencia(referencia);
+            const result = await referenciaModel.getReferencia(id);
             if (!result || !result[0] || result[0].length === 0) {
                 throw new Error('Referencia no encontrada');
             }
@@ -29,9 +44,7 @@ class referenciaService {
     }
 
     async postReferencia(referencia) {
-        if (!referencia.idFamilia || !referencia.tipoAyuda || !referencia.fechaEntrega) {
-            throw new Error('Faltan datos obligatorios: idFamilia, tipoAyuda, fechaEntrega');
-        }
+        confirmarObligatorios(referencia, ["idFamilia", "tipoAyuda", "fechaEntrega"]);
         try {
             const result = await referenciaModel.postReferencia(referencia);
             return result;
@@ -41,12 +54,12 @@ class referenciaService {
         }
     }
 
-    async deleteReferencia(referencia) {
-        if (!referencia.id) {
+    async deleteReferencia(id) {
+        if (!id) {
             throw new Error('ID de referencia es requerido');
         }
         try {
-            const result = await referenciaModel.deleteReferencia(referencia);
+            const result = await referenciaModel.deleteReferencia(id);
             if (result[0].affectedRows === 0) {
                 throw new Error('Referencia no encontrada o ya fue eliminada');
             }

@@ -41,7 +41,7 @@ const getInventario = async (req = request, res = response) => {
             data: data[0][0],
         });
     } catch (error) {
-        console.error("Error en getMethod:", error);
+        console.error("Error en getInventario:", error);
         return res.status(500).json({
             success: false,
             error: "Error al obtener el registro de inventario",
@@ -49,14 +49,37 @@ const getInventario = async (req = request, res = response) => {
     }
 };
 
-const postInventario = async (req = request, res = response) => {
-    const { idAlbergue, fecha, articulo, cantidad, estado, comentario } = req.body;
-    if (!id) {
+const getResumenSuministros = async (req = request, res = response) => {
+    const { id } = req.body;
+    if (error.message === 'ID de suministro es requerido') {
         return res.status(400).json({
             success: false,
-            message: "ID de inventario no proporcionado",
+            message: "ID de suministro no proporcionado",
         });
     }
+    try {
+        const data = await inventarioService.getResumenSuministros(id);
+        if (ddata[0].length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Registro de suministro no encontrado",
+            });
+        }
+        res.json({
+            success: true,
+            data: data[0][0],
+        });
+    } catch (error) {
+        console.error("Error en getResumenSuministros:", error);
+        return res.status(500).json({
+            success: false,
+            error: "Error al obtener el registro de suministro",
+        });
+    }
+};
+
+const postInventario = async (req = request, res = response) => {
+    const { idAlbergue, fecha, articulo, cantidad, estado, comentario } = req.body;
     try {
         const data = await inventarioService.postInventario(idAlbergue, fecha, articulo, cantidad, estado, comentario);
         res.json({
@@ -145,6 +168,7 @@ const deleteInventario = async (req = request, res = response) => {
 module.exports = {
     getAllInventario,
     getInventario,
+    getResumenSuministros,
     postInventario,
     putInventario,
     deleteInventario,

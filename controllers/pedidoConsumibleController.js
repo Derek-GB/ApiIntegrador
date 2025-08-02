@@ -61,7 +61,7 @@ const postPedidoConsumible = async (req, res) => {
                 success: true,
                 message: 'Pedido insertado correctamente',
                 data: {
-                    id: results[0][0].id,
+                    id: data[0][0].id,
                     tipoComida,
                     cantidadPersonas,
                     idConsumible,

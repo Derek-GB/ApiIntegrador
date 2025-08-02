@@ -57,8 +57,8 @@ const postNuevaInfraestructura = async (req = request, res = response) => {
         descripcion,
         costoTotal,
     } = req.body;
-    if (!data.idAlbergue || !data.fecha || !data.cantidad ||
-        !data.tipo || !data.descripcion || !data.costoTotal) {
+    if (!idAlbergue || !fecha || !cantidad ||
+        !tipo || !descripcion || !costoTotal) {
         return res.status(400).json({
             error: 'Datos obligatorios faltantes',
             message: 'Los siguientes campos son obligatorios: idAlbergue, fecha, cantidad, tipo, descripcion, costoTotal'

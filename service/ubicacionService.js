@@ -12,9 +12,12 @@ class ubicacionService {
         }
     }
 
-    async getUbicacion(ubicacion) {
+    async getUbicacion(id) {
+        if (!id) {
+            throw new Error('ID de ubicación es requerido');
+        }
         try {
-            const result = await ubicacionModel.getUbicacion(ubicacion);
+            const result = await ubicacionModel.getUbicacion(id);
             return result;
         } catch (error) {
             console.error("Error en ubicacionService.getUbicacion: ", error);
@@ -35,12 +38,12 @@ class ubicacionService {
         }
     }
 
-    async deleteUbicacion(ubicacion) {
-        if (!ubicacion.id) {
+    async deleteUbicacion(id) {
+        if (!id) {
             throw new Error('ID de ubicación es requerido');
         }
         try {
-            const result = await ubicacionModel.deleteUbicacion(ubicacion);
+            const result = await ubicacionModel.deleteUbicacion(id);
             if (result[0].affectedRows === 0) {
                 throw new Error('Ubicación no encontrada o ya fue eliminada');
             }

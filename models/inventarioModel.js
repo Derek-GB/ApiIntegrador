@@ -11,8 +11,7 @@ class inventarioModel {
         }
     }
 
-    async getInventario(inventario){
-        const { id } = inventario;
+    async getInventario(id){
         try {
             return await db.query('CALL pa_SelectInventario(?);', [id])
         }catch(error){
@@ -38,6 +37,15 @@ class inventarioModel {
             return await db.query('CALL pa_DeleteInventario(?);', [id])
         } catch (error) {
             console.error("Error en deleteInventario: ", error);
+            throw error;
+        }
+    }
+
+    async getResumenSuministros(id) {
+        try {
+            return await db.query('CALL pa_SelectInventario(?);', [id])
+        }catch(error){
+            console.error("Error en getInventario: ", error);
             throw error;
         }
     }

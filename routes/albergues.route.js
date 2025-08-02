@@ -221,7 +221,7 @@ router.post('/', albergueController.postAlbergue);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-// router.put('/', albergueController.updateAlbergue);
+// router.put('/', albergueController.);
 
 /**
  * @swagger
@@ -284,7 +284,7 @@ router.delete('/id/:id', albergueController.deleteAlbergue);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/id/:id', albergueController.getForIdMethod);
+// router.get('/consulta/id/:id', albergueController.);
 
 /**
  * @swagger
@@ -323,7 +323,7 @@ router.get('/consulta/id/:id', albergueController.getForIdMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/nombre/:nombre', albergueController.getForNombreMethod);
+router.get('/consulta/nombre/:nombre', albergueController.getForNombreAlbergue);
 
 
 /** * @swagger
@@ -356,7 +356,7 @@ router.get('/consulta/nombre/:nombre', albergueController.getForNombreMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/distrito/:distrito', albergueController.getForDistritoMethod);
+router.get('/consulta/distrito/:distrito', albergueController.getForDistritoAlbergue);
 
 /** * @swagger
  * /api/albergues/consulta/canton/{canton}:
@@ -388,7 +388,7 @@ router.get('/consulta/distrito/:distrito', albergueController.getForDistritoMeth
  *                   items:
  *                     type: object
  */
-router.get('/consulta/canton/:canton', albergueController.getForCantonMethod);
+router.get('/consulta/canton/:canton', albergueController.getForCantonAlbergue);
 
 /** * @swagger
  * /api/albergues/consulta/provincia/{provincia}:
@@ -420,6 +420,47 @@ router.get('/consulta/canton/:canton', albergueController.getForCantonMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaMethod);
+router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaAlbergue);
+
+
+/**
+ * @swagger
+ * /api/albergues/consulta/color/{color}:
+ *   get:
+ *     summary: Consultar albergue por color
+ *     tags:
+ *       - Resumenes
+ *     parameters:
+ *       - in: path
+ *         name: color
+ *         required: true
+ *         description: color del albergue (codificado en URL si tiene espacios)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: color no proporcionado
+ *       404:
+ *         description: Albergue no encontrado
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+
+router.get('/consulta/color/:color', albergueController.getResumenAlberguesColor);
 
 module.exports = router;

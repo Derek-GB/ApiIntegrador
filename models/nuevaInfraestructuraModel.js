@@ -11,8 +11,7 @@ class nuevaInfraestructuraModel {
         }
     }
 
-    async getNuevaInfraestructura(nuevaInfraestructura){
-        const { id } = nuevaInfraestructura;
+    async getNuevaInfraestructura(id){
         try {
             return await db.query('CALL pa_SelectNuevaInfraestructura(?);', [id])
         }catch(error){
@@ -32,8 +31,7 @@ class nuevaInfraestructuraModel {
         }
     }
 
-    async deleteNuevaInfraestructura(nuevaInfraestructura) {
-        const { id } = nuevaInfraestructura;
+    async deleteNuevaInfraestructura(id) {
         try {
             return await db.query('CALL pa_DeleteNuevaInfraestructura(?);', [id])
         } catch (error) {

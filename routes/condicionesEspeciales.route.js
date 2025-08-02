@@ -28,6 +28,30 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
 
 /**
  * @swagger
+ * /api/condicionesEspeciales/id/{id}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de condición especial por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la condición especial
+ *     responses:
+ *       200:
+ *         description: Resumen de condición especial obtenido exitosamente
+ *       404:
+ *         description: Condición especial no encontrada
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.get('/id/:id', condicionEspecialController.getResumenCondicionesEspeciales);
+
+/**
+ * @swagger
  * /api/condicionesEspeciales/all:
  *   get:
  *     tags:

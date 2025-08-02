@@ -38,72 +38,82 @@ class albergueService {
 
     async getAlbergue(id) {
         try {
-            const result = await albergueService.getAlbergue(id);
+            const result = await albergueModel.getAlbergue(id);
             return result;
         } catch (error) {
-            console.error("Error en albergueService.getAlbergue: ", error);
+            console.error("Error en albergueModel.getAlbergue: ", error);
             throw error;
         }
     }
 
 
-    async deleteMethod(id) {
+    async deleteAlbergue(id) {
         try {
-            const result = await albergueService.deleteAlbergue(id);
+            const result = await albergueModel.deleteAlbergue(id);
             return result;
         } catch (error) {
-            console.error("Error en albergueService.deleteAlbergue: ", error);
+            console.error("Error en albergueModel.deleteAlbergue: ", error);
             throw error;
         }
 
     }
 
-    async getForIdMethod(id) {
+    async getForIdAlbergue(id) {
             try {
-                const result = await albergueService.getForIdMethod(id);
+                const result = await albergueModel.getForIdAlbergue(id);
                 return result;
             } catch (error) {
-                console.error("Error en albergueService.getForIdMethod: ", error);
+                console.error("Error en albergueModel.getForIdAlbergue: ", error);
                 throw error;
             }
         }
     
-    async getForNombreMethod(nombre) {
+    async getForNombreAlbergue(nombre) {
             try {
-                const result = await albergueService.getForNombreMethod(nombre);
+                const result = await albergueModel.getForNombreAlbergue(nombre);
                 return result;
             } catch (error) {
-                console.error("Error en albergueService.getForNombreMethod: ", error);
+                console.error("Error en albergueModel.getForNombreAlbergue: ", error);
                 throw error;
             }
         }
-    async getForDistritoMethod(distrito) {
+    async getForDistritoAlbergue(distrito) {
             try {
-                const result = await albergueService.getForDistritoMethod(distrito);
+                const result = await albergueModel.getForDistritoAlbergue(distrito);
                 return result;
             } catch (error) {
-                console.error("Error en albergueService.getForDistritoMethod: ", error);
+                console.error("Error en albergueModel.getForDistritoAlbergue: ", error);
                 throw error;
             }
         }
-    async getForCantonMethod(canton) {
+    async getForCantonAlbergue(canton) {
             try {
-                const result = await albergueService.getForCantonMethod(canton);
+                const result = await albergueModel.getForCantonAlbergue(canton);
                 return result;
             } catch (error) {
-                console.error("Error en albergueService.getForCantonMethod: ", error);
+                console.error("Error en albergueModel.getForCantonAlbergue: ", error);
                 throw error;
             }
         }
-    async getForProvinciaMethod(provincia) {
+    async getForProvinciaAlbergue(provincia) {
             try {
-                const result = await albergueService.getForProvinciaMethod(provincia);
+                const result = await albergueModel.getForProvinciaAlbergue(provincia);
                 return result;
             } catch (error) {
-                console.error("Error en albergueService.getForProvinciaMethod: ", error);
+                console.error("Error en albergueModel.getForProvinciaAlbergue: ", error);
                 throw error;
             }
         }
+
+    async getResumenAlberguesColor(Color){
+         try {
+            const result = await albergueService.getResumenAlberguesColor(Color);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueService.ResumenAlberguesColor: ", error);
+            throw error;
+        }
+    }
     
 
 

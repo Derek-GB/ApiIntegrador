@@ -69,12 +69,16 @@ class PersonasService {
 
     const postPersona = async (persona, indice, firma = null) => {
         const camposObligatorios = [
-            'tieneCondicionSalud', 'discapacidad', 'firma', 'idFamilia',
+            'tieneCondicionSalud', 'discapacidad', 'idFamilia',
             'nombre', 'primerApellido', 'segundoApellido',
             'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
             'parentesco', 'esJefeFamilia', 'fechaNacimiento',
             'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
         ];
+        if (persona.firma) {
+            persona.firma = null;
+            console.warn("Alguien intentó usar mal firma");
+        }
         confirmarObligatorios(persona, indice, camposObligatorios);
         if (firma) {
             const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
@@ -114,6 +118,30 @@ class PersonasService {
             return await personasModel.deletePersona(id);
         } catch (error) {
             handleError("deletePersona", error);
+        }
+    }
+
+    async getResumenPersonasDinamico(id = null) {
+        if (id === null) {
+            handleError("getResumenPersonasDinamico", new Error("El ID de la persona no puede ser nulo."), 400);
+        }
+        try {
+            const result = await personasModel.getResumenPersonasDinamico(id);
+            return result;
+        } catch (error) {
+            handleError("getResumenPersonasDinamico", error);
+        }
+    }
+
+    async getResumenDiscapacidad(id = null) {
+        if (id === null) {
+            handleError("getFamilia", new Error("El ID de la persona no puede ser nulo."), 400);
+        }
+        try {
+            const result = await personasModel.getResumenDiscapacidad(id);
+            return result;
+        } catch (error) {
+            handleError("getPersona", error);
         }
     }
 }

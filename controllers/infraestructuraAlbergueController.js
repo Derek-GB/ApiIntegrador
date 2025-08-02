@@ -73,7 +73,7 @@ const postInfraestructuraAlbergue = async (req = request, res = response) => {
             success: true,
             message: 'Infraestructura del albergue insertada correctamente',
             data: {
-                id: results[0][0].id,
+                id: data[0][0].id,
                 cocina,
                 duchas,
                 servicios_sanitarios,

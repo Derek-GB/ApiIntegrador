@@ -50,7 +50,6 @@ router.get('/all', usuarioController.getAllUsuarios);
 //Devolver datos desde mi API
 router.get('/id/:id',   usuarioController.getUsuario);
 
-
 /**
  * @swagger
  * /api/usuarios:
@@ -58,6 +57,7 @@ router.get('/id/:id',   usuarioController.getUsuario);
  *     tags:
  *       - Usuarios
  *     summary: Insertar un nuevo usuario
+ *     description: Inserta un nuevo usuario en el sistema utilizando el procedimiento almacenado `pa_InsertUsuario`.
  *     requestBody:
  *       required: true
  *       content:
@@ -68,11 +68,16 @@ router.get('/id/:id',   usuarioController.getUsuario);
  *               - nombreUsuario
  *               - correo
  *               - contrasenaHash
+ *               - rol
+ *               - activo
+ *               - idMunicipalidad
+ *               - identificacion
  *             properties:
  *               nombreUsuario:
  *                 type: string
  *               correo:
  *                 type: string
+ *                 format: email
  *               contrasenaHash:
  *                 type: string
  *               rol:
@@ -87,11 +92,10 @@ router.get('/id/:id',   usuarioController.getUsuario);
  *       201:
  *         description: Usuario insertado correctamente
  *       400:
- *         description: Datos faltantes
+ *         description: Solicitud incorrecta. Faltan datos obligatorios o hay un error de validación.
  *       500:
- *         description: Error al insertar usuario (Contactar equipo de API)
+ *         description: Error interno al insertar usuario (Contactar equipo de API).
  */
-//Registrar o insertar
 router.post('/',  usuarioController.postUsuario);
 
 // RUTAS PÚBLICAS (sin middleware de autenticación)

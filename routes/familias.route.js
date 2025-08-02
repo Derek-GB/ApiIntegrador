@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const familiasController = require('../controllers/familias');
+const familiaController = require('../controllers/familiaController');
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ const familiasController = require('../controllers/familias');
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/id/:id', familiasController.getFamilia);
+router.get('/id/:id', familiaController.getFamilia);
 
 /**
  * @swagger
@@ -40,7 +40,7 @@ router.get('/id/:id', familiasController.getFamilia);
  *       500:
  *         description: Error al obtener familias (Contactar equipo de API)
  */
-router.get('/all', familiasController.getAllFamilias);
+router.get('/all', familiaController.getAllFamilias);
 
 /**
  * @swagger
@@ -105,7 +105,7 @@ router.get('/all', familiasController.getAllFamilias);
  *       500:
  *         description: Error al insertar familia (Contactar equipo de API)
  */
-router.post('/', familiasController.postFamilia);
+router.post('/', familiaController.postFamilia);
 
 
 /**
@@ -149,7 +149,7 @@ router.post('/', familiasController.postFamilia);
  *       500:
  *         description: Error al actualizar familia (Contactar equipo de API)
  */
-router.put('/', familiasController.putFamilia);
+router.put('/', familiaController.putFamilia);
 
 /**
  * @swagger
@@ -167,7 +167,7 @@ router.put('/', familiasController.putFamilia);
  *         description: Error al obtener familia (Contactar equipo de API)
  */
 
-router.get('/vista/familiaConJefe', familiasController.getVistaFamiliaJefe);
+router.get('/vista/familiaConJefe', familiaController.getVistaFamiliaJefe);
 
 /**
  * @swagger
@@ -191,7 +191,7 @@ router.get('/vista/familiaConJefe', familiasController.getVistaFamiliaJefe);
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/consulta/familiaConJefe/:cedula', familiasController.getForCedulaJefe);
+router.get('/consulta/familiaConJefe/:cedula', familiaController.getForCedulaJefe);
 
 /**
  * @swagger
@@ -215,6 +215,6 @@ router.get('/consulta/familiaConJefe/:cedula', familiasController.getForCedulaJe
  *       500:
  *         description: Error al generar identificador (Contactar equipo de API)
  */
-router.get('/requerimiento/indentificador/:canton', familiasController.generarIdentificador);
+router.get('/requerimiento/indentificador/:canton', familiaController.generarIdentificador);
 
 module.exports = router;

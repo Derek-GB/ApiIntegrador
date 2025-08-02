@@ -7,7 +7,7 @@ const getAllAlbergues = async (req, res) => {
     const data = await albergueService.getAllAlbergues();
     res.status(200).json({
       success: true,
-      data,
+      data: data[0],
       message: "Albergues obtenidos exitosamente",
     });
   } catch (error) {
@@ -60,7 +60,7 @@ const deleteAlbergue = async (req = request, res = response) => {
     });
   }
   try {
-    await albergueService.deleteMethod(id);
+    await albergueService.deleteAlbergue(id);
     res.json({
       success: true,
       message: `Albergue con ID ${id} eliminado correctamente`,
@@ -75,7 +75,7 @@ const deleteAlbergue = async (req = request, res = response) => {
 };
 
 // Consultar albergue por ID (consulta extendida)
-const getForIdMethod = async (req = request, res = response) => {
+const getForIdAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({
@@ -84,7 +84,7 @@ const getForIdMethod = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await albergueService.getForIdMethod(id);
+    const data = await albergueService.getForIdAlbergue(id);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
@@ -106,7 +106,7 @@ const getForIdMethod = async (req = request, res = response) => {
 };
 
 // Consultar albergue por nombre
-const getForNombreMethod = async (req = request, res = response) => {
+const getForNombreAlbergue = async (req = request, res = response) => {
   const { nombre } = req.params;
   if (!nombre) {
     return res.status(400).json({
@@ -115,7 +115,7 @@ const getForNombreMethod = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await albergueService.getForNombreMethod(nombre);
+    const data = await albergueService.getForNombreAlbergue(nombre);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
@@ -137,7 +137,7 @@ const getForNombreMethod = async (req = request, res = response) => {
 };
 
 // Consultar albergue por distrito
-const getForDistritoMethod = async (req = request, res = response) => {
+const getForDistritoAlbergue = async (req = request, res = response) => {
   const { distrito } = req.params;
   if (!distrito) {
     return res.status(400).json({
@@ -146,7 +146,7 @@ const getForDistritoMethod = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await albergueService.getForDistritoMethod(distrito);
+    const data = await albergueService.getForDistritoAlbergue(distrito);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
@@ -168,7 +168,7 @@ const getForDistritoMethod = async (req = request, res = response) => {
 };
 
 // Consultar albergue por cantón
-const getForCantonMethod = async (req = request, res = response) => {
+const getForCantonAlbergue = async (req = request, res = response) => {
   const { canton } = req.params;
   if (!canton) {
     return res.status(400).json({
@@ -177,7 +177,7 @@ const getForCantonMethod = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await albergueService.getForCantonMethod(canton);
+    const data = await albergueService.getForCantonAlbergue(canton);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
@@ -199,7 +199,7 @@ const getForCantonMethod = async (req = request, res = response) => {
 };
 
 // Consultar albergue por provincia
-const getForProvinciaMethod = async (req = request, res = response) => {
+const getForProvinciaAlbergue = async (req = request, res = response) => {
   const { provincia } = req.params;
   if (!provincia) {
     return res.status(400).json({
@@ -208,7 +208,7 @@ const getForProvinciaMethod = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await albergueService.getForProvinciaMethod(provincia);
+    const data = await albergueService.getForProvinciaAlbergue(provincia);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
@@ -233,20 +233,51 @@ const getForProvinciaMethod = async (req = request, res = response) => {
  * Ejemplo de método POST (crear albergue)
  * Debes implementar el método en tu modelo y service para que funcione.
  */
-const createAlbergue = async (req = request, res = response) => {
+// const createAlbergue = async (req = request, res = response) => {
+//   try {
+//     const albergueData = req.body;
+//     // Aquí llamas a tu service/model para insertar el albergue
+//     const result = await albergueService.createAlbergue(albergueData);
+//     res.status(201).json({
+//       success: true,
+//       message: "Albergue creado correctamente",
+//       data: result,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error al crear el albergue",
+//       error: error.message,
+//     });
+//   }
+// };
+
+
+const getResumenAlberguesColor = async (req = request, res = response) => {
+  const { Color } = req.params;
+  if (!Color) {
+    return res.status(400).json({
+      success: false,
+      message: "Color del albergue es requerido",
+    });
+  }
   try {
-    const albergueData = req.body;
-    // Aquí llamas a tu service/model para insertar el albergue
-    const result = await albergueService.createAlbergue(albergueData);
-    res.status(201).json({
+    const data = await albergueService.getResumenAlberguesColor(Color);
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Color de albergue no encontrado",
+      });
+    }
+    res.json({
       success: true,
-      message: "Albergue creado correctamente",
-      data: result,
+      data,
+      message: "Color de albergue obtenido exitosamente",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error al crear el albergue",
+      message: "Error al obtener el albergue",
       error: error.message,
     });
   }
@@ -410,6 +441,8 @@ const postAlbergue = async (req, res) => {
 
 
 
+
+
 // const putMethod = (req = request, res = response) => {
 //   const { id } = req.body;
 //   const {
@@ -476,15 +509,13 @@ module.exports = {
   getAllAlbergues,
   getAlbergue,
   deleteAlbergue,
-  getForIdMethod,
-  getForNombreMethod,
-  getForDistritoMethod,
-  getForCantonMethod,
-  getForProvinciaMethod,
-  createAlbergue,
-  // updateAlbergue,
-  // putMethod, // Descomentar si se implementa el método PUT
-
+  getForIdAlbergue,
+  getForNombreAlbergue,
+  getForDistritoAlbergue,
+  getForCantonAlbergue,
+  getForProvinciaAlbergue,
+  getResumenAlberguesColor,
   postAlbergue,
-  // updateAlbergue,
+  
+  
 };

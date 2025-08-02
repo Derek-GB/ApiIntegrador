@@ -12,8 +12,7 @@ class productoModel {
         }
     }
 
-    async getProducto(producto) {
-        const { id } = producto;
+    async getProducto(id) {
         try {
             const result = await db.query('CALL pa_SelectProducto(?);', [id]);
             return result;
@@ -23,7 +22,7 @@ class productoModel {
         }
     }
 
-    async postMethod(producto) {
+    async postProducto(producto) {
         const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = producto;
         try {
             return await db.query('CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);', 
@@ -34,8 +33,7 @@ class productoModel {
         }
     }
 
-    async deleteProducto(producto) {
-        const { id } = producto;
+    async deleteProducto(id) {
         try {
             const result = await db.query('CALL pa_DeleteProducto(?);', [id]);
             return result;

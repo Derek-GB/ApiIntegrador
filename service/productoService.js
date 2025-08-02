@@ -1,5 +1,20 @@
 const productoModel = require('../models/productoModel');
 
+const confirmarObligatorios = (objeto, obligatorios) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError("postProducto", new Error(`Falta el campo obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en productoService. " + lugar + ": ", error.message);
+    throw error;
+}
+
 class productoService {
 
     async getAllProducto() {
@@ -12,12 +27,12 @@ class productoService {
         }
     }
 
-    async getProducto(productos) {
-        if (!producto.id) {
+    async getProducto(id) {
+        if (!id) {
             throw new Error('ID de producto es requerido');
         }
         try {
-            const result = await productoModel.getProducto(producto);
+            const result = await productoModel.getProducto(id);
             if (!result || !result[0] || result[0].length === 0) {
                 throw new Error('Producto no encontrado');
             }
@@ -29,9 +44,7 @@ class productoService {
     }
 
     async postProducto(producto) {
-        if (!producto.codigoProducto || !producto.nombre || !producto.cantidad) {
-            throw new Error('Faltan datos: codigoProducto, nombre, cantidad')
-        }
+        confirmarObligatorios(producto, ["codigoProducto", "nombre", "cantidad"]);
         try {
             const result = await productoModel.postProducto(producto);
             return result;
@@ -41,12 +54,12 @@ class productoService {
         }
     }
 
-    async deleteProducto(producto) {
-        if (!producto.id) {
+    async deleteProducto(id) {
+        if (!id) {
             throw new Error('ID de producto es requerido');
         }
         try {
-            const result = await productoModel.deleteProducto(producto);
+            const result = await productoModel.deleteProducto(id);
             if (result[0].affectedRows === 0) {
                 throw new Error('Producto no encontrado o ya fue eliminado');
             }

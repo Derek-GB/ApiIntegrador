@@ -104,7 +104,7 @@ class albergueModel {
         }
     }
 
-    async getForIdMethod(id) {
+    async getForIdAlbergue(id) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorId(?);', [id])
         } catch (error) {
@@ -113,7 +113,7 @@ class albergueModel {
         }
     }
 
-    async getForNombreMethod(nombre) {
+    async getForNombreAlbergue(nombre) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorNombre(?);', [nombre])
         } catch (error) {
@@ -122,7 +122,7 @@ class albergueModel {
         }
     }
 
-    async getForDistritoMethod(distrito) {
+    async getForDistritoAlbergue(distrito) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorDistrito(?);', [distrito])
         } catch (error) {
@@ -131,7 +131,7 @@ class albergueModel {
         }
     }
 
-    async getForCantonMethod(canton) {
+    async getForCantonAlbergue(canton) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorCanton(?);', [canton])
         } catch (error) {
@@ -140,7 +140,7 @@ class albergueModel {
         }
     }
 
-    async getForProvinciaMethod(provincia) {
+    async getForProvinciaAlbergue(provincia) {
         try {
             return await db.query('CALL pa_ConsultarAlberguePorProvincia(?);', [provincia])
         } catch (error) {

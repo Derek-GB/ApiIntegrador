@@ -87,7 +87,7 @@ class AuthController {
         Token: token,
         usuario: {
             id: usuarioEncontrado.idUsuario,
-            nombreUsuario: usuarioEncontrado.nombreUsuario || usuarioEncontrado.nombre,
+            nombreUsuario: usuarioEncontrado.nombreUsuario,
             correo: usuarioEncontrado.correo,
             rol: usuarioEncontrado.rol,
             idMunicipalidad: usuarioEncontrado.idMunicipalidad

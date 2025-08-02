@@ -46,16 +46,16 @@ class AuthController {
       );
 
       if (!contrasenaValida) {
-        return res.status(401).json([
+        return res.status(401).json({
             success: false,
             error: 'Credenciales inválidas'
-        ]);
+        });
       }
       if (!usuarioEncontrado.activo) {
-        return res.status(401).json([
+        return res.status(401).json({
             success: false,
             error: 'Cuenta desactivada'
-        ]);
+        });
       }
 
       const tokenpayload = {
@@ -117,10 +117,10 @@ class AuthController {
             path: '/'
         });
 
-        res.status(200).json([
+        res.status(200).json({
             success: true,
             message: 'Sesión cerrada exitosamente'
-        ]);
+      });
 
     } catch (error) {
         console.error('Error en logout:', error);

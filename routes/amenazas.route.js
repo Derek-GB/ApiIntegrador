@@ -1,13 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/amenazas');
+const amenazasController = require('../controllers/amenazasController');
 
 /**
  * @swagger
@@ -31,7 +24,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', amenazasController.getAmenaza);
 
 /**
  * @swagger
@@ -46,7 +39,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener las amenazas (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', amenazasController.getAllAmenazas);
 
 /**
  * @swagger
@@ -129,7 +122,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar amenaza
  */
-router.post('/', postMethod);
+router.post('/', amenazasController.postAmenaza);
 
 /**
  * @swagger
@@ -169,7 +162,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al insertar amenaza (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putAmenaza);
 
 /**
  * @swagger
@@ -193,6 +186,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar la amenaza (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', amenazasController.deleteAmenaza);
 
 module.exports = router;

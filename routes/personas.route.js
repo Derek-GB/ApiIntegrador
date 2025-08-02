@@ -1,14 +1,8 @@
 const { Router } = require('express');
+const upload = require('../middleware/uploadMiddleware');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod
-} = require('../controllers/personas');
-
-const {postMethod} = require('../controllers/formularioPersonas');
+const personasController = require('../controllers/personasController');
 
 /**
  * @swagger
@@ -23,7 +17,7 @@ const {postMethod} = require('../controllers/formularioPersonas');
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', personasController.getAllPersonas);
 
 /**
  * @swagger
@@ -47,7 +41,33 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', personasController.getPersona);
+
+/**
+ * @swagger
+ * /api/condicionesEspeciales/id/{id}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de discapacidad por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de discapacidad
+ *     responses:
+ *       200:
+ *         description: Resumen de discapacidad obtenido exitosamente
+ *       400:
+ *          description: Se espera un id de discapacidad
+ *       404:
+ *         description: Discapacidad no encontrada
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.get('/id/:id', personasController.getResumenDiscapacidad);
 
 // /**
 //  * @swagger
@@ -165,10 +185,10 @@ router.get('/id/:id', getMethod);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: array
- *             minItems: 1
+ *             minItems: 2
  *             items:
  *               type: object
  *               required:
@@ -222,8 +242,8 @@ router.get('/id/:id', getMethod);
  *                   nullable: true
  *                   example: "Bribri"
  *                 firma:
- *                   type: string
- *                   format: binary
+ *                   type: file
+ *                   format: image/jpeg
  *                   description: Firma digital en base64 o archivo binario
  *                 idFamilia:
  *                   type: integer
@@ -291,8 +311,12 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error en el registro de todas las personas
  */
-router.post("/", postMethod);
+router.post("/", upload.single("firma"), personasController.postPersonas);
 
+// router.post("/prueba", upload.single("firma"), (req, res) => {
+//   // Aquí puedes manejar la solicitud de prueba
+//   res.json({ message: "Solicitud de prueba recibida", file: req.file });
+// });
 
 /**
  * @swagger
@@ -361,7 +385,7 @@ router.post("/", postMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', personasController.putPersona);
 
 /**
  * @swagger
@@ -383,6 +407,35 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar persona (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', personasController.deletePersona);
+
+
+/**
+ * @swagger
+ * /api/personas/id/{id}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener persona por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de la persona
+ *     responses:
+ *       200:
+ *         description: Persona encontrada
+ *       404:
+ *         description: Persona no encontrada
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+
+router.get('/id/:id', personasController.getResumenPersonasDinamico);
+
+
+
 
 module.exports = router;

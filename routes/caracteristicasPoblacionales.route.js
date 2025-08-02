@@ -1,13 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/caracteristicasPoblacionales');
+const caracteristicasPoblacionalesController = require('../controllers/caracteristicasPoblacionalesController');
 
 /**
  * @swagger
@@ -31,7 +24,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id',   caracteristicasPoblacionalesController.getcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -46,7 +39,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los datos (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', caracteristicasPoblacionalesController.getAllcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -80,7 +73,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar características poblacionales (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', caracteristicasPoblacionalesController.postcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -117,7 +110,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putcaracteristicasPoblacionales);
 
 /**
  * @swagger
@@ -141,6 +134,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', caracteristicasPoblacionalesController.deletecaracteristicasPoblacionales);
 
 module.exports = router;

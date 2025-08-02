@@ -1,17 +1,13 @@
 const { Router } = require('express');
 const router = Router();
+const categoriaConsumibleController = require('../controllers/categoriaConsumiblesController');
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/categoriaConsumibles');
+
+
 
 /**
  * @swagger
- * /api/categoriaConsumibles/id/{id}:
+ * /api/categoriaConsumibleControllerControllers/id/{id}:
  *   get:
  *     tags:
  *       - Categorías de Consumibles
@@ -31,11 +27,11 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', categoriaConsumibleController.getCategoriaConsumible);
 
 /**
  * @swagger
- * /api/categoriaConsumibles/all:
+ * /api/categoriaConsumibleControllerControllers/all:
  *   get:
  *     tags:
  *       - Categorías de Consumibles
@@ -46,11 +42,11 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los datos (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', categoriaConsumibleController.getAllCategoriaConsumibles);
 
 /**
  * @swagger
- * /api/categoriaConsumible:
+ * /api/categoriaConsumibleControllerController:
  *   post:
  *     tags:
  *       - Categorías de Consumibles
@@ -77,11 +73,11 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar categoría de consumible (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', categoriaConsumibleController.postCategoriaConsumible);
 
 /**
  * @swagger
- * /api/categoriaConsumibles:
+ * /api/categoriaConsumibleControllerControllers:
  *   put:
  *     tags:
  *       - Categorías de Consumibles
@@ -111,11 +107,11 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putcategoriaConsumibleControllerController);
 
 /**
  * @swagger
- * /api/categoriaConsumibles/id/{id}:
+ * /api/categoriaConsumibleControllerControllers/id/{id}:
  *   delete:
  *     tags:
  *       - Categorías de Consumibles
@@ -135,6 +131,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', categoriaConsumibleController.deleteCategoriaConsumible);
 
 module.exports = router;

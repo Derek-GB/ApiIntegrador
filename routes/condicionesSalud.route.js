@@ -1,13 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/condicionesSalud');
+const condicionSaludController = require('../controllers/condicionesSaludController');
 
 /**
  * @swagger
@@ -31,7 +24,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', condicionSaludController.getCondicionSalud);
 
 /**
  * @swagger
@@ -46,7 +39,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los datos (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', condicionSaludController.getAllCondicionesSalud);
 
 /**
  * @swagger
@@ -77,7 +70,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar condición de salud (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', condicionSaludController.postCondicionSalud);
 
 /**
  * @swagger
@@ -111,7 +104,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putMethod);
 
 /**
  * @swagger
@@ -135,6 +128,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', condicionSaludController.deleteCondicionSalud);
 
 module.exports = router;

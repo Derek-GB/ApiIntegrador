@@ -1,13 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/inventario');
+const inventarioController = require('../controllers/inventarioController');
 
 /**
  * @swagger
@@ -22,7 +16,7 @@ const {
  *       500:
  *         description: Error al obtener el inventario (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', inventarioController.getAllInventario);
 
 /**
  * @swagger
@@ -46,7 +40,33 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', inventarioController.getInventario);
+
+/**
+ * @swagger
+ * /api/condicionesEspeciales/id/{id}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de suministros por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de suministros
+ *     responses:
+ *       200:
+ *         description: Resumen de suministro obtenido exitosamente
+ *       400:
+ *          description: Se espera un id de suministro
+ *       404:
+ *         description: Suministro no encontrada
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.get('/id/:id', inventarioController.getResumenSuministros);
 
 /**
  * @swagger
@@ -90,7 +110,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al insertar inventario (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', inventarioController.postInventario);
 
 /**
  * @swagger
@@ -137,7 +157,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar inventario (Contactar equipo de API)
  */
-router.put('/', putMethod);
+router.put('/', inventarioController.putInventario);
 
 /**
  * @swagger
@@ -161,6 +181,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar el inventario (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', inventarioController.deleteInventario);
 
 module.exports = router;

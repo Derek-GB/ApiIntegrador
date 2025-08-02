@@ -46,7 +46,7 @@ class usuarioModel {
     async validarCorreoMethod(usuario) {
         const { correo } = usuario;
         try {
-            const result = await db.query('CALL pa_ValidarCorreoUsuario(?);', [correo]);
+            const result = await db.query('CALL pa_ValidarCorreo(?);', [correo]);
             return result;
         } catch (error) {
             console.error("Error en validarCorreoMethod: ", error);
@@ -57,7 +57,7 @@ class usuarioModel {
     async putConstrasenaMethod(usuario) {
         const { id, contrasenaHash } = usuario;
         try {
-            const result = await db.query('CALL pa_UpdateContrasenaUsuario(?, ?);', [id, contrasenaHash]);
+            const result = await db.query('CALL pa_UpdateUsuarioContrasena(?, ?);', [id, contrasenaHash]);
             return result;
         } catch (error) {
             console.error("Error en putContrasenaMethod: ", error);

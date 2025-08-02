@@ -20,16 +20,17 @@ class AuthController {
           error: "Contraseña es requeridos",
         });
       }
-      if (!correo && !usuario) {
+      if (!usuario && !correo) {
         return res.status(400).json({
           success: false,
           error: "Correo o nombre de usuario es requeridos",
         });
       }
 
-      const identificador = correo || usuario;
-      const resultadoUsuario = await usuarioModel.validarCorreoMethod({
-        correo: identificador,
+      const identificador = usuario || correo;
+      const resultadoUsuario = await usuarioModel.loginUsuario({
+        usuario: identificador,
+        contrasena
       });
 
       if (!resultadoUsuario || resultadoUsuario.length === 0) {
@@ -40,26 +41,20 @@ class AuthController {
       }
 
       const usuarioEncontrado = resultadoUsuario[0];
-      const contrasenaValida = await bcrypt.compare(
-        contrasena,
-        usuarioEncontrado.contrasenaHash
-      );
+      //const contrasenaValida = await bcrypt.compare(
+      //  contrasena,
+      //  usuarioEncontrado.contrasenaHash || usuarioEncontrado.contrasena
+      //);
 
-      if (!contrasenaValida) {
-        return res.status(401).json({
-            success: false,
-            error: 'Credenciales inválidas'
-        });
-      }
-      if (!usuarioEncontrado.activo) {
-        return res.status(401).json({
-            success: false,
-            error: 'Cuenta desactivada'
-        });
-      }
+      //if (!usuarioEncontrado.activo) {
+      //  return res.status(401).json({
+      //      success: false,
+      //      error: 'Cuenta desactivada'
+      //  });
+      //}
 
       const tokenpayload = {
-        id: usuarioEncontrado.id,
+        id: usuarioEncontrado.idUsuario,
         correo: usuarioEncontrado.correo,
         rol: usuarioEncontrado.rol,
         idMunicipalidad: usuarioEncontrado.idMunicipalidad
@@ -91,7 +86,7 @@ class AuthController {
         message: 'Login exitoso',
         accessToken: token,
         usuario: {
-            id: usuarioEncontrado.id,
+            id: usuarioEncontrado.idUsuario,
             nombreUsuario: usuarioEncontrado.nombreUsuario || usuarioEncontrado.nombre,
             correo: usuarioEncontrado.correo,
             rol: usuarioEncontrado.rol,

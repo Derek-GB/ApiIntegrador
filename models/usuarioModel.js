@@ -67,9 +67,9 @@ class usuarioModel {
 
     //ahora con el pa_LoginUsuario
     async loginUsuario(usuario) {
-        const { correo, usuario: nombreUsuario, contrasena } = usuario;
+        const { usuario: nombreUsuario, contrasena } = usuario;
         try {
-            const result = await db.query('CALL pa_LoginUsuario(?, ?, ?);', [correo, nombreUsuario, contrasena]);
+            const result = await db.query('CALL pa_LoginUsuario(?, ?);', [nombreUsuario, contrasena]);
             return result;
         } catch (error) {
             console.error("Error en loginUsuario: ", error);

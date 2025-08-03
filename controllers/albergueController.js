@@ -93,7 +93,7 @@ const getForIdAlbergue = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0],
       message: "Albergue obtenido exitosamente",
     });
   } catch (error) {
@@ -124,7 +124,7 @@ const getForNombreAlbergue = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0],
       message: "Albergue obtenido exitosamente",
     });
   } catch (error) {
@@ -155,7 +155,7 @@ const getForDistritoAlbergue = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0],
       message: "Albergue obtenido exitosamente",
     });
   } catch (error) {
@@ -217,7 +217,7 @@ const getForProvinciaAlbergue = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0],
       message: "Albergue obtenido exitosamente",
     });
   } catch (error) {
@@ -271,7 +271,7 @@ const getResumenAlberguesColor = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0],
       message: "Color de albergue obtenido exitosamente",
     });
   } catch (error) {

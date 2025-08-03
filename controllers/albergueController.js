@@ -38,7 +38,7 @@ const getAlbergue = async (req = request, res = response) => {
     }
     res.json({
       success: true,
-      data,
+      data: data[0][0],
       message: "Albergue obtenido exitosamente",
     });
   } catch (error) {
@@ -516,6 +516,4 @@ module.exports = {
   getForProvinciaAlbergue,
   getResumenAlberguesColor,
   postAlbergue,
-  
-  
 };

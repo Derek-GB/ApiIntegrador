@@ -284,7 +284,7 @@ router.delete('/id/:id', albergueController.deleteAlbergue);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-// router.get('/consulta/id/:id', albergueController.);
+router.get('/consulta/id/:id', albergueController.getForIdAlbergue);
 
 /**
  * @swagger

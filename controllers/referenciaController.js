@@ -58,7 +58,7 @@ const postReferencia = async (req = request, res = response) => {
     idUsuarioCreacion = idUsuarioCreacion ?? null,
   } = req.body;
   try {
-    const data = await referenciaService.postReferencia(idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion);
+    const data = await referenciaService.postReferencia({idFamilia, tipoAyuda, descripcion, fechaEntrega, responsable, idUsuarioCreacion});
     res.json({
       success: true,
       message: "Referencia insertada correctamente",

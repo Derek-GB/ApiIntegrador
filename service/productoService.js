@@ -60,9 +60,6 @@ class productoService {
         }
         try {
             const result = await productoModel.deleteProducto(id);
-            if (result[0].affectedRows === 0) {
-                throw new Error('Producto no encontrado o ya fue eliminado');
-            }
             return result;
         } catch (error) {
             console.error("Error en productoService.deleteProducto: ", error);

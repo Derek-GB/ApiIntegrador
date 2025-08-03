@@ -118,7 +118,7 @@ const validarCorreoMethod = async (req, res) => {
     try {
         const data = await usuarioService.validarCorreoMethod(correo);
         if (data[0][0]?.existe === 1) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
                 message: 'El correo ya está en uso'
             });

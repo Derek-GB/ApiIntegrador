@@ -42,8 +42,7 @@ class usuarioModel {
 
     }
 
-    async validarCorreoMethod(usuario) {
-        const { correo } = usuario;
+    async validarCorreoMethod(correo) {
         try {
             const result = await db.query('CALL pa_ValidarCorreo(?);', [correo]);
             return result;

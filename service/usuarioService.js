@@ -57,9 +57,9 @@ class usuarioService {
 
     }
 
-    async validarCorreoMethod(usuario) {
+    async validarCorreoMethod(correo) {
         try {
-            const result = await usuarioModel.validarCorreoMethod(usuario);
+            const result = await usuarioModel.validarCorreoMethod(correo);
             return result;
         } catch (error) {
             console.error("Error en usuarioService.validarCorreoMethod: ", error);

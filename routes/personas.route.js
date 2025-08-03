@@ -311,6 +311,101 @@ router.get('/id/:id', personasController.getResumenDiscapacidad);
  *       500:
  *         description: Error en el registro de todas las personas
  */
+
+/**
+ * @swagger
+ * /api/personas:
+ *   post:
+ *     tags:
+ *       - Personas
+ *     summary: Insertar múltiples personas con una firma común
+ *     description: Inserta una o más personas con sus datos personales. La firma se aplica por igual a todas.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - personas
+ *               - firma
+ *             properties:
+ *               personas:
+ *                 type: string
+ *                 format: binary
+ *                 description: Array JSON de objetos persona serializado como texto
+ *                 example: '[
+ *   {
+ *     "tieneCondicionSalud": true,
+ *     "descripcionCondicionSalud": "Hipertensión",
+ *     "discapacidad": false,
+ *     "tipoDiscapacidad": null,
+ *     "subtipoDiscapacidad": null,
+ *     "paisOrigen": "Nicaragua",
+ *     "autoidentificacionCultural": "Afrodescendiente",
+ *     "puebloIndigena": "Bribri",
+ *     "firma": "firma.jpg",
+ *     "idFamilia": 1,
+ *     "nombre": "Juan",
+ *     "primerApellido": "Pérez",
+ *     "segundoApellido": "Rodríguez",
+ *     "tipoIdentificacion": "Cédula",
+ *     "numeroIdentificacion": "123456789",
+ *     "nacionalidad": "Costarricense",
+ *     "parentesco": "Padre",
+ *     "esJefeFamilia": true,
+ *     "fechaNacimiento": "1980-05-15",
+ *     "genero": "Masculino",
+ *     "sexo": "Masculino",
+ *     "telefono": "88889999",
+ *     "contactoEmergencia": "Ana María 87001122",
+ *     "observaciones": "Usa medicamentos diariamente",
+ *     "estaACargoMenor": false,
+ *     "idUsuarioCreacion": 1
+ *   },
+ *   {
+ *     "tieneCondicionSalud": false,
+ *     "descripcionCondicionSalud": null,
+ *     "discapacidad": true,
+ *     "tipoDiscapacidad": "Motora",
+ *     "subtipoDiscapacidad": "Parálisis parcial",
+ *     "paisOrigen": null,
+ *     "autoidentificacionCultural": null,
+ *     "puebloIndigena": null,
+ *     "firma": "firma.jpg",
+ *     "idFamilia": 1,
+ *     "nombre": "María",
+ *     "primerApellido": "González",
+ *     "segundoApellido": "López",
+ *     "tipoIdentificacion": "DIMEX",
+ *     "numeroIdentificacion": "987654321",
+ *     "nacionalidad": "Nicaragüense",
+ *     "parentesco": "Madre",
+ *     "esJefeFamilia": false,
+ *     "fechaNacimiento": "1985-08-25",
+ *     "genero": "Femenino",
+ *     "sexo": "Femenino",
+ *     "telefono": "89998888",
+ *     "contactoEmergencia": null,
+ *     "observaciones": null,
+ *     "estaACargoMenor": true,
+ *     "idUsuarioCreacion": 1
+ *   }
+ * ]'
+ *               firma:
+ *                 type: string
+ *                 format: binary
+ *                 description: Archivo de imagen de firma (JPEG, PNG, etc.)
+ *     responses:
+ *       201:
+ *         description: Todas las personas fueron registradas correctamente
+ *       207:
+ *         description: Algunas personas se registraron con éxito, otras fallaron
+ *       400:
+ *         description: Datos mal formateados
+ *       500:
+ *         description: Error interno del servidor
+ */
 router.post("/", upload.single("firma"), personasController.postPersonas);
 
 // router.post("/prueba", upload.single("firma"), (req, res) => {

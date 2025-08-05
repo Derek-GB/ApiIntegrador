@@ -44,8 +44,7 @@ class condicionEspecial {
         }
     }
 
-    async getResumenCondicionesEspeciales(especiales) {
-        const { id } = especiales;
+    async getResumenCondicionesEspeciales(id) {
         try {
             return await db.query('CALL pa_ResumenCondicionesEspeciales(?);', [id])
         }catch(error){

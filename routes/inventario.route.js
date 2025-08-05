@@ -66,7 +66,7 @@ router.get('/id/:id', inventarioController.getInventario);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', inventarioController.getResumenSuministros);
+router.get('/suministro/id/:id', inventarioController.getResumenSuministros);
 
 /**
  * @swagger

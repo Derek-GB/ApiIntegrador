@@ -96,6 +96,7 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
     res.json({
       success: true,
       message: `Condicion especial con ID ${id} eliminada correctamente`,
+      data: data[0][0],
     });
   } catch (error) {
     console.error("Error al eliminar condicion especial:", error);
@@ -109,22 +110,22 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
 const getResumenCondicionesEspeciales = async (req = request, res = response) => {
   const { id } = req.params;
   try {
-    const result = await condicionEspecialService.getResumenCondicionesEspeciales(id);
-    res.json({
-      success: true,
-      data: result[0][0],
-    });
-  } catch (error) {
-    console.error("Error en getCondicionEspecial:", error);
-    if (error.message === "Condicion especial no encontrado") {
+    const data = await condicionEspecialService.getResumenCondicionesEspeciales(id);
+    if (data[0].length === 0) {
       return res.status(404).json({
         success: false,
         message: error.message,
       });
     }
+    res.json({
+      success: true,
+      data: data[0][0],
+    });
+  } catch (error) {
+    console.error("Error en getCondicionEspecial:", error);
     res.status(500).json({
       success: false,
-      error: "Error al obtener el condicion especial",
+      error: "Error al obtener la condicion especial",
     });
   }
 };

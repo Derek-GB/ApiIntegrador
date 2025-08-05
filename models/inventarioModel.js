@@ -43,9 +43,9 @@ class inventarioModel {
 
     async getResumenSuministros(id) {
         try {
-            return await db.query('CALL pa_SelectInventario(?);', [id])
+            return await db.query('CALL pa_ResumenSuministros(?);', [id])
         }catch(error){
-            console.error("Error en getInventario: ", error);
+            console.error("Error en getResumenSuministros: ", error);
             throw error;
         }
     }

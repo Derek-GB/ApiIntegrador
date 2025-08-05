@@ -4,7 +4,7 @@ const condicionEspecialController = require('../controllers/condicionEspecialCon
 
 /**
  * @swagger
- * /api/condicionesEspeciales/id/{id}:
+ * /api/condicionesEspeciales/resumen/id/{id}:
  *   get:
  *     tags:
  *       - Condiciones Especiales
@@ -24,7 +24,7 @@ const condicionEspecialController = require('../controllers/condicionEspecialCon
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
+router.get('/resumen/id/:id', condicionEspecialController.getCondicionEspecial);
 
 /**
  * @swagger

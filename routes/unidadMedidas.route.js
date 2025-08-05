@@ -1,14 +1,25 @@
 const {Router}=require('express');
 
+const unidadMedidaController=require('../controllers/unidadMedidaController');
+
 const router=Router();
 
 
-const {
-  getMethod,
-  postMethod,
-  putMethod,
-  getAllMethod,
-  deleteMethod}=require('../controllers/unidadMedidas');
+  /**
+ * @swagger
+ * /api/unidades:
+ *   get:
+ *     tags:
+ *       - Unidades de Medida
+ *     summary: Obtener todas las unidades de medida
+ *     responses:
+ *       200:
+ *         description: Lista de unidades de medida obtenida correctamente
+ *       500:
+ *         description: Error al obtener unidades de medida (Contactar equipo de API)
+ */
+//Actualizar
+router.get('/all',   unidadMedidaController.getAllunidadMedidas);
 
   /**
  * @swagger
@@ -33,7 +44,7 @@ const {
  *         description: Error al obtener unidad de medida (Contactar equipo de API)
  */
 //Devolver datos desde mi API
-router.get('/id/:id',   getMethod);
+router.get('/id/:id',  unidadMedidaController.getunidadMedida); 
 
 /**
  * @swagger
@@ -65,7 +76,7 @@ router.get('/id/:id',   getMethod);
  *         description: Error al insertar unidad de medida (Contactar equipo de API)
  */
 //Registrar o insertar
-router.post('/',  postMethod);
+router.post('/',  unidadMedidaController.postUnidadMedida);
 
 
 /**
@@ -101,7 +112,7 @@ router.post('/',  postMethod);
  *         description: Error al actualizar unidad de medida (Contactar equipo de API)
  */
 //Registrar o insertar
-router.put('/',  putMethod);
+// router.put('/',  putMethod);
 
 /**
  * @swagger
@@ -126,23 +137,9 @@ router.put('/',  putMethod);
  *         description: Error al eliminar unidad de medida (Contactar equipo de API)
  */
 //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', unidadMedidaController.deleteUnidadMedida);
 
-/**
- * @swagger
- * /api/unidades:
- *   get:
- *     tags:
- *       - Unidades de Medida
- *     summary: Obtener todas las unidades de medida
- *     responses:
- *       200:
- *         description: Lista de unidades de medida obtenida correctamente
- *       500:
- *         description: Error al obtener unidades de medida (Contactar equipo de API)
- */
-//Actualizar
-router.get('/all',   getAllMethod);
+
 
 
 module.exports=router;

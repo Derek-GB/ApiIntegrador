@@ -1,16 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod,
-  getVistaFamiliaConJefeMethod,
-  getForCedulaJefeMethod,
-} = require('../controllers/familias');
-
-const { postMethod } = require('../controllers/formularioFamilias');
+const familiaController = require('../controllers/familiaController');
 
 /**
  * @swagger
@@ -34,7 +25,7 @@ const { postMethod } = require('../controllers/formularioFamilias');
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', familiaController.getFamilia);
 
 /**
  * @swagger
@@ -49,7 +40,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener familias (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', familiaController.getAllFamilias);
 
 /**
  * @swagger
@@ -114,7 +105,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar familia (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', familiaController.postFamilia);
 
 
 /**
@@ -158,31 +149,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar familia (Contactar equipo de API)
  */
-router.put('/', putMethod);
-
-/**
- * @swagger
- * /api/familias/id/{id}:
- *   delete:
- *     tags:
- *       - Familias
- *     summary: Eliminar una familia por ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la familia a eliminar
- *     responses:
- *       200:
- *         description: Familia eliminada correctamente
- *       400:
- *         description: ID no proporcionado
- *       500:
- *         description: Error al eliminar familia (Contactar equipo de API)
- */
-router.delete('/id/:id', deleteMethod);
+router.put('/', familiaController.putFamilia);
 
 /**
  * @swagger
@@ -200,7 +167,7 @@ router.delete('/id/:id', deleteMethod);
  *         description: Error al obtener familia (Contactar equipo de API)
  */
 
-router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
+router.get('/vista/familiaConJefe', familiaController.getVistaFamiliaJefe);
 
 /**
  * @swagger
@@ -224,6 +191,30 @@ router.get('/vista/familiaConJefe', getVistaFamiliaConJefeMethod);
  *       500:
  *         description: Error al obtener familia (Contactar equipo de API)
  */
-router.get('/consulta/familiaConJefe/:cedula', getForCedulaJefeMethod);
+router.get('/consulta/familiaConJefe/:cedula', familiaController.getForCedulaJefe);
+
+/**
+ * @swagger
+ * /api/familias/requerimiento/indentificador/{canton}:
+ *   get:
+ *     tags:
+ *       - Familias
+ *     summary: Generar identificador de familia por cantón
+ *     parameters:
+ *       - in: path
+ *         name: canton
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cantón para generar el identificador
+ *     responses:
+ *       200:
+ *         description: Identificador generado exitosamente
+ *       400:
+ *         description: Error en los parámetros de entrada
+ *       500:
+ *         description: Error al generar identificador (Contactar equipo de API)
+ */
+router.get('/requerimiento/indentificador/:canton', familiaController.generarIdentificador);
 
 module.exports = router;

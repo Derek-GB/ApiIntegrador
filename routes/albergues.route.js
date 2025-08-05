@@ -1,22 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  putMethod,
-  deleteMethod,
-  getForIdMethod,
-  getForNombreMethod,
-  getForDistritoMethod,
-  getForCantonMethod,
-  getForProvinciaMethod,
-  
-} = require('../controllers/albergues');
+const albergueController = require('../controllers/albergueController');
 
-const {
-  postMethod,
-} = require('../controllers/formularioAlbergue');
+// const {
+//   postMethod,
+// } = require('../controllers/formularioAlbergue');
 
 /**
  * @swagger
@@ -40,7 +29,7 @@ const {
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', albergueController.getAlbergue);
 
 /**
  * @swagger
@@ -55,7 +44,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al obtener los albergues (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', albergueController.getAllAlbergues);
 
 /**
  * @swagger
@@ -191,7 +180,8 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar albergue
  */
-router.post('/', postMethod);
+// router.post('/', albergueController.createAlbergue);
+router.post('/', albergueController.postAlbergue);
 
 /**
  * @swagger
@@ -231,7 +221,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', albergueController.);
 
 /**
  * @swagger
@@ -255,7 +245,7 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar el albergue (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', albergueController.deleteAlbergue);
 
 /**
  * @swagger
@@ -294,7 +284,7 @@ router.delete('/id/:id', deleteMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/id/:id', getForIdMethod);
+router.get('/consulta/id/:id', albergueController.getForIdAlbergue);
 
 /**
  * @swagger
@@ -333,7 +323,7 @@ router.get('/consulta/id/:id', getForIdMethod);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/consulta/nombre/:nombre', getForNombreMethod);
+router.get('/consulta/nombre/:nombre', albergueController.getForNombreAlbergue);
 
 
 /** * @swagger
@@ -366,7 +356,7 @@ router.get('/consulta/nombre/:nombre', getForNombreMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/distrito/:distrito', getForDistritoMethod);
+router.get('/consulta/distrito/:distrito', albergueController.getForDistritoAlbergue);
 
 /** * @swagger
  * /api/albergues/consulta/canton/{canton}:
@@ -398,7 +388,7 @@ router.get('/consulta/distrito/:distrito', getForDistritoMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/canton/:canton', getForCantonMethod);
+router.get('/consulta/canton/:canton', albergueController.getForCantonAlbergue);
 
 /** * @swagger
  * /api/albergues/consulta/provincia/{provincia}:
@@ -430,6 +420,47 @@ router.get('/consulta/canton/:canton', getForCantonMethod);
  *                   items:
  *                     type: object
  */
-router.get('/consulta/provincia/:provincia', getForProvinciaMethod);
+router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaAlbergue);
+
+
+/**
+ * @swagger
+ * /api/albergues/consulta/color/{color}:
+ *   get:
+ *     summary: Consultar albergue por color
+ *     tags:
+ *       - Resumenes
+ *     parameters:
+ *       - in: path
+ *         name: color
+ *         required: true
+ *         description: color del albergue (codificado en URL si tiene espacios)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergue obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: color no proporcionado
+ *       404:
+ *         description: Albergue no encontrado
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+
+router.get('/consulta/color/:color', albergueController.getResumenAlberguesColor);
 
 module.exports = router;

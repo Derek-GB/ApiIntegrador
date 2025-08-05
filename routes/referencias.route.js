@@ -3,12 +3,7 @@ const {Router}=require('express');
 const router=Router();
 
 
-const {
-  getMethod,
-  postMethod,
-  putMethod,
-  getAllMethod,
-  deleteMethod}=require('../controllers/referencias');
+const referenciaController =require('../controllers/referenciaController');
 
   /**
  * @swagger
@@ -33,7 +28,7 @@ const {
  *         description: Error al obtener referencia (Contactar equipo de API)
  */
 //Devolver datos desde mi API
-router.get('/id/:id',   getMethod);
+router.get('/id/:id',   referenciaController.getReferencia);
 
 /**
  * @swagger
@@ -75,7 +70,7 @@ router.get('/id/:id',   getMethod);
  *         description: Error al insertar referencia (Contactar equipo de API)
  */
 //Registrar o insertar
-router.post('/',  postMethod);
+router.post('/',  referenciaController.postReferencia);
 
 /**
  * @swagger
@@ -126,7 +121,7 @@ router.post('/',  postMethod);
  *         description: Error al actualizar referencia (Contactar equipo de API)
  */
 //Registrar o insertar
-router.put('/',  putMethod);
+router.put('/',  referenciaController.putReferencia);
 
 /**
  * @swagger
@@ -151,7 +146,7 @@ router.put('/',  putMethod);
  *         description: Error al eliminar referencia (Contactar equipo de API)
  */
 //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', referenciaController.deleteReferencia);
 
 /**
  * @swagger
@@ -166,7 +161,7 @@ router.delete('/id/:id', deleteMethod);
  *       500:
  *         description: Error al obtener referencias (Contactar equipo de API)
  */
-router.get('/all',   getAllMethod);
+router.get('/all',   referenciaController.getAllReferencia);
 
 
 module.exports=router;

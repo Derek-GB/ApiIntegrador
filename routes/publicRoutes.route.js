@@ -1,7 +1,7 @@
 // publicRoutes.js - Router separado para rutas públicas
 const express = require('express');
 const router = express.Router();
-const { putContrasenaMethod, validarCorreoMethod } = require('../controllers/usuarios');
+const { putContrasenaMethod, validarCorreoMethod } = require('../controllers/usuarioController');
 
 /**
  * @swagger

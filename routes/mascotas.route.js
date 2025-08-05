@@ -1,13 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/mascotas');
+const mascotaController = require('../controllers/mascotaController');
 
 /**
  * @swagger
@@ -22,7 +15,7 @@ const {
  *       500:
  *         description: Error al obtener mascotas (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', mascotaController.getAllMascotas);
 
 /**
  * @swagger
@@ -46,7 +39,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', mascotaController.getMascota);
 
 /**
  * @swagger
@@ -83,7 +76,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al insertar mascota (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', mascotaController.postMascota);
 
 /**
  * @swagger
@@ -123,7 +116,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar mascota (Contactar equipo de API)
  */
-router.put('/', putMethod);
+// router.put('/', putMethod);
 
 /**
  * @swagger
@@ -147,6 +140,6 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar la mascota (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', mascotaController.deleteMascota);
 
 module.exports = router;

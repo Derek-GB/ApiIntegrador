@@ -2,13 +2,7 @@ const {Router}= require('express');
 
 const router=Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-  }=require('../controllers/productos');
+const productosController =require('../controllers/productoController');
 
 
   /**
@@ -34,7 +28,7 @@ const {
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', getMethod);   
+router.get('/id/:id', productosController.getProducto);   
     
 
 /**
@@ -51,7 +45,7 @@ router.get('/id/:id', getMethod);
  *         description: Error al obtener los productos (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', getAllMethod);             
+router.get('/all', productosController.getAllProducto);             
 
 
 /**
@@ -92,7 +86,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error al insertar producto (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', productosController.postProducto);
 
 /**
  * @swagger
@@ -130,7 +124,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar producto (Contactar equipo de API)
  */
-router.put('/',   putMethod);
+router.put('/',   productosController.putProducto);
 
 
 /**
@@ -156,6 +150,6 @@ router.put('/',   putMethod);
  *         description: Error al eliminar el producto (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', productosController.deleteProducto);
 
 module.exports=router;

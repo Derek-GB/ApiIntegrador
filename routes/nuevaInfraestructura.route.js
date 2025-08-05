@@ -1,13 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const {
-  getAllMethod,
-  getMethod,
-  postMethod,
-  putMethod,
-  deleteMethod,
-} = require('../controllers/nuevaInfraestructura');
+const nuevaInfraestructuraController = require('../controllers/nuevaInfraestructuraController');
 
 /**
  * @swagger
@@ -22,7 +16,7 @@ const {
  *       500:
  *         description: Error al obtener infraestructuras (Contactar equipo de API)
  */
-router.get('/all', getAllMethod);
+router.get('/all', nuevaInfraestructuraController.getAllNuevaInfraestructura);
 
 /**
  * @swagger
@@ -46,7 +40,7 @@ router.get('/all', getAllMethod);
  *       500:
  *         description: Error interno del servidor (Contactar equipo de API)
  */
-router.get('/id/:id', getMethod);
+router.get('/id/:id', nuevaInfraestructuraController.getNuevaInfraestructura);
 
 /**
  * @swagger
@@ -90,7 +84,7 @@ router.get('/id/:id', getMethod);
  *       500:
  *         description: Error al insertar infraestructura (Contactar equipo de API)
  */
-router.post('/', postMethod);
+router.post('/', nuevaInfraestructuraController.postNuevaInfraestructura);
 
 /**
  * @swagger
@@ -137,7 +131,7 @@ router.post('/', postMethod);
  *       500:
  *         description: Error al actualizar infraestructura (Contactar equipo de API)
  */
-router.put('/', putMethod);
+router.put('/', nuevaInfraestructuraController.putNuevaInfraestructura);
 
 /**
  * @swagger
@@ -161,7 +155,7 @@ router.put('/', putMethod);
  *       500:
  *         description: Error al eliminar infraestructura (Contactar equipo de API)
  */
-router.delete('/id/:id', deleteMethod);
+router.delete('/id/:id', nuevaInfraestructuraController.deleteNuevaInfraestructura);
 
 
 module.exports = router;

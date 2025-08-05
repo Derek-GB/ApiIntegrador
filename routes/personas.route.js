@@ -45,7 +45,7 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/condicionesEspeciales/id/{id}:
+ * /api/personas/discapacidad/id/{id}:
  *   get:
  *     tags:
  *       - Resumenes

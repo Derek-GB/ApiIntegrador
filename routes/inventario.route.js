@@ -44,7 +44,7 @@ router.get('/id/:id', inventarioController.getInventario);
 
 /**
  * @swagger
- * /api/condicionesEspeciales/id/{id}:
+ * /api/inventario/suministros/id/{id}:
  *   get:
  *     tags:
  *       - Resumenes

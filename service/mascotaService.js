@@ -56,5 +56,15 @@ class mascotaService {
         }
     }
 
+    async getForMascotaFamilia(MascotaFamilia) {
+            try {
+                const result = await mascotaModel.getForMascotaFamilia(MascotaFamilia);
+                return result;
+            } catch (error) {
+                console.error("Error en mascotaModel.getForMascotaFamilia: ", error);
+                throw error;
+            }
+        }
+
 }
 module.exports = new mascotaService();

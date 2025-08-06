@@ -142,4 +142,64 @@ router.post('/', mascotaController.postMascota);
  */
 router.delete('/id/:id', mascotaController.deleteMascota);
 
+/**
+ * @swagger
+ * /api/mascotas/consulta/familia/{codigoFamilia}:
+ *   get:
+ *     summary: Obtener mascotas por código de familia
+ *     tags:
+ *       - Mascotas
+ *     parameters:
+ *       - in: path
+ *         name: codigoFamilia
+ *         required: true
+ *         description: Código de la familia a consultar (debe coincidir con el valor en la base de datos)
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Mascotas obtenidas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Lista de mascotas obtenida
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       tipo:
+ *                         type: string
+ *                         example: Perro
+ *                       tamaño:
+ *                         type: string
+ *                         example: Mediano
+ *                       nombreMascota:
+ *                         type: string
+ *                         example: Rocky
+ *                       codigoFamilia:
+ *                         type: string
+ *                         example: FAM123
+ *                       cantidadPersonas:
+ *                         type: integer
+ *                         example: 4
+ *                       idAlbergue:
+ *                         type: integer
+ *                         example: 2
+ *       404:
+ *         description: No se encontraron mascotas para el código de familia especificado
+ *       500:
+ *         description: Error al obtener las mascotas (Contactar al equipo de API)
+ */
+router.get('/consulta/familia/:codigoFamilia', mascotaController.getForMascotaFamilia);
+
+
+
 module.exports = router;

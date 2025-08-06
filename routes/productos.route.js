@@ -156,26 +156,26 @@ router.delete('/id/:id', productoController.deleteProducto);
 
 /**
  * @swagger
- * /api/productos/consulta/ProductosPorFamilia/{ProductosPorFamilia}:
- *  get:
- *    tags:
- *     - Productos
- *   summary: Obtener productos por familia
- *  parameters:
- *   - in: path
- *    name: productoFamilia
- *   schema:
- *    type: string
- *   required: true
- *   description: Familia del producto a consultar
- * responses:
- * 200:
- *   description: Productos obtenidos exitosamente
- * 404:
- *  description: No se encontraron productos para la familia especificada
- * 500:
- *  description: Error al obtener productos por familia (Contactar equipo de API)
- * */
+ * /api/productos/consulta/ProductosPorFamilia/{productoFamilia}:
+ *   get:
+ *     tags:
+ *       - Productos
+ *     summary: Obtener productos por familia
+ *     parameters:
+ *       - in: path
+ *         name: productoFamilia
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Familia del producto a consultar
+ *     responses:
+ *       200:
+ *         description: Productos obtenidos exitosamente
+ *       404:
+ *         description: No se encontraron productos para la familia especificada
+ *       500:
+ *         description: Error al obtener productos por familia (Contactar equipo de API)
+ */
 router.get('/consulta/ProductosPorFamilia/:ProductosPorFamilia', productoController.getForProductoFamilia);
 
 module.exports=router;

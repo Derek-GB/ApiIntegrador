@@ -138,9 +138,28 @@ const postAjuste = async (req = request, res = response) => {
   }
 };
 
+const getAjustesPorProducto = async (req = request, res = response) => {
+  const { idProducto } = req.params;
+  try {
+    const data = await ajusteInventarioService.getAjustesPorProducto(idProducto);
+    res.status(200).json({
+      success: true,
+      message: 'Lista de ajustes obtenida correctamente',
+      data: data[0], 
+    });
+  } catch (error) {
+    console.error("Error en getObtenerAjustes:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener los ajustes de inventario",
+      error: error.message,
+    });
+  }
+}
 
 module.exports = {
   getAllAjusteInventarios,
   getAjuste,
   postAjuste,
+  getAjustesPorProducto
 };

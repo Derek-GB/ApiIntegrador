@@ -18,6 +18,21 @@ const swaggerDefinition = {
             url: "http://localhost:4000",
         }
     ],
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'auth-token', // Nombre de la cookie
+          description: 'Token de autenticación almacenado en cookie'
+        }
+      }
+    },
+    security: [
+      {
+        cookieAuth: []
+      }
+    ],
 };
 
 const options = {
@@ -32,6 +47,13 @@ const serve = swaggerUi.serve;
 const setup = swaggerUi.setup(spec, {
     swaggerOptions: {
         docExpansion: "none",
+        requestInterceptor: (request) => {
+      request.credentials = 'include';
+      return request;
+    },
+    responseInterceptor: (response) => {
+      return response;
+    }
     }
 });
 

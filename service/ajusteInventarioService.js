@@ -30,6 +30,7 @@ class ajusteInventarioService {
             throw error;
         }
     }
+    async getAjuste
 
 }
 module.exports = new ajusteInventarioService();

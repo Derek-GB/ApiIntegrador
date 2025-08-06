@@ -12,6 +12,7 @@ const router = Router();
  *       - Autenticación
  *     summary: Iniciar sesión con correo/usuario y contraseña
  *     description: Permite login usando correo electrónico O nombre de usuario junto con la contraseña
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:

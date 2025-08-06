@@ -111,5 +111,17 @@ class familiaService {
             handleError("generarIdentificador", error);
         }
     }
+
+    async getObtenerReferenciasPorCodigoFamilia(codigoFamilia = null) {
+        if (!codigoFamilia) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", new Error("Falta el codigo de familia"), 400);
+        }
+        try {
+            const result = await familiaModel.getObtenerReferenciasPorCodigoFamilia(codigoFamilia);
+            return result;
+        } catch (error) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", error);
+        }
+    }
 }
 module.exports = new familiaService();

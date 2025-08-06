@@ -78,8 +78,8 @@ router.get('/all', productoController.getAllProducto);
  *                 type: integer
  *               unidadMedida:
  *                 type: integer
- *              idAlbergue:
- *                type: integer
+ *               idAlbergue:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Producto insertado correctamente
@@ -88,7 +88,7 @@ router.get('/all', productoController.getAllProducto);
  *       500:
  *         description: Error al insertar producto (Contactar equipo de API)
  */
-router.post('/', productoController.postProducto);
+router.post('/', productoController.insertProducto);
 
 /**
  * @swagger

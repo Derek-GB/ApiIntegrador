@@ -121,17 +121,18 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasDinamico(id = null) {
-        if (id === null) {
-            handleError("getResumenPersonasDinamico", new Error("El ID de la persona no puede ser nulo."), 400);
-        }
-        try {
-            const result = await personasModel.getResumenPersonasDinamico(id);
-            return result;
-        } catch (error) {
-            handleError("getResumenPersonasDinamico", error);
-        }
+    async getResumenPersonasDinamico(albergue = null, sexo = null, edad = null) {
+    if (!albergue || !sexo || !edad) {
+        handleError("getResumenPersonasDinamico", new Error("Parámetros albergue, sexo y edad no pueden ser nulos."), 400);
     }
+
+    try {
+        const result = await personasModel.getResumenPersonasDinamico(albergue, sexo, edad);
+        return result;
+    } catch (error) {
+        handleError("getResumenPersonasDinamico", error);
+    }
+}
 
     async getResumenDiscapacidad(id = null) {
         if (id === null) {

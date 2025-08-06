@@ -58,22 +58,20 @@ const getResumenSuministros = async (req = request, res = response) => {
         });
     }
     try {
-        console.log("ID recibido:", id);
         const data = await inventarioService.getResumenSuministros(id);
-        console.log("Datos obtenidos:", data);
-        if (data[0].length === 0) {
+        if (!data || !data[0] || data[0].length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Registro de suministro no encontrado",
+                message: "No se encontraron suministros en este albergue",
             });
         }
         res.json({
             success: true,
-            data: data[0][0],
+            data: data[0],
+            total: data[0].length
         });
     } catch (error) {
         console.error("Error en getResumenSuministros:", error);
-        console.error("Stack trace:", error.stack);
         return res.status(500).json({
             success: false,
             error: "Error al obtener el registro de suministro",

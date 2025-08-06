@@ -39,7 +39,7 @@ class pedidoConsumibleService {
 
 
     async postPedidoConsumible(pedidoConsumible) {
-        confirmarObligatorios(pedidoConsumible, ["tipoComida", "cantidadPersonas", "idConsumible", "idAlbergue", "idUsuarioCreacion"]);
+        confirmarObligatorios(pedidoConsumible, ["tipoComida", "cantidadPersonas", "idAlbergue", "idUsuarioCreacion"]);
         try {
             const result = await pedidoConsumibleModel.postPedidoConsumible(pedidoConsumible);
             return result;

@@ -22,14 +22,12 @@ class pedidoConsumibleModel {
     async postPedidoConsumible(pedidoConsumible) {
         const { tipoComida,
             cantidadPersonas,
-            idConsumible,
             idAlbergue,
             idUsuarioCreacion } = pedidoConsumible;
         try {
-            return await db.query('CALL pa_InsertPedidoConsumible(?, ?, ?, ?, ?);',
+            return await db.query('CALL pa_InsertPedidoConsumible(?, ?, ?, ?);',
                 [tipoComida,
                     cantidadPersonas,
-                    idConsumible,
                     idAlbergue,
                     idUsuarioCreacion]);
         } catch (error) {

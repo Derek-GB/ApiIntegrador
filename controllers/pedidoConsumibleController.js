@@ -64,7 +64,6 @@ const postPedidoConsumible = async (req, res) => {
                     id: data[0][0].id,
                     tipoComida,
                     cantidadPersonas,
-                    idConsumible,
                     idAlbergue,
                     idUsuarioCreacion
                     

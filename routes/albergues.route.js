@@ -425,7 +425,7 @@ router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaA
 
 /**
  * @swagger
- * /api/albergues/consulta/color/{color}:
+ * /api/albergues/resumen/color/{color}:
  *   get:
  *     summary: Consultar albergue por color
  *     tags:
@@ -461,6 +461,6 @@ router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaA
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 
-router.get('/consulta/color/:color', albergueController.getResumenAlberguesColor);
+router.get('/resumen/color/:color', albergueController.getResumenAlberguesColor);
 
 module.exports = router;

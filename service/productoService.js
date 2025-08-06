@@ -81,7 +81,7 @@ class productoService {
 
     async getForProductoFamilia(productoFamilia) {
         try {
-            const result = await this.productoModel.getForProductoFamilia(productoFamilia);
+            const result = await productoModel.getForProductoFamilia(productoFamilia);
             return result;
         } catch (error) {
             handleError("getForProductoFamilia", error);

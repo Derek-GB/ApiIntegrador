@@ -45,7 +45,7 @@ class productoModel {
 
     async getForProductoFamilia(productoFamilia) {
         try {
-            return await db.query('ConsultarProductosPorFamilia(?);', [productoFamilia])
+            return await db.query('CALL ConsultarProductosPorFamilia(?);', [productoFamilia])
         } catch (error) {
             console.error("Error al encontrar el producto por familia: ", error);
             throw error;

@@ -42,5 +42,14 @@ class productoModel {
             throw error;
         }
     }
+
+    async getForProductoFamilia(productoFamilia) {
+        try {
+            return await db.query('ConsultarProductosPorFamilia(?);', [productoFamilia])
+        } catch (error) {
+            console.error("Error al encontrar el producto por familia: ", error);
+            throw error;
+        }
+    }
  }
 module.exports = new productoModel();

@@ -2,7 +2,7 @@ const {Router}= require('express');
 
 const router=Router();
 
-const productosController =require('../controllers/productoController');
+const productoController =require('../controllers/productoController');
 
 
   /**
@@ -28,7 +28,7 @@ const productosController =require('../controllers/productoController');
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 //Devolver un solo producto por ID
-router.get('/id/:id', productosController.getProducto);   
+router.get('/id/:id', productoController.getProducto);   
     
 
 /**
@@ -45,7 +45,7 @@ router.get('/id/:id', productosController.getProducto);
  *         description: Error al obtener los productos (Contactar equipo de API)
  */
 //Devuelve todos los productos
-router.get('/all', productosController.getAllProducto);             
+router.get('/all', productoController.getAllProducto);             
 
 
 /**
@@ -86,7 +86,7 @@ router.get('/all', productosController.getAllProducto);
  *       500:
  *         description: Error al insertar producto (Contactar equipo de API)
  */
-router.post('/', productosController.postProducto);
+router.post('/', productoController.postProducto);
 
 /**
  * @swagger
@@ -124,7 +124,7 @@ router.post('/', productosController.postProducto);
  *       500:
  *         description: Error al actualizar producto (Contactar equipo de API)
  */
-router.put('/',   productosController.putProducto);
+router.put('/',   productoController.putProducto);
 
 
 /**
@@ -150,6 +150,30 @@ router.put('/',   productosController.putProducto);
  *         description: Error al eliminar el producto (Contactar equipo de API)
  */
 // //Eliminar
-router.delete('/id/:id', productosController.deleteProducto);
+router.delete('/id/:id', productoController.deleteProducto);
+
+/**
+ * @swagger
+ * /api/productos/consulta/ProductosPorFamilia/{ProductosPorFamilia}:
+ *  get:
+ *    tags:
+ *     - Productos
+ *   summary: Obtener productos por familia
+ *  parameters:
+ *   - in: path
+ *    name: productoFamilia
+ *   schema:
+ *    type: string
+ *   required: true
+ *   description: Familia del producto a consultar
+ * responses:
+ * 200:
+ *   description: Productos obtenidos exitosamente
+ * 404:
+ *  description: No se encontraron productos para la familia especificada
+ * 500:
+ *  description: Error al obtener productos por familia (Contactar equipo de API)
+ * */
+router.get('/consulta/ProductosPorFamilia/:ProductosPorFamilia', productoController.getForProductoFamilia);
 
 module.exports=router;

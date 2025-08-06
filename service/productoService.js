@@ -1,10 +1,10 @@
 const productoModel = require('../models/productoModel');
 
-const confirmarObligatorios = (objeto, obligatorios) => {
-    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
-    for (const campo of obligatorios) {
-        if (!objeto[campo]) {
-            handleError("postProducto", new Error(`Falta el campo obligatorio '${campo}'`), 400);
+const confirmarOpcionales = (objeto, opcionales) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of opcionales) {
+        if (objeto[campo] === undefined) {
+            objeto[campo] = null;
         }
     }
 }
@@ -66,5 +66,15 @@ class productoService {
             throw error;
         }
     }
+
+    async getForProductoFamilia(productoFamilia) {
+            try {
+                const result = await this.productoModel.getForProductoFamilia(productoFamilia);
+                return result;
+            } catch (error) {
+                console.error("Error en productoModel.getForProductoFamilia: ", error);
+                throw error;
+            }
+        }
 }
 module.exports = new productoService();

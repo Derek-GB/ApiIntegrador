@@ -6,7 +6,7 @@ const publicRoutes = [
   { method: 'PUT', path: '/api/usuarios/contrasena' },
   { method: 'POST', path: '/api/usuarios/validar/correo' },
   { method: 'POST', path: '/api/usuarios/login' },
-  { method: 'POST', path: '/api/usuarios/registro' }
+  { method: 'POST', path: '/api/personas' }
 ];
 
 const authMiddleware = (req, res, next) => {

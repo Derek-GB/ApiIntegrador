@@ -63,12 +63,9 @@ class inventarioService {
         }
         try {
             const result = await inventarioModel.getResumenSuministros(id);
-            if (!result || !result[0] || result[0].length === 0) {
-                throw new Error('Registro de inventario no encontrado');
-            }
             return result;
         } catch (error) {
-            console.error("Error en inventarioService.getInventario: ", error);
+            console.error("Error en inventarioService.getResumenSuministros: ", error);
             throw error;
         }
     }

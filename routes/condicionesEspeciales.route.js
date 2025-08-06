@@ -28,7 +28,7 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
 
 /**
  * @swagger
- * /api/condicionesEspeciales/id/{id}:
+ * /api/condicionesEspeciales/resumen/id/{id}:
  *   get:
  *     tags:
  *       - Resumenes
@@ -48,7 +48,7 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', condicionEspecialController.getResumenCondicionesEspeciales);
+router.get('/resumen/id/:id', condicionEspecialController.getResumenCondicionesEspeciales);
 
 /**
  * @swagger

@@ -270,29 +270,40 @@ router.delete('/id/:id', personasController.deletePersona);
 
 /**
  * @swagger
- * /api/personas/id/{id}:
+ * /api/personas/albergue/{albergue}/sexo/{sexo}/edad/{edad}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener persona por ID
+ *     summary: Obtener personas por albergue, sexo y edad
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: albergue
  *         required: true
  *         schema:
  *           type: string
- *         description: ID de la persona
+ *         description: Nombre o ID del albergue
+ *       - in: path
+ *         name: sexo
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Sexo de la persona (Masculino, Femenino, Otro)
+ *       - in: path
+ *         name: edad
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Edad de la persona
  *     responses:
  *       200:
- *         description: Persona encontrada
+ *         description: Personas encontradas
  *       404:
- *         description: Persona no encontrada
+ *         description: Personas no encontradas
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 
-router.get('/id/:id', personasController.getResumenPersonasDinamico);
-
+router.get('/albergue/:albergue/sexo/:sexo/edad/:edad', personasController.getResumenPersonasDinamico);
 
 
 

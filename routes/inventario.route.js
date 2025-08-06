@@ -10,6 +10,7 @@ const inventarioController = require('../controllers/inventarioController');
  *     tags:
  *       - Inventario
  *     summary: Obtener todos los registros de inventario
+ * description: Devuelve una lista de todos los registros de inventario
  *     responses:
  *       200:
  *         description: Lista de inventario obtenida exitosamente
@@ -44,7 +45,7 @@ router.get('/id/:id', inventarioController.getInventario);
 
 /**
  * @swagger
- * /api/inventario/suministros/id/{id}:
+ * /api/inventario/resumen/id/{id}:
  *   get:
  *     tags:
  *       - Resumenes
@@ -66,7 +67,7 @@ router.get('/id/:id', inventarioController.getInventario);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', inventarioController.getResumenSuministros);
+router.get('/resumen/id/:id', inventarioController.getResumenSuministros);
 
 /**
  * @swagger

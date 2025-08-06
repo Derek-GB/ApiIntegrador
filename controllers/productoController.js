@@ -56,10 +56,11 @@ const postProducto = async (req, res) => {
         descripcion = null,
         cantidad,
         categoria = null,
-        unidadMedida = null
+        unidadMedida = null,
+        idAlbergue = null
     } = req.body;
     try {
-        const data = await productoService.postProducto({ codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida });
+        const data = await productoService.postProducto({ codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida, idAlbergue });
         res.json({
             success: true,
             message: 'Producto insertado correctamente',
@@ -70,7 +71,8 @@ const postProducto = async (req, res) => {
                 descripcion,
                 cantidad,
                 categoria,
-                unidadMedida
+                unidadMedida,
+                idAlbergue
             }
         });
     } catch (error) {

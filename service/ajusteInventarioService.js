@@ -30,7 +30,12 @@ class ajusteInventarioService {
             throw error;
         }
     }
-    async getAjuste
-
+    async getAjustesPorProducto(idProducto) {
+        if (!idProducto) {
+            throw new Error('Faltan datos: idProducto')
+        }
+        const result = await ajusteInventarioModel.getAjustesPorProducto(idProducto);
+        return result;
+    }
 }
 module.exports = new ajusteInventarioService();

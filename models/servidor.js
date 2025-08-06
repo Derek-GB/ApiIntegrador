@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require('path');
 const swagger = require('../src/consts/swagger');
 
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 require("dotenv").config();
 // Importar middleware de verificación de token
 const verificarToken = require('../middleware/verificarToken');
@@ -66,7 +66,6 @@ class servidor {
           "http://201.197.202.42",
           "http://192.168.0.10:80",
         ], // Permitir solicitudes solo desde estas IPs
-        credentials: true, // Permitir cookies y credenciales
         methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
         allowedHeaders: [
           "Content-Type",
@@ -81,7 +80,6 @@ class servidor {
     );
     //Habilitar el parseo de los datos del body
     this.app.use(express.json());
-    this.app.use(cookieParser())
   }
 
   listen() {

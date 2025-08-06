@@ -11,8 +11,6 @@ const inventarioController = require('../controllers/inventarioController');
  *       - Inventario
  *     summary: Obtener todos los registros de inventario
  * description: Devuelve una lista de todos los registros de inventario
- *     security:
- *      - cookieAuth: []
  *     responses:
  *       200:
  *         description: Lista de inventario obtenida exitosamente

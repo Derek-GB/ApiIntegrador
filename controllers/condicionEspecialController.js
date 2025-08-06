@@ -111,16 +111,18 @@ const getResumenCondicionesEspeciales = async (req = request, res = response) =>
   const { id } = req.params;
   try {
     const data = await condicionEspecialService.getResumenCondicionesEspeciales(id);
-    if (data[0].length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: error.message,
-      });
-    }
-    res.json({
-      success: true,
-      data: data[0][0],
-    });
+    if (!data || !data[0] || data[0].length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No se encontraron personas con condiciones especiales en este albergue',
+            });
+        }
+        
+        res.json({
+            success: true,
+            data: data[0],
+            total: data[0].length
+        });
   } catch (error) {
     console.error("Error en getCondicionEspecial:", error);
     res.status(500).json({

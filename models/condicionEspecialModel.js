@@ -12,7 +12,7 @@ class condicionEspecial {
 
     async getCondicionEspecial(id) {
         try {
-            return await db.query('CALL pa_SelectCondicionEspecial(?);', [id])
+            return await db.query('CALL pa_SelectCondicionesEspeciales(?);', [id])
         } catch (error) {
             console.error("Error en getCondicionEspecial: ", error);
             throw error;

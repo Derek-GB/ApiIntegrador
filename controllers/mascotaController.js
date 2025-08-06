@@ -99,15 +99,15 @@ const deleteMascota = async (req = request, res = response) => {
 }
 
 const getForMascotaFamilia = async (req = request, res = response) => {
-  const { MascotaFamilia } = req.params;
-  if (!MascotaFamilia) {
+  const { codigoFamilia } = req.params;
+  if (!codigoFamilia) {
     return res.status(400).json({
       success: false,
       message: "Nombre del mascota familia es requerido",
     });
   }
   try {
-    const data = await mascotaService.getForMascotaFamilia(MascotaFamilia);
+    const data = await mascotaService.getForMascotaFamilia(codigoFamilia);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,

@@ -58,12 +58,12 @@ class productoService {
         } catch (error) {
             handleError("postProducto", new Error("Faltan datos requeridos"), 400);
         }
-        confirmarOpcionales(producto, ["descripcion"]);
+        confirmarOpcionales(producto, ["descripcion, idAlbergue"]);
         try {
-            const result = await familiaModel.postFamilia(familia);
+            const result = await producto.postProducto(producto);
             return result;
         } catch (error) {
-            handleError("postFamilia", error);
+            handleError("postProducto", error);
         }
     }
 

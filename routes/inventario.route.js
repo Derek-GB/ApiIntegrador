@@ -10,7 +10,7 @@ const inventarioController = require('../controllers/inventarioController');
  *     tags:
  *       - Inventario
  *     summary: Obtener todos los registros de inventario
- * description: Devuelve una lista de todos los registros de inventario
+ *     description: Devuelve una lista de todos los registros de inventario
  *     responses:
  *       200:
  *         description: Lista de inventario obtenida exitosamente
@@ -29,10 +29,10 @@ router.get('/all', inventarioController.getAllInventario);
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: integer
  *         required: true
  *         description: ID del inventario
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Registro de inventario obtenido exitosamente

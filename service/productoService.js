@@ -51,14 +51,14 @@ class productoService {
     }
 
     async postProducto(producto) {
-        confirmarObligatorios(producto, ["codigoProducto", "nombre", "cantidad"]);
+        confirmarObligatorios(producto, ["codigoProducto", "nombre", "cantidad", "categoria", "unidadMedida"]);
         try {
             const result = await productoModel.postProducto(producto);
             return result;
         } catch (error) {
             handleError("postProducto", new Error("Faltan datos requeridos"), 400);
         }
-        confirmarOpcionales(producto, ["idPersona", "idUsuarioCreacion", "direccion"]);
+        confirmarOpcionales(producto, ["descripcion"]);
         try {
             const result = await familiaModel.postFamilia(familia);
             return result;

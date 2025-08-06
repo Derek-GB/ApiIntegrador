@@ -107,7 +107,7 @@ const getForMascotaFamilia = async (req = request, res = response) => {
     });
   }
   try {
-    const data = await mascotaService.getForMascotaFamilia(nombre);
+    const data = await mascotaService.getForMascotaFamilia(MascotaFamilia);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,

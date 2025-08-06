@@ -14,9 +14,6 @@ const getJefeFamilia = (req) => {
 
 // Filtro para aceptar solo imágenes .jpg o .png
 const fileFilter = (req, file, cb) => {
-  if (!req.body.personas) {
-    return cb(new Error("No se encontraron datos de personas"), false);
-  }
   const jefe = getJefeFamilia(req);
   if (!jefe || !jefe.numeroIdentificacion) {
     req.firma = {exists: false};

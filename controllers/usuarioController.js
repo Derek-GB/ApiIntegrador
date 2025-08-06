@@ -117,14 +117,14 @@ const validarCorreoMethod = async (req, res) => {
     }
     try {
         const data = await usuarioService.validarCorreoMethod(correo);
-        console.log('Data de validarCorreoMethod:', data);
+        //console.log('Data de validarCorreoMethod:', data);
         if (data[0][0]?.existe === 1) {
             return res.status(200).json({
                 success: false,
                 message: 'El correo ya está en uso'
             });
         }
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'El correo es válido y está disponible'
         });

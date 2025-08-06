@@ -72,7 +72,7 @@ class PersonasService {
             'tieneCondicionSalud', 'discapacidad', 'idFamilia',
             'nombre', 'primerApellido', 'segundoApellido',
             'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
-            'parentesco', 'esJefeFamilia', 'fechaNacimiento',
+            'parentesco', 'fechaNacimiento',
             'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
         ];
         if (persona.firma) {
@@ -80,6 +80,8 @@ class PersonasService {
             console.warn("Alguien intentó usar mal firma");
         }
         confirmarObligatorios(persona, indice, camposObligatorios);
+        if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
+        
         if (firma) {
             const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
             confirmarObligatorios(firma, null, camposfirma);

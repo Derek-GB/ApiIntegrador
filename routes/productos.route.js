@@ -152,6 +152,8 @@ router.put('/',   productoController.putProducto);
 // //Eliminar
 router.delete('/id/:id', productoController.deleteProducto);
 
+
+
 /**
  * @swagger
  * /api/productos/consulta/ProductosPorFamilia/{ProductosPorFamilia}:

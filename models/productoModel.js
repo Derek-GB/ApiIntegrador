@@ -52,4 +52,6 @@ class productoModel {
         }
     }
  }
+
+    
 module.exports = new productoModel();

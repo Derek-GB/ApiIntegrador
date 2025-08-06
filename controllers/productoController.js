@@ -169,6 +169,8 @@ const getForProductoFamilia = async (req = request, res = response) => {
 };
 
 
+
+
 module.exports = {
     getAllProducto,
     getProducto,

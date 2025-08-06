@@ -34,6 +34,15 @@ class ajusteInventarioModel {
         }
     }
 
+    async getAjustesPorProducto(Inventario){
+        const  { idProducto } = Inventario
+        try {
+            return await db.query('CALL AjustesPorProducto(?)', [idProducto])
+        }catch(error){
+            console.error("Error en getAjustesPorProducto: ", error);
+            throw error;
+        }
+    }
     
 
 

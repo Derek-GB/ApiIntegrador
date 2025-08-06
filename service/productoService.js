@@ -1,5 +1,14 @@
 const productoModel = require('../models/productoModel');
 
+const confirmarOpcionales = (objeto, opcionales) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of opcionales) {
+        if (objeto[campo] === undefined) {
+            objeto[campo] = null;
+        }
+    }
+}
+
 const confirmarObligatorios = (objeto, obligatorios) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of obligatorios) {
@@ -22,8 +31,7 @@ class productoService {
             const result = await productoModel.getAllProducto();
             return result;
         } catch (error) {
-            console.error("Error en productoService.getAllProducto: ", error);
-            throw error;
+            handleError("getAllProducto", error);
         }
     }
 
@@ -38,19 +46,24 @@ class productoService {
             }
             return result;
         } catch (error) {
-            console.error("Error en productoService.getProducto: ", error);
-            throw error;
+            handleError("getProducto", error);
         }
     }
 
     async postProducto(producto) {
-        confirmarObligatorios(producto, ["codigoProducto", "nombre", "cantidad"]);
+        confirmarObligatorios(producto, ["codigoProducto", "nombre", "cantidad", "categoria", "unidadMedida"]);
         try {
             const result = await productoModel.postProducto(producto);
             return result;
         } catch (error) {
-            console.error("Error en productoService.postProducto: ", error);
-            throw error;
+            handleError("postProducto", new Error("Faltan datos requeridos"), 400);
+        }
+        confirmarOpcionales(producto, ["descripcion"]);
+        try {
+            const result = await familiaModel.postFamilia(familia);
+            return result;
+        } catch (error) {
+            handleError("postFamilia", error);
         }
     }
 
@@ -62,9 +75,19 @@ class productoService {
             const result = await productoModel.deleteProducto(id);
             return result;
         } catch (error) {
-            console.error("Error en productoService.deleteProducto: ", error);
-            throw error;
+            handleError("deleteProducto", error);
         }
     }
+
+    async getForProductoFamilia(productoFamilia) {
+        try {
+            const result = await productoModel.getForProductoFamilia(productoFamilia);
+            return result;
+        } catch (error) {
+            handleError("getForProductoFamilia", error);
+        }
+    }
+
+
 }
 module.exports = new productoService();

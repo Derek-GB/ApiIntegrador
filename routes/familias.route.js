@@ -217,4 +217,28 @@ router.get('/consulta/familiaConJefe/:cedula', familiaController.getForCedulaJef
  */
 router.get('/requerimiento/indentificador/:canton', familiaController.generarIdentificador);
 
+/**
+ * @swagger
+ * /api/familias/codigoFamilia/{codigoFamilia}:
+ *   get:
+ *     tags:
+ *       - Familias
+ *     summary: Obtener una familia por codigoFamilia
+ *     parameters:
+ *       - in: path
+ *         name: codigoFamilia
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: codigoFamilia de la familia
+ *     responses:
+ *       200:
+ *         description: Familia obtenida exitosamente
+ *       404:
+ *         description: Familia no encontrada
+ *       500:
+ *         description: Error al obtener familia (Contactar equipo de API)
+ */
+router.get('codigoFamilia/:codigoFamilia', familiaController.getObtenerReferenciasPorCodigoFamilia);
+
 module.exports = router;

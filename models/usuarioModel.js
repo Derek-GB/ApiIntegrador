@@ -53,9 +53,9 @@ class usuarioModel {
     }
 
     async putConstrasenaMethod(usuario) {
-        const { id, contrasenaHash } = usuario;
+        const { correo, contrasenaHash } = usuario;
         try {
-            const result = await db.query('CALL pa_UpdateUsuarioContrasena(?, ?);', [id, contrasenaHash]);
+            const result = await db.query('CALL pa_UpdateUsuarioContrasena(?, ?);', [correo, contrasenaHash]);
             return result;
         } catch (error) {
             console.error("Error en putContrasenaMethod: ", error);

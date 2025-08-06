@@ -527,34 +527,40 @@ const deletePersona = async (req = request, res = response) => {
 };
 
 
-const getResumenPersonasDinamico  = async (req = request, res = response) => {
-  if (!req.params) {
+const getResumenPersonasDinamico = async (req = request, res = response) => {
+  const { albergue, sexo, edad } = req.params;
+
+  if (!albergue || !sexo || !edad) {
     return res.status(400).json({
       success: false,
-      message: "Se esperaba el parametro id en la query.",
+      message: "Se esperaban los parámetros albergue, sexo y edad.",
     });
   }
+
   try {
-    const { id } = req.params;
-    const data = await personasService.getResumenPersonasDinamico(id);
-    if (data[0]?.length === 0) {
+    const data = await personasService.getResumenPersonasDinamico(albergue, sexo, edad);
+
+    if (!data[0] || data[0].length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Persona no encontrada.",
+        message: "Datos no encontrados.",
       });
     }
+
     return res.status(200).json({
       success: true,
-      data: data[0][0],
+      data: data[0],
     });
+
   } catch (error) {
     console.error("Error en getResumenPersonasDinamico:", error);
     return res.status(500).json({
       success: false,
-      error: "Error al obtener la persona; " + error.message,
+      error: "Error al obtener los datos: " + error.message,
     });
   }
 };
+
 
 
 // Eliminar persona por ID

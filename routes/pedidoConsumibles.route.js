@@ -60,14 +60,12 @@ router.get('/id/:id', pedidoConsumibleController.getPedidoConsumible);
  *               - tipoComida
  *               - cantidadPersonas
  *               - idAlbergue
+ *               - idUsuarioCreacion
  *             properties:
  *               tipoComida:
  *                 type: string
  *               cantidadPersonas:
  *                 type: integer
- *               idConsumible:
- *                 type: integer
- *                 nullable: true
  *               idAlbergue:
  *                 type: integer
  *               idUsuarioCreacion:

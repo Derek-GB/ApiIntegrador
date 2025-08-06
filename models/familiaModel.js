@@ -80,6 +80,15 @@ class familiaModel {
         }
     }
 
+    async getObtenerReferenciasPorCodigoFamilia(codigoFamilia) {
+        try {
+            return await db.query('CALL getObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
+        } catch (error) {
+            console.error("Error en getObtenerReferenciasPorCodigoFamilia: ", error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = new familiaModel();

@@ -60,17 +60,13 @@ class condicionEspecialService {
 
     async getResumenCondicionesEspeciales(id) {
         if (!id) {
-            throw new Error('ID de condición especial es requerido');
+            throw new Error('ID de albergue es requerido');
         }
         try {
             const result = await condicionEspecialModel.getResumenCondicionesEspeciales(id);
-            if (!result || !result[0] || result[0].length === 0
-            ) {
-                throw new Error('Condición especial no encontrada');
-            }
             return result;
         } catch (error) {
-            console.error("Error en condicionEspecialService.getCondicionEspecial: ", error);
+            console.error("Error en condicionEspecialService.getResumenCondicionesEspeciales: ", error);
             throw error;
         }
     }

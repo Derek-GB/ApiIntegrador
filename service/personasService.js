@@ -63,6 +63,9 @@ class PersonasService {
     if (!firma || typeof firma !== 'object') {
         handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
     }
+    if (firma.existe == true) {
+        prepararFirma
+    }
 
     const resultados = [];
     const errores = [];
@@ -72,7 +75,7 @@ class PersonasService {
             'tieneCondicionSalud', 'discapacidad', 'idFamilia',
             'nombre', 'primerApellido', 'segundoApellido',
             'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
-            'parentesco', 'esJefeFamilia', 'fechaNacimiento',
+            'parentesco', 'fechaNacimiento',
             'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
         ];
         if (persona.firma) {
@@ -80,6 +83,7 @@ class PersonasService {
             console.warn("Alguien intentó usar mal firma");
         }
         confirmarObligatorios(persona, indice, camposObligatorios);
+        if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
         if (firma) {
             const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
             confirmarObligatorios(firma, null, camposfirma);
@@ -121,17 +125,18 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasDinamico(id = null) {
-        if (id === null) {
-            handleError("getResumenPersonasDinamico", new Error("El ID de la persona no puede ser nulo."), 400);
-        }
-        try {
-            const result = await personasModel.getResumenPersonasDinamico(id);
-            return result;
-        } catch (error) {
-            handleError("getResumenPersonasDinamico", error);
-        }
+    async getResumenPersonasDinamico(albergue = null, sexo = null, edad = null) {
+    if (!albergue || !sexo || !edad) {
+        handleError("getResumenPersonasDinamico", new Error("Parámetros albergue, sexo y edad no pueden ser nulos."), 400);
     }
+
+    try {
+        const result = await personasModel.getResumenPersonasDinamico(albergue, sexo, edad);
+        return result;
+    } catch (error) {
+        handleError("getResumenPersonasDinamico", error);
+    }
+}
 
     async getResumenDiscapacidad(id = null) {
         if (id === null) {

@@ -22,7 +22,7 @@ const getAllInventario = async (req = request, res = response) => {
 
 const getInventario = async (req = request, res = response) => {
     const { id } = req.body;
-    if (error.message === 'ID de inventario es requerido') {
+    if (!id) {
         return res.status(400).json({
             success: false,
             message: "ID de inventario no proporcionado",
@@ -30,7 +30,7 @@ const getInventario = async (req = request, res = response) => {
     }
     try {
         const data = await inventarioService.getInventario(id);
-        if (ddata[0].length === 0) {
+        if (data[0].length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Registro de inventario no encontrado",
@@ -50,8 +50,8 @@ const getInventario = async (req = request, res = response) => {
 };
 
 const getResumenSuministros = async (req = request, res = response) => {
-    const { id } = req.body;
-    if (error.message === 'ID de suministro es requerido') {
+    const { id } = req.params;
+    if (!id) {
         return res.status(400).json({
             success: false,
             message: "ID de suministro no proporcionado",
@@ -59,21 +59,23 @@ const getResumenSuministros = async (req = request, res = response) => {
     }
     try {
         const data = await inventarioService.getResumenSuministros(id);
-        if (ddata[0].length === 0) {
+        if (!data || !data[0] || data[0].length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Registro de suministro no encontrado",
+                message: "No se encontraron suministros en este albergue",
             });
         }
         res.json({
             success: true,
-            data: data[0][0],
+            data: data[0],
+            total: data[0].length
         });
     } catch (error) {
         console.error("Error en getResumenSuministros:", error);
         return res.status(500).json({
             success: false,
             error: "Error al obtener el registro de suministro",
+            details: error.message
         });
     }
 };

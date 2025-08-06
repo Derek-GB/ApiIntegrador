@@ -60,8 +60,8 @@ class AuthController {
 
       const cookieOptions = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        secure: false,
+        sameSite: 'none',
         maxAge: 24 * 60 * 60 * 1000,
         path: '/'
       };
@@ -94,7 +94,7 @@ class AuthController {
         res.clearCookie('authToken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: 'none',
             path: '/'
         });
 

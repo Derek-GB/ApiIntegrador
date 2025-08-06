@@ -138,11 +138,44 @@ const deleteProducto = async (req = request, res = response) => {
     }
 };
 
+const getForProductoFamilia = async (req = request, res = response) => {
+  const { productoFamilia } = req.params;
+  if (!productoFamilia) {
+    return res.status(400).json({
+      success: false,
+      message: "Producto de familia es requerido",
+    });
+  }
+  try {
+    const data = await productoService.getForProductoFamilia(productoFamilia);
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Producto de familia no encontrado",
+      });
+    }
+    res.json({
+      success: true,
+      data: data[0],
+      message: "Producto de familia obtenido exitosamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener producto de familia",
+      error: error.message,
+    });
+  }
+};
+
+
+
 
 module.exports = {
     getAllProducto,
     getProducto,
     postProducto,
     putProducto,
-    deleteProducto
+    deleteProducto,
+    getForProductoFamilia
 }

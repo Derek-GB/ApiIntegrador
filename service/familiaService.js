@@ -105,10 +105,22 @@ class familiaService {
             const data = await familiaModel.getAllForCanton(canton);
             const cantidadFamilias = data[0].length;
             const nuevoNumero = cantidadFamilias + 1;
-            const identificador = `${canton}${String(nuevoNumero).padStart(3, '0')}`;
+            const identificador = `${String(nuevoNumero).padStart(3, '0')}`;
             return identificador;
         } catch (error) {
             handleError("generarIdentificador", error);
+        }
+    }
+
+    async getObtenerReferenciasPorCodigoFamilia(codigoFamilia = null) {
+        if (!codigoFamilia) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", new Error("Falta el codigo de familia"), 400);
+        }
+        try {
+            const result = await familiaModel.getObtenerReferenciasPorCodigoFamilia(codigoFamilia);
+            return result;
+        } catch (error) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", error);
         }
     }
 }

@@ -98,6 +98,36 @@ const deleteMascota = async (req = request, res = response) => {
     }
 }
 
+const getForMascotaFamilia = async (req = request, res = response) => {
+  const { MascotaFamilia } = req.params;
+  if (!MascotaFamilia) {
+    return res.status(400).json({
+      success: false,
+      message: "Nombre del mascota familia es requerido",
+    });
+  }
+  try {
+    const data = await mascotaService.getForMascotaFamilia(nombre);
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Mascota no encontrada para la familia especificada",
+      });
+    }
+    res.json({
+      success: true,
+      data: data[0],
+      message: "Mascota obtenida correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener mascota por familia",
+      error: error.message,
+    });
+  }
+};
+
 // const getAllMethod = (req = request, res = response) => {
 //     pool.query("CALL pa_SelectAllMascotas()", (error, results) => {
 //         if (error) {
@@ -247,6 +277,7 @@ module.exports = {
     getMascota,
     postMascota,
     deleteMascota,
+    getForMascotaFamilia,
     // getAllMethod,
     // getMethod,
     // postMethod,

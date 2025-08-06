@@ -72,7 +72,7 @@ class usuarioService {
             const usuario = await usuarioModel.validarCorreoMethod(correo);
             if (!usuario) throw new Error('Usuario no encontrado');
             const contrasenaHash = await bcrypt.hash(nuevaContrasena, 10);
-            const result = await usuarioModel.putConstrasenaMethod({ id: usuario.id, contrasenaHash });
+            const result = await usuarioModel.putConstrasenaMethod({ correo, contrasenaHash });
             return result;
         } catch (error) {
             console.error("Error en usuarioService.putContrasenaMethod: ", error);

@@ -176,6 +176,6 @@ router.delete('/id/:id', productoController.deleteProducto);
  *       500:
  *         description: Error al obtener productos por familia (Contactar equipo de API)
  */
-router.get('/consulta/ProductosPorFamilia/:ProductosPorFamilia', productoController.getForProductoFamilia);
+router.get('/consulta/ProductosPorFamilia/:productoFamilia', productoController.getForProductoFamilia);
 
 module.exports=router;

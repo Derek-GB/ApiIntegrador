@@ -63,6 +63,9 @@ class PersonasService {
     if (!firma || typeof firma !== 'object') {
         handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
     }
+    if (firma.existe == true) {
+        prepararFirma
+    }
 
     const resultados = [];
     const errores = [];
@@ -81,7 +84,6 @@ class PersonasService {
         }
         confirmarObligatorios(persona, indice, camposObligatorios);
         if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
-        
         if (firma) {
             const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
             confirmarObligatorios(firma, null, camposfirma);

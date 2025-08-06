@@ -78,6 +78,8 @@ router.get('/all', productoController.getAllProducto);
  *                 type: integer
  *               unidadMedida:
  *                 type: integer
+ *               idAlbergue:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Producto insertado correctamente

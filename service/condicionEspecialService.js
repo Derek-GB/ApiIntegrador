@@ -60,13 +60,13 @@ class condicionEspecialService {
 
     async getResumenCondicionesEspeciales(id) {
         if (!id) {
-            throw new Error('ID de albergue es requerido');
+            throw new Error('ID de condición especial es requerido');
         }
         try {
             const result = await condicionEspecialModel.getResumenCondicionesEspeciales(id);
             return result;
         } catch (error) {
-            console.error("Error en condicionEspecialService.getResumenCondicionesEspeciales: ", error);
+            console.error("Error en condicionEspecialModel.getResumenCondicionesEspeciales: ", error);
             throw error;
         }
     }

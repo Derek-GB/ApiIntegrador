@@ -23,10 +23,10 @@ class productoModel {
     }
 
     async postProducto(producto) {
-        const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida } = producto;
+        const { codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida, idAlbergue } = producto;
         try {
-            return await db.query('CALL pa_InsertProducto(?, ?, ?, ?, ?, ?);', 
-                [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida]);
+            return await db.query('CALL pa_InsertProducto(?, ?, ?, ?, ?, ?, ?);', 
+                [codigoProducto, nombre, descripcion, cantidad, categoria, unidadMedida, idAlbergue]);
         } catch (error) {
             console.error("Error en postMethod: ", error);
             throw error;

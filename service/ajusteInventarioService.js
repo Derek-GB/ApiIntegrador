@@ -12,16 +12,16 @@ class ajusteInventarioService {
 
     }
 
-     async postAjusteInventario(Inventario) {
-        
+    async postAjusteInventario(Inventario) {
+
         if (!Inventario.idProducto || !Inventario.justificacion || !Inventario.cantidadOriginal || !Inventario.cantidadAjustada || !Inventario.idUsuarioCreacion) {
             throw new Error('Faltan datos: idProducto, justificacion, cantidadOriginal, cantidadAjustada, idUsuarioCreacion')
         }
         const result = await ajusteInventarioModel.postAjuste(Inventario);
         return result;
-    }   
+    }
 
-   async getAllAjusteInventario() {
+    async getAllAjusteInventario() {
         try {
             const result = await ajusteInventarioModel.getAllAjustes();
             return result;
@@ -30,11 +30,11 @@ class ajusteInventarioService {
             throw error;
         }
     }
-    async getAjustesPorProducto(idProducto) {
-        if (!idProducto) {
-            throw new Error('Faltan datos: idProducto')
+    async getAjustesPorProducto(nombreProducto) {
+        if (!nombreProducto) {
+            throw new Error('Faltan datos: nombreProducto');
         }
-        const result = await ajusteInventarioModel.getAjustesPorProducto(idProducto);
+        const result = await ajusteInventarioModel.getAjustesPorProducto({ nombreProducto });
         return result;
     }
 }

@@ -98,26 +98,10 @@ router.get('/all', amenazasController.getAllAmenazas);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 message:
  *                   type: string
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 15
- *                     familiaEvento:
- *                       type: string
- *                     evento:
- *                       type: string
- *                     peligro:
- *                       type: string
- *                     causa:
- *                       type: string
- *                     categoriaEvento:
- *                       type: string
- *                     idUsuarioCreacion:
- *                       type: integer
+ *                   example: Amenaza insertada correctamente
  *       400:
  *         description: Faltan datos obligatorios
  *       500:

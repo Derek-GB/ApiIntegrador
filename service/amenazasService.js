@@ -22,13 +22,18 @@ class amenazasService {
     }
 
     async postAmenaza(Amenaza) {
-
-        if (!Amenaza.familiaEvento || !Amenaza.evento || !Amenaza.peligro || !Amenaza.idUsuarioCreacion || !Amenaza.causa || !Amenaza.categoriaEvento) {
+        if (
+            !Amenaza.familiaEvento ||
+            !Amenaza.evento ||
+            !Amenaza.peligro ||
+            !Amenaza.idUsuarioCreacion ||
+            !Amenaza.causa ||
+            !Amenaza.categoriaEvento
+        ) {
             throw new Error('Faltan datos: familiaEvento, evento, peligro, idUsuarioCreacion, causa o categoriaEvento');
         }
-        const result = await amenazasModel.postAmenaza(Amenaza);
-        return result;
 
+        await amenazasModel.postAmenaza(Amenaza); // no espera resultado
     }
 
     async deleteAmenaza(id) {
@@ -55,5 +60,5 @@ class amenazasService {
 
 }
 
-    
+
 module.exports = new amenazasService();

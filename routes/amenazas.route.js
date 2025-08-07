@@ -81,6 +81,13 @@ router.get('/all', amenazasController.getAllAmenazas);
  *               idUsuarioCreacion:
  *                 type: integer
  *                 example: 7
+ *             example:
+ *               familiaEvento: Meteorológico
+ *               evento: Lluvias intensas
+ *               peligro: Inundación
+ *               causa: Lluvias continuas
+ *               categoriaEvento: Natural
+ *               idUsuarioCreacion: 7
  *     responses:
  *       201:
  *         description: Amenaza insertada correctamente
@@ -91,10 +98,8 @@ router.get('/all', amenazasController.getAllAmenazas);
  *               properties:
  *                 success:
  *                   type: boolean
- *                   example: true
  *                 message:
  *                   type: string
- *                   example: Amenaza insertada correctamente
  *                 data:
  *                   type: object
  *                   properties:
@@ -103,27 +108,22 @@ router.get('/all', amenazasController.getAllAmenazas);
  *                       example: 15
  *                     familiaEvento:
  *                       type: string
- *                       example: Meteorológico
  *                     evento:
  *                       type: string
- *                       example: Lluvias intensas
  *                     peligro:
  *                       type: string
- *                       example: Inundación
- *                     idUsuarioCreacion:
- *                       type: integer
- *                       example: 7
  *                     causa:
  *                       type: string
- *                       example: Lluvias continuas
  *                     categoriaEvento:
  *                       type: string
- *                       example: Natural
+ *                     idUsuarioCreacion:
+ *                       type: integer
  *       400:
  *         description: Faltan datos obligatorios
  *       500:
  *         description: Error al insertar amenaza
  */
+
 router.post('/', amenazasController.postAmenaza);
 
 /**

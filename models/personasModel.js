@@ -85,7 +85,7 @@ class PersonasModel {
 
     async getResumenPersonasDinamico(albergue, sexo, edad) {
         try {
-            const result = await db.query('CALL pa_getResumenPersonasDinamico(?, ?, ?)', [
+            const result = await db.query('CALL pa_ResumenPersonasDinamico(?, ?, ?)', [
                 albergue,
                 sexo,
                 edad

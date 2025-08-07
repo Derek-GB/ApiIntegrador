@@ -61,4 +61,32 @@ router.get('/id/:id', ajusteInventarioController.getAjuste);
     */
 router.post('/', ajusteInventarioController.postAjuste);
 
+
+/*
+    * @swagger
+    * /api/ajusteInventario:
+    *   post:
+    *     summary: Registrar un nuevo ajuste de inventario por id producto
+    *     tags: 
+    *       - AjusteInventario
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             type: object
+    *             properties:
+    *               idProducto:
+    *                 type: integer
+    *               justificacion:
+    *                 type: string
+    *               cantidadOriginal:
+    *                 type: integer
+    *               cantidadAjustada:
+    *                 type: integer
+    *               idUsuarioCreacion:
+    *                 type: integer
+    */
+router.get('/idProducto/:idProducto', ajusteInventarioController.getAjustesPorProducto);
+
 module.exports = router;

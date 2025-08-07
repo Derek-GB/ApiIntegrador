@@ -217,4 +217,109 @@ router.get('/consulta/familiaConJefe/:cedula', familiaController.getForCedulaJef
  */
 router.get('/requerimiento/indentificador/:canton', familiaController.generarIdentificador);
 
+/**
+ * @swagger
+ * /api/familias/codigoFamilia/{codigoFamilia}:
+ *   get:
+ *     tags:
+ *       - Familias
+ *     summary: Obtener una familia por codigoFamilia
+ *     parameters:
+ *       - in: path
+ *         name: codigoFamilia
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: codigoFamilia de la familia
+ *     responses:
+ *       200:
+ *         description: Familia obtenida exitosamente
+ *       404:
+ *         description: Familia no encontrada
+ *       500:
+ *         description: Error al obtener familia (Contactar equipo de API)
+ */
+router.get('codigoFamilia/:codigoFamilia', familiaController.getObtenerReferenciasPorCodigoFamilia);
+
+/**
+ * @swagger
+ * /api/familias/consulta/porUsuario/{idUsuario}:
+ *   get:
+ *     summary: Obtener familias por ID de usuario
+ *     tags:
+ *       - Familias
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         description: ID del usuario para obtener sus familias asociadas
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Familias obtenidas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       codigoFamilia:
+ *                         type: string
+ *                         example: "FAM123"
+ *                       cantidadPersonas:
+ *                         type: integer
+ *                         example: 4
+ *                       idAlbergue:
+ *                         type: integer
+ *                         example: 2
+ *       400:
+ *         description: Parámetro idUsuario no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro idUsuario en la query
+ *       404:
+ *         description: No se encontraron familias para el usuario proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No se encontraron familias para el usuario proporcionado
+ *       500:
+ *         description: Error al obtener familias por usuario (Contactar equipo de API)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Error al obtener familias por usuario; error inesperado
+ */
+router.get('/consulta/porUsuario/:idUsuario', familiaController.getAllFamiliasPorUsuario);
+
 module.exports = router;

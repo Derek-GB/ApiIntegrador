@@ -111,5 +111,28 @@ class familiaService {
             handleError("generarIdentificador", error);
         }
     }
+
+    async getObtenerReferenciasPorCodigoFamilia(codigoFamilia = null) {
+        if (!codigoFamilia) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", new Error("Falta el codigo de familia"), 400);
+        }
+        try {
+            const result = await familiaModel.getObtenerReferenciasPorCodigoFamilia(codigoFamilia);
+            return result;
+        } catch (error) {
+            handleError("getObtenerReferenciasPorCodigoFamilia", error);
+        }
+    }
+    async getAllFamiliasPorUsuario(idUsuario = null) {
+        if (!idUsuario) {
+            handleError("getAllFamiliasPorUsuario", new Error("Falta el codigo de usuario"), 400);
+        }
+        try {
+            const result = await familiaModel.getAllFamiliasPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            handleError("getAllFamiliasPorUsuario", error);
+        }
+    }
 }
 module.exports = new familiaService();

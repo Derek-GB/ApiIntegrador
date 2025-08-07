@@ -107,10 +107,20 @@ class albergueService {
 
     async getResumenAlberguesColor(Color){
          try {
-            const result = await albergueService.getResumenAlberguesColor(Color);
+            const result = await albergueModel.getResumenAlberguesColor(Color);
             return result;
         } catch (error) {
-            console.error("Error en albergueService.ResumenAlberguesColor: ", error);
+            console.error("Error en albergueModel.ResumenAlberguesColor: ", error);
+            throw error;
+        }
+    }
+
+    async getAllAlberguesPorUsuario(idUsuario){
+         try {
+            const result = await albergueModel.getAllAlberguesPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getAllAlberguesPorUsuario: ", error);
             throw error;
         }
     }

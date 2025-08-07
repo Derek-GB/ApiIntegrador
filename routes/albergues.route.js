@@ -425,7 +425,7 @@ router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaA
 
 /**
  * @swagger
- * /api/albergues/consulta/color/{color}:
+ * /api/albergues/resumen/color/{color}:
  *   get:
  *     summary: Consultar albergue por color
  *     tags:
@@ -461,6 +461,94 @@ router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaA
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 
-router.get('/consulta/color/:color', albergueController.getResumenAlberguesColor);
+router.get('/resumen/color/:color', albergueController.getResumenAlberguesColor);
+
+/**
+ * @swagger
+ * /api/albergues/consulta/porUsuario/{idUsuario}:
+ *   get:
+ *     summary: Obtener albergues por ID de usuario
+ *     tags:
+ *       - Albergues
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         description: ID del usuario para obtener sus albergues
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Albergues obtenidos exitosamente para el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Albergues obtenidos exitosamente para el usuario
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     nombre:
+ *                       type: string
+ *                       example: "Albergue Esperanza"
+ *                     direccion:
+ *                       type: string
+ *                       example: "Calle 123, Ciudad"
+ *                     capacidad:
+ *                       type: integer
+ *                       example: 50
+ *       400:
+ *         description: ID de usuario no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: ID de usuario es requerido
+ *       404:
+ *         description: Albergues no encontrados para el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Albergues no encontrados para el usuario
+ *       500:
+ *         description: Error al obtener los albergues del usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al obtener los albergues del usuario
+ *                 error:
+ *                   type: string
+ *                   example: Error inesperado
+ */
+router.get('/consulta/porUsuario/:idUsuario', albergueController.getAllAlberguesPorUsuario);
 
 module.exports = router;

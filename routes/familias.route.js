@@ -153,6 +153,42 @@ router.put('/', familiaController.putFamilia);
 
 /**
  * @swagger
+ * /api/familias/egreso:
+ *   put:
+ *     tags:
+ *       - Familias
+ *     summary: Registrar egreso de una familia
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - idModificacion
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: ID de la familia que egresa
+ *               idModificacion:
+ *                 type: integer
+ *                 description: ID del usuario que realiza la modificación
+ *     responses:
+ *       200:
+ *         description: Egreso registrado exitosamente
+ *       400:
+ *         description: Datos inválidos en la solicitud
+ *       404:
+ *         description: No se encontró la familia correspondiente
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.put('/egreso', familiaController.putEgresoFamilia);
+
+
+/**
+ * @swagger
  * /api/familias/vista/familiaConJefe:
  *   get:
  *     tags:

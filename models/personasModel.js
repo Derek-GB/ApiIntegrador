@@ -14,7 +14,7 @@ class PersonasModel {
 
     async getAllPersonasByUsuario(idUsuario) {
         try {
-            const result = await db.query('CALL pa_SelectAllPersonaPorUsuario(?)', [idUsuario]);
+            const result = await db.query('CALL pa_SelectAllPersonasPorUsuario(?)', [idUsuario]);
             return result;
         } catch (error) {
             console.error(`Error consiguiendo por ID Usuario ${idUsuario}:`, error);

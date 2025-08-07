@@ -283,6 +283,36 @@ const getResumenAlberguesColor = async (req = request, res = response) => {
   }
 };
 
+const getAllAlberguesPorUsuario = async (req = request, res = response) => {
+  const { idUsuario } = req.params;
+  if (!idUsuario) {
+    return res.status(400).json({
+      success: false,
+      message: "ID de usuario es requerido",
+    });
+  }
+  try {
+    const data = await albergueService.getAllAlberguesPorUsuario(idUsuario);
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Albergues no encontrados para el usuario",
+      });
+    }
+    res.json({
+      success: true,
+      data: data[0],
+      message: "Albergues obtenidos exitosamente para el usuario",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener los albergues del usuario",
+      error: error.message,
+    });
+  }
+};
+
 /**
  * Método PUT para actualizar un albergue
  * Debes tener el método updateAlbergue en tu modelo y service.
@@ -516,4 +546,5 @@ module.exports = {
   getForProvinciaAlbergue,
   getResumenAlberguesColor,
   postAlbergue,
+  getAllAlberguesPorUsuario,
 };

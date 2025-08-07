@@ -20,25 +20,28 @@ class amanezasModel {
     }
 
     async postAmenaza(Amenaza) {
-        const { familiaEvento,
+        const {
+            familiaEvento,
             evento,
             peligro,
+            idUsuarioCreacion,
             causa,
             categoriaEvento,
-            idFamilia,
-            idUsuarioCreacion, } = Amenaza;
+        } = Amenaza;
+
         try {
-            return await db.query('CALL pa_InsertAmenaza(?, ?, ?, ?, ?, ?, ?);',
-                [
-                    familiaEvento,
-                    evento,
-                    peligro,
-                    causa,
-                    categoriaEvento,
-                    idFamilia,
-                    idUsuarioCreacion,]);
-        }
-        catch (error) {
+            await db.query('CALL pa_InsertAmenaza(?, ?, ?, ?, ?, ?);', [
+                familiaEvento,
+                evento,
+                peligro,
+                idUsuarioCreacion,
+                causa,
+                categoriaEvento,
+            ]);
+
+            // No retorna nada
+            return;
+        } catch (error) {
             console.error("Error en postAmenaza: ", error);
             throw error;
         }

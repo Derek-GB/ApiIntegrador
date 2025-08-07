@@ -153,6 +153,42 @@ router.put('/', familiaController.putFamilia);
 
 /**
  * @swagger
+ * /api/familias/egreso:
+ *   put:
+ *     tags:
+ *       - Familias
+ *     summary: Registrar egreso de una familia
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - idModificacion
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: ID de la familia que egresa
+ *               idModificacion:
+ *                 type: integer
+ *                 description: ID del usuario que realiza la modificación
+ *     responses:
+ *       200:
+ *         description: Egreso registrado exitosamente
+ *       400:
+ *         description: Datos inválidos en la solicitud
+ *       404:
+ *         description: No se encontró la familia correspondiente
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.put('/egreso', familiaController.putEgresoFamilia);
+
+
+/**
+ * @swagger
  * /api/familias/vista/familiaConJefe:
  *   get:
  *     tags:
@@ -240,5 +276,86 @@ router.get('/requerimiento/indentificador/:canton', familiaController.generarIde
  *         description: Error al obtener familia (Contactar equipo de API)
  */
 router.get('codigoFamilia/:codigoFamilia', familiaController.getObtenerReferenciasPorCodigoFamilia);
+
+/**
+ * @swagger
+ * /api/familias/consulta/porUsuario/{idUsuario}:
+ *   get:
+ *     summary: Obtener familias por ID de usuario
+ *     tags:
+ *       - Familias
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         description: ID del usuario para obtener sus familias asociadas
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Familias obtenidas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       codigoFamilia:
+ *                         type: string
+ *                         example: "FAM123"
+ *                       cantidadPersonas:
+ *                         type: integer
+ *                         example: 4
+ *                       idAlbergue:
+ *                         type: integer
+ *                         example: 2
+ *       400:
+ *         description: Parámetro idUsuario no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro idUsuario en la query
+ *       404:
+ *         description: No se encontraron familias para el usuario proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No se encontraron familias para el usuario proporcionado
+ *       500:
+ *         description: Error al obtener familias por usuario (Contactar equipo de API)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Error al obtener familias por usuario; error inesperado
+ */
+router.get('/consulta/porUsuario/:idUsuario', familiaController.getAllFamiliasPorUsuario);
 
 module.exports = router;

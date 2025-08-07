@@ -158,6 +158,15 @@ class albergueModel {
         }
     }
 
+    async getAllAlberguesPorUsuario(idUsuario){
+        try{
+           return await db.query('CALL pa_SelectAllAlberguesPorUsuario(?);', [idUsuario])
+        } catch (error) {
+            console.error("Error al encontrar el albergue por usuario: ", error);
+            throw error; 
+        }
+    }
+
 }
 
     

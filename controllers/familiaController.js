@@ -108,70 +108,6 @@ const postFamilia = async (req = request, res = response) => {
   }
 }
 
-// const postMethod = (req = request, res = response) => {
-//   let {
-//     codigoFamilia,
-//     cantidadPersonas,
-//     idAlbergue,
-//     idUbicacion,
-//     idAmenaza,
-//     idPersona,
-//     idUsuarioCreacion,
-//   } = req.body;
-
-//   if (
-//     !codigoFamilia ||
-//     !cantidadPersonas ||
-//     !idAlbergue ||
-//     !idUbicacion ||
-//     !idAmenaza
-//   ) {
-//     return res.status(400).json({
-//       success: false,
-//       message:
-//         "Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza, idPersona",
-//     });
-//   }
-//   idUsuarioCreacion = idUsuarioCreacion ?? null;
-
-//   pool.query(
-//     "CALL pa_InsertFamilia(?, ?, ?, ?, ?, ?, ?)",
-//     [
-//       codigoFamilia,
-//       cantidadPersonas,
-//       idAlbergue,
-//       idUbicacion,
-//       idAmenaza,
-//       idPersona,
-//       idUsuarioCreacion,
-//     ],
-//     (error, results) => {
-//       if (error) {
-//         console.error("Error al insertar familia:", error);
-//         return res.status(500).json({
-//           success: false,
-//           error: "Error al insertar familia",
-//         });
-//       }
-
-//       res.status(201).json({
-//         success: true,
-//         message: "Familia insertada correctamente",
-//         data: {
-//           id: results[0][0].id,
-//           codigoFamilia,
-//           cantidadPersonas,
-//           idAlbergue,
-//           idUbicacion,
-//           idAmenaza,
-//           idPersona,
-//           idUsuarioCreacion,
-//         },
-//       });
-//     }
-//   );
-// };
-
 const putFamilia = async (req = request, res = response) => {
   res.status(404).json({
     success: false,
@@ -179,83 +115,24 @@ const putFamilia = async (req = request, res = response) => {
   });
 }
 
-// const putMethod = (req = request, res = response) => {
-//   const { id } = req.body;
-//   const {
-//     codigoFamilia,
-//     cantidadPersonas,
-//     idAlbergue,
-//     idUbicacion,
-//     idAmenaza,
-//   } = req.body;
-
-//   if (
-//     !id ||
-//     !codigoFamilia ||
-//     cantidadPersonas == null ||
-//     idAlbergue == null ||
-//     idUbicacion == null ||
-//     idAmenaza == null
-//   ) {
-//     return res.status(400).json({
-//       success: false,
-//       message:
-//         "Faltan datos: codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza ",
-//     });
-//   }
-
-//   pool.query(
-//     "CALL pa_UpdateFamilia(?, ?, ?, ?, ?, ?)",
-//     [id, codigoFamilia, cantidadPersonas, idAlbergue, idUbicacion, idAmenaza],
-//     (error, results) => {
-//       if (error) {
-//         console.error("Error al actualizar familia:", error);
-//         return res.status(500).json({
-//           success: false,
-//           error: "Error al actualizar familia",
-//         });
-//       }
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Familia actualizada correctamente",
-//         data: {
-//           codigoFamilia,
-//           cantidadPersonas,
-//           idAlbergue,
-//           idUbicacion,
-//           idAmenaza,
-//         },
-//       });
-//     }
-//   );
-// };
-
-// const deleteMethod = (req = request, res = response) => {
-//   const { id } = req.params;
-
-//   if (!id) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "ID de familia no proporcionado en el body",
-//     });
-//   }
-
-//   pool.query("CALL pa_DeleteFamilia(?)", [id], (error, results) => {
-//     if (error) {
-//       console.error("Error al eliminar familia:", error);
-//       return res.status(500).json({
-//         success: false,
-//         error: "Error al eliminar familia",
-//       });
-//     }
-
-//     res.json({
-//       success: true,
-//       message: `Familia con ID ${id} eliminada correctamente`,
-//     });
-//   });
-// };
+const putEgresoFamilia = async (req = request, res = response) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el parametro id en la query",
+      });
+  }
+  try {
+    const { id, idModificacion } = req.body;
+    const data = await familiaService.putEgresoFamilia({ id, idModificacion });
+    res.status(200).json({ success: true, message: "Todo salio bien" });
+  } catch (error) {
+    console.log("Error en putEgresoFamilia; " + error.message, error);
+    res.status(500).json({ success: false, message: "Error al actualizar egreso: " + error.message});
+  }
+};
 
 const getVistaFamiliaJefe = async (req = request, res = response) => {
   if (!req.params) {
@@ -417,15 +294,43 @@ const getObtenerReferenciasPorCodigoFamilia = (req = request, res = response) =>
       });
     });
 }
-  
+const getAllFamiliasPorUsuario = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idUsuario en la query" });
+  }
+  const { idUsuario } = req.params;
+  familiaService.getAllFamiliasPorUsuario(idUsuario)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron familias para el usuario proporcionado",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener familias por usuario:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener familias por usuario; " + error.message,
+      });
+    });
+}
+
 
 module.exports = {
   getAllFamilias,
   getFamilia,
   postFamilia,
   putFamilia,
+  putEgresoFamilia,
   getVistaFamiliaJefe,
   getForCedulaJefe,
   generarIdentificador,
   getObtenerReferenciasPorCodigoFamilia,
+  getAllFamiliasPorUsuario
 };

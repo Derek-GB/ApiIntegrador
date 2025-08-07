@@ -179,17 +179,31 @@ const getAmenaza = async (req = request, res = response) => {
 // };
 
 const postAmenaza = async (req = request, res = response) => {
+  const {
+    familiaEvento,
+    evento,
+    peligro,
+    idUsuarioCreacion,
+    causa,
+    categoriaEvento,
+  } = req.body;
+
   try {
-    const amenazaData = req.body;
-    const result = await amenazasService.postAmenaza(amenazaData);
+    await amenazasService.postAmenaza({
+      familiaEvento,
+      evento,
+      peligro,
+      idUsuarioCreacion,
+      causa,
+      categoriaEvento,
+    });
 
     res.status(201).json({
       success: true,
-      message: "Amenaza insertada correctamente",
-      data: amenazaData, // puedes ajustar esto si `result` trae el ID u otro dato
+      message: 'Amenaza insertada correctamente',
     });
   } catch (error) {
-    console.error("Error al insertar amenaza:", error);
+    console.error("Error en postAmenaza:", error);
     res.status(500).json({
       success: false,
       message: "Error al insertar amenaza",

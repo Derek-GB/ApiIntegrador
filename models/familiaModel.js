@@ -44,6 +44,15 @@ class familiaModel {
 
     //agregar put algun dia
 
+    async putEgresoFamilia(egreso){
+        try {
+            return await db.query('CALL pa_UpdateFamilia(?,?);',[egreso.id, egreso.idModificacion]);
+        } catch (error) {
+            console.error("Error en putEgresoFamilia: ", error);
+            throw error;
+        }
+    }
+
     async deleteFamilia(id) {
         try {
             return await db.query('CALL pa_DeleteFamilia(?);', [id])
@@ -85,6 +94,14 @@ class familiaModel {
             return await db.query('CALL getObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
         } catch (error) {
             console.error("Error en getObtenerReferenciasPorCodigoFamilia: ", error);
+            throw error;
+        }
+    }
+    async getAllFamiliasPorUsuario(idUsuario) {
+        try {
+            return await db.query('CALL pa_SelectAllFamiliasPorUsuario(?);', [idUsuario]);
+        } catch (error) {
+            console.error("Error en getAllFamiliasPorUsuario: ", error);
             throw error;
         }
     }

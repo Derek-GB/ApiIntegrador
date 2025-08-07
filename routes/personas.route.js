@@ -21,6 +21,31 @@ router.get('/all', personasController.getAllPersonas);
 
 /**
  * @swagger
+ * /api/personas/user/{idUsuario}:
+ *   get:
+ *     tags:
+ *       - Personas
+ *     summary: Obtener todas las personas asociadas a un usuario
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Lista de personas asociadas al usuario
+ *       404:
+ *         description: No se encontraron personas para este usuario
+ *       500:
+ *         description: Error interno del servidor (Contactar con equipo de API)
+ */
+router.get('/user/:idUsuario', personasController.getAllPersonasByUsuario);
+
+
+/**
+ * @swagger
  * /api/personas/id/{id}:
  *   get:
  *     tags:

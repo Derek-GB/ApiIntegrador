@@ -358,4 +358,99 @@ router.get('codigoFamilia/:codigoFamilia', familiaController.getObtenerReferenci
  */
 router.get('/consulta/porUsuario/:idUsuario', familiaController.getAllFamiliasPorUsuario);
 
+/**
+ * @swagger
+ * /obtener/referencia/{codigoFamilia}:
+ *   get:
+ *     summary: Obtener referencias por código de familia
+ *     description: Obtiene todas las referencias asociadas a una familia específica mediante su código de familia
+ *     tags:
+ *       - Obtener
+ *     parameters:
+ *       - in: path
+ *         name: codigoFamilia
+ *         required: true
+ *         description: Código único que identifica a la familia
+ *         schema:
+ *           type: string
+ *           example: "FAM001"
+ *     responses:
+ *       200:
+ *         description: Referencias encontradas exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       codigoFamilia:
+ *                         type: string
+ *                         description: Código de la familia
+ *                         example: "FAM001"
+ *                       tipoAyuda:
+ *                         type: string
+ *                         description: Tipo de ayuda proporcionada
+ *                         example: "Alimentaria"
+ *                       descripcion:
+ *                         type: string
+ *                         description: Descripción detallada de la ayuda
+ *                         example: "Entrega de canasta básica familiar"
+ *                       fechaEntrega:
+ *                         type: string
+ *                         format: date
+ *                         description: Fecha de entrega de la ayuda
+ *                         example: "2024-01-15"
+ *                       responsable:
+ *                         type: string
+ *                         description: Persona responsable de la entrega
+ *                         example: "Juan Pérez"
+ *       400:
+ *         description: Parámetro codigoFamilia no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro codigoFamilia en la query
+ *       404:
+ *         description: No se encontraron referencias para el código de familia proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No se encontraron referencias para el código de familia proporcionado
+ *       500:
+ *         description: Error al obtener referencias por código de familia (Contactar equipo de API)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Error al obtener referencias por código de familia; Database connection failed
+ */
+router.get('/obtener/referencia/:codigoFamilia', familiaController.getObtenerReferenciasPorCodigoFamilia);
+
 module.exports = router;

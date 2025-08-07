@@ -62,31 +62,96 @@ router.get('/id/:id', ajusteInventarioController.getAjuste);
 router.post('/', ajusteInventarioController.postAjuste);
 
 
-/*
-    * @swagger
-    * /api/ajusteInventario:
-    *   post:
-    *     summary: Registrar un nuevo ajuste de inventario por id producto
-    *     tags: 
-    *       - AjusteInventario
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             type: object
-    *             properties:
-    *               idProducto:
-    *                 type: integer
-    *               justificacion:
-    *                 type: string
-    *               cantidadOriginal:
-    *                 type: integer
-    *               cantidadAjustada:
-    *                 type: integer
-    *               idUsuarioCreacion:
-    *                 type: integer
-    */
-router.get('/idProducto/:idProducto', ajusteInventarioController.getAjustesPorProducto);
+/**
+ * @swagger
+ * /producto/{idProducto}:
+ *   get:
+ *     summary: Obtener ajustes de inventario por producto
+ *     description: Devuelve la lista de ajustes de inventario realizados a un producto específico usando su ID.
+ *     tags:
+ *       - Obtener
+ *     parameters:
+ *       - in: path
+ *         name: idProducto
+ *         required: true
+ *         description: ID del producto del cual se desean obtener los ajustes
+ *         schema:
+ *           type: string
+ *           example: "PRD001"
+ *     responses:
+ *       200:
+ *         description: Lista de ajustes obtenida correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Lista de ajustes obtenida correctamente
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       nombreProducto:
+ *                         type: string
+ *                         description: Nombre del producto
+ *                         example: "Arroz"
+ *                       cantidadOriginal:
+ *                         type: integer
+ *                         description: Cantidad original antes del ajuste
+ *                         example: 100
+ *                       cantidadAjustada:
+ *                         type: integer
+ *                         description: Cantidad después del ajuste
+ *                         example: 80
+ *                       justificacion:
+ *                         type: string
+ *                         description: Motivo del ajuste
+ *                         example: "Producto dañado"
+ *                       fechaCreacion:
+ *                         type: string
+ *                         format: date-time
+ *                         description: Fecha y hora en que se registró el ajuste
+ *                         example: "2025-08-06T14:23:00Z"
+ *                       Estado:
+ *                         type: string
+ *                         description: Estado del ajuste (activo, inactivo, etc.)
+ *                         example: "Activo"
+ *       400:
+ *         description: Parámetro idProducto no proporcionado o inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parámetro idProducto en la query
+ *       500:
+ *         description: Error al obtener los ajustes de inventario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al obtener los ajustes de inventario
+ *                 error:
+ *                   type: string
+ *                   example: Error al conectarse con la base de datos
+ */
+router.get('/producto/:idProducto', ajusteInventarioController.getAjustesPorProducto);
 
 module.exports = router;

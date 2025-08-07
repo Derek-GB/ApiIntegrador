@@ -96,14 +96,14 @@ class PersonasModel {
             throw error;
         }
     }
-    
 
-    async getResumenDiscapacidad(id) {
+
+    async getResumenDiscapacidad(idAlbergue) {
         try {
-            const result = await db.query('CALL pa_ResumenDiscapacidad(?)', [id]);
+            const result = await db.query('CALL pa_PersonasConDiscapacidad(?)', [idAlbergue]);
             return result[0];
         } catch (error) {
-            console.error(`Error consiguiendo por ID ${id}:`, error);
+            console.error(`Error obteniendo personas con discapacidad para albergue ${idAlbergue}:`, error);
             throw error;
         }
     }

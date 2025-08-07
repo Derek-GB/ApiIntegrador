@@ -70,16 +70,16 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/personas/discapacidad/id/{id}:
+ * /api/personas/resumen/id/{idAlbergue}:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de discapacidad por ID
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: idAlbergue
  *         schema:
- *           type: integer
+ *           type: string
  *         required: true
  *         description: ID de discapacidad
  *     responses:
@@ -92,7 +92,7 @@ router.get('/id/:id', personasController.getPersona);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', personasController.getResumenDiscapacidad);
+router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
 
 /**
  * @swagger

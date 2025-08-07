@@ -44,9 +44,9 @@ class familiaModel {
 
     //agregar put algun dia
 
-    async putEgresoFamilia(egreso){
+    async putEgresoFamilia(egreso) {
         try {
-            return await db.query('CALL pa_UpdateFamilia(?,?);',[egreso.id, egreso.idModificacion]);
+            return await db.query('CALL pa_UpdateFamilia(?,?);', [egreso.id, egreso.idModificacion]);
         } catch (error) {
             console.error("Error en putEgresoFamilia: ", error);
             throw error;
@@ -62,7 +62,7 @@ class familiaModel {
         }
     }
 
-    async getVistaFamiliaJefe(id){
+    async getVistaFamiliaJefe(id) {
         try {
             return await db.query('SELECT * FROM vista_FamiliaConJefe WHERE id = ?', [id])
         } catch (error) {
@@ -71,7 +71,7 @@ class familiaModel {
         }
     }
 
-    async getForCedulaJefe(cedula){
+    async getForCedulaJefe(cedula) {
         try {
             return await db.query('CALL pa_ObtenerFamiliasPorCedulaJefe(?)', [cedula])
         } catch (error) {
@@ -91,12 +91,14 @@ class familiaModel {
 
     async getObtenerReferenciasPorCodigoFamilia(codigoFamilia) {
         try {
-            return await db.query('CALL ObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
+            const [results] = await db.query('CALL ObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
+            return results[0] || [];
         } catch (error) {
             console.error("Error en getObtenerReferenciasPorCodigoFamilia: ", error);
             throw error;
         }
     }
+
     async getAllFamiliasPorUsuario(idUsuario) {
         try {
             return await db.query('CALL pa_SelectAllFamiliasPorUsuario(?);', [idUsuario]);

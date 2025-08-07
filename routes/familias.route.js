@@ -360,7 +360,7 @@ router.get('/consulta/porUsuario/:idUsuario', familiaController.getAllFamiliasPo
 
 /**
  * @swagger
- * /obtener/referencia/{codigoFamilia}:
+ * /api/familias/obtener/referencia/{codigoFamilia}:
  *   get:
  *     summary: Obtener referencias por código de familia
  *     description: Obtiene todas las referencias asociadas a una familia específica mediante su código de familia

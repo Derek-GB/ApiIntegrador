@@ -64,7 +64,7 @@ router.post('/', ajusteInventarioController.postAjuste);
 
 /**
  * @swagger
- * /producto/{idProducto}:
+ * /api/ajusteInventario/producto/{idProducto}:
  *   get:
  *     summary: Obtener ajustes de inventario por producto
  *     description: Devuelve la lista de ajustes de inventario realizados a un producto específico usando su ID.

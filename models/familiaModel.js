@@ -91,7 +91,7 @@ class familiaModel {
 
     async getObtenerReferenciasPorCodigoFamilia(codigoFamilia) {
         try {
-            return await db.query('CALL getObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
+            return await db.query('CALL ObtenerReferenciasPorCodigoFamilia(?);', [codigoFamilia]);
         } catch (error) {
             console.error("Error en getObtenerReferenciasPorCodigoFamilia: ", error);
             throw error;

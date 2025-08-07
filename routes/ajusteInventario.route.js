@@ -61,23 +61,22 @@ router.get('/id/:id', ajusteInventarioController.getAjuste);
     */
 router.post('/', ajusteInventarioController.postAjuste);
 
-
 /**
  * @swagger
- * /api/ajusteInventario/producto/{idProducto}:
+ * /api/ajusteInventario/producto/{nombreProducto}:
  *   get:
- *     summary: Obtener ajustes de inventario por producto
- *     description: Devuelve la lista de ajustes de inventario realizados a un producto específico usando su ID.
+ *     summary: Obtener ajustes de inventario por nombre del producto
+ *     description: Devuelve la lista de ajustes de inventario realizados a un producto específico usando su nombre.
  *     tags:
  *       - Obtener
  *     parameters:
  *       - in: path
- *         name: idProducto
+ *         name: nombreProducto
  *         required: true
- *         description: ID del producto del cual se desean obtener los ajustes
+ *         description: Nombre del producto del cual se desean obtener los ajustes
  *         schema:
  *           type: string
- *           example: "PRD001"
+ *           example: "Arroz"
  *     responses:
  *       200:
  *         description: Lista de ajustes obtenida correctamente
@@ -123,7 +122,7 @@ router.post('/', ajusteInventarioController.postAjuste);
  *                         description: Estado del ajuste (activo, inactivo, etc.)
  *                         example: "Activo"
  *       400:
- *         description: Parámetro idProducto no proporcionado o inválido
+ *         description: Parámetro nombreProducto no proporcionado o inválido
  *         content:
  *           application/json:
  *             schema:
@@ -134,7 +133,7 @@ router.post('/', ajusteInventarioController.postAjuste);
  *                   example: false
  *                 error:
  *                   type: string
- *                   example: Se esperaba el parámetro idProducto en la query
+ *                   example: Se esperaba el parámetro nombreProducto en la query
  *       500:
  *         description: Error al obtener los ajustes de inventario
  *         content:
@@ -152,6 +151,6 @@ router.post('/', ajusteInventarioController.postAjuste);
  *                   type: string
  *                   example: Error al conectarse con la base de datos
  */
-router.get('/producto/:idProducto', ajusteInventarioController.getAjustesPorProducto);
+router.get('/producto/:nombreProducto', ajusteInventarioController.getAjustesPorProducto);
 
 module.exports = router;

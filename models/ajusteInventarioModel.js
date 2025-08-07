@@ -12,11 +12,11 @@ class ajusteInventarioModel {
         }
     }
 
-    async getAjuste(Inventario){
-        const  { id } = Inventario
+    async getAjuste(Inventario) {
+        const { id } = Inventario
         try {
             return await db.query('CALL pa_SelectAjusteInventario(?)', [id])
-        }catch(error){
+        } catch (error) {
             console.error("Error en getAjuste: ", error);
             throw error;
         }
@@ -25,8 +25,8 @@ class ajusteInventarioModel {
     async postAjuste(Inventario) {
         const { idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion } = Inventario;
         try {
-            const result = await db.query('CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?)', 
-                [ idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion ])
+            const result = await db.query('CALL pa_InsertAjusteInventario(?, ?, ?, ?, ?)',
+                [idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion])
             return result;
         } catch (error) {
             console.error("Error en postAjuste: ", error);
@@ -34,16 +34,16 @@ class ajusteInventarioModel {
         }
     }
 
-    async getAjustesPorProducto(Inventario){
-        const  { idProducto } = Inventario
+    async getAjustesPorProducto(Inventario) {
+        const { nombreProducto } = Inventario;
         try {
-            return await db.query('CALL AjustesPorProducto(?)', [idProducto])
-        }catch(error){
+            return await db.query('CALL AjustesPorProducto(?)', [nombreProducto]);
+        } catch (error) {
             console.error("Error en getAjustesPorProducto: ", error);
             throw error;
         }
     }
-    
+
 
 
 }

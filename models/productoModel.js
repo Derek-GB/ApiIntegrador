@@ -51,6 +51,15 @@ class productoModel {
             throw error;
         }
     }
+
+    async getAllProductoPorUsuario(idUsuario) {
+        try {
+            return await db.query('CALL pa_SelectAllProductosPorUsuario(?);', [idUsuario])
+        } catch (error) {
+            console.error("Error al encontrar el producto por usuario: ", error);
+            throw error;
+        }
+    }
  }
 
     

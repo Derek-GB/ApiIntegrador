@@ -114,6 +114,16 @@ class albergueService {
             throw error;
         }
     }
+
+    async getAllAlberguesPorUsuario(idUsuario){
+         try {
+            const result = await albergueModel.getAllAlberguesPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getAllAlberguesPorUsuario: ", error);
+            throw error;
+        }
+    }
     
 
 

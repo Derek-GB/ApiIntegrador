@@ -88,6 +88,15 @@ class productoService {
         }
     }
 
+    async getAllProductoPorUsuario(idUsuario) {
+        try {
+            const result = await productoModel.getAllProductoPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            handleError("getForProductoPorUsuario", error);
+        }
+    }
+
 
 }
 module.exports = new productoService();

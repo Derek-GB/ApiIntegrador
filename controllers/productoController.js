@@ -170,6 +170,36 @@ const getForProductoFamilia = async (req = request, res = response) => {
   }
 };
 
+const getAllProductoPorUsuario = async (req = request, res = response) => {
+  const { idUsuario } = req.params;
+  if (!idUsuario) {
+    return res.status(400).json({
+      success: false,
+      message: "Producto de familia es requerido",
+    });
+  }
+  try {
+    const data = await productoService.getAllProductoPorUsuario(idUsuario);
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Producto de usuario no encontrado",
+      });
+    }
+    res.json({
+      success: true,
+      data: data[0],
+      message: "Producto de usuario obtenido exitosamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener producto de usuario",
+      error: error.message,
+    });
+  }
+};
+
 
 
 
@@ -179,5 +209,6 @@ module.exports = {
     postProducto,
     putProducto,
     deleteProducto,
-    getForProductoFamilia
+    getForProductoFamilia,
+    getAllProductoPorUsuario
 }

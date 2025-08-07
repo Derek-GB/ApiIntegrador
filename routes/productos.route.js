@@ -180,4 +180,92 @@ router.delete('/id/:id', productoController.deleteProducto);
  */
 router.get('/consulta/ProductosPorFamilia/:productoFamilia', productoController.getForProductoFamilia);
 
+/**
+ * @swagger
+ * /api/productos/consulta/porUsuario/{idUsuario}:
+ *   get:
+ *     summary: Obtener producto por ID de usuario
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: idUsuario
+ *         required: true
+ *         description: ID del usuario para obtener el producto asociado
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Producto de usuario obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Producto de usuario obtenido exitosamente
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     idProducto:
+ *                       type: integer
+ *                       example: 10
+ *                     nombre:
+ *                       type: string
+ *                       example: "Kit de Higiene"
+ *                     descripcion:
+ *                       type: string
+ *                       example: "Incluye jabón, pasta de dientes, papel higiénico"
+ *                     cantidad:
+ *                       type: integer
+ *                       example: 3
+ *       400:
+ *         description: ID de usuario no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Producto de familia es requerido
+ *       404:
+ *         description: Producto no encontrado para el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Producto de usuario no encontrado
+ *       500:
+ *         description: Error al obtener producto de usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al obtener producto de usuario
+ *                 error:
+ *                   type: string
+ *                   example: Error inesperado
+ */
+router.get('/consulta/porUsuario/:idUsuario', productoController.getAllProductoPorUsuario);
+
 module.exports=router;

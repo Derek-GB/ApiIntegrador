@@ -34,10 +34,12 @@ class ajusteInventarioModel {
         }
     }
 
+
     async getAjustesPorProducto(Inventario) {
         const { nombreProducto } = Inventario;
         try {
-            return await db.query('CALL ObtenerAjustesPorProducto(?)', [nombreProducto]);
+            const result = await db.query('CALL ObtenerAjustesPorProducto(?)', [nombreProducto]);
+            return result[0] || [];
         } catch (error) {
             console.error("Error en getAjustesPorProducto: ", error);
             throw error;

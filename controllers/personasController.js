@@ -111,34 +111,74 @@ const getResumenDiscapacidad = async (req = request, res = response) => {
 };
 
 const postPersonas = async (req = request, res = response) => {
+  console.log("=== DEBUG COMPLETO ===");
+  console.log("req.body.personas:", req.body.personas ? "existe" : "no existe");
+  console.log("req.firma:", JSON.stringify(req.firma, null, 2));
+  console.log("req.file:", req.file ? "existe" : "no existe");
+  console.log("=====================");
+
   if (!req.body) {
     return res.status(400).json({
       success: false,
       message: "El cuerpo de la solicitud no puede estar vacío.",
     });
   }
+
+  // El middleware ya debería haber creado req.firma
   if (!req.firma || typeof req.firma !== 'object') {
     return res.status(400).json({
       success: false,
-      message: "Se esperaba una declaración de firma",
+      message: "Error procesando firma - middleware no ejecutado correctamente",
     });
   }
+
   try {
-    ({ personas } = req.body);
-    ({ firma } = req);
-    const data = await personasService.postPersonas(personas, firma);
+    let personas;
+    
+    // Parsear personas del FormData
+    if (!req.body.personas) {
+      return res.status(400).json({
+        success: false,
+        message: "No se encontraron datos de personas.",
+      });
+    }
+
+    try {
+      personas = JSON.parse(req.body.personas);
+    } catch (parseError) {
+      return res.status(400).json({
+        success: false,
+        message: "Error parseando datos de personas: " + parseError.message,
+      });
+    }
+
+    if (!Array.isArray(personas)) {
+      return res.status(400).json({
+        success: false,
+        message: "Se esperaba un array de personas.",
+      });
+    }
+
+    console.log("Procesando", personas.length, "personas");
+    console.log("Firma exists:", req.firma.exists);
+
+    const data = await personasService.postPersonas(personas, req.firma);
+    
     const statusCode =
       data.errores.length === personas.length
         ? 500
         : data.errores.length > 0
-          ? 207
-          : 201;
+        ? 207
+        : 201;
+        
     return res.status(statusCode).json({
       success: data.errores.length === 0,
       resultados: data.resultados,
       errores: data.errores,
     });
+
   } catch (error) {
+    console.error("Error en postPersonas controller:", error);
     return res.status(500).json({
       success: false,
       message: "Error al registrar personas; " + error.message,

@@ -111,6 +111,18 @@ const getResumenDiscapacidad = async (req = request, res = response) => {
 };
 
 const postPersonas = async (req = request, res = response) => {
+  // Crear objeto de debug que se enviará al frontend
+  const debugInfo = {
+    timestamp: new Date().toISOString(),
+    requestInfo: {
+      bodyPersonas: req.body.personas ? "existe" : "no existe",
+      firma: req.firma ? JSON.stringify(req.firma, null, 2) : "no existe",
+      file: req.file ? "existe" : "no existe",
+      bodyKeys: req.body ? Object.keys(req.body) : "no body"
+    }
+  };
+
+  // Log en servidor (opcional, para mantener)
   console.log("=== DEBUG COMPLETO ===");
   console.log("req.body.personas:", req.body.personas ? "existe" : "no existe");
   console.log("req.firma:", JSON.stringify(req.firma, null, 2));
@@ -121,6 +133,11 @@ const postPersonas = async (req = request, res = response) => {
     return res.status(400).json({
       success: false,
       message: "El cuerpo de la solicitud no puede estar vacío.",
+      debug: {
+        ...debugInfo,
+        error: "Body vacío",
+        step: "Validación inicial"
+      }
     });
   }
 
@@ -129,26 +146,55 @@ const postPersonas = async (req = request, res = response) => {
     return res.status(400).json({
       success: false,
       message: "Error procesando firma - middleware no ejecutado correctamente",
+      debug: {
+        ...debugInfo,
+        error: "Firma inválida",
+        step: "Validación firma",
+        firmaType: typeof req.firma
+      }
     });
   }
 
   try {
     let personas;
     
+    // Agregar info del parseo al debug
+    debugInfo.parseInfo = {
+      personasRaw: req.body.personas ? "existe" : "no existe",
+      personasLength: req.body.personas ? req.body.personas.length : 0
+    };
+
     // Parsear personas del FormData
     if (!req.body.personas) {
       return res.status(400).json({
         success: false,
         message: "No se encontraron datos de personas.",
+        debug: {
+          ...debugInfo,
+          error: "No hay datos de personas",
+          step: "Validación personas"
+        }
       });
     }
 
     try {
       personas = JSON.parse(req.body.personas);
+      debugInfo.parseInfo.parseSuccess = true;
+      debugInfo.parseInfo.personasParsed = personas.length;
     } catch (parseError) {
       return res.status(400).json({
         success: false,
         message: "Error parseando datos de personas: " + parseError.message,
+        debug: {
+          ...debugInfo,
+          error: parseError.message,
+          step: "Parse JSON personas",
+          parseInfo: {
+            ...debugInfo.parseInfo,
+            parseSuccess: false,
+            parseError: parseError.message
+          }
+        }
       });
     }
 
@@ -156,33 +202,73 @@ const postPersonas = async (req = request, res = response) => {
       return res.status(400).json({
         success: false,
         message: "Se esperaba un array de personas.",
+        debug: {
+          ...debugInfo,
+          error: "Personas no es array",
+          step: "Validación array",
+          personasType: typeof personas
+        }
       });
     }
+
+    // Agregar más info de procesamiento
+    debugInfo.processInfo = {
+      personasCount: personas.length,
+      firmaExists: req.firma.exists,
+      processingStep: "Llamando al servicio"
+    };
 
     console.log("Procesando", personas.length, "personas");
     console.log("Firma exists:", req.firma.exists);
 
     const data = await personasService.postPersonas(personas, req.firma);
     
+    // Agregar info del resultado
+    debugInfo.resultInfo = {
+      resultadosCount: data.resultados ? data.resultados.length : 0,
+      erroresCount: data.errores ? data.errores.length : 0,
+      serviceCallSuccess: true
+    };
+
     const statusCode =
       data.errores.length === personas.length
         ? 500
         : data.errores.length > 0
         ? 207
         : 201;
-        
+
+    debugInfo.responseInfo = {
+      statusCode: statusCode,
+      finalSuccess: data.errores.length === 0,
+      step: "Respuesta final"
+    };
+
     return res.status(statusCode).json({
       success: data.errores.length === 0,
       resultados: data.resultados,
       errores: data.errores,
+      // Debug info que se verá en el frontend
+      debug: debugInfo
     });
 
   } catch (error) {
     console.error("Error en postPersonas controller:", error);
+    
     return res.status(500).json({
       success: false,
       message: "Error al registrar personas; " + error.message,
       error: error.message,
+      debug: {
+        ...debugInfo,
+        error: error.message,
+        stack: error.stack,
+        step: "Error catch general",
+        errorInfo: {
+          name: error.name,
+          message: error.message,
+          cause: error.cause || "Sin causa específica"
+        }
+      }
     });
   }
 };

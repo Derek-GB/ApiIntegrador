@@ -124,7 +124,7 @@ class familiaService {
         }
     }
     async getAllFamiliasPorUsuario(idUsuario = null) {
-        if (!codigoFamilia) {
+        if (!idUsuario) {
             handleError("getAllFamiliasPorUsuario", new Error("Falta el codigo de usuario"), 400);
         }
         try {

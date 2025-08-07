@@ -1,4 +1,6 @@
 const personasModel = require('../models/personasModel');
+const path = require("path");
+
 
 const handleError = (lugar, error, status = null) => {
     if (status) error.flagStatus = status;
@@ -38,6 +40,18 @@ class PersonasService {
         }
     }
 
+    async getAllPersonasByUsuario(idUsuario = null) {
+        if (idUsuario==null){
+            handleError("getAllPersonasByUsuario", new Error("El ID de usuario no puede ser nulo"), 400)
+        }
+        try {
+            const result = await personasModel.getAllPersonasByUsuario(idUsuario)
+            return result;
+        } catch (error) {
+            handleError("getPersonasByUsuario", error)
+        }
+    }
+
     async getPersona(id = null) {
         if (id === null) {
             handleError("getFamilia", new Error("El ID de la persona no puede ser nulo."), 400);
@@ -64,7 +78,7 @@ class PersonasService {
         handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
     }
     if (firma.existe == true) {
-        prepararFirma
+        helper.prepararFirma(firma);
     }
 
     const resultados = [];

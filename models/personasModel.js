@@ -12,6 +12,16 @@ class PersonasModel {
         }
     }
 
+    async getAllPersonasByUsuario(idUsuario) {
+        try {
+            const result = await db.query('CALL pa_SelectAllPersonaPorUsuario(?)', [idUsuario]);
+            return result;
+        } catch (error) {
+            console.error(`Error consiguiendo por ID Usuario ${idUsuario}:`, error);
+            throw error;
+        }
+    }
+
     async getPersona(id) {
         try {
             const result = await db.query('CALL pa_SelectPersona(?)', [id]);

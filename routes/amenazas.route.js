@@ -77,10 +77,6 @@ router.get('/all', amenazasController.getAllAmenazas);
  *                 type: string
  *                 nullable: true
  *                 example: Natural
- *               idFamilia:
- *                 type: integer
- *                 nullable: true
- *                 example: 3
  *               idUsuarioCreacion:
  *                 type: integer
  *                 nullable: true
@@ -95,32 +91,63 @@ router.get('/all', amenazasController.getAllAmenazas);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 message:
  *                   type: string
+ *                   example: Amenaza insertada correctamente
  *                 data:
  *                   type: object
  *                   properties:
- *                     p_id:
+ *                     id:
  *                       type: integer
  *                       example: 15
  *                     familiaEvento:
  *                       type: string
+ *                       example: Meteorológico
  *                     evento:
  *                       type: string
+ *                       example: Lluvias intensas
  *                     peligro:
  *                       type: string
+ *                       example: Inundación
  *                     causa:
  *                       type: string
+ *                       example: Lluvias continuas
  *                     categoriaEvento:
  *                       type: string
- *                     idFamilia:
- *                       type: integer
+ *                       example: Natural
  *                     idUsuarioCreacion:
  *                       type: integer
+ *                       example: 7
  *       400:
- *         description: Faltan datos obligatorios
+ *         description: Datos obligatorios no proporcionados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Los campos 'familiaEvento' y 'evento' son obligatorios
  *       500:
  *         description: Error al insertar amenaza
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al insertar amenaza
+ *                 error:
+ *                   type: string
+ *                   example: Error de conexión a la base de datos
  */
 router.post('/', amenazasController.postAmenaza);
 

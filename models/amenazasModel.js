@@ -23,20 +23,18 @@ class amanezasModel {
         const { familiaEvento,
             evento,
             peligro,
+            idUsuarioCreacion,
             causa,
-            categoriaEvento,
-            idFamilia,
-            idUsuarioCreacion, } = Amenaza;
+            categoriaEvento, } = Amenaza;
         try {
-            return await db.query('CALL pa_InsertAmenaza(?, ?, ?, ?, ?, ?, ?);',
+            return await db.query('CALL pa_InsertAmenaza(?, ?, ?, ?, ?, ?);',
                 [
                     familiaEvento,
                     evento,
                     peligro,
+                    idUsuarioCreacion,
                     causa,
-                    categoriaEvento,
-                    idFamilia,
-                    idUsuarioCreacion,]);
+                    categoriaEvento,]);
         }
         catch (error) {
             console.error("Error en postAmenaza: ", error);

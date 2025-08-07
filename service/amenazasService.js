@@ -23,8 +23,8 @@ class amenazasService {
 
     async postAmenaza(Amenaza) {
 
-        if (!Amenaza.familiaEvento || !Amenaza.evento || !Amenaza.peligro || !Amenaza. causa || !Amenaza.categoriaEvento || !Amenaza. idFamilia || !Amenaza.idUsuarioCreacion) {
-            throw new Error('Faltan datos: familiaEvento, evento, peligro, causa, categoriaEvento, idFamilia y idUsuarioCreacion son requeridos');
+        if (!Amenaza.familiaEvento || !Amenaza.evento || !Amenaza.peligro || !Amenaza.idUsuarioCreacion || !Amenaza.causa || !Amenaza.categoriaEvento) {
+            throw new Error('Faltan datos: familiaEvento, evento, peligro, idUsuarioCreacion, causa o categoriaEvento');
         }
         const result = await amenazasModel.postAmenaza(Amenaza);
         return result;

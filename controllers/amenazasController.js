@@ -179,21 +179,43 @@ const getAmenaza = async (req = request, res = response) => {
 // };
 
 const postAmenaza = async (req = request, res = response) => {
-  try {
-    const amenazaData = req.body;
-    const result = await amenazasService.postAmenaza(amenazaData);
+  let {
+    familiaEvento,
+    evento,
+    peligro,
+    idUsuarioCreacion,
+    causa,
+    categoriaEvento,
+  } = req.body;
 
+  try {
+    const data = await amenazasService.postAmenaza({
+      familiaEvento,
+      evento,
+      peligro,
+      idUsuarioCreacion,
+      causa,
+      categoriaEvento,
+    });
     res.status(201).json({
       success: true,
-      message: "Amenaza insertada correctamente",
-      data: amenazaData, // puedes ajustar esto si `result` trae el ID u otro dato
+      message: 'Amenaza insertada correctamente',
+      data: {
+        id: data[0][0].id,
+        familiaEvento,
+        evento,
+        peligro,
+        idUsuarioCreacion,
+        causa,
+        categoriaEvento,
+      }
     });
   } catch (error) {
-    console.error("Error al insertar amenaza:", error);
+    console.error("Error en postAmenaza:", error);
     res.status(500).json({
       success: false,
       message: "Error al insertar amenaza",
-      error: error.message,
+      error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
     });
   }
 };

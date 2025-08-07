@@ -325,6 +325,7 @@ module.exports = {
   getFamilia,
   postFamilia,
   putFamilia,
+  putEgresoFamilia,
   getVistaFamiliaJefe,
   getForCedulaJefe,
   generarIdentificador,

@@ -53,7 +53,13 @@ class familiaService {
         confirmarOpcionales(familia, ["idPersona", "idUsuarioCreacion", "direccion"]);
         try {
             const result = await familiaModel.postFamilia(familia);
-            return result;
+            const idFamilia = result[0][0]?.idFamilia;
+        
+        if (!idFamilia) {
+            throw new Error('No se pudo obtener el ID de la familia insertada');
+        }
+        
+        return { idFamilia };
         } catch (error) {
             handleError("postFamilia", error);
         }

@@ -90,7 +90,9 @@ const postFamilia = async (req = request, res = response) => {
     const { provincia, canton, distrito, direccion, codigoFamilia, cantidadPersonas, idAlbergue, idAmenaza, idPersona, idUsuarioCreacion } = req.body;
     const data = await familiaService.postFamilia({ provincia, canton, distrito, direccion, codigoFamilia, cantidadPersonas, idAlbergue, idAmenaza, idPersona, idUsuarioCreacion });
     res.status(201).json({
-      success: true, message: "se insertó correctamente"
+      success: true,
+      message: "se insertó correctamente",
+      idFamilia: data.idFamilia
     });
   } catch (error) {
     if (error.flagStatus || error.flagStatus === 400) {

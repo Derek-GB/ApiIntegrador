@@ -229,29 +229,6 @@ const getForProvinciaAlbergue = async (req = request, res = response) => {
   }
 };
 
-/**
- * Ejemplo de método POST (crear albergue)
- * Debes implementar el método en tu modelo y service para que funcione.
- */
-// const createAlbergue = async (req = request, res = response) => {
-//   try {
-//     const albergueData = req.body;
-//     // Aquí llamas a tu service/model para insertar el albergue
-//     const result = await albergueService.createAlbergue(albergueData);
-//     res.status(201).json({
-//       success: true,
-//       message: "Albergue creado correctamente",
-//       data: result,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Error al crear el albergue",
-//       error: error.message,
-//     });
-//   }
-// };
-
 
 const getResumenAlberguesColor = async (req = request, res = response) => {
   const { Color } = req.params;
@@ -313,147 +290,92 @@ const getAllAlberguesPorUsuario = async (req = request, res = response) => {
   }
 };
 
-/**
- * Método PUT para actualizar un albergue
- * Debes tener el método updateAlbergue en tu modelo y service.
- */
-// const updateAlbergue = async (req = request, res = response) => {
-//   const { id } = req.params;
-//   const albergueData = req.body;
-//   if (!id) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "ID del albergue es requerido",
-//     });
-//   }
-//   try {
-//     // Debes implementar updateAlbergue en tu modelo y service
-//     const result = await albergueService.updateAlbergue(id, albergueData);
-//     res.json({
-//       success: true,
-//       message: "Albergue actualizado correctamente",
-//       data: result,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Error al actualizar el albergue",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// const putMethod = (req = request, res = response) => {
-//   const { id } = req.body;
-//   const {
-//     idAlbergue,
-//     nombre,
-//     region,
-//     coordenadaX,
-//     coordenadaY,
-//     idUbicacion,
-//     tipo_establecimiento,
-//     tipo_albergue,
-//     condicion_albergue,
-//     especificacion,
-//     detalle_condicion,
-//     administrador,
-//     telefono,
-//     idCapacidad,
-//     seccion,
-//     requerimientos_tecnicos,
-//     costo_requerimientos_tecnicos,
-//     idInfraestructura,
-//     idMunicipalidad,
-//     color,
-//     idPedidoAbarrote,
-//     idUsuarioModificacion,
-//   } = req.body;
-
-//   if (!idAlbergue || !nombre || !region || coordenadaX) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Faltan datos: idalbergue, ",
-//     });
-//   }
-
-//   pool.query(
-//     "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-//     [id, codigoProducto, nombre, descripcion, cantidad],
-//     (error, results) => {
-//       if (error) {
-//         console.error("Error al actualizar producto:", error);
-//         return res.status(500).json({
-//           success: false,
-//           error: "Error al actualizar producto",
-//         });
-//       }
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Producto actualizado correctamente",
-//         data: {
-//           codigoProducto,
-//           nombre,
-//           descripcion,
-//           cantidad,
-//         },
-//       });
-//     }
-//   );
-// };
 const postAlbergue = async (req, res) => {
-    const {
-        idAlbergue,
-        nombre,
-        region,
-        coordenadaX,
-        coordenadaY,
-        idUbicacion,
-        tipo_establecimiento,
-        tipo_albergue,
-        condicion_albergue,
-        especificacion,
-        detalle_condicion,
-        administrador,
-        telefono,
-        idCapacidad,
-        seccion,
-        requerimientos_tecnicos,
-        costo_requerimientos_tecnicos,
-        idInfraestructura,
-        idMunicipalidad,
-        color,
-        idPedidoAbarrote,
-        idUsuarioCreacion,
-        idUsuarioModificacion
-    } = req.body;
-
-    // Validación de campos obligatorios
-    if (!idAlbergue || !nombre || !region || coordenadaX == null 
-      || coordenadaY == null || !tipo_establecimiento || !tipo_albergue 
-      || !condicion_albergue || !idUbicacion || !idCapacidad || !idInfraestructura || !idMunicipalidad) {
-        return res.status(400).json({
-            success: false,
-            message: "Faltan datos obligatorios"
-        });
+    if (!req.body){
+      return res.status(400).json({
+      success: false,
+      message: "Se esperaba el body en la consulta post",
+    });
     }
-
-    // Valores opcionales con valor null por defecto
-    especificacion = especificacion ?? null;
-    detalle_condicion = detalle_condicion ?? null;
-    administrador = administrador ?? null;
-    telefono = telefono ?? null;
-    seccion = seccion ?? null;
-    requerimientos_tecnicos = requerimientos_tecnicos ?? null;
-    costo_requerimientos_tecnicos = costo_requerimientos_tecnicos ?? null;
-    color = color ?? null;
-    idPedidoAbarrote = idPedidoAbarrote ?? null;
-    idUsuarioCreacion = idUsuarioCreacion ?? null;
-    idUsuarioModificacion = idUsuarioModificacion ?? idUsuarioCreacion; 
-
+    const {
+      idAlbergue,
+      nombre,
+      region,
+      provincia,
+      canton,
+      distrito,
+      direccion,
+      tipoEstablecimiento,
+      administrador,
+      telefono,
+      capacidadPersonas,
+      ocupacion,
+      cocina,
+      duchas,
+      serviciosSanitarios,
+      bodega,
+      menajeMobiliario,
+      tanqueAgua,
+      areaTotalM2,
+      idMunicipalidad,
+      capacidadColectiva,
+      cantidadFamilias,
+      egresos,
+      sospechososSanos,
+      otros,
+      coordenadaX,
+      coordenadaY,
+      tipoAlbergue,
+      condicionAlbergue,
+      especificacion,
+      detalleCondicion,
+      seccion,
+      requerimientosTecnicos,
+      costoRequerimientosTecnicos,
+      color,
+      idPedidoAbarrote,
+      idUsuarioCreacion,
+    } = req.body;
     try {
-        const result = await albergueService.postAlbergue(req.body);
+        const result = await albergueService.postAlbergue({
+          idAlbergue,
+          nombre,
+          region,
+          provincia,
+          canton,
+          distrito,
+          direccion,
+          tipoEstablecimiento,
+          administrador,
+          telefono,
+          capacidadPersonas,
+          ocupacion,
+          cocina,
+          duchas,
+          serviciosSanitarios,
+          bodega,
+          menajeMobiliario,
+          tanqueAgua,
+          areaTotalM2,
+          idMunicipalidad,
+          capacidadColectiva,
+          cantidadFamilias,
+          egresos,
+          sospechososSanos,
+          otros,
+          coordenadaX,
+          coordenadaY,
+          tipoAlbergue,
+          condicionAlbergue,
+          especificacion,
+          detalleCondicion,
+          seccion,
+          requerimientosTecnicos,
+          costoRequerimientosTecnicos,
+          color,
+          idPedidoAbarrote,
+          idUsuarioCreacion,
+        });
         res.status(201).json({
             success: true,
             message: "Albergue insertado correctamente",

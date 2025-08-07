@@ -33,21 +33,6 @@ router.get('/id/:id', albergueController.getAlbergue);
 
 /**
  * @swagger
- * /api/albergues/all:
- *   get:
- *     tags:
- *       - Albergues
- *     summary: Obtener todos los albergues
- *     responses:
- *       200:
- *         description: Lista de todos los albergues
- *       500:
- *         description: Error al obtener los albergues (Contactar equipo de API)
- */
-router.get('/all', albergueController.getAllAlbergues);
-
-/**
- * @swagger
  * /api/albergues:
  *   post:
  *     tags:
@@ -60,6 +45,18 @@ router.get('/all', albergueController.getAllAlbergues);
  *           schema:
  *             type: object
  *             required:
+ *               - idAlbergue
+ *               - nombre
+ *               - region
+ *               - provincia
+ *               - canton
+ *               - distrito
+ *               - direccion
+ *               - tipoEstablecimiento
+ *               - administrador
+ *               - telefono
+ *               - capacidadPersonas
+ *               - ocupacion
  *               - cocina
  *               - duchas
  *               - serviciosSanitarios
@@ -67,27 +64,34 @@ router.get('/all', albergueController.getAllAlbergues);
  *               - menajeMobiliario
  *               - tanqueAgua
  *               - areaTotalM2
- *               - capacidadPersonas
- *               - capacidadColectiva
- *               - cantidadFamilias
- *               - ocupacion
- *               - egresos
- *               - sospechososSanos
- *               - provincia
- *               - canton
- *               - distrito
- *               - idAlbergue
- *               - nombre
- *               - region
- *               - coordenadaX
- *               - coordenadaY
- *               - tipoEstablecimiento
- *               - tipoAlbergue
- *               - condicionAlbergue
- *               - administrador
- *               - telefono
- *               - seccion
+ *               - idMunicipalidad
  *             properties:
+ *               idAlbergue:
+ *                 type: string
+ *                 description: ID del albergue
+ *               nombre:
+ *                 type: string
+ *                 description: Nombre del albergue
+ *               region:
+ *                 type: string
+ *               provincia:
+ *                 type: string
+ *               canton:
+ *                 type: string
+ *               distrito:
+ *                 type: string
+ *               direccion:
+ *                 type: string
+ *               tipoEstablecimiento:
+ *                 type: string
+ *               administrador:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *               capacidadPersonas:
+ *                 type: integer
+ *               ocupacion:
+ *                 type: integer
  *               cocina:
  *                 type: boolean
  *               duchas:
@@ -102,66 +106,49 @@ router.get('/all', albergueController.getAllAlbergues);
  *                 type: boolean
  *               areaTotalM2:
  *                 type: number
- *               capacidadPersonas:
+ *               idMunicipalidad:
  *                 type: integer
  *               capacidadColectiva:
  *                 type: integer
+ *                 nullable: true
  *               cantidadFamilias:
  *                 type: integer
- *               ocupacion:
- *                 type: integer
+ *                 nullable: true
  *               egresos:
  *                 type: integer
+ *                 nullable: true
  *               sospechososSanos:
  *                 type: integer
+ *                 nullable: true
  *               otros:
  *                 type: string
  *                 nullable: true
- *               provincia:
- *                 type: string
- *               canton:
- *                 type: string
- *               distrito:
- *                 type: string
- *               direccion:
- *                 type: string
- *                 nullable: true
- *               idAlbergue:
- *                 type: integer
- *               nombre:
- *                 type: string
- *               region:
- *                 type: string
  *               coordenadaX:
  *                 type: number
+ *                 nullable: true
  *               coordenadaY:
  *                 type: number
- *               tipoEstablecimiento:
- *                 type: string
+ *                 nullable: true
  *               tipoAlbergue:
  *                 type: string
+ *                 nullable: true
  *               condicionAlbergue:
  *                 type: string
+ *                 nullable: true
  *               especificacion:
  *                 type: string
  *                 nullable: true
  *               detalleCondicion:
  *                 type: string
  *                 nullable: true
- *               administrador:
- *                 type: string
- *               telefono:
- *                 type: string
  *               seccion:
  *                 type: string
+ *                 nullable: true
  *               requerimientosTecnicos:
  *                 type: string
  *                 nullable: true
  *               costoRequerimientosTecnicos:
  *                 type: number
- *                 nullable: true
- *               idMunicipalidad:
- *                 type: integer
  *                 nullable: true
  *               color:
  *                 type: string
@@ -180,8 +167,8 @@ router.get('/all', albergueController.getAllAlbergues);
  *       500:
  *         description: Error al insertar albergue
  */
-// router.post('/', albergueController.createAlbergue);
 router.post('/', albergueController.postAlbergue);
+
 
 /**
  * @swagger

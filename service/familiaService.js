@@ -123,5 +123,16 @@ class familiaService {
             handleError("getObtenerReferenciasPorCodigoFamilia", error);
         }
     }
+    async getAllFamiliasPorUsuario(idUsuario = null) {
+        if (!codigoFamilia) {
+            handleError("getAllFamiliasPorUsuario", new Error("Falta el codigo de usuario"), 400);
+        }
+        try {
+            const result = await familiaModel.getAllFamiliasPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            handleError("getAllFamiliasPorUsuario", error);
+        }
+    }
 }
 module.exports = new familiaService();

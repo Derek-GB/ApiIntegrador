@@ -88,6 +88,14 @@ class familiaModel {
             throw error;
         }
     }
+    async getAllFamiliasPorUsuario(idUsuario) {
+        try {
+            return await db.query('CALL pa_SelectAllFamiliasPorUsuario(?);', [idUsuario]);
+        } catch (error) {
+            console.error("Error en getAllFamiliasPorUsuario: ", error);
+            throw error;
+        }
+    }
 
 }
 

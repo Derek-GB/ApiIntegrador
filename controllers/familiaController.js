@@ -415,7 +415,33 @@ const getObtenerReferenciasPorCodigoFamilia = (req = request, res = response) =>
       });
     });
 }
-  
+const getAllFamiliasPorUsuario = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idUsuario en la query" });
+  }
+  const { idUsuario } = req.params;
+  familiaService.getAllFamiliasPorUsuario(idUsuario)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron familias para el usuario proporcionado",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener familias por usuario:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener familias por usuario; " + error.message,
+      });
+    });
+}
+
 
 module.exports = {
   getAllFamilias,
@@ -426,4 +452,5 @@ module.exports = {
   getForCedulaJefe,
   generarIdentificador,
   getObtenerReferenciasPorCodigoFamilia,
+  getAllFamiliasPorUsuario
 };

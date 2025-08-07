@@ -1,5 +1,6 @@
 const personasModel = require('../models/personasModel');
 const path = require("path");
+const helper = require('../src/helpers/firma');
 
 
 const handleError = (lugar, error, status = null) => {
@@ -77,9 +78,6 @@ class PersonasService {
     if (!firma || typeof firma !== 'object') {
         handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
     }
-    if (firma.existe == true) {
-        helper.prepararFirma(firma);
-    }
 
     const resultados = [];
     const errores = [];
@@ -98,9 +96,11 @@ class PersonasService {
         }
         confirmarObligatorios(persona, indice, camposObligatorios);
         if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
-        if (firma) {
-            const camposfirma = ['ruta', 'nombre', 'numeroIdentificacion'];
+        if (esJefeFamilia) {
+            if(!firma.existe === true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas") ;
+            const camposfirma = ['ruta', 'nombre'];
             confirmarObligatorios(firma, null, camposfirma);
+            await helper.prepararFirma(firma, persona.numeroIdentificacion);
             persona.firma = firma.ruta + '/' + firma.nombre;
         }
         confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
@@ -114,9 +114,9 @@ class PersonasService {
             if (typeof persona !== 'object' || persona === null) {
                 handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
             }
-            if (firma.exists && firma.numeroIdentificacion === persona.numeroIdentificacion) {
+            if (firma.existe && firma.numeroIdentificacion === persona.numeroIdentificacion) {
                 await postPersona(persona, i, firma);
-                firma = {exists: false};
+                firma = {existe: false};
             } else {
                 await postPersona(persona, i);
             }

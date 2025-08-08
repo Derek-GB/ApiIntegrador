@@ -114,7 +114,7 @@ class PersonasModel {
     }
     async getResumenDiscapacidad(idDiscapacidad) {
         try {
-            const [results] = await db.query('CALL pa_PersonasConDiscapacidad(?);', [idDiscapacidad]);
+            const [results] = await db.query('CALL pa_ResumenDiscapacidad(?);', [idDiscapacidad]);
             return results[0] || [];
         } catch (error) {
             console.error("Error en getResumenDiscapacidad: ", error);

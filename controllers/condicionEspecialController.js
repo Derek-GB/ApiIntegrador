@@ -115,11 +115,11 @@ const getResumenCondicionesEspeciales = (req = request, res = response) => {
   condicionEspecialService.getResumenCondicionesEspeciales(idCondicionesEspeciales)
     .then((data) => {
       if (data.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No se encontraron personas para la condicion especificado.",
-        });
-      }
+    return res.status(404).json({
+        success: false,
+        message: "No se encontraron personas para la condición especificada.",
+    });
+}
       res.status(200).json({
         success: true,
         data: data,

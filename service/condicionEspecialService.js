@@ -62,12 +62,11 @@ class condicionEspecialService {
         if (!idCondicionesEspeciales) {
             handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de condiciones especiales"), 400);
         }
-        try {
-            const result = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicionesEspeciales);
-            return result;
-        } catch (error) {
-            handleError("getResumenCondicionesEspeciales", error);
-        }
+        const [rows] = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicionesEspeciales);
+        return rows; // Aquí ya devuelves solo las filas reales
+    } catch (error) {
+        handleError("getResumenCondicionesEspeciales", error);
+    
     }
 
 

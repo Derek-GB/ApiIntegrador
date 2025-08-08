@@ -56,9 +56,9 @@ class mascotaService {
         }
     }
 
-    async getForMascotaFamilia(MascotaFamilia) {
+    async getForMascotaFamilia(codigoFamilia) {
             try {
-                const result = await mascotaModel.getForMascotaFamilia(MascotaFamilia);
+                const result = await mascotaModel.getForMascotaFamilia(codigoFamilia);
                 return result;
             } catch (error) {
                 console.error("Error en mascotaModel.getForMascotaFamilia: ", error);

@@ -1,5 +1,38 @@
 const albergueModel = require('../models/albergueModel');
 
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en PersonasService. " + lugar + ": ", error.message);
+    throw error;
+}
+
+const confirmarObligatorios = (objeto, obligatorios, lugar) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError(lugar, new Error(`Falta el campo obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
+const confirmarOpcionales = (objeto, opcionales) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of opcionales) {
+        if (objeto[campo] === undefined) {
+            objeto[campo] = null;
+        }
+    }
+}
+
+const confirmarBooleans = (objeto, campos, lugar) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(campos)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of campos) {
+        if (!objeto.hasOwnProperty(campo)) {
+            handleError(lugar, new Error(`Falta el campo booleano obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
 class albergueService {
 
     async getAllAlbergues() {
@@ -23,10 +56,28 @@ class albergueService {
 
 
     async postAlbergue(Albergue) {
-        const { idAlbergue, nombre, distrito, canton, provincia, direccion, telefono, idPedidoAbarrote, idUsuarioCreacion, idUsuarioModificacion } = albergue;
-        if (!idAlbergue || !nombre || !distrito || !canton  || !provincia || !direccion || !telefono || !idPedidoAbarrote || !idUsuarioCreacion || !idUsuarioModificacion) {
-            throw new Error('Faltan datos: idAlbergue, nombre, distrito, canton, provincia, direccion, telefono, idPedidoAbarrote, idUsuarioCreacion e idUsuarioModificacion son requeridos');
-        }   
+        
+        const obligatorios = [
+            'idAlbergue', 'nombre', 'region', 'provincia', 'canton', 'distrito', 'direccion',
+            'tipoEstablecimiento', 'administrador', 'telefono', 'capacidadPersonas',
+            'ocupacion', 'areaTotalM2', 'idMunicipalidad'
+        ];
+
+        const booleanosObligatorios = [
+            'cocina', 'duchas', 'serviciosSanitarios', 'bodega',
+            'menajeMobiliario', 'tanqueAgua'
+        ];
+
+        const opcionales = [
+            'capacidadColectiva', 'cantidadFamilias', 'egresos', 'sospechososSanos', 'otros',
+            'coordenadaX', 'coordenadaY', 'tipoAlbergue', 'condicionAlbergue', 'especificacion',
+            'detalleCondicion', 'seccion', 'requerimientosTecnicos', 'costoRequerimientosTecnicos',
+            'color', 'idPedidoAbarrote', 'idUsuarioCreacion'
+        ];
+
+        confirmarObligatorios(Albergue, obligatorios, 'postAblbergue');
+        confirmarBooleans(Albergue, booleanosObligatorios, 'postAlbergue');
+        confirmarOpcionales(Albergue, opcionales);
         try {
             const result = await albergueModel.postAlbergue(Albergue);
             return result;
@@ -105,12 +156,22 @@ class albergueService {
             }
         }
 
-    async getResumenAlberguesColor(Color){
+    async getResumenAlberguesColor(color){
          try {
-            const result = await albergueService.getResumenAlberguesColor(Color);
+            const result = await albergueModel.getResumenAlberguesColor(color);
             return result;
         } catch (error) {
-            console.error("Error en albergueService.ResumenAlberguesColor: ", error);
+            console.error("Error en albergueModel.ResumenAlberguesColor: ", error);
+            throw error;
+        }
+    }
+
+    async getAllAlberguesPorUsuario(idUsuario){
+         try {
+            const result = await albergueModel.getAllAlberguesPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getAllAlberguesPorUsuario: ", error);
             throw error;
         }
     }

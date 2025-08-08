@@ -6,6 +6,15 @@ const handleError = (lugar, error, status = null) => {
     throw error;
 }
 
+const confirmarObligatorios = (objeto, obligatorios, lugar) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of obligatorios) {
+        if (!objeto[campo]) {
+            handleError(lugar, new Error(`Falta el campo obligatorio '${campo}'`), 400);
+        }
+    }
+}
+
 const confirmarOpcionales = (objeto, opcionales) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of opcionales) {
@@ -53,13 +62,32 @@ class familiaService {
         confirmarOpcionales(familia, ["idPersona", "idUsuarioCreacion", "direccion"]);
         try {
             const result = await familiaModel.postFamilia(familia);
-            return result;
+            const idFamilia = result[0][0]?.idFamilia;
+        
+        if (!idFamilia) {
+            throw new Error('No se pudo obtener el ID de la familia insertada');
+        }
+        
+        return { idFamilia };
         } catch (error) {
             handleError("postFamilia", error);
         }
     }
 
     //algun dia put estara aqui
+
+    async putEgresoFamilia(egreso) {
+        if (!egreso) {
+            handleError("putEgresoFamilia", new Error("No se recibió un egreso", 400));
+        }
+        confirmarObligatorios(egreso, ["id","idModificacion"], "putEgresoFamilia");
+        try {
+            const result = await familiaModel.putEgresoFamilia(egreso);
+            return result;
+        } catch (error) {
+            handleError("putEgresoFamilia", error);
+        }
+    }
 
     async deleteFamilia(id = null) {
         if (!id) {
@@ -121,6 +149,17 @@ class familiaService {
             return result;
         } catch (error) {
             handleError("getObtenerReferenciasPorCodigoFamilia", error);
+        }
+    }
+    async getAllFamiliasPorUsuario(idUsuario = null) {
+        if (!idUsuario) {
+            handleError("getAllFamiliasPorUsuario", new Error("Falta el codigo de usuario"), 400);
+        }
+        try {
+            const result = await familiaModel.getAllFamiliasPorUsuario(idUsuario);
+            return result;
+        } catch (error) {
+            handleError("getAllFamiliasPorUsuario", error);
         }
     }
 }

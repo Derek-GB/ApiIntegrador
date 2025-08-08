@@ -12,6 +12,16 @@ class PersonasModel {
         }
     }
 
+    async getAllPersonasByUsuario(idUsuario) {
+        try {
+            const result = await db.query('CALL pa_SelectAllPersonasPorUsuario(?)', [idUsuario]);
+            return result;
+        } catch (error) {
+            console.error(`Error consiguiendo por ID Usuario ${idUsuario}:`, error);
+            throw error;
+        }
+    }
+
     async getPersona(id) {
         try {
             const result = await db.query('CALL pa_SelectPersona(?)', [id]);
@@ -73,27 +83,44 @@ class PersonasModel {
         }
     }
 
-    async getResumenPersonasDinamico(albergue, sexo, edad) {
+    async getResumenPersonasPorAlbergue(idAlberguePersona) {
         try {
-            const result = await db.query('CALL pa_getResumenPersonasDinamico(?, ?, ?)', [
-                albergue,
-                sexo,
-                edad
-            ]);
-            return result;
+            const [results] = await db.query('CALL pa_ResumenPersonasPorAlbergue(?);', [idAlberguePersona]);
+            return results[0] || [];
         } catch (error) {
-            console.error('Error en getResumenPersonasDinamico:', error);
+            console.error("Error en getResumenPersonasPorAlbergue: ", error);
             throw error;
         }
     }
-    
 
-    async getResumenDiscapacidad(id) {
+    async getResumenPersonasPorSexo(idSexoPersona) {
         try {
-            const result = await db.query('CALL pa_ResumenDiscapacidad(?)', [id]);
+            const [results] = await db.query('CALL pa_ResumenPersonasPorSexo(?);', [idSexoPersona]);
+            return results[0] || [];
+        } catch (error) {
+            console.error("Error en getResumenPersonasPorSexo: ", error);
+            throw error;
+        }
+    }
+
+    async getResumenPersonasPorEdad(idEdadPersona) {
+        try {
+            const [results] = await db.query('CALL pa_ResumenPersonasPorEdad(?);', [idEdadPersona]);
+            return results[0] || [];
+        } catch (error) {
+            console.error("Error en getResumenPersonasPorEdad: ", error);
+            throw error;
+        }
+    }
+
+
+
+    async getResumenDiscapacidad(idAlbergue) {
+        try {
+            const result = await db.query('CALL pa_PersonasConDiscapacidad(?)', [idAlbergue]);
             return result[0];
         } catch (error) {
-            console.error(`Error consiguiendo por ID ${id}:`, error);
+            console.error(`Error obteniendo personas con discapacidad para albergue ${idAlbergue}:`, error);
             throw error;
         }
     }

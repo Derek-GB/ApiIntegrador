@@ -40,9 +40,9 @@ class mascotaModel {
         }
     }
 
-    async getForMascotaFamilia(MascotaFamilia) {
+    async getForMascotaFamilia(codigoFamilia) {
         try {
-            return await db.query('CALL pa_BuscarMascotasPorCodigoFamilia(?);', [MascotaFamilia])
+            return await db.query('CALL pa_BuscarMascotasPorCodigoFamilia(?);', [codigoFamilia])
         } catch (error) {
             console.error("Error al encontrar el mascota por codigo familia: ", error);
             throw error;

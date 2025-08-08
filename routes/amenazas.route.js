@@ -58,6 +58,7 @@ router.get('/all', amenazasController.getAllAmenazas);
  *             required:
  *               - familiaEvento
  *               - evento
+ *               - idUsuarioCreacion
  *             properties:
  *               familiaEvento:
  *                 type: string
@@ -77,14 +78,16 @@ router.get('/all', amenazasController.getAllAmenazas);
  *                 type: string
  *                 nullable: true
  *                 example: Natural
- *               idFamilia:
- *                 type: integer
- *                 nullable: true
- *                 example: 3
  *               idUsuarioCreacion:
  *                 type: integer
- *                 nullable: true
  *                 example: 7
+ *             example:
+ *               familiaEvento: Meteorológico
+ *               evento: Lluvias intensas
+ *               peligro: Inundación
+ *               causa: Lluvias continuas
+ *               categoriaEvento: Natural
+ *               idUsuarioCreacion: 7
  *     responses:
  *       201:
  *         description: Amenaza insertada correctamente
@@ -95,33 +98,16 @@ router.get('/all', amenazasController.getAllAmenazas);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 message:
  *                   type: string
- *                 data:
- *                   type: object
- *                   properties:
- *                     p_id:
- *                       type: integer
- *                       example: 15
- *                     familiaEvento:
- *                       type: string
- *                     evento:
- *                       type: string
- *                     peligro:
- *                       type: string
- *                     causa:
- *                       type: string
- *                     categoriaEvento:
- *                       type: string
- *                     idFamilia:
- *                       type: integer
- *                     idUsuarioCreacion:
- *                       type: integer
+ *                   example: Amenaza insertada correctamente
  *       400:
  *         description: Faltan datos obligatorios
  *       500:
  *         description: Error al insertar amenaza
  */
+
 router.post('/', amenazasController.postAmenaza);
 
 /**

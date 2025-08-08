@@ -69,6 +69,7 @@ class PersonasService {
         if (!personas) {
             handleError("postPersonas", new Error("El array de personas no puede ser nulo."), 400);
         }
+        personas = JSON.parse(personas);
         if (!Array.isArray(personas)) {
             handleError("postPersonas", new Error("Se esperaba un array de personas."), 400);
         }
@@ -96,8 +97,8 @@ class PersonasService {
             }
             confirmarObligatorios(persona, indice, camposObligatorios);
             if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
-            if (esJefeFamilia) {
-                if (!firma.existe === true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");
+            if (persona.esJefeFamilia) {
+                if (firma.existe !== true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");
                 const camposfirma = ['ruta', 'nombre'];
                 confirmarObligatorios(firma, null, camposfirma);
                 await helper.prepararFirma(firma, persona.numeroIdentificacion);
@@ -114,7 +115,7 @@ class PersonasService {
                 if (typeof persona !== 'object' || persona === null) {
                     handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
                 }
-                if (firma.existe && firma.numeroIdentificacion === persona.numeroIdentificacion) {
+                if (firma.existe && persona.esJefeFamilia === true) {
                     await postPersona(persona, i, firma);
                     firma = { existe: false };
                 } else {

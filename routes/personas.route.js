@@ -297,7 +297,7 @@ router.delete('/id/:id', personasController.deletePersona);
  * /api/personas/resumen/porAlbergue/{idAlberguePersona}:
  *   get:
  *     tags:
- *       - Personas
+ *       - Resumenes
  *     summary: Obtener resumen de personas por albergue
  *     description: Devuelve un resumen con las personas asociadas a un albergue específico.
  *     parameters:

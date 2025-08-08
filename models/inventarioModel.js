@@ -41,13 +41,14 @@ class inventarioModel {
         }
     }
 
-    async getResumenSuministros(id) {
+    async getResumenSuministros(idSuministros) {
         try {
-            return await db.query('CALL pa_ResumenSuministros(?);', [id])
+            return await db.query('CALL pa_ResumenSuministros(?);', [idSuministros])
         }catch(error){
             console.error("Error en getResumenSuministros: ", error);
             throw error;
         }
     }
+
 }
 module.exports = new inventarioModel();

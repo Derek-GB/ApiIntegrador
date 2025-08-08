@@ -58,16 +58,15 @@ class condicionEspecialService {
         }
     }
 
-    async getResumenCondicionesEspeciales(id) {
-        if (!id) {
-            throw new Error('ID de condición especial es requerido');
+    async getResumenCondicionesEspeciales(idCondicionesEspeciales = null) {
+        if (!idCondicionesEspeciales) {
+            handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de condiciones especiales"), 400);
         }
         try {
-            const result = await condicionEspecialModel.getResumenCondicionesEspeciales(id);
+            const result = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicionesEspeciales);
             return result;
         } catch (error) {
-            console.error("Error en condicionEspecialModel.getResumenCondicionesEspeciales: ", error);
-            throw error;
+            handleError("getResumenCondicionesEspeciales", error);
         }
     }
 

@@ -44,11 +44,11 @@ class condicionEspecial {
         }
     }
 
-    async getResumenCondicionesEspeciales(id) {
+    async getResumenCondicionesEspeciales(idCondicionesEspeciales) {
         try {
-            return await db.query('CALL pa_ResumenCondicionesEspeciales(?);', [id])
+            return await db.query('CALL pa_ResumenCondicionesEspeciales(?);', [idCondicionesEspeciales])
         }catch(error){
-            console.error("Error en getReferencia: ", error);
+            console.error("Error en getResumenCondicionesEspeciales: ", error);
             throw error;
         }
     }

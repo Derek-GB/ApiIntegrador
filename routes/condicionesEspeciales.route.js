@@ -28,27 +28,53 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
 
 /**
  * @swagger
- * /api/condicionesEspeciales/resumen/id/{id}:
+ * /api/personas/resumen/condiciones/{idCondicionesEspeciales}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener resumen de condición especial por ID
+ *     summary: Obtener resumen de personas por condición especial
+ *     description: Devuelve un resumen de personas filtradas según una condición especial específica.
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: idCondicionesEspeciales
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
- *         description: ID de la condición especial
+ *         description: ID de la condición especial para filtrar las personas.
+ *         example: 2
  *     responses:
  *       200:
- *         description: Resumen de condición especial obtenido exitosamente
+ *         description: Resumen de personas por condición especial obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 87
+ *                       nombre:
+ *                         type: string
+ *                         example: María Pérez
+ *                       condicionEspecial:
+ *                         type: string
+ *                         example: Discapacidad visual
+ *       400:
+ *         description: Parámetro idCondicionesEspeciales no proporcionado.
  *       404:
- *         description: Condición especial no encontrada
+ *         description: No se encontraron personas para la condición especial especificada.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas por condición especial.
  */
-router.get('/resumen/id/:id', condicionEspecialController.getResumenCondicionesEspeciales);
+router.get('/resumen/condiciones/:idCondicionesEspeciales', condicionEspecialController.getResumenCondicionesEspeciales);
 
 /**
  * @swagger

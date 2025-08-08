@@ -59,31 +59,6 @@ const getFamilia = async (req = request, res = response) => {
   }
 }
 
-// const getMethod = (req = request, res = response) => {
-//   const { id } = req.params;
-//   pool.query("CALL pa_SelectFamilia(?)", [id], (error, results) => {
-//     if (error) {
-//       console.error("Error en getMethod:", error);
-//       return res.status(500).json({
-//         success: false,
-//         error: "Error al obtener familias",
-//       });
-//     }
-
-//     if (results[0].length === 0) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Familia no encontrada",
-//       });
-//     }
-
-//     res.json({
-//       success: true,
-//       data: results[0][0],
-//     });
-//   });
-// };
-
 const postFamilia = async (req = request, res = response) => {
   if (!req.body) return res.status(400).json({ success: false, error: "Se esperaba el body de la consulta" });
   try {

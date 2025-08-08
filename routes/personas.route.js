@@ -345,6 +345,107 @@ router.delete('/id/:id', personasController.deletePersona);
  */
 router.get('/resumen/porAlbergue/:idAlberguePersona', personasController.getResumenPersonasPorAlbergue);
 
+/**
+ * @swagger
+ * /api/personas/resumen/sexo/{idSexoPersona}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de personas por sexo
+ *     description: Devuelve un resumen con las personas agrupadas por un sexo específico.
+ *     parameters:
+ *       - in: path
+ *         name: idSexoPersona
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del sexo para filtrar las personas.
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Resumen de personas por sexo obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 78
+ *                       nombre:
+ *                         type: string
+ *                         example: María Gómez
+ *                       edad:
+ *                         type: integer
+ *                         example: 28
+ *                       sexo:
+ *                         type: string
+ *                         example: Femenino
+ *       400:
+ *         description: Parámetro idSexoPersona no proporcionado.
+ *       404:
+ *         description: No se encontraron personas para el sexo especificado.
+ *       500:
+ *         description: Error interno al obtener el resumen de personas por sexo.
+ */
+router.get('/resumen/sexo/:idSexoPersona', personasController.getResumenPersonasPorSexo);
 
+/**
+ * @swagger
+ * /api/personas/resumen/edad/{idEdadPersona}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de personas por edad
+ *     description: Devuelve un resumen con las personas filtradas por un rango o categoría de edad específica.
+ *     parameters:
+ *       - in: path
+ *         name: idEdadPersona
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la categoría de edad para filtrar las personas.
+ *         example: 3
+ *     responses:
+ *       200:
+ *         description: Resumen de personas por edad obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 102
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan López
+ *                       edad:
+ *                         type: integer
+ *                         example: 35
+ *       400:
+ *         description: Parámetro idEdadPersona no proporcionado.
+ *       404:
+ *         description: No se encontraron personas para la edad especificada.
+ *       500:
+ *         description: Error interno al obtener el resumen de personas por edad.
+ */
+router.get('/resumen/edad/:idEdadPersona', personasController.getResumenPersonasPorEdad);
 
 module.exports = router;

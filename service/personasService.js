@@ -150,6 +150,29 @@ class PersonasService {
                 handleError("getResumenPersonasPorAlbergue", error);
             }
         }
+    async getResumenPersonasPorSexo(idSexoPersona = null) {
+            if (!idSexoPersona) {
+                handleError("getResumenPersonasPorSexo", new Error("Falta el codigo de sexo"), 400);
+            }
+            try {
+                const result = await personasModel.getResumenPersonasPorSexo(idSexoPersona);
+                return result;
+            } catch (error) {
+                handleError("getResumenPersonasPorSexo", error);
+            }
+        }
+        
+    async getResumenPersonasPorEdad(idEdadPersona = null) {
+            if (!idEdadPersona) {
+                handleError("getResumenPersonasPorEdad", new Error("Falta el codigo de edad"), 400);
+            }
+            try {
+                const result = await personasModel.getResumenPersonasPorEdad(idEdadPersona);
+                return result;
+            } catch (error) {
+                handleError("getResumenPersonasPorEdad", error);
+            }
+        }
 
     async getResumenDiscapacidad(idAlbergue = null) {
         if (idAlbergue === null) {

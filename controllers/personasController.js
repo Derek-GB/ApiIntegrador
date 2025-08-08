@@ -199,6 +199,60 @@ const getResumenPersonasPorAlbergue = (req = request, res = response) => {
     });
 }
 
+const getResumenPersonasPorSexo = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idSexoPersona en la query" });
+  }
+  const { idSexoPersona } = req.params;
+  personasService.getResumenPersonasPorSexo(idSexoPersona)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron personas para el sexo especificado.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener sexo por persona:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener sexo por persona; " + error.message,
+      });
+    });
+}
+
+const getResumenPersonasPorEdad = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });
+  }
+  const { idEdadPersona } = req.params;
+  personasService.getResumenPersonasPorEdad(idEdadPersona)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron personas para la edad especificado.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener edad por persona:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener edad por persona; " + error.message,
+      });
+    });
+}
+
 module.exports = {
   getAllPersonas,
   getPersona,
@@ -206,5 +260,7 @@ module.exports = {
   postPersonas,
   deletePersona,
   getResumenPersonasPorAlbergue,
-  getAllPersonasByUsuario
+  getAllPersonasByUsuario,
+  getResumenPersonasPorSexo,
+  getResumenPersonasPorEdad
 };

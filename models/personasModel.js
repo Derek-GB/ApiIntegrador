@@ -93,6 +93,26 @@ class PersonasModel {
         }
     }
 
+    async getResumenPersonasPorSexo(idSexoPersona) {
+        try {
+            const [results] = await db.query('CALL pa_ResumenPersonasPorSexo(?);', [idSexoPersona]);
+            return results[0] || [];
+        } catch (error) {
+            console.error("Error en getResumenPersonasPorSexo: ", error);
+            throw error;
+        }
+    }
+
+    async getResumenPersonasPorEdad(idEdadPersona) {
+        try {
+            const [results] = await db.query('CALL pa_ResumenPersonasPorEdad(?);', [idEdadPersona]);
+            return results[0] || [];
+        } catch (error) {
+            console.error("Error en getResumenPersonasPorEdad: ", error);
+            throw error;
+        }
+    }
+
 
 
     async getResumenDiscapacidad(idAlbergue) {

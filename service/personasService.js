@@ -42,7 +42,7 @@ class PersonasService {
     }
 
     async getAllPersonasByUsuario(idUsuario = null) {
-        if (idUsuario==null){
+        if (idUsuario == null) {
             handleError("getAllPersonasByUsuario", new Error("El ID de usuario no puede ser nulo"), 400)
         }
         try {
@@ -64,70 +64,70 @@ class PersonasService {
             handleError("getPersona", error);
         }
     }
-    
+
     async postPersonas(personas = null, firma = null) {
-    if (!personas) {
-        handleError("postPersonas", new Error("El array de personas no puede ser nulo."), 400);
-    }
-    if (!Array.isArray(personas)) {
-        handleError("postPersonas", new Error("Se esperaba un array de personas."), 400);
-    }
-    if (personas.length === 0) {
-        handleError("postPersonas", new Error("El array de personas no puede estar vacío."), 400);
-    }
-    if (!firma || typeof firma !== 'object') {
-        handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
-    }
-
-    const resultados = [];
-    const errores = [];
-
-    const postPersona = async (persona, indice, firma = null) => {
-        const camposObligatorios = [
-            'tieneCondicionSalud', 'discapacidad', 'idFamilia',
-            'nombre', 'primerApellido', 'segundoApellido',
-            'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
-            'parentesco', 'fechaNacimiento',
-            'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
-        ];
-        if (persona.firma) {
-            persona.firma = null;
-            console.warn("Alguien intentó usar mal firma");
+        if (!personas) {
+            handleError("postPersonas", new Error("El array de personas no puede ser nulo."), 400);
         }
-        confirmarObligatorios(persona, indice, camposObligatorios);
-        if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
-        if (esJefeFamilia) {
-            if(!firma.existe === true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas") ;
-            const camposfirma = ['ruta', 'nombre'];
-            confirmarObligatorios(firma, null, camposfirma);
-            await helper.prepararFirma(firma, persona.numeroIdentificacion);
-            persona.firma = firma.ruta + '/' + firma.nombre;
+        if (!Array.isArray(personas)) {
+            handleError("postPersonas", new Error("Se esperaba un array de personas."), 400);
         }
-        confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
-        const resultado = await personasModel.postPersona(persona);
-        resultados.push({ success: true, resultado, indice });
-    };
+        if (personas.length === 0) {
+            handleError("postPersonas", new Error("El array de personas no puede estar vacío."), 400);
+        }
+        if (!firma || typeof firma !== 'object') {
+            handleError("postPersonas", new Error("La firma debe ser un objeto con los campos 'ruta', 'nombre' y 'numeroIdentificacion'."), 400);
+        }
 
-    for (let i = 0; i < personas.length; i++) {
-        const persona = personas[i];
-        try {
-            if (typeof persona !== 'object' || persona === null) {
-                handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
+        const resultados = [];
+        const errores = [];
+
+        const postPersona = async (persona, indice, firma = null) => {
+            const camposObligatorios = [
+                'tieneCondicionSalud', 'discapacidad', 'idFamilia',
+                'nombre', 'primerApellido', 'segundoApellido',
+                'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
+                'parentesco', 'fechaNacimiento',
+                'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
+            ];
+            if (persona.firma) {
+                persona.firma = null;
+                console.warn("Alguien intentó usar mal firma");
             }
-            if (firma.existe && firma.numeroIdentificacion === persona.numeroIdentificacion) {
-                await postPersona(persona, i, firma);
-                firma = {existe: false};
-            } else {
-                await postPersona(persona, i);
+            confirmarObligatorios(persona, indice, camposObligatorios);
+            if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
+            if (esJefeFamilia) {
+                if (!firma.existe === true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");
+                const camposfirma = ['ruta', 'nombre'];
+                confirmarObligatorios(firma, null, camposfirma);
+                await helper.prepararFirma(firma, persona.numeroIdentificacion);
+                persona.firma = firma.ruta + '/' + firma.nombre;
             }
-        } catch (error) {
-            resultados.push({ success: false, indice: i });
-            errores.push({ indice: i, error: error.message });
-        }
-    }
+            confirmarOpcionales(persona, ['fechaNacimiento', 'fechaDefuncion']);
+            const resultado = await personasModel.postPersona(persona);
+            resultados.push({ success: true, resultado, indice });
+        };
 
-    return { resultados, errores };
-}
+        for (let i = 0; i < personas.length; i++) {
+            const persona = personas[i];
+            try {
+                if (typeof persona !== 'object' || persona === null) {
+                    handleError("postPersonas", new Error("Cada elemento debe ser un objeto persona."), 400);
+                }
+                if (firma.existe && firma.numeroIdentificacion === persona.numeroIdentificacion) {
+                    await postPersona(persona, i, firma);
+                    firma = { existe: false };
+                } else {
+                    await postPersona(persona, i);
+                }
+            } catch (error) {
+                resultados.push({ success: false, indice: i });
+                errores.push({ indice: i, error: error.message });
+            }
+        }
+
+        return { resultados, errores };
+    }
 
     //alguna vez habrá un put
 
@@ -139,28 +139,27 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasDinamico(albergue = null, sexo = null, edad = null) {
-    if (!albergue || !sexo || !edad) {
-        handleError("getResumenPersonasDinamico", new Error("Parámetros albergue, sexo y edad no pueden ser nulos."), 400);
-    }
+    async getResumenPersonasPorAlbergue(idAlberguePersona = null) {
+            if (!idAlberguePersona) {
+                handleError("getResumenPersonasPorAlbergue", new Error("Falta el codigo de albergue"), 400);
+            }
+            try {
+                const result = await personasModel.getResumenPersonasPorAlbergue(idAlberguePersona);
+                return result;
+            } catch (error) {
+                handleError("getResumenPersonasPorAlbergue", error);
+            }
+        }
 
-    try {
-        const result = await personasModel.getResumenPersonasDinamico(albergue, sexo, edad);
-        return result;
-    } catch (error) {
-        handleError("getResumenPersonasDinamico", error);
-    }
-}
-
-    async getResumenDiscapacidad(id = null) {
-        if (id === null) {
-            handleError("getFamilia", new Error("El ID de la persona no puede ser nulo."), 400);
+    async getResumenDiscapacidad(idAlbergue = null) {
+        if (idAlbergue === null) {
+            handleError("getResumenDiscapacidad", new Error("El ID del albergue no puede ser nulo."), 400);
         }
         try {
-            const result = await personasModel.getResumenDiscapacidad(id);
+            const result = await personasModel.getResumenDiscapacidad(idAlbergue);
             return result;
         } catch (error) {
-            handleError("getPersona", error);
+            handleError("getResumenDiscapacidad", error);
         }
     }
 }

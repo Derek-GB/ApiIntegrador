@@ -83,27 +83,24 @@ class PersonasModel {
         }
     }
 
-    async getResumenPersonasDinamico(albergue, sexo, edad) {
+    async getResumenPersonasPorAlbergue(idAlberguePersona) {
         try {
-            const result = await db.query('CALL pa_getResumenPersonasDinamico(?, ?, ?)', [
-                albergue,
-                sexo,
-                edad
-            ]);
-            return result;
+            const [results] = await db.query('CALL pa_ResumenPersonasPorAlbergue(?);', [idAlberguePersona]);
+            return results[0] || [];
         } catch (error) {
-            console.error('Error en getResumenPersonasDinamico:', error);
+            console.error("Error en getResumenPersonasPorAlbergue: ", error);
             throw error;
         }
     }
-    
 
-    async getResumenDiscapacidad(id) {
+
+
+    async getResumenDiscapacidad(idAlbergue) {
         try {
-            const result = await db.query('CALL pa_ResumenDiscapacidad(?)', [id]);
+            const result = await db.query('CALL pa_PersonasConDiscapacidad(?)', [idAlbergue]);
             return result[0];
         } catch (error) {
-            console.error(`Error consiguiendo por ID ${id}:`, error);
+            console.error(`Error obteniendo personas con discapacidad para albergue ${idAlbergue}:`, error);
             throw error;
         }
     }

@@ -78,30 +78,34 @@ const getPersona = async (req = request, res = response) => {
 };
 
 const getResumenDiscapacidad = async (req = request, res = response) => {
-  if (!req.params) {
+  if (!req.params || !req.params.idAlbergue) {
     return res.status(400).json({
       success: false,
-      message: "Se esperaba el parametro id en la query.",
+      message: "Se esperaba el parámetro idAlbergue en la URL.",
     });
   }
+
   try {
-    const { id } = req.params;
-    const data = await personasService.getResumenDiscapacidad(id);
-    if (data[0]?.length === 0) {
+    const { idAlbergue } = req.params;
+    const data = await personasService.getResumenDiscapacidad(idAlbergue);
+
+    if (!data[0] || data[0].length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Discapacidad no encontrada.",
+        message: "No se encontraron personas con discapacidad para este albergue.",
       });
     }
+
     return res.status(200).json({
       success: true,
-      data: data[0][0],
+      data: data[0],
+      message: `Se encontraron ${data[0].length} personas con discapacidad.`
     });
   } catch (error) {
-    console.error("Error en getResumenDiscapacidad:", error);
+    console.error("Error en getPersonasConDiscapacidad:", error);
     return res.status(500).json({
       success: false,
-      error: "Error al obtener la discapacidad; " + error.message,
+      error: "Error al obtener las personas con discapacidad: " + error.message,
     });
   }
 };
@@ -127,8 +131,8 @@ const postPersonas = async (req = request, res = response) => {
       data.errores.length === personas.length
         ? 500
         : data.errores.length > 0
-        ? 207
-        : 201;
+          ? 207
+          : 201;
     return res.status(statusCode).json({
       success: data.errores.length === 0,
       resultados: data.resultados,
@@ -168,39 +172,32 @@ const deletePersona = async (req = request, res = response) => {
 };
 
 
-const getResumenPersonasDinamico = async (req = request, res = response) => {
-  const { albergue, sexo, edad } = req.params;
-
-  if (!albergue || !sexo || !edad) {
-    return res.status(400).json({
-      success: false,
-      message: "Se esperaban los parámetros albergue, sexo y edad.",
-    });
+const getResumenPersonasPorAlbergue = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idAlberguePersona en la query" });
   }
-
-  try {
-    const data = await personasService.getResumenPersonasDinamico(albergue, sexo, edad);
-
-    if (!data[0] || data[0].length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Datos no encontrados.",
+  const { idAlberguePersona } = req.params;
+  personasService. getResumenPersonasPorAlbergue(idAlberguePersona)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron personas para el albergue especificado.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
       });
-    }
-
-    return res.status(200).json({
-      success: true,
-      data: data[0],
+    })
+    .catch((error) => {
+      console.error("Error al obtener albergue por persona:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener albergue por persona; " + error.message,
+      });
     });
-
-  } catch (error) {
-    console.error("Error en getResumenPersonasDinamico:", error);
-    return res.status(500).json({
-      success: false,
-      error: "Error al obtener los datos: " + error.message,
-    });
-  }
-};
+}
 
 module.exports = {
   getAllPersonas,
@@ -208,6 +205,6 @@ module.exports = {
   getResumenDiscapacidad,
   postPersonas,
   deletePersona,
-  getResumenPersonasDinamico,
+  getResumenPersonasPorAlbergue,
   getAllPersonasByUsuario
 };

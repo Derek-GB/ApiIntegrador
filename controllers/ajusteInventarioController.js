@@ -24,7 +24,7 @@ const getAllAjusteInventarios = async (req = request, res = response) => {
     res.status(200).json({
       success: true,
       message: 'Lista de ajustes obtenida correctamente',
-      data: data[0], 
+      data: data[0],
     });
   } catch (error) {
     console.error("Error en getAllAjuste:", error);
@@ -113,7 +113,7 @@ const getAjuste = async (req = request, res = response) => {
 // };
 
 const postAjuste = async (req = request, res = response) => {
-  const { idProducto, cantidadOriginal,cantidadAjustada,justificacion,idUsuarioCreacion } = req.body;
+  const { idProducto, cantidadOriginal, cantidadAjustada, justificacion, idUsuarioCreacion } = req.body;
 
   try {
     const mensaje = await ajusteInventarioService.postAjusteInventario({
@@ -145,7 +145,7 @@ const getAjustesPorProducto = async (req = request, res = response) => {
     res.status(200).json({
       success: true,
       message: 'Lista de ajustes obtenida correctamente',
-      data: data[0], 
+      data: data,
     });
   } catch (error) {
     console.error("Error en getAjustesPorProducto:", error);

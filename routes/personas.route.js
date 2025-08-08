@@ -70,16 +70,16 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/personas/discapacidad/id/{id}:
+ * /api/personas/resumen/id/{idAlbergue}:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de discapacidad por ID
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: idAlbergue
  *         schema:
- *           type: integer
+ *           type: string
  *         required: true
  *         description: ID de discapacidad
  *     responses:
@@ -92,7 +92,7 @@ router.get('/id/:id', personasController.getPersona);
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-router.get('/id/:id', personasController.getResumenDiscapacidad);
+router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
 
 /**
  * @swagger
@@ -292,43 +292,58 @@ router.post("/", upload.single("firma"), personasController.postPersonas);
  */
 router.delete('/id/:id', personasController.deletePersona);
 
-
 /**
  * @swagger
- * /api/personas/albergue/{albergue}/sexo/{sexo}/edad/{edad}:
+ * /api/personas/resumen/porAlbergue/{idAlberguePersona}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener personas por albergue, sexo y edad
+ *     summary: Obtener resumen de personas por albergue
+ *     description: Devuelve un resumen con las personas asociadas a un albergue específico.
  *     parameters:
  *       - in: path
- *         name: albergue
- *         required: true
- *         schema:
- *           type: string
- *         description: Nombre o ID del albergue
- *       - in: path
- *         name: sexo
- *         required: true
- *         schema:
- *           type: string
- *         description: Sexo de la persona (Masculino, Femenino, Otro)
- *       - in: path
- *         name: edad
+ *         name: idAlberguePersona
  *         required: true
  *         schema:
  *           type: integer
- *         description: Edad de la persona
+ *         description: ID del albergue para obtener el resumen de personas.
+ *         example: 12
  *     responses:
  *       200:
- *         description: Personas encontradas
+ *         description: Resumen de personas obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 45
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan Pérez
+ *                       edad:
+ *                         type: integer
+ *                         example: 34
+ *                       genero:
+ *                         type: string
+ *                         example: Masculino
+ *       400:
+ *         description: Parámetro idAlberguePersona no proporcionado.
  *       404:
- *         description: Personas no encontradas
+ *         description: No se encontraron personas para el albergue especificado.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas.
  */
-
-router.get('/albergue/:albergue/sexo/:sexo/edad/:edad', personasController.getResumenPersonasDinamico);
+router.get('/resumen/porAlbergue/:idAlberguePersona', personasController.getResumenPersonasPorAlbergue);
 
 
 

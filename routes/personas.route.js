@@ -70,29 +70,59 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/personas/resumen/id/{idAlbergue}:
+ * /api/personas/resumen/discapacidad/{idDiscapacidad}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener resumen de discapacidad por ID
+ *     summary: Obtener resumen de personas por discapacidad
+ *     description: Devuelve un resumen de las personas que presentan una discapacidad según el ID especificado.
  *     parameters:
  *       - in: path
- *         name: idAlbergue
- *         schema:
- *           type: string
+ *         name: idDiscapacidad
  *         required: true
- *         description: ID de discapacidad
+ *         schema:
+ *           type: integer
+ *         description: ID de la discapacidad a consultar.
+ *         example: 2
  *     responses:
  *       200:
- *         description: Resumen de discapacidad obtenido exitosamente
+ *         description: Resumen de personas con la discapacidad obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 15
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan Pérez
+ *                       discapacidad:
+ *                         type: string
+ *                         example: Auditiva
+ *                       edad:
+ *                         type: integer
+ *                         example: 34
+ *                       sexo:
+ *                         type: string
+ *                         example: Masculino
  *       400:
- *          description: Se espera un id de discapacidad
+ *         description: Parámetro idDiscapacidad no proporcionado.
  *       404:
- *         description: Discapacidad no encontrada
+ *         description: No se encontraron personas con la discapacidad especificada.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas por discapacidad.
  */
-router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
+router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResumenDiscapacidad);
 
 /**
  * @swagger

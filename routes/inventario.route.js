@@ -48,7 +48,7 @@ router.get('/id/:id', inventarioController.getInventario);
  * /api/inventario/resumen/suministros/{idSuministros}:
  *   get:
  *     tags:
- *       - Inventario
+ *       - Resumenes
  *     summary: Obtener resumen de suministros
  *     description: Devuelve un resumen de los suministros según el ID especificado.
  *     parameters:

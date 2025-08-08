@@ -173,18 +173,18 @@ class PersonasService {
                 handleError("getResumenPersonasPorEdad", error);
             }
         }
+    async getResumenDiscapacidad(idDiscapacidad = null) {
+            if (!idDiscapacidad) {
+                handleError("getResumenDiscapacidad", new Error("Falta el codigo de discapacidad"), 400);
+            }
+            try {
+                const result = await personasModel.getResumenDiscapacidad(idDiscapacidad);
+                return result;
+            } catch (error) {
+                handleError("getResumenDiscapacidad", error);
+            }
+        }
 
-    async getResumenDiscapacidad(idAlbergue = null) {
-        if (idAlbergue === null) {
-            handleError("getResumenDiscapacidad", new Error("El ID del albergue no puede ser nulo."), 400);
-        }
-        try {
-            const result = await personasModel.getResumenDiscapacidad(idAlbergue);
-            return result;
-        } catch (error) {
-            handleError("getResumenDiscapacidad", error);
-        }
-    }
 }
 
 module.exports = new PersonasService();

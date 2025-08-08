@@ -28,23 +28,23 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
 
 /**
  * @swagger
- * /api/personas/resumen/condiciones/{idCondicionesEspeciales}:
+ * /api/personas/resumen/condicion/{idCondicion}:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de personas por condición especial
- *     description: Devuelve un resumen de personas filtradas según una condición especial específica.
+ *     description: Devuelve un resumen de las personas que presentan una condición especial según el ID especificado.
  *     parameters:
  *       - in: path
- *         name: idCondicionesEspeciales
+ *         name: idCondicion
  *         required: true
  *         schema:
- *           type: string
- *         description: ID de la condición especial para filtrar las personas.
- *         example: 2
+ *           type: integer
+ *         description: ID de la condición especial a consultar.
+ *         example: 3
  *     responses:
  *       200:
- *         description: Resumen de personas por condición especial obtenido exitosamente.
+ *         description: Resumen de personas con la condición especial obtenida exitosamente.
  *         content:
  *           application/json:
  *             schema:
@@ -60,21 +60,28 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
  *                     properties:
  *                       idPersona:
  *                         type: integer
- *                         example: 87
+ *                         example: 21
  *                       nombre:
  *                         type: string
- *                         example: María Pérez
+ *                         example: María López
  *                       condicionEspecial:
  *                         type: string
- *                         example: Discapacidad visual
+ *                         example: Embarazo
+ *                       edad:
+ *                         type: integer
+ *                         example: 29
+ *                       sexo:
+ *                         type: string
+ *                         example: Femenino
  *       400:
- *         description: Parámetro idCondicionesEspeciales no proporcionado.
+ *         description: Parámetro idCondicion no proporcionado.
  *       404:
- *         description: No se encontraron personas para la condición especial especificada.
+ *         description: No se encontraron personas con la condición especial especificada.
  *       500:
  *         description: Error interno al obtener el resumen de personas por condición especial.
  */
-router.get('/resumen/condiciones/:idCondicionesEspeciales', condicionEspecialController.getResumenCondicionesEspeciales);
+
+router.get('/resumen/condicion/:idCondicion', condicionEspecialController.getResumenCondicionesEspeciales);
 
 /**
  * @swagger

@@ -139,18 +139,17 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasDinamico(albergue = null, sexo = null, edad = null) {
-        if (!albergue || !sexo || !edad) {
-            handleError("getResumenPersonasDinamico", new Error("Parámetros albergue, sexo y edad no pueden ser nulos."), 400);
+    async getResumenPersonasPorAlbergue(idAlberguePersona = null) {
+            if (!idAlberguePersona) {
+                handleError("getResumenPersonasPorAlbergue", new Error("Falta el codigo de albergue"), 400);
+            }
+            try {
+                const result = await personasModel.getResumenPersonasPorAlbergue(idAlberguePersona);
+                return result;
+            } catch (error) {
+                handleError("getResumenPersonasPorAlbergue", error);
+            }
         }
-
-        try {
-            const result = await personasModel.getResumenPersonasDinamico(albergue, sexo, edad);
-            return result;
-        } catch (error) {
-            handleError("getResumenPersonasDinamico", error);
-        }
-    }
 
     async getResumenDiscapacidad(idAlbergue = null) {
         if (idAlbergue === null) {

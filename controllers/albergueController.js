@@ -231,15 +231,15 @@ const getForProvinciaAlbergue = async (req = request, res = response) => {
 
 
 const getResumenAlberguesColor = async (req = request, res = response) => {
-  const { Color } = req.params;
-  if (!Color) {
+  const { color } = req.params;
+  if (!color) {
     return res.status(400).json({
       success: false,
       message: "Color del albergue es requerido",
     });
   }
   try {
-    const data = await albergueService.getResumenAlberguesColor(Color);
+    const data = await albergueService.getResumenAlberguesColor(color);
     if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,

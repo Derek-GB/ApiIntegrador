@@ -83,19 +83,16 @@ class PersonasModel {
         }
     }
 
-    async getResumenPersonasDinamico(albergue, sexo, edad) {
+    async getResumenPersonasPorAlbergue(idAlberguePersona) {
         try {
-            const result = await db.query('CALL pa_ResumenPersonasDinamico(?, ?, ?)', [
-                albergue,
-                sexo,
-                edad
-            ]);
-            return result;
+            const [results] = await db.query('CALL pa_ResumenPersonasPorAlbergue(?);', [idAlberguePersona]);
+            return results[0] || [];
         } catch (error) {
-            console.error('Error en getResumenPersonasDinamico:', error);
+            console.error("Error en getResumenPersonasPorAlbergue: ", error);
             throw error;
         }
     }
+
 
 
     async getResumenDiscapacidad(idAlbergue) {

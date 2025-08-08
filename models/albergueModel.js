@@ -147,9 +147,9 @@ class albergueModel {
     }
   }
 
-  async getResumenAlberguesColor(Color) {
+  async getResumenAlberguesColor(color) {
     try {
-      return await db.query("CALL pa_ResumenAlberguesColor(?);", [Color]);
+      return await db.query("CALL pa_ResumenAlberguesColor(?);", [color]);
     } catch (error) {
       console.error("Error al encontrar el albergue por color: ", error);
       throw error;

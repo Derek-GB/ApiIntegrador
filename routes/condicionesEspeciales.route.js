@@ -39,7 +39,7 @@ router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
  *         name: idCondicionesEspeciales
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID de la condición especial para filtrar las personas.
  *         example: 2
  *     responses:

@@ -59,15 +59,15 @@ class condicionEspecialService {
     }
 
     async getResumenCondicionesEspeciales(idCondicionesEspeciales = null) {
-        if (!idCondicionesEspeciales) {
-            handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de condiciones especiales"), 400);
-        }
-        const [rows] = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicionesEspeciales);
-        return rows; // Aquí ya devuelves solo las filas reales
-    } catch (error) {
-        handleError("getResumenCondicionesEspeciales", error);
-    
+    if (!idCondicionesEspeciales) {
+        handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de condiciones especiales"), 400);
+        // Importante: para evitar continuar, lanza el error o retorna después de manejarlo.
+        throw new Error("Falta el codigo de condiciones especiales");
     }
+    // Aquí llamas a tu modelo con el id tal cual, sin parsear.
+    const [rows] = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicionesEspeciales);
+    return rows; // Devuelve las filas
+}
 
 
 

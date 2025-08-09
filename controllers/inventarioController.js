@@ -2,7 +2,6 @@ const { request, response } = require("express");
 const { pool } = require("../MySQL/basedatos");
 const inventarioService = require("../service/inventarioService")
 
-
 const getAllInventario = async (req = request, res = response) => {
     try {
         const data = await inventarioService.getAllInventario();

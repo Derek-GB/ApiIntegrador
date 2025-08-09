@@ -1,6 +1,5 @@
 const { request, response } = require('express');
 const productoService = require("../service/productoService");
-
 const { pool } = require('../MySQL/basedatos')
 
 const getAllProducto = async (req = request, res = response) => {

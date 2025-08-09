@@ -3,7 +3,6 @@ const pool = require("../MySQL/basedatos");
 
 const postMethod = (req = request, res = response) => {
   let {
-    // Infraestructura
     cocina,
     duchas,
     serviciosSanitarios,
@@ -12,7 +11,6 @@ const postMethod = (req = request, res = response) => {
     tanqueAgua,
     areaTotalM2,
 
-    // Capacidad
     capacidadPersonas,
     capacidadColectiva,
     cantidadFamilias,
@@ -21,13 +19,11 @@ const postMethod = (req = request, res = response) => {
     sospechososSanos,
     otros,
 
-    // Ubicación
     provincia,
     canton,
     distrito,
     direccion,
 
-    // Datos generales
     idAlbergue,
     nombre,
     region,
@@ -49,7 +45,6 @@ const postMethod = (req = request, res = response) => {
     idUsuarioCreacion,
   } = req.body;
 
-  // Valores opcionales por default
   otros = otros ?? null;
   direccion = direccion ?? null;
   especificacion = especificacion ?? null;
@@ -61,7 +56,6 @@ const postMethod = (req = request, res = response) => {
   idPedidoAbarrote = idPedidoAbarrote ?? null;
   idUsuarioCreacion = idUsuarioCreacion ?? null;
 
-  // Validación de campos obligatorios
   if (
     cocina === undefined ||
     duchas === undefined ||
@@ -126,7 +120,6 @@ const postMethod = (req = request, res = response) => {
     });
   }
 
-  // Ejecutar procedimiento almacenado
   pool.query(
     "CALL pa_InsertAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [

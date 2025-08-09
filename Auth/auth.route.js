@@ -1,4 +1,3 @@
-// Auth/auth.route.js
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
 const verificarToken = require('../middleware/verificarToken');

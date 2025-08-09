@@ -107,7 +107,6 @@ router.get('/all', amenazasController.getAllAmenazas);
  *       500:
  *         description: Error al insertar amenaza
  */
-
 router.post('/', amenazasController.postAmenaza);
 
 /**

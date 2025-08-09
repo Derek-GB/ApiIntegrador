@@ -52,7 +52,5 @@ class detallePedidoConsumibleService {
             throw error;
         }
     }
-
-
 }
 module.exports = new detallePedidoConsumibleService();

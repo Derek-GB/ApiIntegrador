@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-
 const infraestructuraAlbergueController = require('../controllers/infraestructuraAlbergueController.js');
 
 /**

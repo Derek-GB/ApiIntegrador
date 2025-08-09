@@ -70,10 +70,5 @@ class condicionEspecialService {
                 }
             }
 
-    
-
-
-
-
 }
 module.exports = new condicionEspecialService();

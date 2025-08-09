@@ -140,8 +140,6 @@ class PersonasService {
         return { resultados, errores };
     }
 
-    //alguna vez habrá un put
-
     async deletePersona(id) {
         try {
             return await personasModel.deletePersona(id);

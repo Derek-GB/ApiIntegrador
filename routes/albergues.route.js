@@ -1,11 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
 const albergueController = require('../controllers/albergueController');
-
-// const {
-//   postMethod,
-// } = require('../controllers/formularioAlbergue');
 
 /**
  * @swagger
@@ -169,7 +164,6 @@ router.get('/id/:id', albergueController.getAlbergue);
  */
 router.post('/', albergueController.postAlbergue);
 
-
 /**
  * @swagger
  * /api/albergues:
@@ -312,7 +306,6 @@ router.get('/consulta/id/:id', albergueController.getForIdAlbergue);
  */
 router.get('/consulta/nombre/:nombre', albergueController.getForNombreAlbergue);
 
-
 /** * @swagger
  * /api/albergues/consulta/distrito/{distrito}:
  *   get:
@@ -408,7 +401,6 @@ router.get('/consulta/canton/:canton', albergueController.getForCantonAlbergue);
  *                     type: object
  */
 router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaAlbergue);
-
 
 /**
  * @swagger

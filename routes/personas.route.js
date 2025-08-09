@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const upload = require('../middleware/uploadMiddleware');
 const router = Router();
-
 const personasController = require('../controllers/personasController');
 
 /**
@@ -42,7 +41,6 @@ router.get('/all', personasController.getAllPersonas);
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.get('/user/:idUsuario', personasController.getAllPersonasByUsuario);
-
 
 /**
  * @swagger
@@ -218,11 +216,6 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *         description: Error interno del servidor
  */
 router.post("/", upload.single("firma"), personasController.postPersonas);
-
-// router.post("/prueba", upload.single("firma"), (req, res) => {
-//   // Aquí puedes manejar la solicitud de prueba
-//   res.json({ message: "Solicitud de prueba recibida", file: req.file });
-// });
 
 /**
  * @swagger

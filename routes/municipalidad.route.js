@@ -1,9 +1,6 @@
 const {Router}= require('express');
-
 const municipalidadController = require('../controllers/municipalidadController');
-
 const router=Router();
-
 
   /**
  * @swagger
@@ -27,10 +24,8 @@ const router=Router();
  *       500:
  *         description: Error al obtener municipalidad (Contactar equipo de API)
  */
-//Devolver un solo producto por ID
 router.get('/id/:id', municipalidadController.getMunicipalidad);   
     
-
 /**
  * @swagger
  * /api/municipalidades:
@@ -44,7 +39,6 @@ router.get('/id/:id', municipalidadController.getMunicipalidad);
  *       500:
  *         description: Error al obtener municipalidades (Contactar equipo de API)
  */
-//Devuelve todos los productos
 router.get('/all', municipalidadController.getAllMunicipalidades);             
 
 /**
@@ -154,7 +148,6 @@ router.post('/', municipalidadController.postMunicipalidad);
  *       500:
  *         description: Error al eliminar municipalidad (Contactar equipo de API)
  */
-// //Eliminar
 router.delete('/id/:id', municipalidadController.deleteMunicipalidad);
 
 /**
@@ -207,7 +200,6 @@ router.delete('/id/:id', municipalidadController.deleteMunicipalidad);
  *       500:
  *         description: Error al actualizar municipalidad (Contactar equipo de API)
  */
-// //Actualizar
 // router.put('/',   putMethod);
 
 module.exports=router;

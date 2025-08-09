@@ -44,10 +44,6 @@ class recursoAsignadoService {
             throw error;
         }
     }
-
-
-
 }
 
-    
 module.exports = new recursoAsignadoService();

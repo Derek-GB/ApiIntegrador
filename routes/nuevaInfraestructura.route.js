@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-
 const nuevaInfraestructuraController = require('../controllers/nuevaInfraestructuraController');
 
 /**
@@ -156,6 +155,5 @@ router.put('/', nuevaInfraestructuraController.putNuevaInfraestructura);
  *         description: Error al eliminar infraestructura (Contactar equipo de API)
  */
 router.delete('/id/:id', nuevaInfraestructuraController.deleteNuevaInfraestructura);
-
 
 module.exports = router;

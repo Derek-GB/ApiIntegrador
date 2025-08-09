@@ -2,11 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const ajusteInventarioController = require('../controllers/ajusteInventarioController');
 
-
-const {
-    
-} = require('../controllers/ajusteInventarioController');
-
 /*
     * @swagger
     * /api/ajusteInventario/all:

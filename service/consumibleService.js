@@ -56,7 +56,5 @@ class consumibleService {
             throw error;
         }
     }
-
-
 }
 module.exports = new consumibleService();

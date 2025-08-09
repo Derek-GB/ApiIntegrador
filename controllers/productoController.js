@@ -86,15 +86,12 @@ const postProducto = async (req, res) => {
 
 const putProducto = (req = request, res = response) => {
     const { id, descripcion, cantidad } = req.body;
-
-
     if (typeof id !== 'number' || typeof descripcion !== 'string' || typeof cantidad !== 'number') {
         return res.status(400).json({
             success: false,
             message: 'Datos inválidos o faltantes: se requieren id (number), descripcion (string) y cantidad (number)'
         });
     }
-
     pool.query('CALL pa_UpdateProducto(?, ?, ?)', [id, descripcion, cantidad], (error, results) => {
         if (error) {
             console.error('Error al actualizar producto:', error);
@@ -103,7 +100,6 @@ const putProducto = (req = request, res = response) => {
                 error: 'Error al actualizar producto'
             });
         }
-
         res.status(200).json({
             success: true,
             message: 'Producto actualizado correctamente',

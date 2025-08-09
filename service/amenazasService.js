@@ -33,7 +33,7 @@ class amenazasService {
             throw new Error('Faltan datos: familiaEvento, evento, peligro, idUsuarioCreacion, causa o categoriaEvento');
         }
 
-        await amenazasModel.postAmenaza(Amenaza); // no espera resultado
+        await amenazasModel.postAmenaza(Amenaza); 
     }
 
     async deleteAmenaza(id) {

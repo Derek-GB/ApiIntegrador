@@ -1,9 +1,6 @@
 const {Router}=require('express');
-
 const unidadMedidaController=require('../controllers/unidadMedidaController');
-
 const router=Router();
-
 
   /**
  * @swagger
@@ -18,7 +15,6 @@ const router=Router();
  *       500:
  *         description: Error al obtener unidades de medida (Contactar equipo de API)
  */
-//Actualizar
 router.get('/all',   unidadMedidaController.getAllunidadMedidas);
 
   /**
@@ -43,7 +39,6 @@ router.get('/all',   unidadMedidaController.getAllunidadMedidas);
  *       500:
  *         description: Error al obtener unidad de medida (Contactar equipo de API)
  */
-//Devolver datos desde mi API
 router.get('/id/:id',  unidadMedidaController.getunidadMedida); 
 
 /**
@@ -75,7 +70,6 @@ router.get('/id/:id',  unidadMedidaController.getunidadMedida);
  *       500:
  *         description: Error al insertar unidad de medida (Contactar equipo de API)
  */
-//Registrar o insertar
 router.post('/',  unidadMedidaController.postUnidadMedida);
 
 
@@ -111,7 +105,6 @@ router.post('/',  unidadMedidaController.postUnidadMedida);
  *       500:
  *         description: Error al actualizar unidad de medida (Contactar equipo de API)
  */
-//Registrar o insertar
 // router.put('/',  putMethod);
 
 /**
@@ -136,10 +129,6 @@ router.post('/',  unidadMedidaController.postUnidadMedida);
  *       500:
  *         description: Error al eliminar unidad de medida (Contactar equipo de API)
  */
-//Eliminar
 router.delete('/id/:id', unidadMedidaController.deleteUnidadMedida);
-
-
-
 
 module.exports=router;

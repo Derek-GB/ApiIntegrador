@@ -1,5 +1,4 @@
 const { request, response } = require("express");
-const { pool } = require("../MySQL/basedatos");
 const ajusteInventarioService = require("../service/ajusteInventarioService");
 
 const getAllAjusteInventarios = async (req = request, res = response) => {

@@ -131,7 +131,7 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *     tags:
  *       - Personas
  *     summary: Registrar múltiples personas con una firma común
- *     description: Inserta una o más personas. La firma se aplica por igual a todas.
+ *     description: Inserta una o más personas. La firma se aplica por igual a todas (si hay jefe de familia).
  *     requestBody:
  *       required: true
  *       content:
@@ -140,17 +140,10 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *             type: object
  *             required:
  *               - personas
- *               - firma
  *             properties:
  *               personas:
  *                 type: string
- *                 description: >
- *                   Array JSON de objetos persona serializado como texto.
- *                   Ejemplo de valor:
- *                   [
- *                     { "nombre": "Juan", "primerApellido": "Pérez", "segundoApellido": "Rodríguez", "idFamilia": 1, "tieneCondicionSalud": true, "descripcionCondicionSalud": "Hipertensión", "discapacidad": false, "tipoDiscapacidad": null, "subtipoDiscapacidad": null, "paisOrigen": "Nicaragua", "autoidentificacionCultural": "Afrodescendiente", "puebloIndigena": "Bribri", "firma": "firma.jpg", "tipoIdentificacion": "Cédula", "numeroIdentificacion": "123456789", "nacionalidad": "Costarricense", "parentesco": "Padre", "esJefeFamilia": true, "fechaNacimiento": "1980-05-15", "genero": "Masculino", "sexo": "Masculino", "telefono": "88889999", "contactoEmergencia": "Ana María 87001122", "observaciones": "Usa medicamentos diariamente", "estaACargoMenor": false, "idUsuarioCreacion": 1 },
- *                     { "nombre": "María", "primerApellido": "González", "segundoApellido": "López", "idFamilia": 1, "tieneCondicionSalud": false, "descripcionCondicionSalud": null, "discapacidad": true, "tipoDiscapacidad": "Motora", "subtipoDiscapacidad": "Parálisis parcial", "paisOrigen": null, "autoidentificacionCultural": null, "puebloIndigena": null, "firma": "firma.jpg", "tipoIdentificacion": "DIMEX", "numeroIdentificacion": "987654321", "nacionalidad": "Nicaragüense", "parentesco": "Madre", "esJefeFamilia": false, "fechaNacimiento": "1985-08-25", "genero": "Femenino", "sexo": "Femenino", "telefono": "89998888", "contactoEmergencia": null, "observaciones": null, "estaACargoMenor": true, "idUsuarioCreacion": 1 }
- *                   ]
+ *                 description: Array JSON de objetos persona serializado como texto.
  *                 example: |
  *                   [
  *                     {
@@ -213,7 +206,7 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *               firma:
  *                 type: string
  *                 format: binary
- *                 description: Archivo de imagen de firma (JPEG, PNG, etc.)
+ *                 description: Archivo de imagen de firma (PNG). **Solo se admiten archivos PNG.**
  *     responses:
  *       201:
  *         description: Todas las personas fueron registradas correctamente

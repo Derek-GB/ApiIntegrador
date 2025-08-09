@@ -46,7 +46,7 @@ class albergueService {
     }
 
     async postAlbergue(Albergue) {
-        
+
         const obligatorios = [
             'idAlbergue', 'nombre', 'region', 'provincia', 'canton', 'distrito', 'direccion',
             'tipoEstablecimiento', 'administrador', 'telefono', 'capacidadPersonas',
@@ -100,54 +100,54 @@ class albergueService {
     }
 
     async getForIdAlbergue(id) {
-            try {
-                const result = await albergueModel.getForIdAlbergue(id);
-                return result;
-            } catch (error) {
-                console.error("Error en albergueModel.getForIdAlbergue: ", error);
-                throw error;
-            }
+        try {
+            const result = await albergueModel.getForIdAlbergue(id);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getForIdAlbergue: ", error);
+            throw error;
         }
-    
-    async getForNombreAlbergue(nombre) {
-            try {
-                const result = await albergueModel.getForNombreAlbergue(nombre);
-                return result;
-            } catch (error) {
-                console.error("Error en albergueModel.getForNombreAlbergue: ", error);
-                throw error;
-            }
-        }
-    async getForDistritoAlbergue(distrito) {
-            try {
-                const result = await albergueModel.getForDistritoAlbergue(distrito);
-                return result;
-            } catch (error) {
-                console.error("Error en albergueModel.getForDistritoAlbergue: ", error);
-                throw error;
-            }
-        }
-    async getForCantonAlbergue(canton) {
-            try {
-                const result = await albergueModel.getForCantonAlbergue(canton);
-                return result;
-            } catch (error) {
-                console.error("Error en albergueModel.getForCantonAlbergue: ", error);
-                throw error;
-            }
-        }
-    async getForProvinciaAlbergue(provincia) {
-            try {
-                const result = await albergueModel.getForProvinciaAlbergue(provincia);
-                return result;
-            } catch (error) {
-                console.error("Error en albergueModel.getForProvinciaAlbergue: ", error);
-                throw error;
-            }
-        }
+    }
 
-    async getResumenAlberguesColor(color){
-         try {
+    async getForNombreAlbergue(nombre) {
+        try {
+            const result = await albergueModel.getForNombreAlbergue(nombre);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getForNombreAlbergue: ", error);
+            throw error;
+        }
+    }
+    async getForDistritoAlbergue(distrito) {
+        try {
+            const result = await albergueModel.getForDistritoAlbergue(distrito);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getForDistritoAlbergue: ", error);
+            throw error;
+        }
+    }
+    async getForCantonAlbergue(canton) {
+        try {
+            const result = await albergueModel.getForCantonAlbergue(canton);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getForCantonAlbergue: ", error);
+            throw error;
+        }
+    }
+    async getForProvinciaAlbergue(provincia) {
+        try {
+            const result = await albergueModel.getForProvinciaAlbergue(provincia);
+            return result;
+        } catch (error) {
+            console.error("Error en albergueModel.getForProvinciaAlbergue: ", error);
+            throw error;
+        }
+    }
+
+    async getResumenAlberguesColor(color) {
+        try {
             const result = await albergueModel.getResumenAlberguesColor(color);
             return result;
         } catch (error) {
@@ -156,8 +156,8 @@ class albergueService {
         }
     }
 
-    async getAllAlberguesPorUsuario(idUsuario){
-         try {
+    async getAllAlberguesPorUsuario(idUsuario) {
+        try {
             const result = await albergueModel.getAllAlberguesPorUsuario(idUsuario);
             return result;
         } catch (error) {
@@ -167,20 +167,54 @@ class albergueService {
     }
 
     async putAlbergueFamilia(albergueFa) {
-            if (!albergueFa) {
-                handleError("putAlbergueFamilia", new Error("No se recibió un albergue familia", 400));
-            }
-            confirmarObligatorios(albergueFa, ["idFamilia","idAlbergue", "idUsuarioModificacion"], "putAlbergueFamilia");
-            try {
-                const result = await albergueModel.putAlbergueFamilia(albergueFa);
-                return result;
-            } catch (error) {
-                handleError("putAlbergueFamilia", error);
-            }
+        if (!albergueFa) {
+            handleError("putAlbergueFamilia", new Error("No se recibió un albergue familia", 400));
         }
-    
+        confirmarObligatorios(albergueFa, ["idFamilia", "idAlbergue", "idUsuarioModificacion"], "putAlbergueFamilia");
+        try {
+            const result = await albergueModel.putAlbergueFamilia(albergueFa);
+            return result;
+        } catch (error) {
+            handleError("putAlbergueFamilia", error);
+        }
+    }
 
-
+    async putAlbergue(albergue) {
+        if (!albergue) {
+            handleError("putAlbergue", new Error("No se recibió un albergue", 400));
+        }
+        confirmarObligatorios(albergue, [
+            "id",
+            "idAlbergue",
+            "nombre",
+            "region",
+            "coordenadaX",
+            "coordenadaY",
+            "idUbicacion",
+            "tipoEstablecimiento",
+            "tipoAlbergue",
+            "condicionAlbergue",
+            "especificacion",
+            "detalleCondicion",
+            "administrador",
+            "telefono",
+            "idCapacidad",
+            "seccion",
+            "requerimientosTecnicos",
+            "costoRequerimientosTecnicos",
+            "idInfraestructura",
+            "idMunicipalidad",
+            "color",
+            "idPedidoAbarrote",
+            "idUsuarioModificacion"
+        ], "putAlbergue");
+        try {
+            const result = await albergueModel.putAlbergue(albergue);
+            return result;
+        } catch (error) {
+            handleError("putAlbergue", error);
+        }
+    }
 }
 
 

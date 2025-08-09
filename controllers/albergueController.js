@@ -301,6 +301,82 @@ const putAlbergueFamilia = async (req = request, res = response) => {
   }
 };
 
+const putAlbergue = async (req = request, res = response) => {
+    if (!req.body) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                error: "Se esperaba el cuerpo de la petición",
+            });
+    }
+    try {
+        const {
+            id,
+            idAlbergue,
+            nombre,
+            region,
+            coordenadaX,
+            coordenadaY,
+            idUbicacion,
+            tipoEstablecimiento,
+            tipoAlbergue,
+            condicionAlbergue,
+            especificacion,
+            detalleCondicion,
+            administrador,
+            telefono,
+            idCapacidad,
+            seccion,
+            requerimientosTecnicos,
+            costoRequerimientosTecnicos,
+            idInfraestructura,
+            idMunicipalidad,
+            color,
+            idPedidoAbarrote,
+            idUsuarioModificacion
+        } = req.body;
+
+        const data = await albergueService.putAlbergue({
+            id,
+            idAlbergue,
+            nombre,
+            region,
+            coordenadaX,
+            coordenadaY,
+            idUbicacion,
+            tipoEstablecimiento,
+            tipoAlbergue,
+            condicionAlbergue,
+            especificacion,
+            detalleCondicion,
+            administrador,
+            telefono,
+            idCapacidad,
+            seccion,
+            requerimientosTecnicos,
+            costoRequerimientosTecnicos,
+            idInfraestructura,
+            idMunicipalidad,
+            color,
+            idPedidoAbarrote,
+            idUsuarioModificacion
+        });
+
+        res.status(200).json({ 
+            success: true, 
+            message: "Albergue actualizado correctamente" 
+        });
+    } catch (error) {
+        console.log("Error en putAlbergue: " + error.message, error);
+        res.status(500).json({ 
+            success: false, 
+            message: "Error al actualizar albergue: " + error.message
+        });
+    }
+};
+
+
 const postAlbergue = async (req, res) => {
     if (!req.body){
       return res.status(400).json({
@@ -414,5 +490,6 @@ module.exports = {
   getResumenAlberguesColor,
   postAlbergue,
   getAllAlberguesPorUsuario,
-  putAlbergueFamilia
+  putAlbergueFamilia,
+  putAlbergue
 };

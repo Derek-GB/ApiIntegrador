@@ -159,19 +159,47 @@ class albergueModel {
   }
 
   async putAlbergueFamilia(albergueFa) {
-        try {
-            return await db.query('CALL pa_UpdateFamilia(?,?,?);', [albergueFa.idFamilia, albergueFa.idAlbergue, albergueFa.idUsuarioModificacion]);
-        } catch (error) {
-            console.error("Error en putAlbergueFamilia: ", error);
-            throw error;
-        }
+    try {
+      return await db.query('CALL pa_UpdateAlbergueFamilia(?,?,?);', [albergueFa.idFamilia, albergueFa.idAlbergue, albergueFa.idUsuarioModificacion]);
+    } catch (error) {
+      console.error("Error en putAlbergueFamilia: ", error);
+      throw error;
     }
+  }
 
-
+  async putAlbergue(albergue) {
+    try {
+      return await db.query('CALL pa_UpdateAlbergue(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);', [
+        albergue.id,
+        albergue.idAlbergue,
+        albergue.nombre,
+        albergue.region,
+        albergue.coordenadaX,
+        albergue.coordenadaY,
+        albergue.idUbicacion,
+        albergue.tipoEstablecimiento,
+        albergue.tipoAlbergue,
+        albergue.condicionAlbergue,
+        albergue.especificacion,
+        albergue.detalleCondicion,
+        albergue.administrador,
+        albergue.telefono,
+        albergue.idCapacidad,
+        albergue.seccion,
+        albergue.requerimientosTecnicos,
+        albergue.costoRequerimientosTecnicos,
+        albergue.idInfraestructura,
+        albergue.idMunicipalidad,
+        albergue.color,
+        albergue.idPedidoAbarrote,
+        albergue.idUsuarioModificacion
+      ]);
+    } catch (error) {
+      console.error("Error en putAlbergue: ", error);
+      throw error;
+    }
+  }
 }
-
-    
-
 
 module.exports = new albergueModel();
 

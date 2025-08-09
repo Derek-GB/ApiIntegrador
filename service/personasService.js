@@ -21,6 +21,15 @@ const confirmarOpcionales = (objeto, opcionales) => {
     if (nulleados) console.warn(`Los siguientes campos fueron nulleados porque no estaban definidos: ${nulleados.join(', ')}`);
 }
 
+const confirmarBooleans = (objeto, indice, campos) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(campos)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of campos) {
+        if (!objeto.hasOwnProperty(campo)) {
+            handleError("postPersonas", new Error(`Falta el campo booleano obligatorio '${campo}'` + (indice ? ` en la persona #${indice}` : "")), 400);
+        }
+    }
+}
+
 const confirmarObligatorios = (objeto, indice, obligatorios) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(obligatorios)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of obligatorios) {
@@ -85,17 +94,18 @@ class PersonasService {
 
         const postPersona = async (persona, indice, firma = null) => {
             const camposObligatorios = [
-                'tieneCondicionSalud', 'discapacidad', 'idFamilia',
-                'nombre', 'primerApellido', 'segundoApellido',
+                'idFamilia','nombre', 'primerApellido', 'segundoApellido',
                 'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
-                'parentesco', 'fechaNacimiento',
-                'genero', 'sexo', 'telefono', 'estaACargoMenor', 'idUsuarioCreacion'
+                'parentesco', 'fechaNacimiento','genero', 'sexo', 'telefono', 
+                'estaACargoMenor', 'idUsuarioCreacion'
             ];
+            const booleanosObligatorios = ['tieneCondicionSalud','discapacidad'];
             if (persona.firma) {
                 persona.firma = null;
                 console.warn("Alguien intentó usar mal firma");
             }
             confirmarObligatorios(persona, indice, camposObligatorios);
+            confirmarBooleans(persona,indice,booleanosObligatorios);
             if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
             if (persona.esJefeFamilia) {
                 if (firma.existe !== true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");

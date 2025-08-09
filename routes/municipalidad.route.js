@@ -106,9 +106,6 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *                 data:
  *                   type: object
  *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 15
  *                     nombre:
  *                       type: string
  *                       example: Municipalidad de San José
@@ -135,10 +132,31 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *                       example: 7
  *       400:
  *         description: Faltan datos obligatorios.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Faltan datos obligatorios
  *       500:
  *         description: Error interno al insertar la municipalidad.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al insertar municipalidad
  */
-
 router.post('/', municipalidadController.postMunicipalidad);
 
 /**

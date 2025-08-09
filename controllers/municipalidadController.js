@@ -59,7 +59,7 @@ const postMunicipalidad = async (req, res) => {
   } = req.body;
 
   try {
-    const data = await municipalidadService.postMunicipalidad({
+    await municipalidadService.postMunicipalidad({
       nombre,
       provincia,
       canton,
@@ -69,11 +69,11 @@ const postMunicipalidad = async (req, res) => {
       correo,
       idUsuarioCreacion,
     });
+
     res.status(201).json({
       success: true,
-      message: "Municipalidad insertado correctamente",
+      message: "Municipalidad insertada correctamente",
       data: {
-        id: data[0][0].id,
         nombre,
         provincia,
         canton,

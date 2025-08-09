@@ -53,7 +53,8 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *   post:
  *     tags:
  *       - Municipalidades
- *     summary: Insertar una nueva municipalidad
+ *     summary: Crear una nueva municipalidad
+ *     description: Inserta una nueva municipalidad en la base de datos con la información proporcionada.
  *     requestBody:
  *       required: true
  *       content:
@@ -63,38 +64,72 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *             required:
  *               - nombre
  *               - idUbicacion
+ *               - telefono
+ *               - correo
+ *               - idAlbergue
+ *               - idUsuarioCreacion
  *             properties:
  *               nombre:
  *                 type: string
+ *                 example: Municipalidad de San José
  *               idUbicacion:
  *                 type: integer
+ *                 example: 12
  *               telefono:
  *                 type: string
- *                 nullable: true
+ *                 example: "2222-3333"
  *               correo:
  *                 type: string
- *                 nullable: true
+ *                 example: contacto@sanjose.go.cr
  *               idAlbergue:
  *                 type: integer
- *                 nullable: true
- *               idUsuario:
- *                 type: integer
- *                 nullable: true
+ *                 example: 5
  *               idUsuarioCreacion:
  *                 type: integer
- *                 nullable: true
- *               idUsuarioModificacion:
- *                 type: integer
- *                 nullable: true
+ *                 example: 7
  *     responses:
  *       201:
- *         description: Municipalidad insertada correctamente
+ *         description: Municipalidad creada exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Municipalidad insertada correctamente
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 15
+ *                     nombre:
+ *                       type: string
+ *                       example: Municipalidad de San José
+ *                     idUbicacion:
+ *                       type: integer
+ *                       example: 12
+ *                     telefono:
+ *                       type: string
+ *                       example: "2222-3333"
+ *                     correo:
+ *                       type: string
+ *                       example: contacto@sanjose.go.cr
+ *                     idAlbergue:
+ *                       type: integer
+ *                       example: 5
+ *                     idUsuarioCreacion:
+ *                       type: integer
+ *                       example: 7
  *       400:
- *         description: Datos faltantes
+ *         description: Faltan datos obligatorios.
  *       500:
- *         description: Error al insertar municipalidad (Contactar equipo de API)
+ *         description: Error interno al insertar la municipalidad.
  */
-// Registrar o insertar
 router.post('/', municipalidadController.postMunicipalidad);
 
 /**

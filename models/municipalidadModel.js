@@ -25,12 +25,10 @@ class municipalidadModel {
             telefono,
             correo,
             idAlbergue,
-            idUsuario,
-            idUsuarioCreacion,
-            idUsuarioModificacion, } = municipalidad;
+            idUsuarioCreacion, } = municipalidad;
         try {
-            return await db.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                [nombre, idUbicacion, telefono, correo, idAlbergue, idUsuario, idUsuarioCreacion, idUsuarioModificacion]);
+            return await db.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?);',
+                [nombre, idUbicacion, telefono, correo, idAlbergue, idUsuarioCreacion]);
         } catch (error) {
             console.error("Error en postMunicipalidad: ", error);
             throw error;

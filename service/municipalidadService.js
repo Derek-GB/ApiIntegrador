@@ -3,7 +3,7 @@ const municipalidadModel = require('../models/municipalidadModel');
 class municipalidadService {
 
     async getAllMunicipalidades() {
-        try {  
+        try {
             const result = await municipalidadModel.getAllMunicipalidades();
             return result;
         } catch (error) {
@@ -39,8 +39,8 @@ class municipalidadService {
     }
 
     async postMunicipalidad(municipalidad) {
-        if (!municipalidad.nombre || !municipalidad.idUbicacion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idAlbergue || !municipalidad.idUsuarioCreacion || !municipalidad.idUsuarioModificacion || !municipalidad.idUsuario) {
-            throw new Error('Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue, idUsuarioCreacion, idUsuarioModificacion, idUsuario');
+        if (!municipalidad.nombre || !municipalidad.idUbicacion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idAlbergue || !municipalidad.idUsuarioCreacion) {
+            throw new Error('Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue o idUsuarioCreacion son requeridos');
         }
         try {
             const result = await municipalidadModel.postMunicipalidad(municipalidad);
@@ -68,5 +68,5 @@ class municipalidadService {
 
 }
 
-    
+
 module.exports = new municipalidadService();

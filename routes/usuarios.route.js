@@ -39,7 +39,7 @@ router.get('/all', usuarioController.getAllUsuarios);
  *       500:
  *         description: Error al obtener usuario (Contactar equipo de API)
  */
-router.get('/id/:id',   usuarioController.getUsuario);
+router.get('/:id',   usuarioController.getUsuario);
 
 /**
  * @swagger

@@ -61,40 +61,27 @@ const postDetallePedidoConsumible = async (req = request, res = response) => {
             cantidad: Number(cantidad) 
         });
         
-        console.log("=== RESULTADO DEL SERVICE ===");
-        console.log("Estructura completa:", JSON.stringify(data, null, 2));
-        console.log("data[0]:", data[0]);
-        console.log("data[0][0]:", data[0]?.[0]);
-        
-        // Intentar múltiples formas de obtener el ID
         let insertedId = null;
         
         if (data && Array.isArray(data) && data.length > 0) {
-            // Caso 1: data[0][0].id
             if (data[0] && Array.isArray(data[0]) && data[0].length > 0) {
                 insertedId = data[0][0]?.id || data[0][0]?.Id;
                 console.log("ID desde data[0][0]:", insertedId);
             }
             
-            // Caso 2: data[0].insertId (MySQL directo)
             if (!insertedId && data[0] && typeof data[0] === 'object') {
                 insertedId = data[0].insertId;
                 console.log("ID desde data[0].insertId:", insertedId);
             }
             
-            // Caso 3: data[1].insertId (ResultSetHeader)
             if (!insertedId && data[1] && typeof data[1] === 'object') {
                 insertedId = data[1].insertId;
                 console.log("ID desde data[1].insertId:", insertedId);
             }
         }
         
-        console.log("ID final extraído:", insertedId);
-        
-        // Si no encontramos ID pero la inserción fue exitosa, usar un valor por defecto
         if (!insertedId) {
             console.log(" No se pudo obtener ID, pero asumiendo inserción exitosa");
-            insertedId = Date.now(); // ID temporal para testing
         }
         
         const responseData = {
@@ -108,10 +95,7 @@ const postDetallePedidoConsumible = async (req = request, res = response) => {
                 cantidad: Number(cantidad),
             },
         };
-        
-        console.log("=== RESPUESTA FINAL ===");
         console.log(JSON.stringify(responseData, null, 2));
-        
         return res.status(201).json(responseData);
         
     } catch (error) {

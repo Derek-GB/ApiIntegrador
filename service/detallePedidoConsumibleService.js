@@ -29,9 +29,7 @@ class detallePedidoConsumibleService {
             throw new Error('Faltan datos obligatorios: idPedido, idConsumible, cantidad');
         }   
         try {
-            console.log("Service - Datos a insertar:", detallePedidoConsumible);
             const result = await detallePedidoConsumibleModel.postDetallePedidoConsumible(detallePedidoConsumible);
-            console.log("Service - Resultado del modelo:", result);
             return result;
         } catch (error) {
             console.error("Error en detallePedidoConsumibleService.postDetallePedidoConsumible: ", error);

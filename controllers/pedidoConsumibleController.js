@@ -56,11 +56,13 @@ const postPedidoConsumible = async (req, res) => {
 
     try {
         const data = await pedidoConsumibleService.postPedidoConsumible({ tipoComida, cantidadPersonas, idAlbergue, idUsuarioCreacion });
+        const insertedId = data[0][0].id || data[0][0].Id;
         res.status(201).json({
                 success: true,
                 message: 'Pedido insertado correctamente',
+                id: insertedId,
                 data: {
-                    id: data[0][0].id,
+                    id: insertedId,
                     tipoComida,
                     cantidadPersonas,
                     idAlbergue,

@@ -39,7 +39,7 @@ router.get('/all', usuarioController.getAllUsuarios);
  *       500:
  *         description: Error al obtener usuario (Contactar equipo de API)
  */
-router.get('/id/:id',   usuarioController.getUsuario);
+router.get('/:id',   usuarioController.getUsuario);
 
 /**
  * @swagger
@@ -182,6 +182,7 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
  *       500:
  *         description: Error al eliminar usuario (Contactar equipo de API)
  */
-router.delete('/id/:id', usuarioController.deleteUsuario);
+router.delete('/:id', usuarioController.deleteUsuario);
+
 
 module.exports=router;

@@ -157,6 +157,17 @@ class albergueModel {
       throw error;
     }
   }
+
+  async putAlbergueFamilia(albergueFa) {
+        try {
+            return await db.query('CALL pa_UpdateFamilia(?,?,?);', [albergueFa.idFamilia, albergueFa.idAlbergue, albergueFa.idUsuarioModificacion]);
+        } catch (error) {
+            console.error("Error en putAlbergueFamilia: ", error);
+            throw error;
+        }
+    }
+
+
 }
 
     

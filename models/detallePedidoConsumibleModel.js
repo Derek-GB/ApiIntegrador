@@ -29,8 +29,7 @@ class detallePedidoConsumibleModel {
         catch (error) {
             console.error("Error en postDetallePedidoConsumible: ", error);
             throw error;
-        }
-           
+        }   
     }
 
     async deleteDetallePedidoConsumible(detallePedidoConsumible) {

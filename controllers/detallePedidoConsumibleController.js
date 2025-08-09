@@ -63,6 +63,7 @@ const postDetallePedidoConsumible = async (req = request, res = response) => {
         res.status(201).json({
             success: true,
             message: 'Detalle de pedido consumible insertado correctamente',
+            id: insertedId,
             data: {
                 id: insertedId,
                 idPedido,

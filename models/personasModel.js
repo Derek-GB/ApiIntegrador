@@ -94,7 +94,7 @@ class PersonasModel {
     async getResumenPersonasPorSexo(idSexoPersona) {
         try {
             const [results] = await db.query('CALL pa_ResumenPersonasPorSexo(?);', [idSexoPersona]);
-            return results[0] || [];
+            return results;
         } catch (error) {
             console.error("Error en getResumenPersonasPorSexo: ", error);
             throw error;
@@ -104,7 +104,7 @@ class PersonasModel {
     async getResumenPersonasPorEdad(idEdadPersona) {
         try {
             const [results] = await db.query('CALL pa_ResumenPersonasPorEdad(?);', [idEdadPersona]);
-            return results[0] || [];
+            return results;
         } catch (error) {
             console.error("Error en getResumenPersonasPorEdad: ", error);
             throw error;
@@ -113,7 +113,7 @@ class PersonasModel {
     async getResumenDiscapacidad(idDiscapacidad) {
         try {
             const [results] = await db.query('CALL pa_ResumenDiscapacidad(?);', [idDiscapacidad]);
-            return results[0] || [];
+            return results;
         } catch (error) {
             console.error("Error en getResumenDiscapacidad: ", error);
             throw error;

@@ -39,7 +39,6 @@ class amanezasModel {
                 categoriaEvento,
             ]);
 
-            // No retorna nada
             return;
         } catch (error) {
             console.error("Error en postAmenaza: ", error);

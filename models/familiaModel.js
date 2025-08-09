@@ -42,8 +42,6 @@ class familiaModel {
         }
     }
 
-    //agregar put algun dia
-
     async putEgresoFamilia(egreso) {
         try {
             return await db.query('CALL pa_UpdateFamilia(?,?);', [egreso.id, egreso.idModificacion]);
@@ -107,7 +105,6 @@ class familiaModel {
             throw error;
         }
     }
-
 }
 
 module.exports = new familiaModel();

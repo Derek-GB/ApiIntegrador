@@ -106,10 +106,4 @@ class usuarioModel {
 
 }
 
-
-
-
-
-
-
 module.exports = new usuarioModel();

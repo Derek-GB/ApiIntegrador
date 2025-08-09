@@ -76,16 +76,6 @@ class capacidadAlberguesModel {
             throw error;
         }
     }
-
-
-
-
 }
-
-
-
-
-
-
 
 module.exports = new capacidadAlberguesModel();

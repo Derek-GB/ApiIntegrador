@@ -1,4 +1,3 @@
-//Cambios Emerson
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class productoModel {

@@ -19,6 +19,7 @@ class recursoAsignadoModel {
             throw error;
         }
     }
+
     async postRecursoAsignado(recursoAsignado) {
         const { idProducto, idPersona, cantidadAsignada } = recursoAsignado;
         try {
@@ -39,10 +40,6 @@ class recursoAsignadoModel {
             throw error;
         }
     }
-
-    
-
 }
-
 
 module.exports = new recursoAsignadoModel();

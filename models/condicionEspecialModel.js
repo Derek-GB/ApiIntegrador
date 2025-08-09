@@ -52,10 +52,6 @@ class condicionEspecial {
             throw error;
         }
     }
-
-    
-
 }
-
 
 module.exports = new condicionEspecial();

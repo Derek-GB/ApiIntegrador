@@ -70,29 +70,59 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/personas/resumen/id/{idAlbergue}:
+ * /api/personas/resumen/discapacidad/{idDiscapacidad}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener resumen de discapacidad por ID
+ *     summary: Obtener resumen de personas por discapacidad
+ *     description: Devuelve un resumen de las personas que presentan una discapacidad según el ID especificado.
  *     parameters:
  *       - in: path
- *         name: idAlbergue
- *         schema:
- *           type: string
+ *         name: idDiscapacidad
  *         required: true
- *         description: ID de discapacidad
+ *         schema:
+ *           type: integer
+ *         description: ID de la discapacidad a consultar.
+ *         example: 2
  *     responses:
  *       200:
- *         description: Resumen de discapacidad obtenido exitosamente
+ *         description: Resumen de personas con la discapacidad obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 15
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan Pérez
+ *                       discapacidad:
+ *                         type: string
+ *                         example: Auditiva
+ *                       edad:
+ *                         type: integer
+ *                         example: 34
+ *                       sexo:
+ *                         type: string
+ *                         example: Masculino
  *       400:
- *          description: Se espera un id de discapacidad
+ *         description: Parámetro idDiscapacidad no proporcionado.
  *       404:
- *         description: Discapacidad no encontrada
+ *         description: No se encontraron personas con la discapacidad especificada.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas por discapacidad.
  */
-router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
+router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResumenDiscapacidad);
 
 /**
  * @swagger
@@ -101,7 +131,7 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *     tags:
  *       - Personas
  *     summary: Registrar múltiples personas con una firma común
- *     description: Inserta una o más personas. La firma se aplica por igual a todas.
+ *     description: Inserta una o más personas. La firma se aplica por igual a todas (si hay jefe de familia).
  *     requestBody:
  *       required: true
  *       content:
@@ -110,17 +140,10 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *             type: object
  *             required:
  *               - personas
- *               - firma
  *             properties:
  *               personas:
  *                 type: string
- *                 description: >
- *                   Array JSON de objetos persona serializado como texto.
- *                   Ejemplo de valor:
- *                   [
- *                     { "nombre": "Juan", "primerApellido": "Pérez", "segundoApellido": "Rodríguez", "idFamilia": 1, "tieneCondicionSalud": true, "descripcionCondicionSalud": "Hipertensión", "discapacidad": false, "tipoDiscapacidad": null, "subtipoDiscapacidad": null, "paisOrigen": "Nicaragua", "autoidentificacionCultural": "Afrodescendiente", "puebloIndigena": "Bribri", "firma": "firma.jpg", "tipoIdentificacion": "Cédula", "numeroIdentificacion": "123456789", "nacionalidad": "Costarricense", "parentesco": "Padre", "esJefeFamilia": true, "fechaNacimiento": "1980-05-15", "genero": "Masculino", "sexo": "Masculino", "telefono": "88889999", "contactoEmergencia": "Ana María 87001122", "observaciones": "Usa medicamentos diariamente", "estaACargoMenor": false, "idUsuarioCreacion": 1 },
- *                     { "nombre": "María", "primerApellido": "González", "segundoApellido": "López", "idFamilia": 1, "tieneCondicionSalud": false, "descripcionCondicionSalud": null, "discapacidad": true, "tipoDiscapacidad": "Motora", "subtipoDiscapacidad": "Parálisis parcial", "paisOrigen": null, "autoidentificacionCultural": null, "puebloIndigena": null, "firma": "firma.jpg", "tipoIdentificacion": "DIMEX", "numeroIdentificacion": "987654321", "nacionalidad": "Nicaragüense", "parentesco": "Madre", "esJefeFamilia": false, "fechaNacimiento": "1985-08-25", "genero": "Femenino", "sexo": "Femenino", "telefono": "89998888", "contactoEmergencia": null, "observaciones": null, "estaACargoMenor": true, "idUsuarioCreacion": 1 }
- *                   ]
+ *                 description: Array JSON de objetos persona serializado como texto.
  *                 example: |
  *                   [
  *                     {
@@ -183,7 +206,7 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *               firma:
  *                 type: string
  *                 format: binary
- *                 description: Archivo de imagen de firma (JPEG, PNG, etc.)
+ *                 description: Archivo de imagen de firma (PNG). **Solo se admiten archivos PNG.**
  *     responses:
  *       201:
  *         description: Todas las personas fueron registradas correctamente

@@ -77,38 +77,6 @@ const getPersona = async (req = request, res = response) => {
   }
 };
 
-const getResumenDiscapacidad = async (req = request, res = response) => {
-  if (!req.params || !req.params.idAlbergue) {
-    return res.status(400).json({
-      success: false,
-      message: "Se esperaba el parámetro idAlbergue en la URL.",
-    });
-  }
-
-  try {
-    const { idAlbergue } = req.params;
-    const data = await personasService.getResumenDiscapacidad(idAlbergue);
-
-    if (!data[0] || data[0].length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No se encontraron personas con discapacidad para este albergue.",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      data: data[0],
-      message: `Se encontraron ${data[0].length} personas con discapacidad.`
-    });
-  } catch (error) {
-    console.error("Error en getPersonasConDiscapacidad:", error);
-    return res.status(500).json({
-      success: false,
-      error: "Error al obtener las personas con discapacidad: " + error.message,
-    });
-  }
-};
 
 const postPersonas = async (req = request, res = response) => {
   if (!req.body) {
@@ -249,6 +217,33 @@ const getResumenPersonasPorEdad = (req = request, res = response) => {
       return res.status(500).json({
         success: false,
         error: "Error al obtener edad por persona; " + error.message,
+      });
+    });
+}
+
+const getResumenDiscapacidad = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });
+  }
+  const { idDiscapacidad } = req.params;
+  personasService.getResumenDiscapacidad(idDiscapacidad)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron personas con la discapacidad especificada.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener discapacidad por persona:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener discapacidad por persona; " + error.message,
       });
     });
 }

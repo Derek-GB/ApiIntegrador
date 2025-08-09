@@ -165,6 +165,19 @@ class albergueService {
             throw error;
         }
     }
+
+    async putAlbergueFamilia(albergueFa) {
+            if (!albergueFa) {
+                handleError("putAlbergueFamilia", new Error("No se recibió un albergue familia", 400));
+            }
+            confirmarObligatorios(albergueFa, ["idFamilia","idAlbergue", "idUsuarioModificacion"], "putAlbergueFamilia");
+            try {
+                const result = await albergueModel.putAlbergueFamilia(albergueFa);
+                return result;
+            } catch (error) {
+                handleError("putAlbergueFamilia", error);
+            }
+        }
     
 
 

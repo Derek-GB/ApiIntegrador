@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const AuthController = require('./auth.controller');
-const verificarToken = require('../middleware/verificarToken');
+const authMiddleware = require('../middleware/authMiddleware.js');
 const router = Router();
 
 /**
@@ -192,6 +192,6 @@ router.post('/logout', AuthController.logout);
  *                   type: string
  *                   example: "Token expirado"
  */
-router.get('/validate', verificarToken, AuthController.validateToken)
+router.get('/validate', authMiddleware, AuthController.validateToken)
 
 module.exports = router;

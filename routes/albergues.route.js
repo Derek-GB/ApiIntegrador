@@ -530,4 +530,75 @@ router.get('/resumen/color/:color', albergueController.getResumenAlberguesColor)
  */
 router.get('/consulta/porUsuario/:idUsuario', albergueController.getAllAlberguesPorUsuario);
 
+/**
+ * @swagger
+ * /api/alberguefamilia:
+ *   put:
+ *     tags:
+ *       - Albergues
+ *     summary: Actualizar relación entre familia y albergue
+ *     description: Asigna o actualiza el albergue al que pertenece una familia.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idFamilia
+ *               - idAlbergue
+ *               - idUsuarioModificacion
+ *             properties:
+ *               idFamilia:
+ *                 type: integer
+ *                 example: 12
+ *               idAlbergue:
+ *                 type: integer
+ *                 example: 5
+ *               idUsuarioModificacion:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Relación actualizada correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Todo salio bien
+ *       400:
+ *         description: Faltan parámetros obligatorios.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro id en la query
+ *       500:
+ *         description: Error interno al actualizar la relación familia-albergue.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al actualizar albergue familia: Detalle del error
+ */
+router.put('/alberguefamilia', albergueController.putAlbergueFamilia);
+
 module.exports = router;

@@ -282,6 +282,25 @@ const getAllAlberguesPorUsuario = async (req = request, res = response) => {
   }
 };
 
+const putAlbergueFamilia = async (req = request, res = response) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el parametro id en la query",
+      });
+  }
+  try {
+    const { idFamilia, idAlbergue, idUsuarioModificacion } = req.body;
+    const data = await albergueService.putAlbergueFamilia({ idFamilia, idAlbergue, idUsuarioModificacion });
+    res.status(200).json({ success: true, message: "Todo salio bien" });
+  } catch (error) {
+    console.log("Error en putAlbergueFamilia; " + error.message, error);
+    res.status(500).json({ success: false, message: "Error al actualizar albergue familia: " + error.message});
+  }
+};
+
 const postAlbergue = async (req, res) => {
     if (!req.body){
       return res.status(400).json({
@@ -395,4 +414,5 @@ module.exports = {
   getResumenAlberguesColor,
   postAlbergue,
   getAllAlberguesPorUsuario,
+  putAlbergueFamilia
 };

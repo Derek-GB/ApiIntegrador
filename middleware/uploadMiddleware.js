@@ -4,18 +4,16 @@ const fs = require("node:fs");
 
 // Filtro para aceptar solo imágenes .jpg o .png
 const fileFilter = (req, file, cb) => {
+  req.firma ??= {}; // Siempre inicializa
   const allowed = ["image/png"];
   if (!file) {
-    req.firma ??= {};
     req.firma.existe = false;
     cb(null,false);
   }
   if (allowed.includes(file.mimetype)) {
-    req.firma ??= {};
     req.firma.existe = true;
     cb(null, true);
   } else {
-    req.firma ??= {};
     req.firma.existe = false;
     cb(new Error("Solo se permiten imágenes JPG o PNG"), false);
   }
@@ -29,14 +27,12 @@ const storage = multer.diskStorage({
     if (!fs.existsSync(ruta)) {
       fs.mkdirSync(ruta, { recursive: true });
     }
-    req.firma ??= {};
     req.firma.ruta = "uploads/"; // mantienes la ruta relativa si lo necesitas después
     cb(null, ruta);
   },
   filename: (req, file, cb) => {
     try {
       const nombre = `temporal_${Date.now()}${path.extname(file.originalname)}`;
-      req.firma ??= {};
       req.firma.nombre = nombre;
       cb(null, nombre);
     } catch (error) {

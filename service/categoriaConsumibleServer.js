@@ -43,6 +43,5 @@ class categoriaConsumibleService {
     }
 
 }
-
     
 module.exports = new categoriaConsumibleService();

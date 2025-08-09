@@ -1,9 +1,6 @@
 const {Router}= require('express');
-
 const router=Router();
-
 const productoController =require('../controllers/productoController');
-
 
   /**
  * @swagger
@@ -27,9 +24,7 @@ const productoController =require('../controllers/productoController');
  *       500:
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
-//Devolver un solo producto por ID
 router.get('/id/:id', productoController.getProducto);   
-    
 
 /**
  * @swagger
@@ -44,7 +39,6 @@ router.get('/id/:id', productoController.getProducto);
  *       500:
  *         description: Error al obtener los productos (Contactar equipo de API)
  */
-//Devuelve todos los productos
 router.get('/all', productoController.getAllProducto);             
 
 
@@ -128,7 +122,6 @@ router.post('/', productoController.postProducto);
  */
 router.put('/',   productoController.putProducto);
 
-
 /**
  * @swagger
  * /api/productos/id/{id}:
@@ -151,10 +144,7 @@ router.put('/',   productoController.putProducto);
  *       500:
  *         description: Error al eliminar el producto (Contactar equipo de API)
  */
-// //Eliminar
 router.delete('/id/:id', productoController.deleteProducto);
-
-
 
 /**
  * @swagger

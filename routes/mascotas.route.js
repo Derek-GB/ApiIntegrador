@@ -200,6 +200,4 @@ router.delete('/id/:id', mascotaController.deleteMascota);
  */
 router.get('/consulta/familia/:codigoFamilia', mascotaController.getForMascotaFamilia);
 
-
-
 module.exports = router;

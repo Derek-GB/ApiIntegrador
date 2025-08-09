@@ -57,8 +57,5 @@ class condicionSaludService {
             throw error;
         }
     }
-
-
-
 }
 module.exports = new condicionSaludService();

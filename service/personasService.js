@@ -96,7 +96,8 @@ class PersonasService {
                 console.warn("Alguien intentó usar mal firma");
             }
             confirmarObligatorios(persona, indice, camposObligatorios);
-            if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
+            if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", 
+                new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
             if (persona.esJefeFamilia) {
                 if (firma.existe !== true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");
                 const camposfirma = ['ruta', 'nombre'];
@@ -129,8 +130,6 @@ class PersonasService {
 
         return { resultados, errores };
     }
-
-    //alguna vez habrá un put
 
     async deletePersona(id) {
         try {

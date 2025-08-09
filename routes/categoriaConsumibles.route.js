@@ -2,9 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const categoriaConsumibleController = require('../controllers/categoriaConsumiblesController');
 
-
-
-
 /**
  * @swagger
  * /api/categoriaConsumibleControllerControllers/id/{id}:

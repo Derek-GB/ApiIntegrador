@@ -1,8 +1,5 @@
 const {Router}=require('express');
-
 const router=Router();
-
-
 const referenciaController =require('../controllers/referenciaController');
 
   /**
@@ -27,7 +24,6 @@ const referenciaController =require('../controllers/referenciaController');
  *       500:
  *         description: Error al obtener referencia (Contactar equipo de API)
  */
-//Devolver datos desde mi API
 router.get('/id/:id',   referenciaController.getReferencia);
 
 /**
@@ -69,7 +65,6 @@ router.get('/id/:id',   referenciaController.getReferencia);
  *       500:
  *         description: Error al insertar referencia (Contactar equipo de API)
  */
-//Registrar o insertar
 router.post('/',  referenciaController.postReferencia);
 
 /**
@@ -120,7 +115,6 @@ router.post('/',  referenciaController.postReferencia);
  *       500:
  *         description: Error al actualizar referencia (Contactar equipo de API)
  */
-//Registrar o insertar
 router.put('/',  referenciaController.putReferencia);
 
 /**
@@ -145,7 +139,6 @@ router.put('/',  referenciaController.putReferencia);
  *       500:
  *         description: Error al eliminar referencia (Contactar equipo de API)
  */
-//Eliminar
 router.delete('/id/:id', referenciaController.deleteReferencia);
 
 /**
@@ -162,6 +155,5 @@ router.delete('/id/:id', referenciaController.deleteReferencia);
  *         description: Error al obtener referencias (Contactar equipo de API)
  */
 router.get('/all',   referenciaController.getAllReferencia);
-
 
 module.exports=router;

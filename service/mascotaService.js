@@ -65,6 +65,5 @@ class mascotaService {
                 throw error;
             }
         }
-
 }
 module.exports = new mascotaService();

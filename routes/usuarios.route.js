@@ -1,14 +1,6 @@
 const {Router}=require('express');
-
 const usuarioController=require('../controllers/usuarioController');
-
 const router=Router();
-
-
-const {
- 
-  }=require('../controllers/usuarioController');
-
 
   /**
  * @swagger
@@ -47,7 +39,6 @@ router.get('/all', usuarioController.getAllUsuarios);
  *       500:
  *         description: Error al obtener usuario (Contactar equipo de API)
  */
-//Devolver datos desde mi API
 router.get('/id/:id',   usuarioController.getUsuario);
 
 /**
@@ -98,7 +89,6 @@ router.get('/id/:id',   usuarioController.getUsuario);
  */
 router.post('/',  usuarioController.postUsuario);
 
-// RUTAS PÚBLICAS (sin middleware de autenticación)
 /**
  * @swagger
  * /api/usuarios/contrasena:
@@ -168,8 +158,6 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
  *       500:
  *         description: Error al actualizar usuario (Contactar equipo de API)
  */
-
-//Registrar o insertar
 // router.put('/',  usuarioController.putUsuario);
 
 /**
@@ -194,12 +182,6 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
  *       500:
  *         description: Error al eliminar usuario (Contactar equipo de API)
  */
-//Eliminar
 router.delete('/id/:id', usuarioController.deleteUsuario);
-
-router.post('/login', usuarioController.loginUsuario);
-
-
-
 
 module.exports=router;

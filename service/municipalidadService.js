@@ -12,16 +12,6 @@ class municipalidadService {
         }
     }
 
-    // async getAllMunicipalidades() {
-    //     try {
-    //         const results = await municipalidadModel.getAllMunicipalidades();
-    //         return results;
-    //     } catch (error) {
-    //         handleError("getAllMunicipalidades", error);
-    //     }
-    // }
-
-
     async getMunicipalidad(id) {
         if (!id) {
             throw new Error('ID de municipalidad es requerido');
@@ -63,10 +53,6 @@ class municipalidadService {
             throw error;
         }
     }
-
-
-
 }
-
 
 module.exports = new municipalidadService();

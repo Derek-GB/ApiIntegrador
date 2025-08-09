@@ -48,31 +48,30 @@ const postRecursoAsignado = async (req, res) => {
         idProducto, 
         idPersona,
         cantidadAsignada
-         
     } = req.body;
 
     try {
         const data = await recursoAsignadoService.postRecursoAsignado({ idProducto, idPersona, cantidadAsignada });
+        
         res.status(201).json({
-                success: true,
-                message: 'Recurso insertado correctamente',
-                data: {
-                    id: data[0][0].id,
-                    idProducto,
-                    idPersona,
-                    cantidadAsignada
-                    
-                }
-            });
+            success: true,
+            message: 'Recurso insertado correctamente',
+            data: {
+                idProducto,
+                idPersona,
+                cantidadAsignada
+            }
+        });
     } catch (error) {
         console.error("Error en postRecursoAsignado:", error);
         res.status(500).json({
             success: false,
             message: "Error al insertar producto",
-            error: error.message, // esto es opcional, pero puede ayudar a depurar (se debe eliminar en producción)
+            error: error.message, 
         });
     }
-}
+};
+
 
 const deleteRecursoAsignado = async (req, res) => {
     const { idProducto, idPersona } = req.body;

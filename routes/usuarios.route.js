@@ -182,6 +182,7 @@ router.post('/validar/correo', usuarioController.validarCorreoMethod);
  *       500:
  *         description: Error al eliminar usuario (Contactar equipo de API)
  */
-router.delete('/id/:id', usuarioController.deleteUsuario);
+router.delete('/:id', usuarioController.deleteUsuario);
+
 
 module.exports=router;

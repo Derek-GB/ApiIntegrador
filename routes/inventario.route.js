@@ -45,29 +45,56 @@ router.get('/id/:id', inventarioController.getInventario);
 
 /**
  * @swagger
- * /api/inventario/resumen/id/{id}:
+ * /api/inventario/resumen/suministros/{idSuministros}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener resumen de suministros por ID
+ *     summary: Obtener resumen de suministros
+ *     description: Devuelve un resumen de los suministros según el ID especificado.
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: idSuministros
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
- *         description: ID de suministros
+ *         description: ID del suministro a consultar.
+ *         example: 5
  *     responses:
  *       200:
- *         description: Resumen de suministro obtenido exitosamente
+ *         description: Resumen de suministros obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idSuministro:
+ *                         type: integer
+ *                         example: 5
+ *                       nombre:
+ *                         type: string
+ *                         example: Botellas de agua
+ *                       cantidad:
+ *                         type: integer
+ *                         example: 120
+ *                       unidad:
+ *                         type: string
+ *                         example: litros
  *       400:
- *          description: Se espera un id de suministro
+ *         description: Parámetro idSuministros no proporcionado.
  *       404:
- *         description: Suministro no encontrada
+ *         description: No se encontraron suministros para el ID especificado.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de suministros.
  */
-router.get('/resumen/id/:id', inventarioController.getResumenSuministros);
+router.get('/resumen/suministros/:idSuministros', inventarioController.getResumenSuministros);
 
 /**
  * @swagger

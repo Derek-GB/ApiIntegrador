@@ -48,36 +48,32 @@ const getInventario = async (req = request, res = response) => {
     }
 };
 
-const getResumenSuministros = async (req = request, res = response) => {
-    const { id } = req.params;
-    if (!id) {
-        return res.status(400).json({
-            success: false,
-            message: "ID de suministro no proporcionado",
+const getResumenSuministros = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idSuministros en la query" });
+  }
+  const { idSuministros } = req.params;
+  inventarioService.getResumenSuministros(idSuministros)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron suministros para el id especificado.",
         });
-    }
-    try {
-        const data = await inventarioService.getResumenSuministros(id);
-        if (!data || !data[0] || data[0].length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "No se encontraron suministros en este albergue",
-            });
-        }
-        res.json({
-            success: true,
-            data: data[0],
-            total: data[0].length
-        });
-    } catch (error) {
-        console.error("Error en getResumenSuministros:", error);
-        return res.status(500).json({
-            success: false,
-            error: "Error al obtener el registro de suministro",
-            details: error.message
-        });
-    }
-};
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener suministro:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener suministro; " + error.message,
+      });
+    });
+}
 
 const postInventario = async (req = request, res = response) => {
     const { idAlbergue, fecha, articulo, cantidad, estado, comentario } = req.body;

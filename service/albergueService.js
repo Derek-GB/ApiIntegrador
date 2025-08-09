@@ -156,9 +156,9 @@ class albergueService {
             }
         }
 
-    async getResumenAlberguesColor(Color){
+    async getResumenAlberguesColor(color){
          try {
-            const result = await albergueModel.getResumenAlberguesColor(Color);
+            const result = await albergueModel.getResumenAlberguesColor(color);
             return result;
         } catch (error) {
             console.error("Error en albergueModel.ResumenAlberguesColor: ", error);

@@ -53,9 +53,7 @@ const postMunicipalidad = async (req, res) => {
     telefono,
     correo,
     idAlbergue,
-    idUsuario,
     idUsuarioCreacion,
-    idUsuarioModificacion,
   } = req.body;
 
   try {
@@ -65,9 +63,7 @@ const postMunicipalidad = async (req, res) => {
       telefono,
       correo,
       idAlbergue,
-      idUsuario,
       idUsuarioCreacion,
-      idUsuarioModificacion,
     });
     res.status(201).json({
       success: true,
@@ -79,9 +75,7 @@ const postMunicipalidad = async (req, res) => {
         telefono,
         correo,
         idAlbergue,
-        idUsuario,
         idUsuarioCreacion,
-        idUsuarioModificacion,
       },
     });
   } catch (error) {

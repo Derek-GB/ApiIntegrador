@@ -70,29 +70,59 @@ router.get('/id/:id', personasController.getPersona);
 
 /**
  * @swagger
- * /api/personas/resumen/id/{idAlbergue}:
+ * /api/personas/resumen/discapacidad/{idDiscapacidad}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener resumen de discapacidad por ID
+ *     summary: Obtener resumen de personas por discapacidad
+ *     description: Devuelve un resumen de las personas que presentan una discapacidad según el ID especificado.
  *     parameters:
  *       - in: path
- *         name: idAlbergue
- *         schema:
- *           type: string
+ *         name: idDiscapacidad
  *         required: true
- *         description: ID de discapacidad
+ *         schema:
+ *           type: integer
+ *         description: ID de la discapacidad a consultar.
+ *         example: 2
  *     responses:
  *       200:
- *         description: Resumen de discapacidad obtenido exitosamente
+ *         description: Resumen de personas con la discapacidad obtenida exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 15
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan Pérez
+ *                       discapacidad:
+ *                         type: string
+ *                         example: Auditiva
+ *                       edad:
+ *                         type: integer
+ *                         example: 34
+ *                       sexo:
+ *                         type: string
+ *                         example: Masculino
  *       400:
- *          description: Se espera un id de discapacidad
+ *         description: Parámetro idDiscapacidad no proporcionado.
  *       404:
- *         description: Discapacidad no encontrada
+ *         description: No se encontraron personas con la discapacidad especificada.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas por discapacidad.
  */
-router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
+router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResumenDiscapacidad);
 
 /**
  * @swagger
@@ -101,7 +131,7 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *     tags:
  *       - Personas
  *     summary: Registrar múltiples personas con una firma común
- *     description: Inserta una o más personas. La firma se aplica por igual a todas.
+ *     description: Inserta una o más personas. La firma se aplica por igual a todas (si hay jefe de familia).
  *     requestBody:
  *       required: true
  *       content:
@@ -110,17 +140,10 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *             type: object
  *             required:
  *               - personas
- *               - firma
  *             properties:
  *               personas:
  *                 type: string
- *                 description: >
- *                   Array JSON de objetos persona serializado como texto.
- *                   Ejemplo de valor:
- *                   [
- *                     { "nombre": "Juan", "primerApellido": "Pérez", "segundoApellido": "Rodríguez", "idFamilia": 1, "tieneCondicionSalud": true, "descripcionCondicionSalud": "Hipertensión", "discapacidad": false, "tipoDiscapacidad": null, "subtipoDiscapacidad": null, "paisOrigen": "Nicaragua", "autoidentificacionCultural": "Afrodescendiente", "puebloIndigena": "Bribri", "firma": "firma.jpg", "tipoIdentificacion": "Cédula", "numeroIdentificacion": "123456789", "nacionalidad": "Costarricense", "parentesco": "Padre", "esJefeFamilia": true, "fechaNacimiento": "1980-05-15", "genero": "Masculino", "sexo": "Masculino", "telefono": "88889999", "contactoEmergencia": "Ana María 87001122", "observaciones": "Usa medicamentos diariamente", "estaACargoMenor": false, "idUsuarioCreacion": 1 },
- *                     { "nombre": "María", "primerApellido": "González", "segundoApellido": "López", "idFamilia": 1, "tieneCondicionSalud": false, "descripcionCondicionSalud": null, "discapacidad": true, "tipoDiscapacidad": "Motora", "subtipoDiscapacidad": "Parálisis parcial", "paisOrigen": null, "autoidentificacionCultural": null, "puebloIndigena": null, "firma": "firma.jpg", "tipoIdentificacion": "DIMEX", "numeroIdentificacion": "987654321", "nacionalidad": "Nicaragüense", "parentesco": "Madre", "esJefeFamilia": false, "fechaNacimiento": "1985-08-25", "genero": "Femenino", "sexo": "Femenino", "telefono": "89998888", "contactoEmergencia": null, "observaciones": null, "estaACargoMenor": true, "idUsuarioCreacion": 1 }
- *                   ]
+ *                 description: Array JSON de objetos persona serializado como texto.
  *                 example: |
  *                   [
  *                     {
@@ -183,7 +206,7 @@ router.get('/resumen/id/:id', personasController.getResumenDiscapacidad);
  *               firma:
  *                 type: string
  *                 format: binary
- *                 description: Archivo de imagen de firma (JPEG, PNG, etc.)
+ *                 description: Archivo de imagen de firma (PNG). **Solo se admiten archivos PNG.**
  *     responses:
  *       201:
  *         description: Todas las personas fueron registradas correctamente
@@ -292,44 +315,160 @@ router.post("/", upload.single("firma"), personasController.postPersonas);
  */
 router.delete('/id/:id', personasController.deletePersona);
 
-
 /**
  * @swagger
- * /api/personas/albergue/{albergue}/sexo/{sexo}/edad/{edad}:
+ * /api/personas/resumen/porAlbergue/{idAlberguePersona}:
  *   get:
  *     tags:
  *       - Resumenes
- *     summary: Obtener personas por albergue, sexo y edad
+ *     summary: Obtener resumen de personas por albergue
+ *     description: Devuelve un resumen con las personas asociadas a un albergue específico.
  *     parameters:
  *       - in: path
- *         name: albergue
- *         required: true
- *         schema:
- *           type: string
- *         description: Nombre o ID del albergue
- *       - in: path
- *         name: sexo
- *         required: true
- *         schema:
- *           type: string
- *         description: Sexo de la persona (Masculino, Femenino, Otro)
- *       - in: path
- *         name: edad
+ *         name: idAlberguePersona
  *         required: true
  *         schema:
  *           type: integer
- *         description: Edad de la persona
+ *         description: ID del albergue para obtener el resumen de personas.
+ *         example: 12
  *     responses:
  *       200:
- *         description: Personas encontradas
+ *         description: Resumen de personas obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 45
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan Pérez
+ *                       edad:
+ *                         type: integer
+ *                         example: 34
+ *                       genero:
+ *                         type: string
+ *                         example: Masculino
+ *       400:
+ *         description: Parámetro idAlberguePersona no proporcionado.
  *       404:
- *         description: Personas no encontradas
+ *         description: No se encontraron personas para el albergue especificado.
  *       500:
- *         description: Error interno del servidor (Contactar con equipo de API)
+ *         description: Error interno al obtener el resumen de personas.
  */
+router.get('/resumen/porAlbergue/:idAlberguePersona', personasController.getResumenPersonasPorAlbergue);
 
-router.get('/albergue/:albergue/sexo/:sexo/edad/:edad', personasController.getResumenPersonasDinamico);
+/**
+ * @swagger
+ * /api/personas/resumen/sexo/{idSexoPersona}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de personas por sexo
+ *     description: Devuelve un resumen con las personas agrupadas por un sexo específico.
+ *     parameters:
+ *       - in: path
+ *         name: idSexoPersona
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del sexo para filtrar las personas.
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Resumen de personas por sexo obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 78
+ *                       nombre:
+ *                         type: string
+ *                         example: María Gómez
+ *                       edad:
+ *                         type: integer
+ *                         example: 28
+ *                       sexo:
+ *                         type: string
+ *                         example: Femenino
+ *       400:
+ *         description: Parámetro idSexoPersona no proporcionado.
+ *       404:
+ *         description: No se encontraron personas para el sexo especificado.
+ *       500:
+ *         description: Error interno al obtener el resumen de personas por sexo.
+ */
+router.get('/resumen/sexo/:idSexoPersona', personasController.getResumenPersonasPorSexo);
 
-
+/**
+ * @swagger
+ * /api/personas/resumen/edad/{idEdadPersona}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de personas por edad
+ *     description: Devuelve un resumen con las personas filtradas por un rango o categoría de edad específica.
+ *     parameters:
+ *       - in: path
+ *         name: idEdadPersona
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la categoría de edad para filtrar las personas.
+ *         example: 3
+ *     responses:
+ *       200:
+ *         description: Resumen de personas por edad obtenido exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       idPersona:
+ *                         type: integer
+ *                         example: 102
+ *                       nombre:
+ *                         type: string
+ *                         example: Juan López
+ *                       edad:
+ *                         type: integer
+ *                         example: 35
+ *       400:
+ *         description: Parámetro idEdadPersona no proporcionado.
+ *       404:
+ *         description: No se encontraron personas para la edad especificada.
+ *       500:
+ *         description: Error interno al obtener el resumen de personas por edad.
+ */
+router.get('/resumen/edad/:idEdadPersona', personasController.getResumenPersonasPorEdad);
 
 module.exports = router;

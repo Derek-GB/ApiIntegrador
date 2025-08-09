@@ -532,7 +532,7 @@ router.get('/consulta/porUsuario/:idUsuario', albergueController.getAllAlbergues
 
 /**
  * @swagger
- * /api/alberguefamilia:
+ * /api/albergues/alberguefamilia:
  *   put:
  *     tags:
  *       - Albergues
@@ -598,6 +598,44 @@ router.get('/consulta/porUsuario/:idUsuario', albergueController.getAllAlbergues
  *                 message:
  *                   type: string
  *                   example: Error al actualizar albergue familia: Detalle del error
+ */
+
+
+/**
+ * @swagger
+ * /api/albergues/alberguefamilia:
+ *   put:
+ *     tags:
+ *       - Albergues
+ *     summary: Actualizar relación entre familia y albergue
+ *     description: Asigna o actualiza el albergue al que pertenece una familia.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idFamilia
+ *               - idAlbergue
+ *               - idUsuarioModificacion
+ *             properties:
+ *               idFamilia:
+ *                 type: integer
+ *                 example: 12
+ *               idAlbergue:
+ *                 type: integer
+ *                 example: 5
+ *               idUsuarioModificacion:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Albergue actualizado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
 router.put('/alberguefamilia', albergueController.putAlbergueFamilia);
 

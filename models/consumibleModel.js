@@ -39,9 +39,6 @@ class consumibleModel {
             throw error;
         }
     }
-    
-
 }
-
 
 module.exports = new consumibleModel();

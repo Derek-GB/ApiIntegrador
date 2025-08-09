@@ -39,9 +39,6 @@ class condicionSaludModel {
             throw error;
         }
     }
-    
-
 }
-
 
 module.exports = new condicionSaludModel();

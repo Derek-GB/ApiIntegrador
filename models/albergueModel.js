@@ -1,4 +1,3 @@
-//Cambios Emerson
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class albergueModel {
@@ -28,21 +27,6 @@ class albergueModel {
       throw error;
     }
   }
-
-  //     async updateAlbergue(id, albergueData) {
-  //     const { nombre, direccion, capacidad, telefono } = albergueData;
-  //     try {
-  //       const query = `
-  //         UPDATE albergues
-  //         SET nombre = ?, direccion = ?, capacidad = ?, telefono = ?
-  //         WHERE id = ?`;
-  //       const [result] = await pool.query(query, [nombre, direccion, capacidad, telefono, id]);
-  //       return result;
-  //     } catch (error) {
-  //       throw new Error('Error al actualizar el albergue: ' + error.message);
-  //     }
-  //   }
-
   async postAlbergue(Albergue) {
     try {
       const query = `

@@ -46,8 +46,6 @@ const getAllPersonasByUsuario = async (req = request, res = response) => {
   }
 }
 
-// Obtener una persona por ID
-
 const getPersona = async (req = request, res = response) => {
   if (!req.params) {
     return res.status(400).json({

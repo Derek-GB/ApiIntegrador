@@ -40,4 +40,5 @@ class nuevaInfraestructuraModel {
         }
     }
 }
+
 module.exports = new nuevaInfraestructuraModel();

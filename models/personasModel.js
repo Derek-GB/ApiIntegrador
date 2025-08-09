@@ -71,8 +71,6 @@ class PersonasModel {
         }
     }
 
-    //aqui estará alguna vez put
-
     async deletePersona(id) {
         try {
             const result = await db.query('CALL pa_DeletePersona(?)', [id]);

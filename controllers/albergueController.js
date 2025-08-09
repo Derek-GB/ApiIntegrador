@@ -1,7 +1,6 @@
 const { request, response } = require("express");
 const albergueService = require("../service/albergueService");
 
-// Obtener todos los albergues
 const getAllAlbergues = async (req, res) => {
   try {
     const data = await albergueService.getAllAlbergues();
@@ -19,7 +18,6 @@ const getAllAlbergues = async (req, res) => {
   }
 };
 
-// Obtener un albergue por ID
 const getAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -50,7 +48,6 @@ const getAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Eliminar un albergue por ID
 const deleteAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -74,7 +71,6 @@ const deleteAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por ID (consulta extendida)
 const getForIdAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -105,7 +101,6 @@ const getForIdAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por nombre
 const getForNombreAlbergue = async (req = request, res = response) => {
   const { nombre } = req.params;
   if (!nombre) {
@@ -136,7 +131,6 @@ const getForNombreAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por distrito
 const getForDistritoAlbergue = async (req = request, res = response) => {
   const { distrito } = req.params;
   if (!distrito) {
@@ -167,7 +161,6 @@ const getForDistritoAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por cantón
 const getForCantonAlbergue = async (req = request, res = response) => {
   const { canton } = req.params;
   if (!canton) {
@@ -198,7 +191,6 @@ const getForCantonAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por provincia
 const getForProvinciaAlbergue = async (req = request, res = response) => {
   const { provincia } = req.params;
   if (!provincia) {
@@ -390,72 +382,6 @@ const postAlbergue = async (req, res) => {
         });
     }
 };
-
-
-
-
-
-// const putMethod = (req = request, res = response) => {
-//   const { id } = req.body;
-//   const {
-//     idAlbergue,
-//     nombre,
-//     region,
-//     coordenadaX,
-//     coordenadaY,
-//     idUbicacion,
-//     tipo_establecimiento,
-//     tipo_albergue,
-//     condicion_albergue,
-//     especificacion,
-//     detalle_condicion,
-//     administrador,
-//     telefono,
-//     idCapacidad,
-//     seccion,
-//     requerimientos_tecnicos,
-//     costo_requerimientos_tecnicos,
-//     idInfraestructura,
-//     idMunicipalidad,
-//     color,
-//     idPedidoAbarrote,
-//     idUsuarioModificacion,
-//   } = req.body;
-
-//   if (!idAlbergue || !nombre || !region || coordenadaX) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Faltan datos: idalbergue, ",
-//     });
-//   }
-
-//   pool.query(
-//     "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-//     [id, codigoProducto, nombre, descripcion, cantidad],
-//     (error, results) => {
-//       if (error) {
-//         console.error("Error al actualizar producto:", error);
-//         return res.status(500).json({
-//           success: false,
-//           error: "Error al actualizar producto",
-//         });
-//       }
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Producto actualizado correctamente",
-//         data: {
-//           codigoProducto,
-//           nombre,
-//           descripcion,
-//           cantidad,
-//         },
-//       });
-//     }
-//   );
-// };
-
-
 
 module.exports = {
   getAllAlbergues,

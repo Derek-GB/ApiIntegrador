@@ -39,4 +39,5 @@ class infraestructuraAlbergueModel {
         }
     }
 }
+
 module.exports = new infraestructuraAlbergueModel();

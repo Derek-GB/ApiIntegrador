@@ -49,6 +49,6 @@ class inventarioModel {
             throw error;
         }
     }
-
 }
+
 module.exports = new inventarioModel();

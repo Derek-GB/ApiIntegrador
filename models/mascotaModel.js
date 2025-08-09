@@ -10,6 +10,7 @@ class mascotaModel {
             throw error;
         }
     }
+
     async getMascota(id) {
         try {
             return await db.query('CALL pa_SelectMascota(?);', [id])
@@ -48,10 +49,6 @@ class mascotaModel {
             throw error;
         }
     }
-
-    
-
 }
-
 
 module.exports = new mascotaModel();

@@ -11,6 +11,7 @@ class municipalidadModel {
             throw error;
         }
     }
+
     async getMunicipalidad(id) {
         try {
             return await db.query('CALL pa_SelectMunicipalidad(?);', [id])
@@ -19,6 +20,7 @@ class municipalidadModel {
             throw error;
         }
     }
+
     async postMunicipalidad(municipalidad) {
         const { nombre,
             idUbicacion,
@@ -43,10 +45,6 @@ class municipalidadModel {
             throw error;
         }
     }
-
-
-
 }
-
 
 module.exports = new municipalidadModel();

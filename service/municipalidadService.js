@@ -29,8 +29,9 @@ class municipalidadService {
     }
 
     async postMunicipalidad(municipalidad) {
-        if (!municipalidad.nombre || !municipalidad.idUbicacion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idAlbergue || !municipalidad.idUsuarioCreacion) {
-            throw new Error('Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue o idUsuarioCreacion son requeridos');
+        if (!municipalidad.nombre || !municipalidad.provincia || !municipalidad.canton || !municipalidad.distrito ||
+            !municipalidad.direccion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idUsuarioCreacion) {
+            throw new Error('Faltan datos: nombre, provincia, canton, distrito, direccion, telefono, correo o idUsuarioCreacion son requeridos');
         }
         try {
             const result = await municipalidadModel.postMunicipalidad(municipalidad);

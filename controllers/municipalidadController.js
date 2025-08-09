@@ -49,32 +49,38 @@ const getMunicipalidad = async (req = request, res = response) => {
 const postMunicipalidad = async (req, res) => {
   let {
     nombre,
-    idUbicacion,
+    provincia,
+    canton,
+    distrito,
+    direccion,
     telefono,
     correo,
-    idAlbergue,
     idUsuarioCreacion,
   } = req.body;
 
   try {
-    const data = await municipalidadService.postMunicipalidad({
+    await municipalidadService.postMunicipalidad({
       nombre,
-      idUbicacion,
+      provincia,
+      canton,
+      distrito,
+      direccion,
       telefono,
       correo,
-      idAlbergue,
       idUsuarioCreacion,
     });
+
     res.status(201).json({
       success: true,
-      message: "Municipalidad insertado correctamente",
+      message: "Municipalidad insertada correctamente",
       data: {
-        id: data[0][0].id,
         nombre,
-        idUbicacion,
+        provincia,
+        canton,
+        distrito,
+        direccion,
         telefono,
         correo,
-        idAlbergue,
         idUsuarioCreacion,
       },
     });
@@ -89,7 +95,7 @@ const postMunicipalidad = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error al insertar municipalidad",
-      error: error.message, 
+      error: error.message,
     });
   }
 };

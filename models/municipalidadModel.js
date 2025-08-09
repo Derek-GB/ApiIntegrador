@@ -23,14 +23,16 @@ class municipalidadModel {
 
     async postMunicipalidad(municipalidad) {
         const { nombre,
-            idUbicacion,
+            provincia,
+            canton,
+            distrito,
+            direccion,
             telefono,
             correo,
-            idAlbergue,
             idUsuarioCreacion, } = municipalidad;
         try {
-            return await db.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?);',
-                [nombre, idUbicacion, telefono, correo, idAlbergue, idUsuarioCreacion]);
+            return await db.query('CALL pa_InsertMunicipalidad(?, ?, ?, ?, ?, ?, ?, ?);',
+                [nombre, provincia, canton, distrito, direccion, telefono, correo, idUsuarioCreacion]);
         } catch (error) {
             console.error("Error en postMunicipalidad: ", error);
             throw error;

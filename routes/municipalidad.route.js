@@ -57,27 +57,35 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *             type: object
  *             required:
  *               - nombre
- *               - idUbicacion
+ *               - provincia
+ *               - canton
+ *               - distrito
+ *               - direccion
  *               - telefono
  *               - correo
- *               - idAlbergue
  *               - idUsuarioCreacion
  *             properties:
  *               nombre:
  *                 type: string
  *                 example: Municipalidad de San José
- *               idUbicacion:
- *                 type: integer
- *                 example: 12
+ *               provincia:
+ *                 type: string
+ *                 example: San José
+ *               canton:
+ *                 type: string
+ *                 example: Central
+ *               distrito:
+ *                 type: string
+ *                 example: Carmen
+ *               direccion:
+ *                 type: string
+ *                 example: 100 metros norte del parque central
  *               telefono:
  *                 type: string
  *                 example: "2222-3333"
  *               correo:
  *                 type: string
  *                 example: contacto@sanjose.go.cr
- *               idAlbergue:
- *                 type: integer
- *                 example: 5
  *               idUsuarioCreacion:
  *                 type: integer
  *                 example: 7
@@ -104,18 +112,24 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *                     nombre:
  *                       type: string
  *                       example: Municipalidad de San José
- *                     idUbicacion:
- *                       type: integer
- *                       example: 12
+ *                     provincia:
+ *                       type: string
+ *                       example: San José
+ *                     canton:
+ *                       type: string
+ *                       example: Central
+ *                     distrito:
+ *                       type: string
+ *                       example: Carmen
+ *                     direccion:
+ *                       type: string
+ *                       example: 100 metros norte del parque central
  *                     telefono:
  *                       type: string
  *                       example: "2222-3333"
  *                     correo:
  *                       type: string
  *                       example: contacto@sanjose.go.cr
- *                     idAlbergue:
- *                       type: integer
- *                       example: 5
  *                     idUsuarioCreacion:
  *                       type: integer
  *                       example: 7
@@ -124,6 +138,7 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *       500:
  *         description: Error interno al insertar la municipalidad.
  */
+
 router.post('/', municipalidadController.postMunicipalidad);
 
 /**

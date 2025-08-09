@@ -83,7 +83,7 @@ const postPersonas = async (req = request, res = response) => {
       message: "El cuerpo de la solicitud no puede estar vacío.",
     });
   }
-  if (!req.file || !req.firma?.existe) {
+  if (!req.firma || typeof req.firma !== 'object') {
     return res.status(400).json({
       success: false,
       message: "Se esperaba una declaración de firma",

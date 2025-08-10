@@ -186,7 +186,7 @@ class albergueService {
 
         confirmarObligatorios(albergue, [
             "id",
-            "idAlbergue", // ✅ Mantener como obligatorio
+            "idAlbergue",
             "nombre",
             "region",
             "coordenadaX",

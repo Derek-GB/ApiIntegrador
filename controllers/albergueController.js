@@ -312,7 +312,6 @@ const putAlbergue = async (req = request, res = response) => {
   }
   try {
     const { idAlbergue } = req.params;
-
     const {
       id,
       nombre,
@@ -337,7 +336,6 @@ const putAlbergue = async (req = request, res = response) => {
       idPedidoAbarrote,
       idUsuarioModificacion
     } = req.body;
-
     const data = await albergueService.putAlbergue({
       id,
       idAlbergue,
@@ -363,7 +361,6 @@ const putAlbergue = async (req = request, res = response) => {
       idPedidoAbarrote,
       idUsuarioModificacion
     });
-
     res.status(200).json({
       success: true,
       message: "Albergue actualizado correctamente"

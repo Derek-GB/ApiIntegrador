@@ -12,16 +12,6 @@ class municipalidadService {
         }
     }
 
-    // async getAllMunicipalidades() {
-    //     try {
-    //         const results = await municipalidadModel.getAllMunicipalidades();
-    //         return results;
-    //     } catch (error) {
-    //         handleError("getAllMunicipalidades", error);
-    //     }
-    // }
-
-
     async getMunicipalidad(id) {
         if (!id) {
             throw new Error('ID de municipalidad es requerido');
@@ -39,8 +29,9 @@ class municipalidadService {
     }
 
     async postMunicipalidad(municipalidad) {
-        if (!municipalidad.nombre || !municipalidad.idUbicacion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idAlbergue || !municipalidad.idUsuarioCreacion) {
-            throw new Error('Faltan datos: nombre, idUbicacion, telefono, correo, idAlbergue o idUsuarioCreacion son requeridos');
+        if (!municipalidad.nombre || !municipalidad.provincia || !municipalidad.canton || !municipalidad.distrito ||
+            !municipalidad.direccion || !municipalidad.telefono || !municipalidad.correo || !municipalidad.idUsuarioCreacion) {
+            throw new Error('Faltan datos: nombre, provincia, canton, distrito, direccion, telefono, correo o idUsuarioCreacion son requeridos');
         }
         try {
             const result = await municipalidadModel.postMunicipalidad(municipalidad);
@@ -63,10 +54,6 @@ class municipalidadService {
             throw error;
         }
     }
-
-
-
 }
-
 
 module.exports = new municipalidadService();

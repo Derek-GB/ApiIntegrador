@@ -58,10 +58,4 @@ class caracteristicasPoblacionalesModel {
 
 }
 
-
-
-
-
-
-
 module.exports = new caracteristicasPoblacionalesModel();

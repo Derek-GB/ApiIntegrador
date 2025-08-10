@@ -1,7 +1,5 @@
 const { Router } = require("express");
-
 const router = Router();
-
 const ubicacionController = require("../controllers/ubicacionController");
 
 /**
@@ -26,7 +24,6 @@ const ubicacionController = require("../controllers/ubicacionController");
  *       500:
  *         description: Error al obtener ubicación (Contactar equipo de API)
  */
-//Devolver un solo producto por ID
 router.get("/id/:id", ubicacionController.getUbicacion);
 
 /**
@@ -42,7 +39,6 @@ router.get("/id/:id", ubicacionController.getUbicacion);
  *       500:
  *         description: Error al obtener ubicaciones (Contactar equipo de API)
  */
-//Devuelve todos los productos
 router.get("/all", ubicacionController.getAllUbicacion);
 
 /**
@@ -89,7 +85,6 @@ router.get("/all", ubicacionController.getAllUbicacion);
  *       500:
  *         description: Error al insertar ubicación (Contactar equipo de API)
  */
-// Registrar o insertar
 router.post("/", ubicacionController.postUbicacion);
 
 /**
@@ -114,7 +109,6 @@ router.post("/", ubicacionController.postUbicacion);
  *       500:
  *         description: Error al eliminar ubicación (Contactar equipo de API)
  */
-// //Eliminar
 router.delete("/id/:id", ubicacionController.deleteUbicacion);
 
 /**
@@ -164,7 +158,6 @@ router.delete("/id/:id", ubicacionController.deleteUbicacion);
  *       500:
  *         description: Error al actualizar ubicación (Contactar equipo de API)
  */
-// //Actualizar
 router.put("/", ubicacionController.putUbicacion);
 
 module.exports = router;

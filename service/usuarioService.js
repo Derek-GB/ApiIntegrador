@@ -36,8 +36,6 @@ class usuarioService {
         }
     }
 
-    
-
     async postUsuario(usuario) {
 
         confirmarObligatorios(usuario, ["nombreUsuario", "correo", "contrasenaHash", "rol", "activo", "idMunicipalidad", "identificacion"]);
@@ -71,7 +69,6 @@ class usuarioService {
         try {
             const usuario = await usuarioModel.validarCorreoMethod(correo);
             if (!usuario) throw new Error('Usuario no encontrado');
-            // const contrasenaHash = await bcrypt.hash(nuevaContrasena, 10);
             const result = await usuarioModel.putConstrasenaMethod({ correo, contrasenaHash: nuevaContrasena });
             return result;
         } catch (error) {
@@ -79,17 +76,6 @@ class usuarioService {
             throw error;
         }
     }
-
-    async loginUsuario(usuario) {
-        try {
-            const result = await usuarioModel.loginUsuario(usuario);
-            return result;
-        } catch (error) {
-            console.error("Error en usuarioService.loginUsuario: ", error);
-            throw error;
-        }
-    }
-
 }
 
     

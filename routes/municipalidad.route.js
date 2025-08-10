@@ -1,9 +1,6 @@
 const {Router}= require('express');
-
 const municipalidadController = require('../controllers/municipalidadController');
-
 const router=Router();
-
 
   /**
  * @swagger
@@ -27,10 +24,8 @@ const router=Router();
  *       500:
  *         description: Error al obtener municipalidad (Contactar equipo de API)
  */
-//Devolver un solo producto por ID
 router.get('/id/:id', municipalidadController.getMunicipalidad);   
     
-
 /**
  * @swagger
  * /api/municipalidades:
@@ -44,7 +39,6 @@ router.get('/id/:id', municipalidadController.getMunicipalidad);
  *       500:
  *         description: Error al obtener municipalidades (Contactar equipo de API)
  */
-//Devuelve todos los productos
 router.get('/all', municipalidadController.getAllMunicipalidades);             
 
 /**
@@ -63,27 +57,35 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *             type: object
  *             required:
  *               - nombre
- *               - idUbicacion
+ *               - provincia
+ *               - canton
+ *               - distrito
+ *               - direccion
  *               - telefono
  *               - correo
- *               - idAlbergue
  *               - idUsuarioCreacion
  *             properties:
  *               nombre:
  *                 type: string
  *                 example: Municipalidad de San José
- *               idUbicacion:
- *                 type: integer
- *                 example: 12
+ *               provincia:
+ *                 type: string
+ *                 example: San José
+ *               canton:
+ *                 type: string
+ *                 example: Central
+ *               distrito:
+ *                 type: string
+ *                 example: Carmen
+ *               direccion:
+ *                 type: string
+ *                 example: 100 metros norte del parque central
  *               telefono:
  *                 type: string
  *                 example: "2222-3333"
  *               correo:
  *                 type: string
  *                 example: contacto@sanjose.go.cr
- *               idAlbergue:
- *                 type: integer
- *                 example: 5
  *               idUsuarioCreacion:
  *                 type: integer
  *                 example: 7
@@ -104,31 +106,56 @@ router.get('/all', municipalidadController.getAllMunicipalidades);
  *                 data:
  *                   type: object
  *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 15
  *                     nombre:
  *                       type: string
  *                       example: Municipalidad de San José
- *                     idUbicacion:
- *                       type: integer
- *                       example: 12
+ *                     provincia:
+ *                       type: string
+ *                       example: San José
+ *                     canton:
+ *                       type: string
+ *                       example: Central
+ *                     distrito:
+ *                       type: string
+ *                       example: Carmen
+ *                     direccion:
+ *                       type: string
+ *                       example: 100 metros norte del parque central
  *                     telefono:
  *                       type: string
  *                       example: "2222-3333"
  *                     correo:
  *                       type: string
  *                       example: contacto@sanjose.go.cr
- *                     idAlbergue:
- *                       type: integer
- *                       example: 5
  *                     idUsuarioCreacion:
  *                       type: integer
  *                       example: 7
  *       400:
  *         description: Faltan datos obligatorios.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Faltan datos obligatorios
  *       500:
  *         description: Error interno al insertar la municipalidad.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al insertar municipalidad
  */
 router.post('/', municipalidadController.postMunicipalidad);
 
@@ -154,7 +181,6 @@ router.post('/', municipalidadController.postMunicipalidad);
  *       500:
  *         description: Error al eliminar municipalidad (Contactar equipo de API)
  */
-// //Eliminar
 router.delete('/id/:id', municipalidadController.deleteMunicipalidad);
 
 /**
@@ -207,7 +233,6 @@ router.delete('/id/:id', municipalidadController.deleteMunicipalidad);
  *       500:
  *         description: Error al actualizar municipalidad (Contactar equipo de API)
  */
-// //Actualizar
 // router.put('/',   putMethod);
 
 module.exports=router;

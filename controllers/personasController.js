@@ -46,8 +46,6 @@ const getAllPersonasByUsuario = async (req = request, res = response) => {
   }
 }
 
-// Obtener una persona por ID
-
 const getPersona = async (req = request, res = response) => {
   if (!req.params) {
     return res.status(400).json({
@@ -86,10 +84,7 @@ const postPersonas = async (req = request, res = response) => {
     });
   }
   if (!req.firma || typeof req.firma !== 'object') {
-    return res.status(400).json({
-      success: false,
-      message: "Se esperaba una declaración de firma",
-    });
+    req.firma = {existe : false};
   }
   try {
     ({ personas } = req.body);

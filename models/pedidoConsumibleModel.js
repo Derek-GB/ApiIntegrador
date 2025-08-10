@@ -10,6 +10,7 @@ class pedidoConsumibleModel {
             throw error;
         }
     }
+
     async getPedidoConsumible(id) {
         try {
             return await db.query('CALL pa_SelectPedidoConsumible(?);', [id])
@@ -45,10 +46,6 @@ class pedidoConsumibleModel {
             throw error;
         }
     }
-
-
-
 }
-
 
 module.exports = new pedidoConsumibleModel();

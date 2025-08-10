@@ -1,7 +1,6 @@
 const { request, response } = require("express");
 const albergueService = require("../service/albergueService");
 
-// Obtener todos los albergues
 const getAllAlbergues = async (req, res) => {
   try {
     const data = await albergueService.getAllAlbergues();
@@ -19,7 +18,6 @@ const getAllAlbergues = async (req, res) => {
   }
 };
 
-// Obtener un albergue por ID
 const getAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -50,7 +48,6 @@ const getAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Eliminar un albergue por ID
 const deleteAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -74,7 +71,6 @@ const deleteAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por ID (consulta extendida)
 const getForIdAlbergue = async (req = request, res = response) => {
   const { id } = req.params;
   if (!id) {
@@ -105,7 +101,6 @@ const getForIdAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por nombre
 const getForNombreAlbergue = async (req = request, res = response) => {
   const { nombre } = req.params;
   if (!nombre) {
@@ -136,7 +131,6 @@ const getForNombreAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por distrito
 const getForDistritoAlbergue = async (req = request, res = response) => {
   const { distrito } = req.params;
   if (!distrito) {
@@ -167,7 +161,6 @@ const getForDistritoAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por cantón
 const getForCantonAlbergue = async (req = request, res = response) => {
   const { canton } = req.params;
   if (!canton) {
@@ -198,7 +191,6 @@ const getForCantonAlbergue = async (req = request, res = response) => {
   }
 };
 
-// Consultar albergue por provincia
 const getForProvinciaAlbergue = async (req = request, res = response) => {
   const { provincia } = req.params;
   if (!provincia) {
@@ -290,14 +282,147 @@ const getAllAlberguesPorUsuario = async (req = request, res = response) => {
   }
 };
 
+const putAlbergueFamilia = async (req = request, res = response) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el parametro id en la query",
+      });
+  }
+  try {
+    const { idFamilia, idAlbergue, idUsuarioModificacion } = req.body;
+    const data = await albergueService.putAlbergueFamilia({ idFamilia, idAlbergue, idUsuarioModificacion });
+    res.status(200).json({ success: true, message: "Todo salio bien" });
+  } catch (error) {
+    console.log("Error en putAlbergueFamilia; " + error.message, error);
+    res.status(500).json({ success: false, message: "Error al actualizar albergue familia: " + error.message });
+  }
+};
+
+const putAlbergue = async (req = request, res = response) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el cuerpo de la petición",
+      });
+  }
+  try {
+    const { id } = req.params;
+    const {
+      idAlbergue,
+      nombre,
+      region,
+      coordenadaX,
+      coordenadaY,
+      idUbicacion,
+      tipoEstablecimiento,
+      tipoAlbergue,
+      condicionAlbergue,
+      especificacion,
+      detalleCondicion,
+      administrador,
+      telefono,
+      idCapacidad,
+      seccion,
+      requerimientosTecnicos,
+      costoRequerimientosTecnicos,
+      idInfraestructura,
+      idMunicipalidad,
+      color,
+      idPedidoAbarrote,
+      idUsuarioModificacion
+    } = req.body;
+    const data = await albergueService.putAlbergue({
+      id,
+      idAlbergue,
+      nombre,
+      region,
+      coordenadaX,
+      coordenadaY,
+      idUbicacion,
+      tipoEstablecimiento,
+      tipoAlbergue,
+      condicionAlbergue,
+      especificacion,
+      detalleCondicion,
+      administrador,
+      telefono,
+      idCapacidad,
+      seccion,
+      requerimientosTecnicos,
+      costoRequerimientosTecnicos,
+      idInfraestructura,
+      idMunicipalidad,
+      color,
+      idPedidoAbarrote,
+      idUsuarioModificacion
+    });
+    res.status(200).json({
+      success: true,
+      message: "Albergue actualizado correctamente"
+    });
+  } catch (error) {
+    console.log("Error en putAlbergue: " + error.message, error);
+    res.status(500).json({
+      success: false,
+      message: "Error al actualizar albergue: " + error.message
+    });
+  }
+};
+
+
 const postAlbergue = async (req, res) => {
-    if (!req.body){
-      return res.status(400).json({
+  if (!req.body) {
+    return res.status(400).json({
       success: false,
       message: "Se esperaba el body en la consulta post",
     });
-    }
-    const {
+  }
+  const {
+    idAlbergue,
+    nombre,
+    region,
+    provincia,
+    canton,
+    distrito,
+    direccion,
+    tipoEstablecimiento,
+    administrador,
+    telefono,
+    capacidadPersonas,
+    ocupacion,
+    cocina,
+    duchas,
+    serviciosSanitarios,
+    bodega,
+    menajeMobiliario,
+    tanqueAgua,
+    areaTotalM2,
+    idMunicipalidad,
+    capacidadColectiva,
+    cantidadFamilias,
+    egresos,
+    sospechososSanos,
+    otros,
+    coordenadaX,
+    coordenadaY,
+    tipoAlbergue,
+    condicionAlbergue,
+    especificacion,
+    detalleCondicion,
+    seccion,
+    requerimientosTecnicos,
+    costoRequerimientosTecnicos,
+    color,
+    idPedidoAbarrote,
+    idUsuarioCreacion,
+  } = req.body;
+  try {
+    const result = await albergueService.postAlbergue({
       idAlbergue,
       nombre,
       region,
@@ -335,127 +460,21 @@ const postAlbergue = async (req, res) => {
       color,
       idPedidoAbarrote,
       idUsuarioCreacion,
-    } = req.body;
-    try {
-        const result = await albergueService.postAlbergue({
-          idAlbergue,
-          nombre,
-          region,
-          provincia,
-          canton,
-          distrito,
-          direccion,
-          tipoEstablecimiento,
-          administrador,
-          telefono,
-          capacidadPersonas,
-          ocupacion,
-          cocina,
-          duchas,
-          serviciosSanitarios,
-          bodega,
-          menajeMobiliario,
-          tanqueAgua,
-          areaTotalM2,
-          idMunicipalidad,
-          capacidadColectiva,
-          cantidadFamilias,
-          egresos,
-          sospechososSanos,
-          otros,
-          coordenadaX,
-          coordenadaY,
-          tipoAlbergue,
-          condicionAlbergue,
-          especificacion,
-          detalleCondicion,
-          seccion,
-          requerimientosTecnicos,
-          costoRequerimientosTecnicos,
-          color,
-          idPedidoAbarrote,
-          idUsuarioCreacion,
-        });
-        res.status(201).json({
-            success: true,
-            message: "Albergue insertado correctamente",
-            data: result
-        });
-    } catch (error) {
-        console.error("Error al insertar albergue:", error);
-        res.status(500).json({
-            success: false,
-            error: "Error al insertar albergue",
-            details: error.message
-        });
-    }
+    });
+    res.status(201).json({
+      success: true,
+      message: "Albergue insertado correctamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error al insertar albergue:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al insertar albergue",
+      details: error.message
+    });
+  }
 };
-
-
-
-
-
-// const putMethod = (req = request, res = response) => {
-//   const { id } = req.body;
-//   const {
-//     idAlbergue,
-//     nombre,
-//     region,
-//     coordenadaX,
-//     coordenadaY,
-//     idUbicacion,
-//     tipo_establecimiento,
-//     tipo_albergue,
-//     condicion_albergue,
-//     especificacion,
-//     detalle_condicion,
-//     administrador,
-//     telefono,
-//     idCapacidad,
-//     seccion,
-//     requerimientos_tecnicos,
-//     costo_requerimientos_tecnicos,
-//     idInfraestructura,
-//     idMunicipalidad,
-//     color,
-//     idPedidoAbarrote,
-//     idUsuarioModificacion,
-//   } = req.body;
-
-//   if (!idAlbergue || !nombre || !region || coordenadaX) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Faltan datos: idalbergue, ",
-//     });
-//   }
-
-//   pool.query(
-//     "CALL pa_UpdateAlbergue(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-//     [id, codigoProducto, nombre, descripcion, cantidad],
-//     (error, results) => {
-//       if (error) {
-//         console.error("Error al actualizar producto:", error);
-//         return res.status(500).json({
-//           success: false,
-//           error: "Error al actualizar producto",
-//         });
-//       }
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Producto actualizado correctamente",
-//         data: {
-//           codigoProducto,
-//           nombre,
-//           descripcion,
-//           cantidad,
-//         },
-//       });
-//     }
-//   );
-// };
-
-
 
 module.exports = {
   getAllAlbergues,
@@ -469,4 +488,6 @@ module.exports = {
   getResumenAlberguesColor,
   postAlbergue,
   getAllAlberguesPorUsuario,
+  putAlbergueFamilia,
+  putAlbergue
 };

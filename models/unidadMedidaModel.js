@@ -40,10 +40,6 @@ class unidadMedidaModel {
             throw error;
         }
     }
-
-    
-
 }
-
 
 module.exports = new unidadMedidaModel();

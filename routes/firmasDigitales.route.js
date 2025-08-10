@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-
 const firmasController = require('../controllers/firmasController');
 const { rutaInvalida } = require('../src/helpers/bloqueos');
 

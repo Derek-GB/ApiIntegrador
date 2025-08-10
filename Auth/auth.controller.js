@@ -1,6 +1,4 @@
-// Auth/Auth.Controller.js
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const usuarioModel = require("../models/usuarioModel");
 const { SECRET_KEY } = process.env;
 

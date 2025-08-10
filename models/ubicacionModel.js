@@ -39,4 +39,5 @@ class ubicacionModel {
         }
     }
 }
+
 module.exports = new ubicacionModel();

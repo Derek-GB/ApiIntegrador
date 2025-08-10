@@ -1,4 +1,3 @@
-//Cambios Emerson
 const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class albergueModel {
@@ -28,53 +27,16 @@ class albergueModel {
       throw error;
     }
   }
-
-  //     async updateAlbergue(id, albergueData) {
-  //     const { nombre, direccion, capacidad, telefono } = albergueData;
-  //     try {
-  //       const query = `
-  //         UPDATE albergues
-  //         SET nombre = ?, direccion = ?, capacidad = ?, telefono = ?
-  //         WHERE id = ?`;
-  //       const [result] = await pool.query(query, [nombre, direccion, capacidad, telefono, id]);
-  //       return result;
-  //     } catch (error) {
-  //       throw new Error('Error al actualizar el albergue: ' + error.message);
-  //     }
-  //   }
-
   async postAlbergue(Albergue) {
     try {
       const query = `
             CALL pa_InsertAlbergue(
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+              ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             );
         `;
 
       const values = [
-        Albergue.idAlbergue,
-        Albergue.nombre,
-        Albergue.region,
-        Albergue.provincia,
-        Albergue.canton,
-        Albergue.distrito,
-        Albergue.direccion,
-        Albergue.tipoEstablecimiento,
-        Albergue.administrador,
-        Albergue.telefono,
-        Albergue.capacidadPersonas,
-        Albergue.capacidadColectiva,
-        Albergue.cantidadFamilias,
-        Albergue.ocupacion,
-        Albergue.egresos,
-        Albergue.sospechososSanos,
-        Albergue.otros,
-        Albergue.coordenadaX,
-        Albergue.coordenadaY,
-        Albergue.tipoAlbergue,
-        Albergue.condicionAlbergue,
-        Albergue.especificacion,
-        Albergue.detalleCondicion,
+        // Infraestructura
         Albergue.cocina,
         Albergue.duchas,
         Albergue.serviciosSanitarios,
@@ -82,6 +44,35 @@ class albergueModel {
         Albergue.menajeMobiliario,
         Albergue.tanqueAgua,
         Albergue.areaTotalM2,
+
+        // Capacidad
+        Albergue.capacidadPersonas,
+        Albergue.capacidadColectiva,
+        Albergue.cantidadFamilias,
+        Albergue.ocupacion,
+        Albergue.egresos,
+        Albergue.sospechososSanos,
+        Albergue.otros,
+
+        // Ubicación
+        Albergue.provincia,
+        Albergue.canton,
+        Albergue.distrito,
+        Albergue.direccion,
+
+        // Albergue
+        Albergue.idAlbergue,
+        Albergue.nombre,
+        Albergue.region,
+        Albergue.coordenadaX,
+        Albergue.coordenadaY,
+        Albergue.tipoEstablecimiento,
+        Albergue.tipoAlbergue,
+        Albergue.condicionAlbergue,
+        Albergue.especificacion,
+        Albergue.detalleCondicion,
+        Albergue.administrador,
+        Albergue.telefono,
         Albergue.seccion,
         Albergue.requerimientosTecnicos,
         Albergue.costoRequerimientosTecnicos,
@@ -90,10 +81,10 @@ class albergueModel {
         Albergue.idPedidoAbarrote,
         Albergue.idUsuarioCreacion,
       ];
-
       return await db.query(query, values);
     } catch (error) {
       console.error("Error en postAlbergue: ", error);
+
       throw error;
     }
   }
@@ -166,10 +157,49 @@ class albergueModel {
       throw error;
     }
   }
+
+  async putAlbergueFamilia(albergueFa) {
+    try {
+      return await db.query('CALL pa_UpdateAlbergueFamilia(?,?,?);', [albergueFa.idFamilia, albergueFa.idAlbergue, albergueFa.idUsuarioModificacion]);
+    } catch (error) {
+      console.error("Error en putAlbergueFamilia: ", error);
+      throw error;
+    }
+  }
+
+  async putAlbergue(albergue) {
+    try {
+        return await db.query('CALL pa_UpdateAlbergue(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);', [
+            albergue.id,
+            albergue.idAlbergue,
+            albergue.nombre,
+            albergue.region,
+            albergue.coordenadaX,
+            albergue.coordenadaY,
+            albergue.idUbicacion,
+            albergue.tipoEstablecimiento,
+            albergue.tipoAlbergue,
+            albergue.condicionAlbergue,
+            albergue.especificacion,
+            albergue.detalleCondicion,
+            albergue.administrador,
+            albergue.telefono,
+            albergue.idCapacidad,
+            albergue.seccion,
+            albergue.requerimientosTecnicos,
+            albergue.costoRequerimientosTecnicos,
+            albergue.idInfraestructura,
+            albergue.idMunicipalidad,
+            albergue.color,
+            albergue.idPedidoAbarrote,
+            albergue.idUsuarioModificacion
+        ]);
+    } catch (error) {
+        console.error("Error en putAlbergue: ", error);
+        throw error;
+    }
 }
-
-    
-
+}
 
 module.exports = new albergueModel();
 

@@ -1,9 +1,6 @@
 const {Router}= require('express');
 const router = Router();
-
-
 const recursoAsignadoController = require('../controllers/recursoAsignadoController');
-
 
   /**
  * @swagger

@@ -51,14 +51,6 @@ class categoriaConsumiblesModel {
             throw error;
         }
     }
-
-
 }
-
-
-
-
-
-
 
 module.exports = new categoriaConsumiblesModel();

@@ -39,4 +39,5 @@ class referenciaModel {
         }
     }
 }
+
 module.exports = new referenciaModel();

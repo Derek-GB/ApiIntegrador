@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-
 const familiaController = require('../controllers/familiaController');
 
 /**
@@ -107,7 +106,6 @@ router.get('/all', familiaController.getAllFamilias);
  */
 router.post('/', familiaController.postFamilia);
 
-
 /**
  * @swagger
  * /api/familias:
@@ -185,7 +183,6 @@ router.put('/', familiaController.putFamilia);
  *         description: Error interno del servidor (Contactar con equipo de API)
  */
 router.put('/egreso', familiaController.putEgresoFamilia);
-
 
 /**
  * @swagger

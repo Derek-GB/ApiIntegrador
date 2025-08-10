@@ -1,11 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-
 const albergueController = require('../controllers/albergueController');
-
-// const {
-//   postMethod,
-// } = require('../controllers/formularioAlbergue');
 
 /**
  * @swagger
@@ -169,7 +164,6 @@ router.get('/id/:id', albergueController.getAlbergue);
  */
 router.post('/', albergueController.postAlbergue);
 
-
 /**
  * @swagger
  * /api/albergues:
@@ -208,7 +202,7 @@ router.post('/', albergueController.postAlbergue);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-// router.put('/', albergueController.);
+router.put('/:id', albergueController.putAlbergue);
 
 /**
  * @swagger
@@ -312,7 +306,6 @@ router.get('/consulta/id/:id', albergueController.getForIdAlbergue);
  */
 router.get('/consulta/nombre/:nombre', albergueController.getForNombreAlbergue);
 
-
 /** * @swagger
  * /api/albergues/consulta/distrito/{distrito}:
  *   get:
@@ -408,7 +401,6 @@ router.get('/consulta/canton/:canton', albergueController.getForCantonAlbergue);
  *                     type: object
  */
 router.get('/consulta/provincia/:provincia', albergueController.getForProvinciaAlbergue);
-
 
 /**
  * @swagger
@@ -537,5 +529,114 @@ router.get('/resumen/color/:color', albergueController.getResumenAlberguesColor)
  *                   example: Error inesperado
  */
 router.get('/consulta/porUsuario/:idUsuario', albergueController.getAllAlberguesPorUsuario);
+
+/**
+ * @swagger
+ * /api/albergues/alberguefamilia:
+ *   put:
+ *     tags:
+ *       - Albergues
+ *     summary: Actualizar relación entre familia y albergue
+ *     description: Asigna o actualiza el albergue al que pertenece una familia.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idFamilia
+ *               - idAlbergue
+ *               - idUsuarioModificacion
+ *             properties:
+ *               idFamilia:
+ *                 type: integer
+ *                 example: 12
+ *               idAlbergue:
+ *                 type: integer
+ *                 example: 5
+ *               idUsuarioModificacion:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Relación actualizada correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Todo salio bien
+ *       400:
+ *         description: Faltan parámetros obligatorios.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro id en la query
+ *       500:
+ *         description: Error interno al actualizar la relación familia-albergue.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error al actualizar albergue familia: Detalle del error
+ */
+
+
+/**
+ * @swagger
+ * /api/albergues/alberguefamilia:
+ *   put:
+ *     tags:
+ *       - Albergues
+ *     summary: Actualizar relación entre familia y albergue
+ *     description: Asigna o actualiza el albergue al que pertenece una familia.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - idFamilia
+ *               - idAlbergue
+ *               - idUsuarioModificacion
+ *             properties:
+ *               idFamilia:
+ *                 type: integer
+ *                 example: 12
+ *               idAlbergue:
+ *                 type: integer
+ *                 example: 5
+ *               idUsuarioModificacion:
+ *                 type: integer
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Albergue actualizado correctamente
+ *       400:
+ *         description: Datos faltantes
+ *       500:
+ *         description: Error al actualizar el albergue (Contactar equipo de API)
+ */
+router.put('/alberguefamilia', albergueController.putAlbergueFamilia);
 
 module.exports = router;

@@ -74,8 +74,6 @@ class familiaService {
         }
     }
 
-    //algun dia put estara aqui
-
     async putEgresoFamilia(egreso) {
         if (!egreso) {
             handleError("putEgresoFamilia", new Error("No se recibió un egreso", 400));

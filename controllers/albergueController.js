@@ -311,9 +311,9 @@ const putAlbergue = async (req = request, res = response) => {
       });
   }
   try {
-    const { idAlbergue } = req.params;
+    const { id } = req.params;
     const {
-      id,
+      idAlbergue,
       nombre,
       region,
       coordenadaX,

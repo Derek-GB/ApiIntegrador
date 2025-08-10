@@ -202,7 +202,7 @@ router.post('/', albergueController.postAlbergue);
  *       500:
  *         description: Error al actualizar el albergue (Contactar equipo de API)
  */
-router.put('/:idAlbergue', albergueController.putAlbergue);
+router.put('/:id', albergueController.putAlbergue);
 
 /**
  * @swagger

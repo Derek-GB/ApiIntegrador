@@ -297,94 +297,135 @@ const putAlbergueFamilia = async (req = request, res = response) => {
     res.status(200).json({ success: true, message: "Todo salio bien" });
   } catch (error) {
     console.log("Error en putAlbergueFamilia; " + error.message, error);
-    res.status(500).json({ success: false, message: "Error al actualizar albergue familia: " + error.message});
+    res.status(500).json({ success: false, message: "Error al actualizar albergue familia: " + error.message });
   }
 };
 
 const putAlbergue = async (req = request, res = response) => {
-    if (!req.body) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                error: "Se esperaba el cuerpo de la petición",
-            });
-    }
-    try {
-        const {
-            id,
-            idAlbergue,
-            nombre,
-            region,
-            coordenadaX,
-            coordenadaY,
-            idUbicacion,
-            tipoEstablecimiento,
-            tipoAlbergue,
-            condicionAlbergue,
-            especificacion,
-            detalleCondicion,
-            administrador,
-            telefono,
-            idCapacidad,
-            seccion,
-            requerimientosTecnicos,
-            costoRequerimientosTecnicos,
-            idInfraestructura,
-            idMunicipalidad,
-            color,
-            idPedidoAbarrote,
-            idUsuarioModificacion
-        } = req.body;
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el cuerpo de la petición",
+      });
+  }
+  try {
+    const { idAlbergue } = req.params;
 
-        const data = await albergueService.putAlbergue({
-            id,
-            idAlbergue,
-            nombre,
-            region,
-            coordenadaX,
-            coordenadaY,
-            idUbicacion,
-            tipoEstablecimiento,
-            tipoAlbergue,
-            condicionAlbergue,
-            especificacion,
-            detalleCondicion,
-            administrador,
-            telefono,
-            idCapacidad,
-            seccion,
-            requerimientosTecnicos,
-            costoRequerimientosTecnicos,
-            idInfraestructura,
-            idMunicipalidad,
-            color,
-            idPedidoAbarrote,
-            idUsuarioModificacion
-        });
+    const {
+      id,
+      nombre,
+      region,
+      coordenadaX,
+      coordenadaY,
+      idUbicacion,
+      tipoEstablecimiento,
+      tipoAlbergue,
+      condicionAlbergue,
+      especificacion,
+      detalleCondicion,
+      administrador,
+      telefono,
+      idCapacidad,
+      seccion,
+      requerimientosTecnicos,
+      costoRequerimientosTecnicos,
+      idInfraestructura,
+      idMunicipalidad,
+      color,
+      idPedidoAbarrote,
+      idUsuarioModificacion
+    } = req.body;
 
-        res.status(200).json({ 
-            success: true, 
-            message: "Albergue actualizado correctamente" 
-        });
-    } catch (error) {
-        console.log("Error en putAlbergue: " + error.message, error);
-        res.status(500).json({ 
-            success: false, 
-            message: "Error al actualizar albergue: " + error.message
-        });
-    }
+    const data = await albergueService.putAlbergue({
+      id,
+      idAlbergue,
+      nombre,
+      region,
+      coordenadaX,
+      coordenadaY,
+      idUbicacion,
+      tipoEstablecimiento,
+      tipoAlbergue,
+      condicionAlbergue,
+      especificacion,
+      detalleCondicion,
+      administrador,
+      telefono,
+      idCapacidad,
+      seccion,
+      requerimientosTecnicos,
+      costoRequerimientosTecnicos,
+      idInfraestructura,
+      idMunicipalidad,
+      color,
+      idPedidoAbarrote,
+      idUsuarioModificacion
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Albergue actualizado correctamente"
+    });
+  } catch (error) {
+    console.log("Error en putAlbergue: " + error.message, error);
+    res.status(500).json({
+      success: false,
+      message: "Error al actualizar albergue: " + error.message
+    });
+  }
 };
 
 
 const postAlbergue = async (req, res) => {
-    if (!req.body){
-      return res.status(400).json({
+  if (!req.body) {
+    return res.status(400).json({
       success: false,
       message: "Se esperaba el body en la consulta post",
     });
-    }
-    const {
+  }
+  const {
+    idAlbergue,
+    nombre,
+    region,
+    provincia,
+    canton,
+    distrito,
+    direccion,
+    tipoEstablecimiento,
+    administrador,
+    telefono,
+    capacidadPersonas,
+    ocupacion,
+    cocina,
+    duchas,
+    serviciosSanitarios,
+    bodega,
+    menajeMobiliario,
+    tanqueAgua,
+    areaTotalM2,
+    idMunicipalidad,
+    capacidadColectiva,
+    cantidadFamilias,
+    egresos,
+    sospechososSanos,
+    otros,
+    coordenadaX,
+    coordenadaY,
+    tipoAlbergue,
+    condicionAlbergue,
+    especificacion,
+    detalleCondicion,
+    seccion,
+    requerimientosTecnicos,
+    costoRequerimientosTecnicos,
+    color,
+    idPedidoAbarrote,
+    idUsuarioCreacion,
+  } = req.body;
+  try {
+    const result = await albergueService.postAlbergue({
       idAlbergue,
       nombre,
       region,
@@ -422,60 +463,20 @@ const postAlbergue = async (req, res) => {
       color,
       idPedidoAbarrote,
       idUsuarioCreacion,
-    } = req.body;
-    try {
-        const result = await albergueService.postAlbergue({
-          idAlbergue,
-          nombre,
-          region,
-          provincia,
-          canton,
-          distrito,
-          direccion,
-          tipoEstablecimiento,
-          administrador,
-          telefono,
-          capacidadPersonas,
-          ocupacion,
-          cocina,
-          duchas,
-          serviciosSanitarios,
-          bodega,
-          menajeMobiliario,
-          tanqueAgua,
-          areaTotalM2,
-          idMunicipalidad,
-          capacidadColectiva,
-          cantidadFamilias,
-          egresos,
-          sospechososSanos,
-          otros,
-          coordenadaX,
-          coordenadaY,
-          tipoAlbergue,
-          condicionAlbergue,
-          especificacion,
-          detalleCondicion,
-          seccion,
-          requerimientosTecnicos,
-          costoRequerimientosTecnicos,
-          color,
-          idPedidoAbarrote,
-          idUsuarioCreacion,
-        });
-        res.status(201).json({
-            success: true,
-            message: "Albergue insertado correctamente",
-            data: result
-        });
-    } catch (error) {
-        console.error("Error al insertar albergue:", error);
-        res.status(500).json({
-            success: false,
-            error: "Error al insertar albergue",
-            details: error.message
-        });
-    }
+    });
+    res.status(201).json({
+      success: true,
+      message: "Albergue insertado correctamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error al insertar albergue:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al insertar albergue",
+      details: error.message
+    });
+  }
 };
 
 module.exports = {

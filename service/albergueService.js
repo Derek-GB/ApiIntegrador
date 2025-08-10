@@ -183,9 +183,10 @@ class albergueService {
         if (!albergue) {
             handleError("putAlbergue", new Error("No se recibió un albergue", 400));
         }
+
         confirmarObligatorios(albergue, [
             "id",
-            "idAlbergue",
+            "idAlbergue", // ✅ Mantener como obligatorio
             "nombre",
             "region",
             "coordenadaX",
@@ -208,6 +209,7 @@ class albergueService {
             "idPedidoAbarrote",
             "idUsuarioModificacion"
         ], "putAlbergue");
+
         try {
             const result = await albergueModel.putAlbergue(albergue);
             return result;
@@ -216,6 +218,5 @@ class albergueService {
         }
     }
 }
-
 
 module.exports = new albergueService();

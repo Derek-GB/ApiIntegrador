@@ -36,7 +36,7 @@ class servidor {
         origin: [
           "http://localhost:5173",
           "http://201.197.202.42",
-          "http://192.168.0.10:80",
+          "http://192.168.0.11",
 
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],

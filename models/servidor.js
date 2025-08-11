@@ -37,6 +37,8 @@ class servidor {
           "http://localhost:5173",
           "http://201.197.202.42",
           "http://192.168.0.11",
+          "http://192.168.0.11:80",
+          "http://192.168.0.11:8080",
 
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],

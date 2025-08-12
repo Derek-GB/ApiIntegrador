@@ -53,10 +53,7 @@ class servidor {
       credentials: true,  // Solo si usas cookies o autenticación basada en credenciales
     };
 
-    // Aplica CORS globalmente para todas las rutas
     this.app.use(cors(corsOptions));
-
-    // Maneja las peticiones OPTIONS para todas las rutas
     this.app.options("*", cors(corsOptions));
 
     this.app.use(express.json());

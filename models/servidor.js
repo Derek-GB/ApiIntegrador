@@ -36,6 +36,7 @@ class servidor {
         origin: [
           "http://localhost:5173",
           "http://201.197.202.42",
+          "https://front.integrador.dev",
           "http://192.168.0.10:80",
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],

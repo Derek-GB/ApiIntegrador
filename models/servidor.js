@@ -20,7 +20,7 @@ class servidor {
     this.app.use(this.authPath, require("../Auth/auth.route"));
     this.app.use('/api/public', publicRoutes);
     this.rutas.forEach(({ path, route }) => {
-      this.app.use(path, authMiddleware, route); 
+    this.app.use(path, authMiddleware, route); 
     });
     this.app.use(
       "/api/documentacion",
@@ -31,39 +31,34 @@ class servidor {
 
   middlewares() {
     this.app.use(express.static("public"));
-
-    const corsOptions = {
-      origin: [
-        "http://localhost:5173",
-        "http://201.197.202.42",
-        "http://192.168.0.13",
-        "http://192.168.0.13:80",
-        "http://192.168.0.13:8080",
-      ],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: [
-        "Content-Type",
-        "Authorization",
-        "Accept",
-        "X-Requested-With",
-        "X-CSRF-Token",
-        "X-Client-Version",
-        "X-User-ID",
-      ],
-      credentials: true,  // Solo si usas cookies o autenticación basada en credenciales
-    };
-
-    this.app.use(cors(corsOptions));
-    this.app.options("*", cors(corsOptions));
-
+    this.app.use(
+      cors({
+        origin: [
+          "http://localhost:5173",
+          "http://201.197.202.42",
+          "http://192.168.0.13:80",
+          "http://192.168.0.13:8080",
+          "http://192.168.0.13",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: [
+          "Content-Type",
+          "Authorization",
+          "Accept",
+          "X-Requested-With",
+          "X-CSRF-Token",
+          "X-Client-Version",
+          "X-User-ID",
+        ],
+      })
+    );
     this.app.use(express.json());
   }
 
   listen() {
     this.app.listen(this.port || 3000, () => {
-      console.log(`El servidor está corriendo en el puerto ${this.port}`);
+      console.log(`El servidor esta corriendo en el puerto ${this.port}`);
     });
   }
 }
-
 module.exports = servidor;

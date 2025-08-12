@@ -7,15 +7,15 @@ let instance = null;
 class DbService {
     constructor() {
         this._pool = mysql.createPool({
-            host: process.env.HOST,
-            user: process.env.USER,
-            password: process.env.PASSWORD,
-            database: process.env.DATABASE,
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
             port: Number(process.env.DB_PORT) || 3306,
             connectionLimit: Number(process.env.DB_POOL_LIMIT) || 20,
-            queueLimit: 0,
-            acquireTimeout: 10000,
+            queueLimit: 0
         }).promise();
+
     }
 
     static getDbServiceInstance() {

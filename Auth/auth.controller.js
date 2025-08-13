@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const usuarioModel = require("../models/usuarioModel");
-const { SECRET_KEY } = process.env;
+const { JWT_SECRET } = process.env;
 
-if (!SECRET_KEY) {
-  throw new Error("SECRET_KEY no esta definida en las variables de entorno.");
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET no esta definida en las variables de entorno.");
 }
 
 class AuthController {
@@ -44,7 +44,7 @@ class AuthController {
         idMunicipalidad: usuarioEncontrado.idMunicipalidad
       };
 
-      const token = jwt.sign(tokenpayload, SECRET_KEY, {
+      const token = jwt.sign(tokenpayload, JWT_SECRET, {
         expiresIn: '24h',
         issuer: 'auth-service',
         audience: 'api-users'

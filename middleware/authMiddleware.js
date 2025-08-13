@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = process.env;
+const { JWT_SECRET } = process.env;
 
-if (!SECRET_KEY) {
-    throw new Error('SECRET_KEY no está definida en las variables de entorno');
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET no está definida en las variables de entorno');
 }
 
 const publicRoutes = [
@@ -42,7 +42,7 @@ const authMiddleware = (req, res, next) => {
                 error: 'Token de acceso requerido'
             });
         }
-        const decoded = jwt.verify(token, SECRET_KEY);
+        const decoded = jwt.verify(token, JWT_SECRET);
         req.usuario = {
             id: decoded.id,
             correo: decoded.correo,

@@ -1,8 +1,15 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2'); 
 const dotenv = require('dotenv');
 dotenv.config();
 
 let instance = null;
+
+const TRANSIENT = new Set([
+    'ETIMEDOUT',
+    'ECONNRESET',
+    'PROTOCOL_CONNECTION_LOST',
+    'EPIPE'
+]);
 
 class DbService {
     constructor() {
@@ -12,10 +19,27 @@ class DbService {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             port: Number(process.env.DB_PORT) || 3306,
-            connectionLimit: Number(process.env.DB_POOL_LIMIT) || 20,
-            queueLimit: 0,
-            acquireTimeout: 10000,
+            connectionLimit: Number(process.env.DB_POOL_LIMIT) || 10,
+            waitForConnections: true,
+            connectTimeout: 20000,
+            acquireTimeout: 20000,
+            enableKeepAlive: true,
+            keepAliveInitialDelay: 0,
+            maxIdle: 2,
+            idleTimeout: 60000,
         }).promise();
+
+        this._keepAliveTimer = setInterval(async () => {
+            try {
+                const conn = await this._pool.getConnection();
+                await conn.ping();
+                conn.release();
+            } catch (e) {
+                // Log suave; el pool se saneará solo
+                console.warn('mysql keepalive:', e.code || e.message);
+            }
+        }, 120_000);
+        this._keepAliveTimer.unref?.(); // no mantiene vivo el proceso si no hay nada más
     }
 
     static getDbServiceInstance() {
@@ -23,19 +47,26 @@ class DbService {
         return instance;
     }
 
-    get pool() {
-        return this._pool;
-    }
+    get pool() { return this._pool; }
 
-    async test() {
-        await this._pool.query('SELECT 1');
-    }
+    async test() { await this._pool.query('SELECT 1'); }
 
+    // --- Query con 1 reintento ante errores transitorios ---
     async query(sql, params = []) {
         try {
             const [rows] = await this._pool.query(sql, params);
             return rows;
         } catch (err) {
+            if (TRANSIENT.has(err.code)) {
+                // Fuerza a “sanear” el pool y reintenta
+                try {
+                    const conn = await this._pool.getConnection();
+                    await conn.ping().catch(() => {});
+                    conn.release();
+                } catch(_) {}
+                const [rows] = await this._pool.query(sql, params);
+                return rows;
+            }
             console.error('Error en la consulta:', err);
             throw err;
         }
@@ -45,7 +76,7 @@ class DbService {
         const conn = await this._pool.getConnection();
         try {
             await conn.beginTransaction();
-            const result = await workFn(conn);
+            const result = await workFn(conn); 
             await conn.commit();
             return result;
         } catch (err) {
@@ -57,6 +88,7 @@ class DbService {
     }
 
     async close() {
+        clearInterval(this._keepAliveTimer);
         await this._pool.end();
     }
 }

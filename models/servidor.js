@@ -5,11 +5,12 @@ const swagger = require('../src/consts/swagger');
 require("dotenv").config();
 const publicRoutes = require('../routes/publicRoutes.route');
 const authMiddleware = require('../middleware/authMiddleware');
+const bienvenida = require("../src/consts/bienvenida");
 
 class servidor {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT;
+    this.port = process.env.PORT || 4000;
     this.authPath = "/api/auth";
     this.rutas = require("../src/consts/rutas");
     this.middlewares();
@@ -27,6 +28,8 @@ class servidor {
       swagger.serve,
       swagger.setup
     );
+    this.app.get("/", bienvenida);
+    this.app.get("/api", bienvenida);
   }
 
   middlewares() {
@@ -55,7 +58,7 @@ class servidor {
   }
 
   listen() {
-    this.app.listen(this.port || 3000, () => {
+    this.app.listen(this.port || 4000, () => {
       console.log(`El servidor esta corriendo en el puerto ${this.port}`);
     });
   }

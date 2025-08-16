@@ -137,10 +137,10 @@ const deletePersona = async (req = request, res = response) => {
 
 const getResumenPersonasPorAlbergue = (req = request, res = response) => {
   if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro idAlberguePersona en la query" });
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro nombreAlbergue en la query" });
   }
-  const { idAlberguePersona } = req.params;
-  personasService. getResumenPersonasPorAlbergue(idAlberguePersona)
+  const { nombreAlbergue } = req.params;
+  personasService. getResumenPersonasPorAlbergue(nombreAlbergue)
     .then((data) => {
       if (data.length === 0) {
         return res.status(404).json({

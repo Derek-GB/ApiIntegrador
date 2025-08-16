@@ -81,14 +81,12 @@ class PersonasModel {
         }
     }
 
-    async getResumenPersonasPorAlbergue(idAlberguePersona) {
-        try {
-            const [results] = await db.query('CALL pa_ResumenPersonasPorAlbergue(?);', [idAlberguePersona]);
-            return results[0] || [];
-        } catch (error) {
-            console.error("Error en getResumenPersonasPorAlbergue: ", error);
-            throw error;
-        }
+    async getResumenPersonasPorAlbergue(nombreAlbergue) {
+        const [results] = await db.query(
+            'CALL pa_ResumenPersonasPorAlbergue(?);',
+            [nombreAlbergue]
+        );
+        return results[0] || [];
     }
 
     async getResumenPersonasPorSexo(idSexoPersona) {

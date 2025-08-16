@@ -148,12 +148,12 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasPorAlbergue(idAlberguePersona = null) {
-            if (!idAlberguePersona) {
+    async getResumenPersonasPorAlbergue(nombreAlbergue = null) {
+            if (!nombreAlbergue) {
                 handleError("getResumenPersonasPorAlbergue", new Error("Falta el codigo de albergue"), 400);
             }
             try {
-                const result = await personasModel.getResumenPersonasPorAlbergue(idAlberguePersona);
+                const result = await personasModel.getResumenPersonasPorAlbergue(nombreAlbergue);
                 return result;
             } catch (error) {
                 handleError("getResumenPersonasPorAlbergue", error);

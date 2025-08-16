@@ -310,7 +310,7 @@ router.delete('/id/:id', personasController.deletePersona);
 
 /**
  * @swagger
- * /api/personas/resumen/porAlbergue/{idAlberguePersona}:
+ * /api/personas/resumen/porAlbergue/{nombreAlbergue}:
  *   get:
  *     tags:
  *       - Resumenes
@@ -318,10 +318,10 @@ router.delete('/id/:id', personasController.deletePersona);
  *     description: Devuelve un resumen con las personas asociadas a un albergue específico.
  *     parameters:
  *       - in: path
- *         name: idAlberguePersona
+ *         name: nombreAlbergue
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID del albergue para obtener el resumen de personas.
  *         example: 12
  *     responses:
@@ -359,7 +359,7 @@ router.delete('/id/:id', personasController.deletePersona);
  *       500:
  *         description: Error interno al obtener el resumen de personas.
  */
-router.get('/resumen/porAlbergue/:idAlberguePersona', personasController.getResumenPersonasPorAlbergue);
+router.get('/resumen/porAlbergue/:nombreAlbergue', personasController.getResumenPersonasPorAlbergue);
 
 /**
  * @swagger

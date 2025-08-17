@@ -59,7 +59,7 @@ class AuthController {
       const cookieOptions = {
         httpOnly: false,
         secure: false,
-        //sameSite: 'lax',
+        sameSite: 'lax',
         maxAge: 24 * 60 * 60 * 1000,
         path: '/'
       };
@@ -90,9 +90,9 @@ class AuthController {
   async logout(req, res){
     try {
         res.clearCookie('authToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            httpOnly: false,
+            secure: false,
+            sameSite: 'lax',
             path: '/'
         });
 

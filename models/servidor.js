@@ -6,6 +6,7 @@ require("dotenv").config();
 const publicRoutes = require('../routes/publicRoutes.route');
 const authMiddleware = require('../middleware/authMiddleware');
 const bienvenida = require("../src/consts/bienvenida");
+const cookieParser = require('cookie-parser');
 
 class servidor {
   constructor() {
@@ -56,6 +57,7 @@ class servidor {
       })
     );
     this.app.use(express.json());
+    this.app.use(cookieParser());
   }
 
   listen() {

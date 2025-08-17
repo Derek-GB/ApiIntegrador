@@ -57,9 +57,9 @@ class AuthController {
       }
 
       const cookieOptions = {
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 24 * 60 * 60 * 1000,
         path: '/'
       };

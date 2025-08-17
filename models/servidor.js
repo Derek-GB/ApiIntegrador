@@ -52,6 +52,7 @@ class servidor {
           "X-Client-Version",
           "X-User-ID",
         ],
+        credentials: true
       })
     );
     this.app.use(express.json());

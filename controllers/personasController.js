@@ -84,7 +84,7 @@ const postPersonas = async (req = request, res = response) => {
     });
   }
   if (!req.firma || typeof req.firma !== 'object') {
-    req.firma = {existe : false};
+    req.firma = { existe: false };
   }
   try {
     ({ personas } = req.body);
@@ -140,7 +140,7 @@ const getResumenPersonasPorAlbergue = (req = request, res = response) => {
     return res.status(400).json({ success: false, error: "Se esperaba el parametro nombreAlbergue en la query" });
   }
   const { nombreAlbergue } = req.params;
-  personasService. getResumenPersonasPorAlbergue(nombreAlbergue)
+  personasService.getResumenPersonasPorAlbergue(nombreAlbergue)
     .then((data) => {
       if (data.length === 0) {
         return res.status(404).json({
@@ -192,32 +192,35 @@ const getResumenPersonasPorSexo = async (req = request, res = response) => {
   }
 };
 
-const getResumenPersonasPorEdad = (req = request, res = response) => {
-  if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });
-  }
-  const { idEdadPersona } = req.params;
-  personasService.getResumenPersonasPorEdad(idEdadPersona)
-    .then((data) => {
-      if (data.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No se encontraron personas para la edad especificado.",
-        });
-      }
-      res.status(200).json({
-        success: true,
-        data: data,
-      });
-    })
-    .catch((error) => {
-      console.error("Error al obtener edad por persona:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener edad por persona; " + error.message,
-      });
+const getResumenPersonasPorEdad = async (req = request, res = response) => {
+  const { idAlbergue, edadMin, edadMax } = req.query;
+
+  if (!idAlbergue || edadMin == null || edadMax == null) {
+    return res.status(400).json({
+      success: false,
+      error: "Se esperaban los parámetros idAlbergue, edadMin y edadMax en la query",
     });
-}
+  }
+
+  try {
+    const data = await personasService.getResumenPersonasPorEdad(idAlbergue, Number(edadMin), Number(edadMax));
+
+    if (data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron personas en el rango de edad especificado.",
+      });
+    }
+
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error("Error al obtener resumen por edad:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener resumen por edad: " + error.message,
+    });
+  }
+};
 
 const getResumenDiscapacidad = (req = request, res = response) => {
   if (!req.params) {

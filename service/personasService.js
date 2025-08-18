@@ -175,13 +175,16 @@ class PersonasService {
         }
     }
 
-    async getResumenPersonasPorEdad(idEdadPersona = null) {
-        if (!idEdadPersona) {
-            handleError("getResumenPersonasPorEdad", new Error("Falta el codigo de edad"), 400);
+    async getResumenPersonasPorEdad(idAlbergue, edadMin, edadMax) {
+        if (!idAlbergue || edadMin == null || edadMax == null) {
+            handleError(
+                "getResumenPersonasPorEdad",
+                new Error("Faltan parámetros idAlbergue, edadMin o edadMax"),
+                400
+            );
         }
         try {
-            const result = await personasModel.getResumenPersonasPorEdad(idEdadPersona);
-            return result;
+            return await personasModel.getResumenPersonasPorEdad(idAlbergue, edadMin, edadMax);
         } catch (error) {
             handleError("getResumenPersonasPorEdad", error);
         }

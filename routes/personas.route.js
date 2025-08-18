@@ -414,23 +414,36 @@ router.get('/resumen/sexo', personasController.getResumenPersonasPorSexo);
 
 /**
  * @swagger
- * /api/personas/resumen/edad/{idEdadPersona}:
+ * /api/personas/resumen/edad:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de personas por edad
- *     description: Devuelve un resumen con las personas filtradas por un rango o categoría de edad específica.
+ *     description: Devuelve un resumen de personas en un albergue dentro de un rango de edad.
  *     parameters:
- *       - in: path
- *         name: idEdadPersona
+ *       - in: query
+ *         name: idAlbergue
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID de la categoría de edad para filtrar las personas.
- *         example: 3
+ *         description: ID del albergue
+ *       - in: query
+ *         name: edadMin
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 18
+ *         description: Edad mínima del rango
+ *       - in: query
+ *         name: edadMax
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 35
+ *         description: Edad máxima del rango
  *     responses:
  *       200:
- *         description: Resumen de personas por edad obtenido exitosamente.
+ *         description: Resumen de personas por edad obtenido correctamente
  *         content:
  *           application/json:
  *             schema:
@@ -444,22 +457,17 @@ router.get('/resumen/sexo', personasController.getResumenPersonasPorSexo);
  *                   items:
  *                     type: object
  *                     properties:
- *                       idPersona:
- *                         type: integer
- *                         example: 102
- *                       nombre:
- *                         type: string
- *                         example: Juan López
  *                       edad:
  *                         type: integer
- *                         example: 35
+ *                         example: 25
+ *                       cantidad:
+ *                         type: integer
+ *                         example: 12
  *       400:
- *         description: Parámetro idEdadPersona no proporcionado.
- *       404:
- *         description: No se encontraron personas para la edad especificada.
+ *         description: Faltan parámetros obligatorios
  *       500:
- *         description: Error interno al obtener el resumen de personas por edad.
+ *         description: Error interno al obtener el resumen
  */
-router.get('/resumen/edad/:idEdadPersona', personasController.getResumenPersonasPorEdad);
+router.get('/resumen/edad', personasController.getResumenPersonasPorEdad);
 
 module.exports = router;

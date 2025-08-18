@@ -91,7 +91,6 @@ router.post('/', productoController.postProducto);
  *     tags:
  *       - Productos
  *     summary: Actualizar un producto
- *     description: Actualiza la información de un producto existente en el sistema.
  *     requestBody:
  *       required: true
  *       content:
@@ -106,56 +105,19 @@ router.post('/', productoController.postProducto);
  *             properties:
  *               id:
  *                 type: integer
- *                 example: 10
  *               descripcion:
  *                 type: string
- *                 example: "Silla de oficina ergonómica"
  *               categoria:
- *                 type: string
- *                 example: "Muebles"
+ *                 type: integer
  *               unidadMedida:
- *                 type: string
- *                 example: "Unidad"
+ *                 type: integer
  *     responses:
  *       200:
- *         description: Producto actualizado correctamente.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: Todo salio bien
+ *         description: Producto actualizado correctamente
  *       400:
- *         description: Faltan parámetros obligatorios en el cuerpo de la petición.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 error:
- *                   type: string
- *                   example: Se esperaba el parametro id en la query
+ *         description: Datos faltantes o inválidos
  *       500:
- *         description: Error interno al actualizar el producto.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 message:
- *                   type: string
- *                   example: Error al actualizar producto: Detalle del error
+ *         description: Error al actualizar producto (Contactar equipo de API)
  */
 router.put('/', productoController.putProducto);
 

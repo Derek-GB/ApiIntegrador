@@ -70,7 +70,7 @@ class productoService {
             if (!producto) {
                 handleError("putProducto", new Error("No se recibió un producto", 400));
             }
-            confirmarObligatorios(producto, ["id, descripcion, categoria, unidad de medida"], "putProducto");
+            confirmarObligatorios(producto, ["id", "descripcion", "categoria", "unidadMedida"], "putProducto");
             try {
                 const result = await productoModel.putProducto(producto);
                 return result;

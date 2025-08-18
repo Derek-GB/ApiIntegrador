@@ -164,10 +164,10 @@ const getResumenPersonasPorAlbergue = (req = request, res = response) => {
 
 const getResumenPersonasPorSexo = (req = request, res = response) => {
   if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro idSexoPersona en la query" });
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro sexo en la query" });
   }
-  const { idSexoPersona } = req.params;
-  personasService.getResumenPersonasPorSexo(idSexoPersona)
+  const { sexo } = req.params;
+  personasService.getResumenPersonasPorSexo(sexo)
     .then((data) => {
       if (data.length === 0) {
         return res.status(404).json({

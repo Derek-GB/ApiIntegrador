@@ -363,23 +363,22 @@ router.get('/resumen/porAlbergue/:nombreAlbergue', personasController.getResumen
 
 /**
  * @swagger
- * /api/personas/resumen/sexo/{idSexoPersona}:
+ * /api/personas/resumen/sexo/{personaSexo}:
  *   get:
  *     tags:
- *       - Resumenes
+ *       - Personas
  *     summary: Obtener resumen de personas por sexo
- *     description: Devuelve un resumen con las personas agrupadas por un sexo específico.
+ *     description: Devuelve un resumen de personas agrupadas por sexo según el código enviado.
  *     parameters:
  *       - in: path
- *         name: idSexoPersona
+ *         name: personaSexo
  *         required: true
  *         schema:
- *           type: integer
- *         description: ID del sexo para filtrar las personas.
- *         example: 1
+ *           type: string
+ *         description: Código de sexo (por ejemplo "M" para masculino, "F" para femenino).
  *     responses:
  *       200:
- *         description: Resumen de personas por sexo obtenido exitosamente.
+ *         description: Resumen de personas por sexo obtenido correctamente
  *         content:
  *           application/json:
  *             schema:
@@ -393,26 +392,18 @@ router.get('/resumen/porAlbergue/:nombreAlbergue', personasController.getResumen
  *                   items:
  *                     type: object
  *                     properties:
- *                       idPersona:
- *                         type: integer
- *                         example: 78
- *                       nombre:
- *                         type: string
- *                         example: María Gómez
- *                       edad:
- *                         type: integer
- *                         example: 28
  *                       sexo:
  *                         type: string
- *                         example: Femenino
+ *                         example: "M"
+ *                       cantidad:
+ *                         type: integer
+ *                         example: 120
  *       400:
- *         description: Parámetro idSexoPersona no proporcionado.
- *       404:
- *         description: No se encontraron personas para el sexo especificado.
+ *         description: Falta el código de sexo
  *       500:
- *         description: Error interno al obtener el resumen de personas por sexo.
+ *         description: Error interno al obtener el resumen de personas por sexo
  */
-router.get('/resumen/sexo/:idSexoPersona', personasController.getResumenPersonasPorSexo);
+router.get('/resumen/sexo/:personaSexo', personasController.getResumenPersonasPorSexo);
 
 /**
  * @swagger

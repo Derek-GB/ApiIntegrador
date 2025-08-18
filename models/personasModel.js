@@ -89,9 +89,9 @@ class PersonasModel {
         return results[0] || [];
     }
 
-    async getResumenPersonasPorSexo(idSexoPersona) {
+    async getResumenPersonasPorSexo(personaSexo) {
         try {
-            const [results] = await db.query('CALL pa_ResumenPersonasPorSexo(?);', [idSexoPersona]);
+            const [results] = await db.query('CALL pa_ResumenPersonasPorSexo(?,?);', [personaSexo.idALbergue, personaSexo.sexo]);
             return results;
         } catch (error) {
             console.error("Error en getResumenPersonasPorSexo: ", error);

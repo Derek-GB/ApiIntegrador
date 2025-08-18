@@ -66,6 +66,18 @@ class productoService {
             handleError("postProducto", error);
         }
     }
+    async putProducto(producto) {
+            if (!producto) {
+                handleError("putProducto", new Error("No se recibió un producto", 400));
+            }
+            confirmarObligatorios(producto, ["id, descripcion, categoria, unidad de medida"], "putProducto");
+            try {
+                const result = await productoModel.putProducto(producto);
+                return result;
+            } catch (error) {
+                handleError("putProducto", error);
+            }
+        }
 
     async deleteProducto(id) {
         if (!id) {

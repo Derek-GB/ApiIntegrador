@@ -51,6 +51,15 @@ class productoModel {
         }
     }
 
+    async putProducto(producto) {
+    try {
+      return await db.query('CALL pa_UpdateProducto(?,?,?,?);', [producto.id, producto.descripcion, producto.categoria, producto.unidadMedida]);
+    } catch (error) {
+      console.error("Error en putProducto: ", error);
+      throw error;
+    }
+  }
+
     async getAllProductoPorUsuario(idUsuario) {
         try {
             return await db.query('CALL pa_SelectAllProductosPorUsuario(?);', [idUsuario])

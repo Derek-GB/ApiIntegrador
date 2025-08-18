@@ -84,33 +84,6 @@ const postProducto = async (req, res) => {
     }
 }
 
-const putProducto = (req = request, res = response) => {
-    const { id, descripcion, cantidad } = req.body;
-    if (typeof id !== 'number' || typeof descripcion !== 'string' || typeof cantidad !== 'number') {
-        return res.status(400).json({
-            success: false,
-            message: 'Datos inválidos o faltantes: se requieren id (number), descripcion (string) y cantidad (number)'
-        });
-    }
-    pool.query('CALL pa_UpdateProducto(?, ?, ?)', [id, descripcion, cantidad], (error, results) => {
-        if (error) {
-            console.error('Error al actualizar producto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Error al actualizar producto'
-            });
-        }
-        res.status(200).json({
-            success: true,
-            message: 'Producto actualizado correctamente',
-            data: {
-                id,
-                descripcion,
-                cantidad
-            }
-        });
-    });
-}
 
 const deleteProducto = async (req = request, res = response) => {
     const { id } = req.params;
@@ -162,6 +135,25 @@ const getForProductoFamilia = async (req = request, res = response) => {
       message: "Error al obtener producto de familia",
       error: error.message,
     });
+  }
+};
+
+const putProducto = async (req = request, res = response) => {
+  if (!req.body) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        error: "Se esperaba el parametro id en la query",
+      });
+  }
+  try {
+    const { id, descripcion, categoria, unidadMedida } = req.body;
+    const data = await productoService.putProducto({ id, descripcion, categoria, unidadMedida });
+    res.status(200).json({ success: true, message: "Todo salio bien" });
+  } catch (error) {
+    console.log("Error en putProducto; " + error.message, error);
+    res.status(500).json({ success: false, message: "Error al actualizar producto: " + error.message });
   }
 };
 

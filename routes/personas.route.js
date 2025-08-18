@@ -363,19 +363,26 @@ router.get('/resumen/porAlbergue/:nombreAlbergue', personasController.getResumen
 
 /**
  * @swagger
- * /api/personas/resumen/sexo/{personaSexo}:
+ * /api/personas/resumen/sexo:
  *   get:
  *     tags:
- *       - Personas
+ *       - Resumenes
  *     summary: Obtener resumen de personas por sexo
- *     description: Devuelve un resumen de personas agrupadas por sexo según el código enviado.
+ *     description: Devuelve un resumen de personas en un albergue agrupadas por sexo.
  *     parameters:
- *       - in: path
- *         name: personaSexo
+ *       - in: query
+ *         name: idAlbergue
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del albergue
+ *       - in: query
+ *         name: sexo
  *         required: true
  *         schema:
  *           type: string
- *         description: Código de sexo (por ejemplo "M" para masculino, "F" para femenino).
+ *           example: "M"
+ *         description: Código de sexo ("M" para masculino, "F" para femenino)
  *     responses:
  *       200:
  *         description: Resumen de personas por sexo obtenido correctamente
@@ -399,11 +406,11 @@ router.get('/resumen/porAlbergue/:nombreAlbergue', personasController.getResumen
  *                         type: integer
  *                         example: 120
  *       400:
- *         description: Falta el código de sexo
+ *         description: Faltan parámetros obligatorios (idAlbergue o sexo)
  *       500:
- *         description: Error interno al obtener el resumen de personas por sexo
+ *         description: Error interno al obtener el resumen
  */
-router.get('/resumen/sexo/:personaSexo', personasController.getResumenPersonasPorSexo);
+router.get('/resumen/sexo', personasController.getResumenPersonasPorSexo);
 
 /**
  * @swagger

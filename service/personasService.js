@@ -94,18 +94,18 @@ class PersonasService {
 
         const postPersona = async (persona, indice, firma = null) => {
             const camposObligatorios = [
-                'idFamilia','nombre', 'primerApellido', 'segundoApellido',
+                'idFamilia', 'nombre', 'primerApellido', 'segundoApellido',
                 'tipoIdentificacion', 'numeroIdentificacion', 'nacionalidad',
-                'parentesco', 'fechaNacimiento','genero', 'sexo', 'telefono', 
+                'parentesco', 'fechaNacimiento', 'genero', 'sexo', 'telefono',
                 'estaACargoMenor', 'idUsuarioCreacion'
             ];
-            const booleanosObligatorios = ['tieneCondicionSalud','discapacidad'];
+            const booleanosObligatorios = ['tieneCondicionSalud', 'discapacidad'];
             if (persona.firma) {
                 persona.firma = null;
                 console.warn("Alguien intentó usar mal firma");
             }
             confirmarObligatorios(persona, indice, camposObligatorios);
-            confirmarBooleans(persona,indice,booleanosObligatorios);
+            confirmarBooleans(persona, indice, booleanosObligatorios);
             if (persona.esJefeFamilia === undefined || persona.esJefeFamilia === null) handleError("postPersonas", new Error(`Falta el campo obligatorio 'esJefeFamilia' en la persona #${indice}`), 400);
             if (persona.esJefeFamilia) {
                 if (firma.existe !== true) console.warn("Esto no deberia pasar en la linea 100 de postPersonas");
@@ -149,50 +149,54 @@ class PersonasService {
     }
 
     async getResumenPersonasPorAlbergue(nombreAlbergue = null) {
-            if (!nombreAlbergue) {
-                handleError("getResumenPersonasPorAlbergue", new Error("Falta el codigo de albergue"), 400);
-            }
-            try {
-                const result = await personasModel.getResumenPersonasPorAlbergue(nombreAlbergue);
-                return result;
-            } catch (error) {
-                handleError("getResumenPersonasPorAlbergue", error);
-            }
+        if (!nombreAlbergue) {
+            handleError("getResumenPersonasPorAlbergue", new Error("Falta el codigo de albergue"), 400);
         }
-    async getResumenPersonasPorSexo(personaSexo) {
-            if (personaSexo) {
-                handleError("getResumenPersonasPorSexo", new Error("Falta el codigo de sexo"), 400);
-            }
-            try {
-                const result = await personasModel.getResumenPersonasPorSexo(personaSexo);
-                return result;
-            } catch (error) {
-                handleError("getResumenPersonasPorSexo", error);
-            }
+        try {
+            const result = await personasModel.getResumenPersonasPorAlbergue(nombreAlbergue);
+            return result;
+        } catch (error) {
+            handleError("getResumenPersonasPorAlbergue", error);
         }
-        
+    }
+    async getResumenPersonasPorSexo(idAlbergue, sexo) {
+        if (!idAlbergue || !sexo) {
+            handleError(
+                "getResumenPersonasPorSexo",
+                new Error("Faltan parámetros idAlbergue o sexo"),
+                400
+            );
+        }
+
+        try {
+            return await personasModel.getResumenPersonasPorSexo(idAlbergue, sexo);
+        } catch (error) {
+            handleError("getResumenPersonasPorSexo", error);
+        }
+    }
+
     async getResumenPersonasPorEdad(idEdadPersona = null) {
-            if (!idEdadPersona) {
-                handleError("getResumenPersonasPorEdad", new Error("Falta el codigo de edad"), 400);
-            }
-            try {
-                const result = await personasModel.getResumenPersonasPorEdad(idEdadPersona);
-                return result;
-            } catch (error) {
-                handleError("getResumenPersonasPorEdad", error);
-            }
+        if (!idEdadPersona) {
+            handleError("getResumenPersonasPorEdad", new Error("Falta el codigo de edad"), 400);
         }
+        try {
+            const result = await personasModel.getResumenPersonasPorEdad(idEdadPersona);
+            return result;
+        } catch (error) {
+            handleError("getResumenPersonasPorEdad", error);
+        }
+    }
     async getResumenDiscapacidad(idDiscapacidad = null) {
-            if (!idDiscapacidad) {
-                handleError("getResumenDiscapacidad", new Error("Falta el codigo de discapacidad"), 400);
-            }
-            try {
-                const result = await personasModel.getResumenDiscapacidad(idDiscapacidad);
-                return result;
-            } catch (error) {
-                handleError("getResumenDiscapacidad", error);
-            }
+        if (!idDiscapacidad) {
+            handleError("getResumenDiscapacidad", new Error("Falta el codigo de discapacidad"), 400);
         }
+        try {
+            const result = await personasModel.getResumenDiscapacidad(idDiscapacidad);
+            return result;
+        } catch (error) {
+            handleError("getResumenDiscapacidad", error);
+        }
+    }
 
 }
 

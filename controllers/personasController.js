@@ -162,32 +162,35 @@ const getResumenPersonasPorAlbergue = (req = request, res = response) => {
     });
 }
 
-const getResumenPersonasPorSexo = (req = request, res = response) => {
-  if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro sexo en la query" });
-  }
-  const { sexo } = req.params;
-  personasService.getResumenPersonasPorSexo(sexo)
-    .then((data) => {
-      if (data.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No se encontraron personas para el sexo especificado.",
-        });
-      }
-      res.status(200).json({
-        success: true,
-        data: data,
-      });
-    })
-    .catch((error) => {
-      console.error("Error al obtener sexo por persona:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener sexo por persona; " + error.message,
-      });
+const getResumenPersonasPorSexo = async (req = request, res = response) => {
+  const { idAlbergue, sexo } = req.query; // o req.params, según cómo lo definas en la ruta
+
+  if (!idAlbergue || !sexo) {
+    return res.status(400).json({
+      success: false,
+      error: "Se esperaban los parámetros idAlbergue y sexo en la query",
     });
-}
+  }
+
+  try {
+    const data = await personasService.getResumenPersonasPorSexo(idAlbergue, sexo);
+
+    if (data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron personas para el sexo especificado.",
+      });
+    }
+
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error("Error al obtener resumen por sexo:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener resumen por sexo: " + error.message,
+    });
+  }
+};
 
 const getResumenPersonasPorEdad = (req = request, res = response) => {
   if (!req.params) {

@@ -58,17 +58,21 @@ class condicionEspecialService {
         }
     }
 
-    async getResumenCondicionesEspeciales(idCondicion = null) {
-                if (!idCondicion) {
-                    handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de condicion"), 400);
-                }
-                try {
-                    const result = await condicionEspecialModel.getResumenCondicionesEspeciales(idCondicion);
-                    return result;
-                } catch (error) {
-                    handleError("getResumenCondicionesEspeciales", error);
-                }
+    async getResumenCondicionesEspeciales(idAlbergue) {
+            if (!idAlbergue) {
+                handleError(
+                    "getResumenCondicionesEspeciales",
+                    new Error("Faltan parámetros idAlbergue"),
+                    400
+                );
             }
+    
+            try {
+                return await condicionEspecialModel.getResumenCondicionesEspeciales(idAlbergue);
+            } catch (error) {
+                handleError("getResumenCondicionesEspeciales", error);
+            }
+        }
 
 }
 module.exports = new condicionEspecialService();

@@ -26,62 +26,7 @@ const condicionEspecialController = require('../controllers/condicionEspecialCon
  */
 router.get('/id/:id', condicionEspecialController.getCondicionEspecial);
 
-/**
- * @swagger
- * /api/personas/resumen/condicion/{idCondicion}:
- *   get:
- *     tags:
- *       - Resumenes
- *     summary: Obtener resumen de personas por condición especial
- *     description: Devuelve un resumen de las personas que presentan una condición especial según el ID especificado.
- *     parameters:
- *       - in: path
- *         name: idCondicion
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID de la condición especial a consultar.
- *         example: 3
- *     responses:
- *       200:
- *         description: Resumen de personas con la condición especial obtenida exitosamente.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       idPersona:
- *                         type: integer
- *                         example: 21
- *                       nombre:
- *                         type: string
- *                         example: María López
- *                       condicionEspecial:
- *                         type: string
- *                         example: Embarazo
- *                       edad:
- *                         type: integer
- *                         example: 29
- *                       sexo:
- *                         type: string
- *                         example: Femenino
- *       400:
- *         description: Parámetro idCondicion no proporcionado.
- *       404:
- *         description: No se encontraron personas con la condición especial especificada.
- *       500:
- *         description: Error interno al obtener el resumen de personas por condición especial.
- */
 
-router.get('/resumen/condicion/:idCondicion', condicionEspecialController.getResumenCondicionesEspeciales);
 
 /**
  * @swagger
@@ -210,5 +155,69 @@ router.post('/', condicionEspecialController.postCondicionEspecial);
  *         description: Error al eliminar (Contactar equipo de API)
  */
 router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
+
+/**
+ * @swagger
+ * /api/personas/resumen/condiciones:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de condiciones especiales por albergue
+ *     description: Devuelve un resumen de las condiciones especiales de las personas en un albergue específico.
+ *     parameters:
+ *       - in: query
+ *         name: idAlbergue
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del albergue del cual se desea obtener el resumen
+ *     responses:
+ *       200:
+ *         description: Resumen de condiciones especiales obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     example:
+ *                       condicion: "Discapacidad"
+ *                       cantidad: 12
+ *       400:
+ *         description: Parámetros faltantes en la query
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: false
+ *                 error: "Se esperaban los parámetros idAlbergue en la query"
+ *       404:
+ *         description: No se encontraron registros para el albergue dado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: false
+ *                 message: "No se encontraron personas para el sexo especificado."
+ *       500:
+ *         description: Error en el servidor al obtener el resumen
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: false
+ *                 error: "Error al obtener resumen por albergue: <mensaje>"
+ */
+router.get('/resumen/condiciones', condicionEspecialController.getResumenCondicionesEspeciales);
+
 
 module.exports = router;

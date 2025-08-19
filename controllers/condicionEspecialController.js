@@ -106,32 +106,35 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
   }
 };
 
-const getResumenCondicionesEspeciales = (req = request, res = response) => {
-  if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro idCondicion en la query" });
-  }
-  const { idCondicion } = req.params;
-  condicionEspecialService.getResumenCondicionesEspeciales(idCondicion)
-    .then((data) => {
-      if (data.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No se encontraron personas con la condicion especificada.",
-        });
-      }
-      res.status(200).json({
-        success: true,
-        data: data,
-      });
-    })
-    .catch((error) => {
-      console.error("Error al obtener condicion por persona:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Error al obtener condicion por persona; " + error.message,
-      });
+const getResumenCondicionesEspeciales = async (req = request, res = response) => {
+  const { idAlbergue } = req.query;
+
+  if (!idAlbergue) {
+    return res.status(400).json({
+      success: false,
+      error: "Se esperaban los parámetros idAlbergue en la query",
     });
-}
+  }
+
+  try {
+    const data = await condicionEspecialService.getResumenCondicionesEspeciales(idAlbergue);
+
+    if (data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No se encontraron personas para el sexo especificado.",
+      });
+    }
+
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error("Error al obtener resumen por albergue:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener resumen por albergue: " + error.message,
+    });
+  }
+};
 
 module.exports = {
   getAllCondicionesEspeciales,

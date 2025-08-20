@@ -142,6 +142,33 @@ const deleteAmenaza = async (req = request, res = response) => {
   }
 };
 
+const getSelectAmenazaPorPeligro = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro peligro en la query" });
+  }
+  const { peligro } = req.params;
+  amenazasService.getSelectAmenazaPorPeligro(peligro)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron amenazas coon el peligro especificado.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener amenaza por peligro:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener amenaza por peligro; " + error.message,
+      });
+    });
+}
+
 
 module.exports = {
   getAllAmenazas,
@@ -149,4 +176,5 @@ module.exports = {
   postAmenaza,
   putAmenaza,
   deleteAmenaza,
+  getSelectAmenazaPorPeligro,
 };

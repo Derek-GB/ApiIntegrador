@@ -158,7 +158,7 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
 
 /**
  * @swagger
- * /api/personas/resumen/condiciones:
+ * /api/condicionesEspeciales/resumen/condiciones:
  *   get:
  *     tags:
  *       - Resumenes

@@ -249,6 +249,34 @@ const getResumenDiscapacidad = (req = request, res = response) => {
     });
 }
 
+
+const getSelectRecursosPorPersona = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idPersona en la query" });
+  }
+  const { idPersona } = req.params;
+  personasService.getSelectRecursosPorPersona(idPersona)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraro no encontraron recursos con la persona especificada.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener recurso por persona:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener recurso por persona; " + error.message,
+      });
+    });
+}
+
 module.exports = {
   getAllPersonas,
   getPersona,
@@ -258,5 +286,6 @@ module.exports = {
   getResumenPersonasPorAlbergue,
   getAllPersonasByUsuario,
   getResumenPersonasPorSexo,
-  getResumenPersonasPorEdad
+  getResumenPersonasPorEdad,
+  getSelectRecursosPorPersona
 };

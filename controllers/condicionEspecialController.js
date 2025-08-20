@@ -119,10 +119,10 @@ const getResumenCondicionesEspeciales = async (req = request, res = response) =>
   try {
     const data = await condicionEspecialService.getResumenCondicionesEspeciales(idAlbergue);
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No se encontraron personas para el sexo especificado.",
+        message: "No se encontraron personas con condiciones especiales en este albergue.",
       });
     }
 

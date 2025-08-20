@@ -127,5 +127,15 @@ class PersonasModel {
         }
     }
 
+    async getSelectRecursosPorPersona(idPersona) {
+        try {
+            const [results] = await db.query('CALL pa_SelectRecursosPorPersona(?);', [idPersona]);
+            return results;
+        } catch (error) {
+            console.error("Error en getSelectRecursosPorPersona: ", error);
+            throw error;
+        }
+    }
+
 }
 module.exports = new PersonasModel();

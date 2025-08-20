@@ -470,4 +470,47 @@ router.get('/resumen/sexo', personasController.getResumenPersonasPorSexo);
  */
 router.get('/resumen/edad', personasController.getResumenPersonasPorEdad);
 
+/**
+ * @swagger
+ * /api/personas/recursos/{idPersona}:
+ *   get:
+ *     tags:
+ *       - Personas
+ *     summary: Obtener recursos por persona
+ *     description: Devuelve una lista de recursos asociados a la persona especificada.
+ *     parameters:
+ *       - in: path
+ *         name: idPersona
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la persona
+ *     responses:
+ *       200:
+ *         description: Lista de recursos encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     example:
+ *                       idRecurso: 12
+ *                       nombre: "Colchoneta"
+ *                       cantidad: 3
+ *       400:
+ *         description: No se envió el parámetro idPersona
+ *       404:
+ *         description: No se encontraron recursos con la persona especificada
+ *       500:
+ *         description: Error interno al obtener los recursos
+ */
+router.get('/recursos/:idPersona', personasController.getSelectRecursosPorPersona);
+
 module.exports = router;

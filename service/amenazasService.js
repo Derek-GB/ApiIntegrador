@@ -1,4 +1,9 @@
 const amenazasModel = require('../models/amenazasModel');
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en PersonasService. " + lugar + ": ", error.message);
+    throw error;
+}
 
 class amenazasService {
     async getAllAmenazas() {
@@ -56,6 +61,18 @@ class amenazasService {
             throw error;
         }
     }
+
+    async getSelectAmenazaPorPeligro(peligro = null) {
+            if (!peligro) {
+                handleError("getSelectAmenazaPorPeligro", new Error("Falta el codigo de peligro"), 400);
+            }
+            try {
+                const result = await amenazasModel.getSelectAmenazaPorPeligro(peligro);
+                return result;
+            } catch (error) {
+                handleError("getSelectAmenazaPorPeligro", error);
+            }
+        }
 
 
 }

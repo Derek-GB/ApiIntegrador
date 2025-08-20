@@ -15,6 +15,15 @@ const confirmarObligatorios = (objeto, obligatorios, lugar) => {
     }
 }
 
+const confirmarActualizables = (objeto, actualizables, lugar) => {
+    if (typeof objeto !== 'object' || objeto == null || !Array.isArray(actualizables)) throw new Error("No se pero si esto pasó algo esta muy mal.");
+    for (const campo of actualizables) {
+        if (objeto[campo] === undefined) {
+            handleError(lugar, new Error(`Falta el campo actualizable '${campo}'`), 400);
+        }
+    }
+}
+
 const confirmarOpcionales = (objeto, opcionales) => {
     if (typeof objeto !== 'object' || objeto == null || !Array.isArray(opcionales)) throw new Error("No se pero si esto pasó algo esta muy mal.");
     for (const campo of opcionales) {
@@ -184,7 +193,7 @@ class albergueService {
             handleError("putAlbergue", new Error("No se recibió un albergue", 400));
         }
 
-        confirmarObligatorios(albergue, [
+        confirmarActualizables(albergue, [
             "id",
             "idAlbergue",
             "nombre",

@@ -59,20 +59,19 @@ class condicionEspecialService {
     }
 
     async getResumenCondicionesEspeciales(idAlbergue) {
-            if (!idAlbergue) {
-                handleError(
-                    "getResumenCondicionesEspeciales",
-                    new Error("Faltan parámetros idAlbergue"),
-                    400
-                );
-            }
-    
-            try {
-                return await condicionEspecialModel.getResumenCondicionesEspeciales(idAlbergue);
-            } catch (error) {
-                handleError("getResumenCondicionesEspeciales", error);
-            }
+        if (!idAlbergue) {
+            const error = new Error("Faltan parámetros idAlbergue");
+            error.statusCode = 400;
+            throw error;
         }
+
+        try {
+            return await condicionEspecialModel.getResumenCondicionesEspeciales(idAlbergue);
+        } catch (error) {
+            console.error("Error en servicio getResumenCondicionesEspeciales:", error);
+            throw error;
+        }
+    }
 
 }
 module.exports = new condicionEspecialService();

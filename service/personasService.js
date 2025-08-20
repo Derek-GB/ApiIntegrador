@@ -206,7 +206,7 @@ class PersonasService {
                 handleError("getSelectRecursosPorPersona", new Error("Falta el codigo de idPersona"), 400);
             }
             try {
-                const result = await personasModel.getSelectRecursosPorPersona(peligro);
+                const result = await personasModel.getSelectRecursosPorPersona(idPersona);
                 return result;
             } catch (error) {
                 handleError("getSelectRecursosPorPersona", error);

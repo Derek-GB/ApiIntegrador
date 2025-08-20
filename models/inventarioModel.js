@@ -46,7 +46,7 @@ class inventarioModel {
     async getResumenSuministros(idSuministros) {
         try {
             const [results] = await db.query(
-                "CALL pa_ResumenPersonasPorEdad(?);",
+                "CALL pa_ResumenSuministros(?);",
                 [idSuministros]
             );
             return results;

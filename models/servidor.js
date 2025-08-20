@@ -52,6 +52,8 @@ class servidor {
           "X-CSRF-Token",
           "X-Client-Version",
           "X-User-ID",
+          "Cache-Control",
+          "Pragma"
         ],
         credentials: true
       })

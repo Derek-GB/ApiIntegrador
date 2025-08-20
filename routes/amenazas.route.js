@@ -173,4 +173,47 @@ router.post('/', amenazasController.postAmenaza);
  */
 router.delete('/id/:id', amenazasController.deleteAmenaza);
 
+/**
+ * @swagger
+ * /api/amenazas/peligro/{peligro}:
+ *   get:
+ *     tags:
+ *       - Amenazas
+ *     summary: Obtener amenazas por tipo de peligro
+ *     description: Devuelve una lista de amenazas asociadas a un peligro específico.
+ *     parameters:
+ *       - in: path
+ *         name: peligro
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nombre o identificador del peligro
+ *     responses:
+ *       200:
+ *         description: Lista de amenazas encontradas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     example:
+ *                       idAmenaza: 1
+ *                       nombre: "Inundación"
+ *                       descripcion: "Amenaza provocada por lluvias intensas"
+ *       400:
+ *         description: No se envió el parámetro peligro
+ *       404:
+ *         description: No se encontraron amenazas con el peligro especificado
+ *       500:
+ *         description: Error interno al obtener las amenazas
+ */
+router.get('/peligro/:peligro', amenazasController.getSelectAmenazaPorPeligro);
+
 module.exports = router;

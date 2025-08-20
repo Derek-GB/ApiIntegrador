@@ -68,6 +68,16 @@ class amanezasModel {
         }
     }
 
+    async getSelectAmenazaPorPeligro(peligro) {
+        try {
+            const [results] = await db.query('CALL pa_SelectAmenazaPorPeligro(?);', [peligro]);
+            return results;
+        } catch (error) {
+            console.error("Error en getSelectAmenazaPorPeligro: ", error);
+            throw error;
+        }
+    }
+
 
 
 

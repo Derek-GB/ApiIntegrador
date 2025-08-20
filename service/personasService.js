@@ -201,6 +201,18 @@ class PersonasService {
         }
     }
 
+    async getSelectRecursosPorPersona(idPersona = null) {
+            if (!idPersona) {
+                handleError("getSelectRecursosPorPersona", new Error("Falta el codigo de idPersona"), 400);
+            }
+            try {
+                const result = await personasModel.getSelectRecursosPorPersona(peligro);
+                return result;
+            } catch (error) {
+                handleError("getSelectRecursosPorPersona", error);
+            }
+        }
+
 }
 
 module.exports = new PersonasService();

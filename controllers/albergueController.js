@@ -313,14 +313,6 @@ const putAlbergue = async (req = request, res = response) => {
   try {
     const { id } = req.params;
     const {
-      idAlbergue,
-      nombre,
-      region,
-      coordenadaX,
-      coordenadaY,
-      idUbicacion,
-      tipoEstablecimiento,
-      tipoAlbergue,
       condicionAlbergue,
       especificacion,
       detalleCondicion,
@@ -331,21 +323,11 @@ const putAlbergue = async (req = request, res = response) => {
       requerimientosTecnicos,
       costoRequerimientosTecnicos,
       idInfraestructura,
-      idMunicipalidad,
       color,
-      idPedidoAbarrote,
-      idUsuarioModificacion
+      idUsuarioModificacion,
     } = req.body;
     const data = await albergueService.putAlbergue({
       id,
-      idAlbergue,
-      nombre,
-      region,
-      coordenadaX,
-      coordenadaY,
-      idUbicacion,
-      tipoEstablecimiento,
-      tipoAlbergue,
       condicionAlbergue,
       especificacion,
       detalleCondicion,
@@ -356,10 +338,8 @@ const putAlbergue = async (req = request, res = response) => {
       requerimientosTecnicos,
       costoRequerimientosTecnicos,
       idInfraestructura,
-      idMunicipalidad,
       color,
-      idPedidoAbarrote,
-      idUsuarioModificacion
+      idUsuarioModificacion,
     });
     res.status(200).json({
       success: true,

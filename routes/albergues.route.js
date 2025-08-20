@@ -179,21 +179,45 @@ router.post('/', albergueController.postAlbergue);
  *             type: object
  *             required:
  *               - id
- *               - codigoProducto
- *               - nombre
- *               - descripcion
- *               - cantidad
+ *               - condicionAlbergue
+ *               - especificacion
+ *               - detalleCondicion
+ *               - administrador
+ *               - telefono
+ *               - idCapacidad
+ *               - seccion
+ *               - requerimientosTecnicos
+ *               - costoRequerimientosTecnicos
+ *               - idInfraestructura
+ *               - color
+ *               - idUsuarioModificacion
  *             properties:
  *               id:
  *                 type: integer
- *               codigoProducto:
+ *               condicionAlbergue:
  *                 type: string
- *               nombre:
+ *               especificacion:
  *                 type: string
- *               descripcion:
+ *               detalleCondicion:
  *                 type: string
- *               cantidad:
+ *               administrador:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *               idCapacidad:
+ *                 type: integer
+ *               seccion:
+ *                 type: string
+ *               requerimientosTecnicos:
+ *                 type: string
+ *               costoRequerimientosTecnicos:
  *                 type: number
+ *               idInfraestructura:
+ *                 type: integer
+ *               color:
+ *                 type: string
+ *               idUsuarioModificacion:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Albergue actualizado correctamente

@@ -169,16 +169,10 @@ class albergueModel {
 
   async putAlbergue(albergue) {
     try {
-        return await db.query('CALL pa_UpdateAlbergue(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);', [
+        return await db.query(
+          "CALL pa_UpdateAlbergue(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+          [
             albergue.id,
-            albergue.idAlbergue,
-            albergue.nombre,
-            albergue.region,
-            albergue.coordenadaX,
-            albergue.coordenadaY,
-            albergue.idUbicacion,
-            albergue.tipoEstablecimiento,
-            albergue.tipoAlbergue,
             albergue.condicionAlbergue,
             albergue.especificacion,
             albergue.detalleCondicion,
@@ -189,11 +183,10 @@ class albergueModel {
             albergue.requerimientosTecnicos,
             albergue.costoRequerimientosTecnicos,
             albergue.idInfraestructura,
-            albergue.idMunicipalidad,
             albergue.color,
-            albergue.idPedidoAbarrote,
-            albergue.idUsuarioModificacion
-        ]);
+            albergue.idUsuarioModificacion,
+          ]
+        );
     } catch (error) {
         console.error("Error en putAlbergue: ", error);
         throw error;

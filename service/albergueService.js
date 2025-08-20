@@ -193,16 +193,10 @@ class albergueService {
             handleError("putAlbergue", new Error("No se recibió un albergue", 400));
         }
 
-        confirmarActualizables(albergue, [
+        confirmarActualizables(
+          albergue,
+          [
             "id",
-            "idAlbergue",
-            "nombre",
-            "region",
-            "coordenadaX",
-            "coordenadaY",
-            "idUbicacion",
-            "tipoEstablecimiento",
-            "tipoAlbergue",
             "condicionAlbergue",
             "especificacion",
             "detalleCondicion",
@@ -213,11 +207,11 @@ class albergueService {
             "requerimientosTecnicos",
             "costoRequerimientosTecnicos",
             "idInfraestructura",
-            "idMunicipalidad",
             "color",
-            "idPedidoAbarrote",
             "idUsuarioModificacion"
-        ], "putAlbergue");
+          ],
+          "putAlbergue"
+        );
 
         try {
             const result = await albergueModel.putAlbergue(albergue);

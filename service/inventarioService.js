@@ -57,16 +57,19 @@ class inventarioService {
         }
     }
 
-    async getResumenSuministros(idSuministros = null) {
-            if (!idSuministros) {
-                handleError("getResumenSuministros", new Error("Falta el codigo de suministro"), 400);
+        async getResumenSuministros(idSuministros) {
+                if (!idSuministros ) {
+                    handleError(
+                        "getResumenSuministros",
+                        new Error("Faltan parámetros idSuministros"),
+                        400
+                    );
+                }
+                try {
+                    return await inventarioModel.getResumenSuministros(idSuministros);
+                } catch (error) {
+                    handleError("getResumenSuministros", error);
+                }
             }
-            try {
-                const result = await inventarioModel.getResumenSuministros(idSuministros);
-                return result;
-            } catch (error) {
-                handleError("getResumenSuministros", error);
-            }
-        }
 }
 module.exports = new inventarioService();

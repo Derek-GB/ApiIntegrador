@@ -44,14 +44,14 @@ router.get('/id/:id', inventarioController.getInventario);
 
 /**
  * @swagger
- * /api/inventario/resumen/suministros/{idSuministros}:
+ * /api/inventario/resumen/suministros:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de suministros
- *     description: Devuelve un resumen de los suministros según el ID especificado.
+ *     description: Devuelve un resumen de los suministros según el ID especificado en la query.
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: idSuministros
  *         required: true
  *         schema:
@@ -87,13 +87,13 @@ router.get('/id/:id', inventarioController.getInventario);
  *                         type: string
  *                         example: litros
  *       400:
- *         description: Parámetro idSuministros no proporcionado.
+ *         description: Parámetro idSuministros no proporcionado en la query.
  *       404:
  *         description: No se encontraron suministros para el ID especificado.
  *       500:
  *         description: Error interno al obtener el resumen de suministros.
  */
-router.get('/resumen/suministros/:idSuministros', inventarioController.getResumenSuministros);
+router.get('/resumen/suministros', inventarioController.getResumenSuministros);
 
 /**
  * @swagger

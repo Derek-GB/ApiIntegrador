@@ -2,19 +2,19 @@ const DbService = require('../MySQL/dbConfig')
 const db = DbService.getDbServiceInstance();
 class inventarioModel {
 
-    async getAllInventario(){
+    async getAllInventario() {
         try {
             return await db.query('CALL pa_SelectAllInventario();')
-        }catch(error){
+        } catch (error) {
             console.error("Error en getAllInventario: ", error);
             throw error;
         }
     }
 
-    async getInventario(id){
+    async getInventario(id) {
         try {
             return await db.query('CALL pa_SelectInventario(?);', [id])
-        }catch(error){
+        } catch (error) {
             console.error("Error en getInventario: ", error);
             throw error;
         }
@@ -23,7 +23,7 @@ class inventarioModel {
     async postInventario(inventario) {
         const { idAlbergue, fecha, articulo, cantidad, estado, comentario } = inventario
         try {
-            return await db.query('CALL pa_InsertInventario(?, ?, ?, ?, ?, ?);', 
+            return await db.query('CALL pa_InsertInventario(?, ?, ?, ?, ?, ?);',
                 [idAlbergue, fecha, articulo, cantidad, estado, comentario])
         } catch (error) {
             console.error("Error en postInventario: ", error);
@@ -41,10 +41,16 @@ class inventarioModel {
         }
     }
 
+
+
     async getResumenSuministros(idSuministros) {
         try {
-            return await db.query('CALL pa_ResumenSuministros(?);', [idSuministros])
-        }catch(error){
+            const [results] = await db.query(
+                "CALL pa_ResumenPersonasPorEdad(?);",
+                [idSuministros]
+            );
+            return results;
+        } catch (error) {
             console.error("Error en getResumenSuministros: ", error);
             throw error;
         }

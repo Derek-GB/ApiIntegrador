@@ -93,7 +93,8 @@ class AuthController {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            path: '/'
+            path: '/',
+            domain: 'api.integrador.dev'
         });
 
         res.status(200).json({

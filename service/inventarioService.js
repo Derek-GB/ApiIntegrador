@@ -1,4 +1,9 @@
 const inventarioModel = require('../models/inventarioModel.js');
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en PersonasService. " + lugar + ": ", error.message);
+    throw error;
+}
 
 class inventarioService {
     async getAllInventario() {

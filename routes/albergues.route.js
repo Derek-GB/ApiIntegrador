@@ -181,14 +181,18 @@ router.post('/', albergueController.postAlbergue);
  *               - id
  *               - condicionAlbergue
  *               - especificacion
+ *               - capacidadPersonas
+ *               - capacidadColectiva
+ *               - ocupacion
  *               - detalleCondicion
+ *               - cocina
+ *               - duchas
+ *               - serviciosSanitarios
+ *               - bodega
+ *               - menajeMobiliario
+ *               - tanqueAgua
  *               - administrador
  *               - telefono
- *               - idCapacidad
- *               - seccion
- *               - requerimientosTecnicos
- *               - costoRequerimientosTecnicos
- *               - idInfraestructura
  *               - color
  *               - idUsuarioModificacion
  *             properties:

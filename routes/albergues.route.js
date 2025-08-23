@@ -166,11 +166,18 @@ router.post('/', albergueController.postAlbergue);
 
 /**
  * @swagger
- * /api/albergues:
+ * /api/albergues/{id}:
  *   put:
  *     tags:
  *       - Albergues
  *     summary: Actualizar un albergue
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del albergue a actualizar
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -178,7 +185,6 @@ router.post('/', albergueController.postAlbergue);
  *           schema:
  *             type: object
  *             required:
- *               - id
  *               - condicionAlbergue
  *               - especificacion
  *               - capacidadPersonas

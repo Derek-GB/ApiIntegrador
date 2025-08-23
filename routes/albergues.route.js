@@ -206,22 +206,30 @@ router.post('/', albergueController.postAlbergue);
  *                 type: string
  *               especificacion:
  *                 type: string
+ *               capacidadPersonas:
+ *                 type: integer
+ *               capacidadColectiva:
+ *                 type: integer
+ *               ocupacion:
+ *                 type: integer
  *               detalleCondicion:
  *                 type: string
+ *               cocina:
+ *                 type: boolean
+ *               duchas:
+ *                 type: boolean
+ *               serviciosSanitarios:
+ *                 type: boolean
+ *               bodega:
+ *                 type: boolean
+ *               menajeMobiliario:
+ *                 type: boolean
+ *               tanqueAgua:
+ *                 type: boolean
  *               administrador:
  *                 type: string
  *               telefono:
  *                 type: string
- *               idCapacidad:
- *                 type: integer
- *               seccion:
- *                 type: string
- *               requerimientosTecnicos:
- *                 type: string
- *               costoRequerimientosTecnicos:
- *                 type: number
- *               idInfraestructura:
- *                 type: integer
  *               color:
  *                 type: string
  *               idUsuarioModificacion:

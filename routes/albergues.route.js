@@ -202,8 +202,6 @@ router.post('/', albergueController.postAlbergue);
  *               - color
  *               - idUsuarioModificacion
  *             properties:
- *               id:
- *                 type: integer
  *               condicionAlbergue:
  *                 type: string
  *               especificacion:

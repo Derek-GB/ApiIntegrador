@@ -1,7 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const rutaInterna = "uploads/firmas";
+const ruta = "/firmas";
+const rutaInterna = "uploads" + ruta;
 
 const prepararFirma = async (firma, identificacion) => {
   const ext = ".png";
@@ -14,7 +15,7 @@ const prepararFirma = async (firma, identificacion) => {
   await fs.mkdir(rutaInterna, { recursive: true }); // Asegura que exista la carpeta
   await fs.rename(origen, destino); // Mueve el archivo
 
-  firma.ruta = rutaInterna;
+  firma.ruta = ruta;
   firma.nombre = nombre;
 };
 

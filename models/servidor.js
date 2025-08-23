@@ -25,6 +25,11 @@ class servidor {
     this.app.use(path, authMiddleware, route); 
     });
     this.app.use(
+    "/firmas",
+    authMiddleware,
+    express.static(path.join(__dirname, "../uploads/firmas"))
+    );
+    this.app.use(
       "/api/documentacion",
       swagger.serve,
       swagger.setup
@@ -42,6 +47,7 @@ class servidor {
           "http://201.197.202.42",
           "https://front.integrador.dev",
           "http://192.168.0.10:80",
+          "http://192.168.192.11:80",
         ],
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: [

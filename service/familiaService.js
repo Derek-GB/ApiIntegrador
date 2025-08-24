@@ -124,19 +124,42 @@ class familiaService {
     }
 
     async generarIdentificador(canton = null) {
-        if (!canton) {
-            handleError("generarIdentificador", new Error("Falta el canton"), 400);
-        }
-        try {
-            const data = await familiaModel.getAllForCanton(canton);
-            const cantidadFamilias = data[0].length;
-            const nuevoNumero = cantidadFamilias + 1;
-            const identificador = `${String(nuevoNumero).padStart(3, '0')}`;
-            return identificador;
-        } catch (error) {
-            handleError("generarIdentificador", error);
-        }
+    if (!canton) {
+        handleError("generarIdentificador", new Error("Falta el canton"), 400);
+        return;
     }
+    try {
+        const data = await familiaModel.getAllForCanton(canton);
+        const familias = data[0];
+
+        if (familias === null || familias === undefined || !Array.isArray(familias)) {
+            throw new Error("No se encontraron familias");
+        }
+
+        if (familias.length === 0) {
+            return "001";
+        }
+
+        let max = 0;
+        for (const familia of familias) {
+            const codigo = familia.codigoFamilia; // ej: '2025-Guanacaste-Cañas-008'
+            if (codigo) {
+                const partes = codigo.split("-");
+                const numerico = parseInt(partes[partes.length - 1], 10);
+                if (!isNaN(numerico) && numerico > max) {
+                    max = numerico;
+                }
+            }
+        }
+
+        const numero = max + 1;
+        const identificador = String(numero).padStart(3, "0");
+
+        return identificador;
+    } catch (error) {
+        handleError("generarIdentificador", error);
+    }
+}
 
     async getObtenerReferenciasPorCodigoFamilia(codigoFamilia = null) {
         if (!codigoFamilia) {

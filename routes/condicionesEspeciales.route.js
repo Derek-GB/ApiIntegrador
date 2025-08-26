@@ -158,14 +158,14 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
 
 /**
  * @swagger
- * /api/condicionesEspeciales/resumen/condiciones:
+ * /api/condicionesEspeciales/resumen/condiciones/{idAlbergue}:
  *   get:
  *     tags:
  *       - Resumenes
  *     summary: Obtener resumen de condiciones especiales por albergue
  *     description: Devuelve un resumen de las condiciones especiales de las personas en un albergue específico.
  *     parameters:
- *       - in: query
+ *       - in: path
  *         name: idAlbergue
  *         schema:
  *           type: integer
@@ -186,18 +186,22 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
  *                   type: array
  *                   items:
  *                     type: object
- *                     example:
- *                       condicion: "Discapacidad"
- *                       cantidad: 12
+ *                     properties:
+ *                       condicion:
+ *                         type: string
+ *                         example: "Discapacidad"
+ *                       cantidad:
+ *                         type: integer
+ *                         example: 12
  *       400:
- *         description: Parámetros faltantes en la query
+ *         description: Parámetros faltantes en la ruta
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               example:
  *                 success: false
- *                 error: "Se esperaban los parámetros idAlbergue en la query"
+ *                 error: "Se esperaba el parámetro idAlbergue en la URL"
  *       404:
  *         description: No se encontraron registros para el albergue dado
  *         content:
@@ -206,7 +210,7 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
  *               type: object
  *               example:
  *                 success: false
- *                 message: "No se encontraron personas para el sexo especificado."
+ *                 message: "No se encontraron las condiciones especiales especificadas."
  *       500:
  *         description: Error en el servidor al obtener el resumen
  *         content:
@@ -215,9 +219,9 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
  *               type: object
  *               example:
  *                 success: false
- *                 error: "Error al obtener resumen por albergue: <mensaje>"
+ *                 error: "Error al obtener condiciones especiales; <mensaje>"
  */
-router.get('/resumen/condiciones', condicionEspecialController.getResumenCondicionesEspeciales);
+router.get('/resumen/condiciones/:idAlbergue', condicionEspecialController.getResumenCondicionesEspeciales);
 
 
 module.exports = router;

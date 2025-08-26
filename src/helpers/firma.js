@@ -19,5 +19,17 @@ const prepararFirma = async (firma, identificacion) => {
   firma.nombre = nombre;
 };
 
+const eliminarTemporal = async (firma) => {
+  try {
+    const archivo = path.join(firma.ruta, firma.nombre); // ruta temporal
 
-module.exports = { prepararFirma };
+    await fs.unlink(archivo);
+    console.log(`Archivo temporal eliminado: ${archivo}`);
+  } catch (error) {
+    if (error.code !== "ENOENT") { // ignoramos si no existe
+      console.error("Error al eliminar archivo temporal:", error);
+    }
+  }
+};
+
+module.exports = { prepararFirma, eliminarTemporal };

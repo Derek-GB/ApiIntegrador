@@ -108,21 +108,26 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
 
 
 const getResumenCondicionesEspeciales = (req = request, res = response) => {
-  if (!req.params) {
-    return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });
+  if (!req.query.idAlbergue) {
+    return res.status(400).json({
+      success: false,
+      error: "Se esperaba el parámetro idAlbergue en la query"
+    });
   }
-  const { idAlbergue } = req.params;
+
+  const { idAlbergue } = req.query;
+
   condicionEspecialService.getResumenCondicionesEspeciales(idAlbergue)
     .then((data) => {
       if (data.length === 0) {
         return res.status(404).json({
           success: false,
-          message: "No se encontraron las condiciones especiales especificada.",
+          message: "No se encontraron las condiciones especiales especificadas.",
         });
       }
       res.status(200).json({
         success: true,
-        data: data,
+        data,
       });
     })
     .catch((error) => {
@@ -132,7 +137,8 @@ const getResumenCondicionesEspeciales = (req = request, res = response) => {
         error: "Error al obtener condiciones especiales; " + error.message,
       });
     });
-}
+};
+
 
 module.exports = {
   getAllCondicionesEspeciales,

@@ -156,6 +156,10 @@ router.post('/', condicionEspecialController.postCondicionEspecial);
  */
 router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
 
+
+
+
+
 /**
  * @swagger
  * /api/condicionesEspeciales/resumen/condiciones/{idAlbergue}:
@@ -222,6 +226,4 @@ router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
  *                 error: "Error al obtener condiciones especiales; <mensaje>"
  */
 router.get('/resumen/condiciones/:idAlbergue', condicionEspecialController.getResumenCondicionesEspeciales);
-
-
 module.exports = router;

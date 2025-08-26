@@ -107,6 +107,8 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
 };
 
 
+
+
 const getResumenCondicionesEspeciales = (req = request, res = response) => {
   if (!req.params) {
     return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });

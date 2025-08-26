@@ -106,35 +106,33 @@ const deleteCondicionEspecial = async (req = request, res = response) => {
   }
 };
 
-const getResumenCondicionesEspeciales = async (req = request, res = response) => {
-  const { idAlbergue } = req.query;
 
-  if (!idAlbergue) {
-    return res.status(400).json({
-      success: false,
-      error: "Se esperaban los parámetros idAlbergue en la query",
-    });
+const getResumenCondicionesEspeciales = (req = request, res = response) => {
+  if (!req.params) {
+    return res.status(400).json({ success: false, error: "Se esperaba el parametro idEdadPersona en la query" });
   }
-
-  try {
-    const data = await condicionEspecialService.getResumenCondicionesEspeciales(idAlbergue);
-
-    if (!data || data.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No se encontraron personas con condiciones especiales en este albergue.",
+  const { idAlbergue } = req.params;
+  condicionEspecialService.getResumenCondicionesEspeciales(idAlbergue)
+    .then((data) => {
+      if (data.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No se encontraron las condiciones especiales especificada.",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: data,
       });
-    }
-
-    res.status(200).json({ success: true, data });
-  } catch (error) {
-    console.error("Error al obtener resumen por albergue:", error);
-    res.status(500).json({
-      success: false,
-      error: "Error al obtener resumen por albergue: " + error.message,
+    })
+    .catch((error) => {
+      console.error("Error al obtener condiciones especiales:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Error al obtener condiciones especiales; " + error.message,
+      });
     });
-  }
-};
+}
 
 module.exports = {
   getAllCondicionesEspeciales,

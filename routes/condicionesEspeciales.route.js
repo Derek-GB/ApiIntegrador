@@ -156,6 +156,78 @@ router.post('/', condicionEspecialController.postCondicionEspecial);
  */
 router.delete('/id/:id', condicionEspecialController.deleteCondicionEspecial);
 
+/**
+ * @swagger
+ * /api/condicionesEspeciales/resumen/{idAlbergue}:
+ *   get:
+ *     tags:
+ *       - Resumenes
+ *     summary: Obtener resumen de condiciones especiales
+ *     description: Devuelve un resumen de las condiciones especiales asociadas a un albergue.
+ *     parameters:
+ *       - in: path
+ *         name: idAlbergue
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del albergue
+ *     responses:
+ *       200:
+ *         description: Resumen de condiciones especiales obtenido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     description: Objeto con información de las condiciones especiales
+ *       400:
+ *         description: Faltan parámetros obligatorios (idAlbergue)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Se esperaba el parametro idEdadPersona en la query
+ *       404:
+ *         description: No se encontraron condiciones especiales para el albergue indicado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No se encontraron las condiciones especiales especificada.
+ *       500:
+ *         description: Error interno al obtener condiciones especiales
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 error:
+ *                   type: string
+ *                   example: Error al obtener condiciones especiales; detalle del error
+ */
+router.get('/resumen/:idAlbergue', condicionEspecialController.getResumenCondicionesEspeciales);
 
 
 module.exports = router;

@@ -61,6 +61,8 @@ class PersonasModel {
                     persona.contactoEmergencia,
                     persona.observaciones,
                     persona.estaACargoMenor,
+                    persona.usaMedicamentos,
+                    persona.traeMedicamentos,
                     persona.idUsuarioCreacion,
                 ]
             );

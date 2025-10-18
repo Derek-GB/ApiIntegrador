@@ -99,7 +99,7 @@ class PersonasService {
                 'parentesco', 'fechaNacimiento', 'genero', 'sexo', 'telefono',
                 'estaACargoMenor', 'idUsuarioCreacion'
             ];
-            const booleanosObligatorios = ['tieneCondicionSalud', 'discapacidad'];
+            const booleanosObligatorios = ['tieneCondicionSalud', 'discapacidad','usaMedicamentos','traeMedicamentos'];
             if (persona.firma) {
                 persona.firma = null;
                 console.warn("Alguien intentó usar mal firma");

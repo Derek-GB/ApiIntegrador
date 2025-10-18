@@ -170,6 +170,8 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *                       "contactoEmergencia": "Ana María 87001122",
  *                       "observaciones": "Usa medicamentos diariamente",
  *                       "estaACargoMenor": false,
+ *                       "usaMedicamentos": true,
+ *                       "traeMedicamentos": false,
  *                       "idUsuarioCreacion": 1
  *                     },
  *                     {
@@ -198,6 +200,8 @@ router.get('/resumen/discapacidad/:idDiscapacidad', personasController.getResume
  *                       "contactoEmergencia": null,
  *                       "observaciones": null,
  *                       "estaACargoMenor": true,
+ *                       "usaMedicamentos": true,
+ *                       "traeMedicamentos": true,
  *                       "idUsuarioCreacion": 1
  *                     }
  *                   ]

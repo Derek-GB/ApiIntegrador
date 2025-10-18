@@ -48,12 +48,13 @@ class condicionEspecial {
     async getResumenCondicionesEspeciales(idAlbergue) {
         try {
             const [results] = await db.query('CALL pa_ResumenCondicionesEspeciales(?);', [idAlbergue]);
-            return results[0];
+            return results;
         } catch (error) {
             console.error("Error en getResumenCondicionesEspeciales: ", error);
             throw error;
         }
     }
+
 
 
 

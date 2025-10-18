@@ -1,5 +1,11 @@
 const condicionEspecialModel = require('../models/condicionEspecialModel');
 
+const handleError = (lugar, error, status = null) => {
+    if (status) error.flagStatus = status;
+    console.error("Error en PersonasService. " + lugar + ": ", error.message);
+    throw error;
+}
+
 class condicionEspecialService {
 
     async getAllCondicionesEspeciales() {
@@ -60,18 +66,16 @@ class condicionEspecialService {
 
     async getResumenCondicionesEspeciales(idAlbergue) {
         if (!idAlbergue) {
-            const error = new Error("Faltan parámetros idAlbergue");
-            error.statusCode = 400;
-            throw error;
+            handleError("getResumenCondicionesEspeciales", new Error("Falta el codigo de albergue"), 400);
         }
-
         try {
-            return await condicionEspecialModel.getResumenCondicionesEspeciales(idAlbergue);
+            const result = await condicionEspecialModel.getResumenCondicionesEspeciales(idAlbergue);
+            return result;
         } catch (error) {
-            console.error("Error en servicio getResumenCondicionesEspeciales:", error);
-            throw error;
+            handleError("getResumenCondicionesEspeciales", error);
         }
     }
+
 
 }
 module.exports = new condicionEspecialService();
